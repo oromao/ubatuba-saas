@@ -1,0 +1,209 @@
+[
+  {
+    "role": "leitor",
+    "route": "/app/dashboard",
+    "url": "http://localhost:3000/app/dashboard",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": "Abrir mapa"
+      }
+    ]
+  },
+  {
+    "role": "leitor",
+    "route": "/app/maps",
+    "url": "http://localhost:3000/app/maps",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/levantamentos",
+    "url": "http://localhost:3000/app/levantamentos",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/ctm/parcelas",
+    "url": "http://localhost:3000/app/ctm/parcelas",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/ctm/logradouros",
+    "url": "http://localhost:3000/app/ctm/logradouros",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/ctm/mobiliario",
+    "url": "http://localhost:3000/app/ctm/mobiliario",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/pgv/zonas",
+    "url": "http://localhost:3000/app/pgv/zonas",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/pgv/faces",
+    "url": "http://localhost:3000/app/pgv/faces",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/pgv/fatores",
+    "url": "http://localhost:3000/app/pgv/fatores",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/pgv/relatorio",
+    "url": "http://localhost:3000/app/pgv/relatorio",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/integracoes",
+    "url": "http://localhost:3000/app/integracoes",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/cartas",
+    "url": "http://localhost:3000/app/cartas",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/compliance",
+    "url": "http://localhost:3000/app/compliance",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/assets",
+    "url": "http://localhost:3000/app/assets",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/alerts",
+    "url": "http://localhost:3000/app/alerts",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/processes",
+    "url": "http://localhost:3000/app/processes",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "leitor",
+    "route": "/app/poc",
+    "url": "http://localhost:3000/app/poc",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "role": "leitor",
+    "route": "/mobile",
+    "url": "http://localhost:3000/mobile",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": "Voltar ao painel"
+      }
+    ]
+  }
+]

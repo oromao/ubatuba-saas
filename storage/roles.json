@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-02-20T20:30:31.671Z",
+  "tenant": "demo",
+  "profiles": [
+    {
+      "key": "admin",
+      "role": "ADMIN",
+      "email": "admin@demo.local",
+      "password": "Admin@12345"
+    },
+    {
+      "key": "gestor",
+      "role": "GESTOR",
+      "email": "gestor.scan.1771619379042@demo.local",
+      "password": "Gestor@12345"
+    },
+    {
+      "key": "operador",
+      "role": "OPERADOR",
+      "email": "operador.scan.1771619379042@demo.local",
+      "password": "Operador@12345"
+    },
+    {
+      "key": "leitor",
+      "role": "LEITOR",
+      "email": "leitor.scan.1771619379042@demo.local",
+      "password": "Leitor@12345"
+    }
+  ]
+}

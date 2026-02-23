@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-02-20T01:11:29.608Z",
+  "baseUrl": "http://localhost:3000",
+  "apiUrl": "http://localhost:4000",
+  "passed": 20,
+  "failed": 0,
+  "total": 20,
+  "score": 100,
+  "results": [
+    {
+      "name": "session_reset_logout_then_clean_login",
+      "ok": true,
+      "at": "2026-02-20T01:11:12.451Z",
+      "elapsedMs": 47551
+    },
+    {
+      "name": "login_page_open",
+      "ok": true,
+      "at": "2026-02-20T01:11:13.271Z",
+      "elapsedMs": 811
+    },
+    {
+      "name": "login_submit",
+      "ok": true,
+      "at": "2026-02-20T01:11:14.550Z",
+      "elapsedMs": 1279
+    },
+    {
+      "name": "map_draw_save_delete",
+      "ok": true,
+      "at": "2026-02-20T01:11:20.039Z",
+      "elapsedMs": 5489
+    },
+    {
+      "name": "route_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T01:11:20.670Z",
+      "elapsedMs": 630
+    },
+    {
+      "name": "route_app-maps",
+      "ok": true,
+      "at": "2026-02-20T01:11:21.404Z",
+      "elapsedMs": 734
+    },
+    {
+      "name": "route_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T01:11:22.283Z",
+      "elapsedMs": 879
+    },
+    {
+      "name": "route_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T01:11:23.020Z",
+      "elapsedMs": 737
+    },
+    {
+      "name": "route_app-ctm-logradouros",
+      "ok": true,
+      "at": "2026-02-20T01:11:23.526Z",
+      "elapsedMs": 506
+    },
+    {
+      "name": "route_app-ctm-mobiliario",
+      "ok": true,
+      "at": "2026-02-20T01:11:24.043Z",
+      "elapsedMs": 517
+    },
+    {
+      "name": "route_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T01:11:24.561Z",
+      "elapsedMs": 518
+    },
+    {
+      "name": "route_app-pgv-faces",
+      "ok": true,
+      "at": "2026-02-20T01:11:25.048Z",
+      "elapsedMs": 487
+    },
+    {
+      "name": "route_app-pgv-fatores",
+      "ok": true,
+      "at": "2026-02-20T01:11:25.761Z",
+      "elapsedMs": 713
+    },
+    {
+      "name": "route_app-pgv-relatorio",
+      "ok": true,
+      "at": "2026-02-20T01:11:26.336Z",
+      "elapsedMs": 575
+    },
+    {
+      "name": "route_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T01:11:26.884Z",
+      "elapsedMs": 548
+    },
+    {
+      "name": "route_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T01:11:27.433Z",
+      "elapsedMs": 549
+    },
+    {
+      "name": "route_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T01:11:27.987Z",
+      "elapsedMs": 554
+    },
+    {
+      "name": "route_app-poc",
+      "ok": true,
+      "at": "2026-02-20T01:11:28.577Z",
+      "elapsedMs": 589
+    },
+    {
+      "name": "route_mobile",
+      "ok": true,
+      "at": "2026-02-20T01:11:29.093Z",
+      "elapsedMs": 516
+    },
+    {
+      "name": "api_checks_from_logged_session",
+      "ok": true,
+      "at": "2026-02-20T01:11:29.256Z",
+      "elapsedMs": 163
+    }
+  ]
+}

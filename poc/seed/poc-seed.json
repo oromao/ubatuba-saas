@@ -1,0 +1,51 @@
+{
+  "project": {
+    "name": "Projeto PoC Jales",
+    "slug": "poc-jales"
+  },
+  "parcels": [
+    { "sqlu": "001-001-001-001", "inscription": "INS-0001", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-002", "inscription": "INS-0002", "status": "ATIVO", "workflowStatus": "EM_VALIDACAO" },
+    { "sqlu": "001-001-001-003", "inscription": "INS-0003", "status": "CONFLITO", "workflowStatus": "REPROVADA" },
+    { "sqlu": "001-001-001-004", "inscription": "INS-0004", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-005", "inscription": "INS-0005", "status": "ATIVO", "workflowStatus": "APROVADA" },
+    { "sqlu": "001-001-001-006", "inscription": "INS-0006", "status": "INATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-007", "inscription": "INS-0007", "status": "ATIVO", "workflowStatus": "EM_VALIDACAO" },
+    { "sqlu": "001-001-001-008", "inscription": "INS-0008", "status": "ATIVO", "workflowStatus": "APROVADA" },
+    { "sqlu": "001-001-001-009", "inscription": "INS-0009", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-010", "inscription": "INS-0010", "status": "CONFLITO", "workflowStatus": "REPROVADA" },
+    { "sqlu": "001-001-001-011", "inscription": "INS-0011", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-012", "inscription": "INS-0012", "status": "ATIVO", "workflowStatus": "EM_VALIDACAO" },
+    { "sqlu": "001-001-001-013", "inscription": "INS-0013", "status": "ATIVO", "workflowStatus": "APROVADA" },
+    { "sqlu": "001-001-001-014", "inscription": "INS-0014", "status": "INATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-015", "inscription": "INS-0015", "status": "ATIVO", "workflowStatus": "EM_VALIDACAO" },
+    { "sqlu": "001-001-001-016", "inscription": "INS-0016", "status": "ATIVO", "workflowStatus": "APROVADA" },
+    { "sqlu": "001-001-001-017", "inscription": "INS-0017", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-018", "inscription": "INS-0018", "status": "CONFLITO", "workflowStatus": "REPROVADA" },
+    { "sqlu": "001-001-001-019", "inscription": "INS-0019", "status": "ATIVO", "workflowStatus": "PENDENTE" },
+    { "sqlu": "001-001-001-020", "inscription": "INS-0020", "status": "ATIVO", "workflowStatus": "APROVADA" }
+  ],
+  "zones": [
+    { "code": "ZV-01", "name": "Zona Centro" },
+    { "code": "ZV-02", "name": "Zona Expansao" }
+  ],
+  "surveys": [
+    { "name": "Aerolevantamento Sede", "type": "AEROFOTO_RGB_5CM", "municipality": "Jales", "gsdCm": 5 },
+    { "name": "Mobile 360 Centro", "type": "MOBILE_LIDAR_360", "municipality": "Jales" }
+  ],
+  "letterTemplate": {
+    "name": "Notificacao Padrao PoC",
+    "html": "<h1>Notificacao {{inscription}}</h1><p>Status: {{workflowStatus}}</p>"
+  },
+  "taxConnector": {
+    "name": "Tributario CSV PoC",
+    "mode": "CSV_UPLOAD",
+    "fieldMapping": {
+      "inscription": "inscricao",
+      "owner": "contribuinte",
+      "address": "endereco",
+      "venalValue": "valor_venal",
+      "debt": "divida_ativa"
+    }
+  }
+}

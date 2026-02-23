@@ -1,0 +1,182 @@
+[
+  {
+    "role": "admin",
+    "route": "/app/dashboard",
+    "url": "http://localhost:3000/login",
+    "title": "",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/maps",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/levantamentos",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/ctm/parcelas",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/ctm/logradouros",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/ctm/mobiliario",
+    "url": "http://localhost:3000/login",
+    "title": "",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/pgv/zonas",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/pgv/faces",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/pgv/fatores",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/pgv/relatorio",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/integracoes",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/cartas",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/compliance",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/assets",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/alerts",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/processes",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 3,
+    "selects": 0,
+    "buttons": 1,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/app/poc",
+    "url": "http://localhost:3000/login",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 6,
+    "links": []
+  },
+  {
+    "role": "admin",
+    "route": "/mobile",
+    "url": "http://localhost:3000/mobile",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 0,
+    "links": []
+  }
+]

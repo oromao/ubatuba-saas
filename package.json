@@ -1,0 +1,32 @@
+{
+  "name": "flydea-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/api & npm run dev -w apps/web",
+    "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "test": "npm run test -w apps/api",
+    "lint": "npm run lint -w apps/api && npm run lint -w apps/web",
+    "poc:checks": "node poc/checks/run-checks.mjs",
+    "e2e:smoke": "playwright test poc/checks/roles-smoke.spec.js",
+    "e2e:requirements": "node poc/checks/run-full-qa-licitacao.mjs",
+    "e2e:crawler": "node poc/checks/run-saas-e2e-crawler.mjs",
+    "e2e:ui-inventory": "node poc/checks/run-ui-inventory.mjs",
+    "e2e:report": "npm run e2e:requirements && npm run e2e:ui-inventory && npm run e2e:crawler",
+    "test:e2e:setup-sessions": "node tests/e2e/fullscan/setup-sessions.mjs",
+    "test:e2e:fullscan:admin": "playwright test --project=scan tests/e2e/fullscan/fullscan.admin.spec.ts --workers=1",
+    "test:e2e:fullscan:operador": "playwright test --project=scan tests/e2e/fullscan/fullscan.operador.spec.ts --workers=1",
+    "test:e2e:fullscan:all": "playwright test --project=scan tests/e2e/fullscan --workers=1",
+    "test:e2e:human:all": "playwright test --project=human tests/e2e/fullscan --workers=1",
+    "test:e2e:report": "playwright show-report playwright-report",
+    "docker:dev:up": "COMPOSE_BAKE=true DOCKER_BUILDKIT=1 docker compose --profile dev up -d --build",
+    "docker:dev:rebuild": "COMPOSE_BAKE=true DOCKER_BUILDKIT=1 docker compose --profile dev build --parallel --no-cache && COMPOSE_BAKE=true DOCKER_BUILDKIT=1 docker compose --profile dev up -d --force-recreate",
+    "docker:dev:logs": "docker compose --profile dev logs -f web-dev api-dev"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "playwright": "^1.58.2"
+  }
+}

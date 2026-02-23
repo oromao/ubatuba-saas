@@ -1,0 +1,182 @@
+{
+  "generatedAt": "2026-02-20T01:40:17.722Z",
+  "baseUrl": "http://localhost:3000",
+  "apiUrl": "http://localhost:4000",
+  "tenantSlug": "demo",
+  "runId": "20260220013928",
+  "profiles": [
+    {
+      "key": "admin",
+      "email": "admin@demo.local",
+      "expectedRole": "ADMIN"
+    },
+    {
+      "key": "gestor",
+      "email": "gestor.20260220013928@demo.local",
+      "expectedRole": "GESTOR"
+    },
+    {
+      "key": "operador",
+      "email": "operador.20260220013928@demo.local",
+      "expectedRole": "OPERADOR"
+    },
+    {
+      "key": "campo",
+      "email": "campo.20260220013928@demo.local",
+      "expectedRole": "OPERADOR"
+    },
+    {
+      "key": "leitor",
+      "email": "leitor.20260220013928@demo.local",
+      "expectedRole": "LEITOR"
+    }
+  ],
+  "passed": 22,
+  "failed": 0,
+  "total": 22,
+  "score": 100,
+  "results": [
+    {
+      "name": "setup_profiles_admin_gestor_operador_campo_leitor",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.122Z",
+      "elapsedMs": 315
+    },
+    {
+      "name": "api_login_admin",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.196Z",
+      "elapsedMs": 73,
+      "role": "ADMIN"
+    },
+    {
+      "name": "api_login_gestor",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.268Z",
+      "elapsedMs": 72,
+      "role": "GESTOR"
+    },
+    {
+      "name": "api_login_operador",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.335Z",
+      "elapsedMs": 67,
+      "role": "OPERADOR"
+    },
+    {
+      "name": "api_login_campo",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.405Z",
+      "elapsedMs": 70,
+      "role": "OPERADOR"
+    },
+    {
+      "name": "api_login_leitor",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.474Z",
+      "elapsedMs": 69,
+      "role": "LEITOR"
+    },
+    {
+      "name": "admin_full_flow_api_all_modules",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.937Z",
+      "elapsedMs": 463
+    },
+    {
+      "name": "gestor_permissions_flow",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.952Z",
+      "elapsedMs": 15
+    },
+    {
+      "name": "operador_permissions_flow",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.967Z",
+      "elapsedMs": 15
+    },
+    {
+      "name": "campo_mobile_flow",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.973Z",
+      "elapsedMs": 6
+    },
+    {
+      "name": "leitor_permissions_flow",
+      "ok": true,
+      "at": "2026-02-20T01:39:29.987Z",
+      "elapsedMs": 14
+    },
+    {
+      "name": "ui_login_admin",
+      "ok": true,
+      "at": "2026-02-20T01:39:34.406Z",
+      "elapsedMs": 2130,
+      "role": "ADMIN"
+    },
+    {
+      "name": "ui_navigation_admin",
+      "ok": true,
+      "at": "2026-02-20T01:39:41.219Z",
+      "elapsedMs": 6811
+    },
+    {
+      "name": "ui_admin_map_draw_delete",
+      "ok": true,
+      "at": "2026-02-20T01:39:45.985Z",
+      "elapsedMs": 4765
+    },
+    {
+      "name": "ui_login_gestor",
+      "ok": true,
+      "at": "2026-02-20T01:39:47.732Z",
+      "elapsedMs": 1747,
+      "role": "GESTOR"
+    },
+    {
+      "name": "ui_navigation_gestor",
+      "ok": true,
+      "at": "2026-02-20T01:39:54.312Z",
+      "elapsedMs": 6580
+    },
+    {
+      "name": "ui_login_operador",
+      "ok": true,
+      "at": "2026-02-20T01:39:56.034Z",
+      "elapsedMs": 1722,
+      "role": "OPERADOR"
+    },
+    {
+      "name": "ui_navigation_operador",
+      "ok": true,
+      "at": "2026-02-20T01:40:02.375Z",
+      "elapsedMs": 6341
+    },
+    {
+      "name": "ui_login_campo",
+      "ok": true,
+      "at": "2026-02-20T01:40:03.830Z",
+      "elapsedMs": 1454,
+      "role": "OPERADOR"
+    },
+    {
+      "name": "ui_navigation_campo",
+      "ok": true,
+      "at": "2026-02-20T01:40:09.961Z",
+      "elapsedMs": 6131
+    },
+    {
+      "name": "ui_login_leitor",
+      "ok": true,
+      "at": "2026-02-20T01:40:11.466Z",
+      "elapsedMs": 1505,
+      "role": "LEITOR"
+    },
+    {
+      "name": "ui_navigation_leitor",
+      "ok": true,
+      "at": "2026-02-20T01:40:17.444Z",
+      "elapsedMs": 5978
+    }
+  ]
+}

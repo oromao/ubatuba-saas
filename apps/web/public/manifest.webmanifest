@@ -1,0 +1,18 @@
+{
+  "name": "FlyDea Mobile Campo",
+  "short_name": "FlyDea Mobile",
+  "description": "Coleta de campo CTM offline-first",
+  "start_url": "/mobile",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#135b66",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/drone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

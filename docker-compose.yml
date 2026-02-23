@@ -1,0 +1,223 @@
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-rootpass}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/27017'"]
+      interval: 10s
+      timeout: 30s
+      retries: 10
+      start_period: 20s
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:7
+    profiles: ["dev"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "6379:6379"
+
+  minio:
+    image: minio/minio:RELEASE.2024-07-26T20-48-21Z
+    restart: unless-stopped
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  geoserver:
+    image: kartoza/geoserver:2.24.2
+    restart: unless-stopped
+    environment:
+      GEOSERVER_ADMIN_USER: ${GEOSERVER_USER:-admin}
+      GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
+      GEOSERVER_CORS_ENABLED: "true"
+      GEOSERVER_CORS_ALLOWED_ORIGINS: "*"
+      GEOSERVER_CORS_ALLOWED_METHODS: "GET,POST,PUT,DELETE,OPTIONS"
+      GEOSERVER_CORS_ALLOWED_HEADERS: "*"
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+    ports:
+      - "8080:8080"
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      geoserver:
+        condition: service_started
+    environment:
+      MONGO_URL: ${MONGO_URL}
+      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      GEOSERVER_USER: ${GEOSERVER_USER:-admin}
+      GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}
+      MOCK_GEOTIFF_PATH: ${MOCK_GEOTIFF_PATH:-/infra/assets/mock-geotiff.tif}
+    command:
+      [
+        "node",
+        "/infra/scripts/wait-for.js",
+        "mongodb:27017",
+        "minio:9000",
+        "geoserver:8080",
+        "--",
+        "node",
+        "dist/migrations/runner.js"
+      ]
+
+  api:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      MONGO_URL: ${MONGO_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      REDIS_URL: ${REDIS_URL}
+      WEB_URL: ${WEB_URL}
+      POC_REPO_ROOT: /workspace
+      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      GEOSERVER_PUBLIC_URL: ${GEOSERVER_PUBLIC_URL:-http://localhost:8080/geoserver}
+      GEOSERVER_USER: ${GEOSERVER_USER:-admin}
+      GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}
+    volumes:
+      - ./:/workspace:ro
+    command: ["node", "/infra/scripts/wait-for.js", "mongodb:27017", "--", "node", "dist/main.js"]
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:4000/health',res=>{process.exit(res.statusCode===200?0:1);}).on('error',()=>process.exit(1));"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "3000:3000"
+
+  api-dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: deps
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    command: ["npm", "run", "dev"]
+    environment:
+      NODE_ENV: development
+      MONGO_URL: ${MONGO_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      REDIS_URL: ${REDIS_URL}
+      WEB_URL: ${WEB_URL}
+      POC_REPO_ROOT: /workspace
+      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      GEOSERVER_PUBLIC_URL: ${GEOSERVER_PUBLIC_URL:-http://localhost:8080/geoserver}
+      GEOSERVER_USER: ${GEOSERVER_USER:-admin}
+      GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}
+    volumes:
+      - ./apps/api:/app
+      - ./:/workspace:ro
+      - api_node_modules:/app/node_modules
+    ports:
+      - "4000:4000"
+
+  web-dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: deps
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    command: ["npm", "run", "dev"]
+    depends_on:
+      api-dev:
+        condition: service_started
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    volumes:
+      - ./apps/web:/app
+      - web_node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+
+  mongo-express:
+    profiles: ["dev"]
+    image: mongo-express:1.0.2
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-rootpass}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER:-admin}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD:-admin}
+    ports:
+      - "8081:8081"
+
+volumes:
+  mongo_data:
+  geoserver_data:
+  minio_data:
+  api_node_modules:
+  web_node_modules:

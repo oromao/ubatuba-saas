@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(find:*)",
+      "Bash(docker compose build:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(docker compose:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill)",
+      "Bash(npm run dev:*)",
+      "Bash(docker info:*)",
+      "Bash(curl:*)",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_snapshot"
+    ]
+  }
+}

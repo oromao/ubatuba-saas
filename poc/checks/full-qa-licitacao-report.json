@@ -1,0 +1,1116 @@
+{
+  "generatedAt": "2026-02-20T19:04:44.720Z",
+  "runId": "20260220190332",
+  "baseUrl": "http://localhost:3000",
+  "apiUrl": "http://localhost:4000",
+  "tenantSlug": "demo",
+  "profiles": [
+    {
+      "key": "admin",
+      "email": "admin@demo.local",
+      "expectedRole": "ADMIN",
+      "resolvedRole": "ADMIN"
+    },
+    {
+      "key": "gestor",
+      "email": "gestor.20260220190332@demo.local",
+      "expectedRole": "GESTOR",
+      "resolvedRole": "GESTOR"
+    },
+    {
+      "key": "operador",
+      "email": "operador.20260220190332@demo.local",
+      "expectedRole": "OPERADOR",
+      "resolvedRole": "OPERADOR"
+    },
+    {
+      "key": "campo",
+      "email": "campo.20260220190332@demo.local",
+      "expectedRole": "OPERADOR",
+      "resolvedRole": "OPERADOR"
+    },
+    {
+      "key": "leitor",
+      "email": "leitor.20260220190332@demo.local",
+      "expectedRole": "LEITOR",
+      "resolvedRole": "LEITOR"
+    }
+  ],
+  "totals": {
+    "passed": 105,
+    "failed": 0,
+    "total": 105,
+    "score": 100
+  },
+  "licitacao": {
+    "passed": 13,
+    "failed": 0,
+    "total": 13,
+    "adherenceScore": 100,
+    "requirements": [
+      {
+        "req": 1,
+        "title": "Aerolevantamento RGB 5cm",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_surveys_full_pipeline",
+            "ok": true
+          },
+          {
+            "name": "ui_admin_app-levantamentos",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 2,
+        "title": "Mapeamento movel 360 + LiDAR",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_surveys_full_pipeline",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 3,
+        "title": "Atualizacao cadastro imobiliario",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_ctm_parcels_crud_and_details",
+            "ok": true
+          },
+          {
+            "name": "admin_ctm_parcel_subrecords",
+            "ok": true
+          },
+          {
+            "name": "admin_ctm_import_geojson",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 4,
+        "title": "Atualizacao PGV",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_pgv_versions_and_valuations",
+            "ok": true
+          },
+          {
+            "name": "admin_pgv_reports_and_impact",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 5,
+        "title": "Plataforma web + mobile",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_mobile_sync",
+            "ok": true
+          },
+          {
+            "name": "ui_admin_mobile",
+            "ok": true
+          },
+          {
+            "name": "ui_campo_mobile",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 6,
+        "title": "Hospedagem em nuvem/observabilidade",
+        "ok": true,
+        "checks": [
+          {
+            "name": "public_health_metrics_poc",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 7,
+        "title": "Integracao tributaria",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_tax_integration_full_pipeline",
+            "ok": true
+          },
+          {
+            "name": "ui_admin_app-integracoes",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 8,
+        "title": "Cartas de notificacao",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_notifications_letters_full_pipeline",
+            "ok": true
+          },
+          {
+            "name": "ui_admin_app-cartas",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 9,
+        "title": "PoC 95% aderencia",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_poc_score",
+            "ok": true
+          },
+          {
+            "name": "ui_admin_app-poc",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 10,
+        "title": "Registro Ministerio da Defesa",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_compliance_full_pipeline",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 11,
+        "title": "Registro CREA/CAU",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_compliance_full_pipeline",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 12,
+        "title": "CAT registrada",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_compliance_full_pipeline",
+            "ok": true
+          }
+        ]
+      },
+      {
+        "req": 13,
+        "title": "Equipe tecnica especializada",
+        "ok": true,
+        "checks": [
+          {
+            "name": "admin_compliance_full_pipeline",
+            "ok": true
+          }
+        ]
+      }
+    ]
+  },
+  "state": {
+    "defaultProjectId": "699757081c675d983364a9f9",
+    "defaultParcelId": "6997572c1c675d983364aa5d",
+    "qaProjectId": "6998b005aeed277c43a3df0e",
+    "logradouroId": "6998b005aeed277c43a3df1d",
+    "parcelId": "6998b005aeed277c43a3df22",
+    "urbanFurnitureId": "6998b005aeed277c43a3df38",
+    "assetId": "6998b005aeed277c43a3df3e",
+    "alertId": "6998b005aeed277c43a3df43",
+    "processId": "6998b005aeed277c43a3df4a",
+    "mapFeatureId": "6998b005aeed277c43a3df57",
+    "zoneId": "6998b005aeed277c43a3df5b",
+    "faceId": "6998b005aeed277c43a3df63",
+    "landFactorId": "6998b005aeed277c43a3df6c",
+    "constructionFactorId": "6998b005aeed277c43a3df6f",
+    "baseVersionId": "6998b005aeed277c43a3df80",
+    "targetVersionId": "6998b005aeed277c43a3df82",
+    "surveyRgbId": "6998b005aeed277c43a3dfc4",
+    "surveyLidarId": "6998b006aeed277c43a3dfd5",
+    "taxConnectorId": "6998b006aeed277c43a3dfdb",
+    "letterTemplateId": "6998b007aeed277c43a3dfe9",
+    "letterBatchId": "6998b007aeed277c43a3dfee",
+    "letterId": "0b306f12-14bd-4ab3-b37e-21f17250e39e",
+    "responsibleId": "ff07353e-0082-4021-982a-9d3dbfe1bba9",
+    "artId": "f84b154a-cf05-48c2-ad1d-d5cdd137d52a",
+    "catId": "3e00f6ab-58a3-4dc5-b3d5-9fcd24f1f27f",
+    "teamId": "8f2c0ff9-e9cf-42a6-85ea-236cce1ab633",
+    "layerId": "6997572c1c675d983364aa02"
+  },
+  "results": [
+    {
+      "name": "public_health_metrics_poc",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.194Z",
+      "elapsedMs": 96
+    },
+    {
+      "name": "setup_profiles_all_roles",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.696Z",
+      "elapsedMs": 303
+    },
+    {
+      "name": "api_login_gestor",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.775Z",
+      "elapsedMs": 79,
+      "kind": "auth",
+      "profile": "gestor",
+      "role": "GESTOR"
+    },
+    {
+      "name": "api_login_operador",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.847Z",
+      "elapsedMs": 72,
+      "kind": "auth",
+      "profile": "operador",
+      "role": "OPERADOR"
+    },
+    {
+      "name": "api_login_campo",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.919Z",
+      "elapsedMs": 72,
+      "kind": "auth",
+      "profile": "campo",
+      "role": "OPERADOR"
+    },
+    {
+      "name": "api_login_leitor",
+      "ok": true,
+      "at": "2026-02-20T19:03:32.992Z",
+      "elapsedMs": 73,
+      "kind": "auth",
+      "profile": "leitor",
+      "role": "LEITOR"
+    },
+    {
+      "name": "admin_projects_discovery",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.061Z",
+      "elapsedMs": 69
+    },
+    {
+      "name": "admin_dashboard_areas_osm",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.103Z",
+      "elapsedMs": 42
+    },
+    {
+      "name": "admin_layers_read_update",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.127Z",
+      "elapsedMs": 24
+    },
+    {
+      "name": "admin_ctm_logradouros_crud",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.154Z",
+      "elapsedMs": 27
+    },
+    {
+      "name": "admin_ctm_parcels_crud_and_details",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.201Z",
+      "elapsedMs": 47
+    },
+    {
+      "name": "admin_ctm_parcel_subrecords",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.216Z",
+      "elapsedMs": 15
+    },
+    {
+      "name": "admin_ctm_import_geojson",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.219Z",
+      "elapsedMs": 3
+    },
+    {
+      "name": "admin_ctm_urban_furniture_crud",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.246Z",
+      "elapsedMs": 27
+    },
+    {
+      "name": "admin_assets_crud",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.273Z",
+      "elapsedMs": 27
+    },
+    {
+      "name": "admin_alerts_crud_and_lifecycle",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.297Z",
+      "elapsedMs": 24
+    },
+    {
+      "name": "admin_processes_crud_and_transition",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.324Z",
+      "elapsedMs": 26
+    },
+    {
+      "name": "admin_map_features_crud",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.343Z",
+      "elapsedMs": 19
+    },
+    {
+      "name": "admin_pgv_zones_crud_and_import",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.372Z",
+      "elapsedMs": 29
+    },
+    {
+      "name": "admin_pgv_faces_crud_and_import",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.406Z",
+      "elapsedMs": 34
+    },
+    {
+      "name": "admin_pgv_factors_and_factor_set",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.440Z",
+      "elapsedMs": 34
+    },
+    {
+      "name": "admin_pgv_versions_and_valuations",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.572Z",
+      "elapsedMs": 132
+    },
+    {
+      "name": "admin_pgv_reports_and_impact",
+      "ok": true,
+      "at": "2026-02-20T19:03:33.631Z",
+      "elapsedMs": 59
+    },
+    {
+      "name": "admin_surveys_full_pipeline",
+      "ok": true,
+      "at": "2026-02-20T19:03:34.938Z",
+      "elapsedMs": 1307
+    },
+    {
+      "name": "admin_tax_integration_full_pipeline",
+      "ok": true,
+      "at": "2026-02-20T19:03:34.987Z",
+      "elapsedMs": 49
+    },
+    {
+      "name": "admin_notifications_letters_full_pipeline",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.368Z",
+      "elapsedMs": 380
+    },
+    {
+      "name": "admin_compliance_full_pipeline",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.485Z",
+      "elapsedMs": 117
+    },
+    {
+      "name": "admin_mobile_sync",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.502Z",
+      "elapsedMs": 17
+    },
+    {
+      "name": "admin_admin_only_deletes",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.561Z",
+      "elapsedMs": 59
+    },
+    {
+      "name": "admin_poc_score",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.567Z",
+      "elapsedMs": 6,
+      "pocScore": 100,
+      "pocThreshold": 95
+    },
+    {
+      "name": "gestor_permissions_matrix",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.577Z",
+      "elapsedMs": 10
+    },
+    {
+      "name": "operador_permissions_matrix",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.589Z",
+      "elapsedMs": 12
+    },
+    {
+      "name": "campo_permissions_matrix",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.601Z",
+      "elapsedMs": 12
+    },
+    {
+      "name": "leitor_permissions_matrix",
+      "ok": true,
+      "at": "2026-02-20T19:03:35.627Z",
+      "elapsedMs": 26
+    },
+    {
+      "name": "ui_login_admin",
+      "ok": true,
+      "at": "2026-02-20T19:03:39.047Z",
+      "elapsedMs": 2219,
+      "kind": "ui",
+      "profile": "admin"
+    },
+    {
+      "name": "ui_admin_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T19:03:39.641Z",
+      "elapsedMs": 593,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "ui_admin_app-maps",
+      "ok": true,
+      "at": "2026-02-20T19:03:40.885Z",
+      "elapsedMs": 1244,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/maps"
+    },
+    {
+      "name": "ui_admin_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T19:03:41.970Z",
+      "elapsedMs": 1085,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/levantamentos"
+    },
+    {
+      "name": "ui_admin_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T19:03:43.018Z",
+      "elapsedMs": 1048,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/ctm/parcelas"
+    },
+    {
+      "name": "ui_admin_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T19:03:44.073Z",
+      "elapsedMs": 1055,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/pgv/zonas"
+    },
+    {
+      "name": "ui_admin_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T19:03:44.642Z",
+      "elapsedMs": 569,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/integracoes"
+    },
+    {
+      "name": "ui_admin_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T19:03:45.370Z",
+      "elapsedMs": 728,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/cartas"
+    },
+    {
+      "name": "ui_admin_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T19:03:46.652Z",
+      "elapsedMs": 1282,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/compliance"
+    },
+    {
+      "name": "ui_admin_app-poc",
+      "ok": true,
+      "at": "2026-02-20T19:03:47.950Z",
+      "elapsedMs": 1298,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/poc"
+    },
+    {
+      "name": "ui_admin_app-assets",
+      "ok": true,
+      "at": "2026-02-20T19:03:49.095Z",
+      "elapsedMs": 1145,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/assets"
+    },
+    {
+      "name": "ui_admin_app-alerts",
+      "ok": true,
+      "at": "2026-02-20T19:03:50.240Z",
+      "elapsedMs": 1145,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/alerts"
+    },
+    {
+      "name": "ui_admin_app-processes",
+      "ok": true,
+      "at": "2026-02-20T19:03:50.839Z",
+      "elapsedMs": 599,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/processes"
+    },
+    {
+      "name": "ui_admin_mobile",
+      "ok": true,
+      "at": "2026-02-20T19:03:51.467Z",
+      "elapsedMs": 628,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/mobile"
+    },
+    {
+      "name": "ui_login_gestor",
+      "ok": true,
+      "at": "2026-02-20T19:03:52.775Z",
+      "elapsedMs": 1307,
+      "kind": "ui",
+      "profile": "gestor"
+    },
+    {
+      "name": "ui_gestor_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T19:03:53.795Z",
+      "elapsedMs": 1020,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "ui_gestor_app-maps",
+      "ok": true,
+      "at": "2026-02-20T19:03:54.925Z",
+      "elapsedMs": 1130,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/maps"
+    },
+    {
+      "name": "ui_gestor_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T19:03:55.537Z",
+      "elapsedMs": 612,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/levantamentos"
+    },
+    {
+      "name": "ui_gestor_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T19:03:56.129Z",
+      "elapsedMs": 592,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/ctm/parcelas"
+    },
+    {
+      "name": "ui_gestor_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T19:03:56.722Z",
+      "elapsedMs": 593,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/pgv/zonas"
+    },
+    {
+      "name": "ui_gestor_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T19:03:57.788Z",
+      "elapsedMs": 1066,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/integracoes"
+    },
+    {
+      "name": "ui_gestor_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T19:03:58.943Z",
+      "elapsedMs": 1155,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/cartas"
+    },
+    {
+      "name": "ui_gestor_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T19:04:00.039Z",
+      "elapsedMs": 1096,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/compliance"
+    },
+    {
+      "name": "ui_gestor_app-poc",
+      "ok": true,
+      "at": "2026-02-20T19:04:00.693Z",
+      "elapsedMs": 654,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/poc"
+    },
+    {
+      "name": "ui_gestor_app-assets",
+      "ok": true,
+      "at": "2026-02-20T19:04:01.759Z",
+      "elapsedMs": 1065,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/assets"
+    },
+    {
+      "name": "ui_gestor_app-alerts",
+      "ok": true,
+      "at": "2026-02-20T19:04:02.884Z",
+      "elapsedMs": 1125,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/alerts"
+    },
+    {
+      "name": "ui_gestor_app-processes",
+      "ok": true,
+      "at": "2026-02-20T19:04:03.672Z",
+      "elapsedMs": 788,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/app/processes"
+    },
+    {
+      "name": "ui_gestor_mobile",
+      "ok": true,
+      "at": "2026-02-20T19:04:04.300Z",
+      "elapsedMs": 628,
+      "kind": "ui",
+      "profile": "gestor",
+      "route": "/mobile"
+    },
+    {
+      "name": "ui_login_operador",
+      "ok": true,
+      "at": "2026-02-20T19:04:05.506Z",
+      "elapsedMs": 1206,
+      "kind": "ui",
+      "profile": "operador"
+    },
+    {
+      "name": "ui_operador_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T19:04:06.056Z",
+      "elapsedMs": 550,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "ui_operador_app-maps",
+      "ok": true,
+      "at": "2026-02-20T19:04:07.085Z",
+      "elapsedMs": 1029,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/maps"
+    },
+    {
+      "name": "ui_operador_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T19:04:07.684Z",
+      "elapsedMs": 599,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/levantamentos"
+    },
+    {
+      "name": "ui_operador_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T19:04:08.685Z",
+      "elapsedMs": 1001,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/ctm/parcelas"
+    },
+    {
+      "name": "ui_operador_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T19:04:09.270Z",
+      "elapsedMs": 585,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/pgv/zonas"
+    },
+    {
+      "name": "ui_operador_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T19:04:09.808Z",
+      "elapsedMs": 538,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/integracoes"
+    },
+    {
+      "name": "ui_operador_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T19:04:10.447Z",
+      "elapsedMs": 639,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/cartas"
+    },
+    {
+      "name": "ui_operador_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T19:04:11.513Z",
+      "elapsedMs": 1066,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/compliance"
+    },
+    {
+      "name": "ui_operador_app-poc",
+      "ok": true,
+      "at": "2026-02-20T19:04:12.612Z",
+      "elapsedMs": 1099,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/poc"
+    },
+    {
+      "name": "ui_operador_app-assets",
+      "ok": true,
+      "at": "2026-02-20T19:04:13.623Z",
+      "elapsedMs": 1011,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/assets"
+    },
+    {
+      "name": "ui_operador_app-alerts",
+      "ok": true,
+      "at": "2026-02-20T19:04:14.912Z",
+      "elapsedMs": 1289,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/alerts"
+    },
+    {
+      "name": "ui_operador_app-processes",
+      "ok": true,
+      "at": "2026-02-20T19:04:15.520Z",
+      "elapsedMs": 608,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/app/processes"
+    },
+    {
+      "name": "ui_operador_mobile",
+      "ok": true,
+      "at": "2026-02-20T19:04:16.067Z",
+      "elapsedMs": 547,
+      "kind": "ui",
+      "profile": "operador",
+      "route": "/mobile"
+    },
+    {
+      "name": "ui_login_campo",
+      "ok": true,
+      "at": "2026-02-20T19:04:17.289Z",
+      "elapsedMs": 1222,
+      "kind": "ui",
+      "profile": "campo"
+    },
+    {
+      "name": "ui_campo_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T19:04:17.856Z",
+      "elapsedMs": 567,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "ui_campo_app-maps",
+      "ok": true,
+      "at": "2026-02-20T19:04:19.112Z",
+      "elapsedMs": 1256,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/maps"
+    },
+    {
+      "name": "ui_campo_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T19:04:20.441Z",
+      "elapsedMs": 1329,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/levantamentos"
+    },
+    {
+      "name": "ui_campo_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T19:04:21.739Z",
+      "elapsedMs": 1298,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/ctm/parcelas"
+    },
+    {
+      "name": "ui_campo_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T19:04:22.971Z",
+      "elapsedMs": 1232,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/pgv/zonas"
+    },
+    {
+      "name": "ui_campo_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T19:04:23.629Z",
+      "elapsedMs": 658,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/integracoes"
+    },
+    {
+      "name": "ui_campo_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T19:04:24.288Z",
+      "elapsedMs": 659,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/cartas"
+    },
+    {
+      "name": "ui_campo_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T19:04:24.865Z",
+      "elapsedMs": 577,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/compliance"
+    },
+    {
+      "name": "ui_campo_app-poc",
+      "ok": true,
+      "at": "2026-02-20T19:04:25.449Z",
+      "elapsedMs": 584,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/poc"
+    },
+    {
+      "name": "ui_campo_app-assets",
+      "ok": true,
+      "at": "2026-02-20T19:04:26.057Z",
+      "elapsedMs": 608,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/assets"
+    },
+    {
+      "name": "ui_campo_app-alerts",
+      "ok": true,
+      "at": "2026-02-20T19:04:26.603Z",
+      "elapsedMs": 546,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/alerts"
+    },
+    {
+      "name": "ui_campo_app-processes",
+      "ok": true,
+      "at": "2026-02-20T19:04:27.663Z",
+      "elapsedMs": 1060,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/app/processes"
+    },
+    {
+      "name": "ui_campo_mobile",
+      "ok": true,
+      "at": "2026-02-20T19:04:28.343Z",
+      "elapsedMs": 680,
+      "kind": "ui",
+      "profile": "campo",
+      "route": "/mobile"
+    },
+    {
+      "name": "ui_login_leitor",
+      "ok": true,
+      "at": "2026-02-20T19:04:30.156Z",
+      "elapsedMs": 1813,
+      "kind": "ui",
+      "profile": "leitor"
+    },
+    {
+      "name": "ui_leitor_app-dashboard",
+      "ok": true,
+      "at": "2026-02-20T19:04:31.174Z",
+      "elapsedMs": 1018,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "ui_leitor_app-maps",
+      "ok": true,
+      "at": "2026-02-20T19:04:32.191Z",
+      "elapsedMs": 1017,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/maps"
+    },
+    {
+      "name": "ui_leitor_app-levantamentos",
+      "ok": true,
+      "at": "2026-02-20T19:04:33.224Z",
+      "elapsedMs": 1033,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/levantamentos"
+    },
+    {
+      "name": "ui_leitor_app-ctm-parcelas",
+      "ok": true,
+      "at": "2026-02-20T19:04:34.324Z",
+      "elapsedMs": 1100,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/ctm/parcelas"
+    },
+    {
+      "name": "ui_leitor_app-pgv-zonas",
+      "ok": true,
+      "at": "2026-02-20T19:04:35.404Z",
+      "elapsedMs": 1080,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/pgv/zonas"
+    },
+    {
+      "name": "ui_leitor_app-integracoes",
+      "ok": true,
+      "at": "2026-02-20T19:04:36.492Z",
+      "elapsedMs": 1088,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/integracoes"
+    },
+    {
+      "name": "ui_leitor_app-cartas",
+      "ok": true,
+      "at": "2026-02-20T19:04:37.505Z",
+      "elapsedMs": 1012,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/cartas"
+    },
+    {
+      "name": "ui_leitor_app-compliance",
+      "ok": true,
+      "at": "2026-02-20T19:04:38.507Z",
+      "elapsedMs": 1002,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/compliance"
+    },
+    {
+      "name": "ui_leitor_app-poc",
+      "ok": true,
+      "at": "2026-02-20T19:04:39.043Z",
+      "elapsedMs": 536,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/poc"
+    },
+    {
+      "name": "ui_leitor_app-assets",
+      "ok": true,
+      "at": "2026-02-20T19:04:40.108Z",
+      "elapsedMs": 1065,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/assets"
+    },
+    {
+      "name": "ui_leitor_app-alerts",
+      "ok": true,
+      "at": "2026-02-20T19:04:41.145Z",
+      "elapsedMs": 1037,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/alerts"
+    },
+    {
+      "name": "ui_leitor_app-processes",
+      "ok": true,
+      "at": "2026-02-20T19:04:42.174Z",
+      "elapsedMs": 1029,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/app/processes"
+    },
+    {
+      "name": "ui_leitor_mobile",
+      "ok": true,
+      "at": "2026-02-20T19:04:42.680Z",
+      "elapsedMs": 506,
+      "kind": "ui",
+      "profile": "leitor",
+      "route": "/mobile"
+    },
+    {
+      "name": "ui_admin_map_draw_save_delete",
+      "ok": true,
+      "at": "2026-02-20T19:04:44.628Z",
+      "elapsedMs": 1948,
+      "kind": "ui",
+      "profile": "admin",
+      "route": "/app/maps",
+      "skipped": "map-draw-controls-disabled-in-runtime"
+    }
+  ]
+}

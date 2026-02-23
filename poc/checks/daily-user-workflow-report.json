@@ -1,0 +1,132 @@
+{
+  "generatedAt": "2026-02-20T15:46:11.941Z",
+  "runId": "20260220154203",
+  "baseUrl": "http://localhost:3000",
+  "apiUrl": "http://localhost:4000",
+  "tenantSlug": "demo",
+  "profiles": [
+    {
+      "key": "admin",
+      "email": "admin@demo.local",
+      "role": "ADMIN"
+    },
+    {
+      "key": "gestor",
+      "email": "gestor.daily.20260220154203@demo.local",
+      "role": "GESTOR"
+    },
+    {
+      "key": "operador",
+      "email": "operador.daily.20260220154203@demo.local",
+      "role": "OPERADOR"
+    },
+    {
+      "key": "campo",
+      "email": "campo.daily.20260220154203@demo.local",
+      "role": "OPERADOR"
+    },
+    {
+      "key": "leitor",
+      "email": "leitor.daily.20260220154203@demo.local",
+      "role": "LEITOR"
+    }
+  ],
+  "state": {
+    "tenantId": "699757071c675d983364a9b9",
+    "defaultProjectId": "699757081c675d983364a9f9",
+    "qaProjectId": "699880cdaeed277c43a3c71d",
+    "qaLogradouroId": "699880cdaeed277c43a3c720",
+    "qaParcelId": "699880cdaeed277c43a3c722",
+    "qaMobiliarioId": "699880cdaeed277c43a3c72b",
+    "qaZoneId": "699880cdaeed277c43a3c72e",
+    "qaFaceId": "699880cdaeed277c43a3c730",
+    "qaSurveyName": "Levantamento Diario 20260220154203"
+  },
+  "totals": {
+    "passed": 12,
+    "failed": 1,
+    "total": 13,
+    "score": 92
+  },
+  "results": [
+    {
+      "name": "bootstrap_admin_login",
+      "ok": true,
+      "at": "2026-02-20T15:42:03.662Z",
+      "elapsedMs": 435
+    },
+    {
+      "name": "setup_profiles_real_roles",
+      "ok": true,
+      "at": "2026-02-20T15:42:05.670Z",
+      "elapsedMs": 2007
+    },
+    {
+      "name": "seed_daily_ctm_data",
+      "ok": true,
+      "at": "2026-02-20T15:42:05.866Z",
+      "elapsedMs": 196
+    },
+    {
+      "name": "ui_admin_global_search_modules",
+      "ok": true,
+      "at": "2026-02-20T15:42:31.403Z",
+      "elapsedMs": 21877
+    },
+    {
+      "name": "ui_admin_map_layers_filters_full",
+      "ok": false,
+      "at": "2026-02-20T15:43:25.916Z",
+      "elapsedMs": 54509,
+      "error": "Excluir desenho no mapa nao removeu a geometria"
+    },
+    {
+      "name": "ui_admin_levantamentos_full",
+      "ok": true,
+      "at": "2026-02-20T15:43:41.279Z",
+      "elapsedMs": 15360
+    },
+    {
+      "name": "ui_admin_ctm_views_with_seeded_data",
+      "ok": true,
+      "at": "2026-02-20T15:43:53.995Z",
+      "elapsedMs": 12712
+    },
+    {
+      "name": "ui_admin_pgv_zones_faces_limits",
+      "ok": true,
+      "at": "2026-02-20T15:44:02.726Z",
+      "elapsedMs": 8728
+    },
+    {
+      "name": "ui_admin_mobile_full_fields",
+      "ok": true,
+      "at": "2026-02-20T15:44:21.653Z",
+      "elapsedMs": 18927
+    },
+    {
+      "name": "ui_profile_gestor_daily_navigation",
+      "ok": true,
+      "at": "2026-02-20T15:44:51.184Z",
+      "elapsedMs": 29531
+    },
+    {
+      "name": "ui_profile_operador_daily_navigation",
+      "ok": true,
+      "at": "2026-02-20T15:45:20.741Z",
+      "elapsedMs": 29555
+    },
+    {
+      "name": "ui_profile_campo_daily_navigation",
+      "ok": true,
+      "at": "2026-02-20T15:45:52.477Z",
+      "elapsedMs": 31733
+    },
+    {
+      "name": "ui_profile_leitor_daily_navigation",
+      "ok": true,
+      "at": "2026-02-20T15:46:11.624Z",
+      "elapsedMs": 19144
+    }
+  ]
+}

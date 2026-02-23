@@ -1,0 +1,91 @@
+@import "maplibre-gl/dist/maplibre-gl.css";
+@import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+
+  /* Base palette */
+  --ink: 11 18 32;
+  --slate: 82 96 109;
+  --cloud: 247 242 233;
+  --haze: 231 225 214;
+  --ocean: 19 91 102;
+  --teal: 45 156 151;
+  --sand: 253 248 242;
+  --sun: 242 183 122;
+  --pine: 31 59 58;
+
+  /* Surfaces */
+  --surface: 247 242 233;
+  --surface-elevated: 255 255 255;
+  --on-surface: 11 18 32;
+  --on-surface-muted: 82 96 109;
+  --outline: 231 225 214;
+  --primary: 19 91 102;
+  --primary-container: 230 242 243;
+  --accent: 45 156 151;
+  --warm: 242 183 122;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows (elevation) */
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Legacy brand vars (keep for landing page compat) */
+  --brand-sand: #f7f2e9;
+  --brand-ink: #0b1220;
+  --brand-ocean: #135b66;
+  --brand-teal: #2d9c97;
+  --brand-sun: #f2b77a;
+  --brand-dawn: #faefe2;
+}
+
+body {
+  @apply bg-cloud text-ink antialiased;
+  background-color: rgb(var(--surface));
+}
+
+.maplibregl-terradraw-add-control,
+.maplibregl-terradraw-measure-add-control,
+.maplibregl-terradraw-valhalla-add-control {
+  display: none;
+}
+
+a {
+  @apply text-ink/80 hover:text-ink transition-colors;
+}
+
+::selection {
+  background: rgb(var(--accent) / 0.28);
+}
+
+/* Skeleton animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@layer utilities {
+  .bg-map-grid {
+    background-image:
+      linear-gradient(rgb(var(--ocean) / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ocean) / 0.1) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
