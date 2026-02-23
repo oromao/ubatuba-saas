@@ -135,7 +135,7 @@ const loginUi = async (page, profile) => {
   await pause();
   await page.locator('input[type="password"]').fill(profile.password);
   await pause();
-  await page.locator('input[placeholder="ex: prefeitura-jales"]').fill(TENANT_SLUG);
+  await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').fill(TENANT_SLUG);
   await pause();
 
   const loginReq = page.waitForResponse((res) => res.url().includes("/auth/login") && res.request().method() === "POST");
@@ -558,7 +558,7 @@ try {
     await pause();
     await page.locator("select").first().selectOption("AEROFOTO_RGB_5CM");
     await pause();
-    await page.getByPlaceholder("Municipio").fill("Jales");
+    await page.getByPlaceholder("Municipio").fill("Ubatuba");
     await pause();
     await page.getByPlaceholder("GSD cm").fill("5");
     await pause();

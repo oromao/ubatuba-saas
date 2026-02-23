@@ -73,7 +73,7 @@ for (let i = 0; i < seed.parcels.length; i += 1) {
         inscription: parcel.inscription,
         status: parcel.status,
         workflowStatus: parcel.workflowStatus,
-        mainAddress: `Rua Demo ${i + 1}, Jales/SP`,
+        mainAddress: `Rua Demo ${i + 1}, Ubatuba/SP`,
         geometry: buildSquare(i),
       }),
     });

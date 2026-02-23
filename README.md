@@ -56,8 +56,8 @@ Credenciais DEV:
 2. Atualize o fluxo de upload para enviar o novo arquivo ao MinIO.
 3. Re-rodar a migration que publica o GeoTIFF (ou criar uma nova migration).
 
-## OSM Jales (ruas e edificacoes)
-Para popular vias e edificacoes reais da area urbana de Jales/SP:
+## OSM Ubatuba (ruas e edificacoes)
+Para popular vias e edificacoes reais da area urbana de Ubatuba/SP:
 ```bash
 OSM_BBOX=-50.558,-20.294,-50.518,-20.248 \
 OSM_TENANT_SLUG=demo \
@@ -67,13 +67,13 @@ npm run import:osm -w apps/api
 
 Opcional: salvar o JSON bruto do Overpass em arquivo:
 ```bash
-OSM_OUTPUT_PATH=infra/assets/osm-jales.json \
+OSM_OUTPUT_PATH=infra/assets/osm-ubatuba.json \
 npm run import:osm -w apps/api
 ```
 
 Se quiser importar a partir de um arquivo ja baixado:
 ```bash
-OSM_INPUT_PATH=infra/assets/osm-jales.json \
+OSM_INPUT_PATH=infra/assets/osm-ubatuba.json \
 npm run import:osm -w apps/api
 ```
 

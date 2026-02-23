@@ -166,12 +166,12 @@ type MapDefaults = {
   bounds: [[number, number], [number, number]];
 };
 
-const JALES_BBOX: [number, number, number, number] = [-50.605, -20.34, -50.47, -20.2];
+const UBATUBA_BBOX: [number, number, number, number] = [-50.605, -20.34, -50.47, -20.2];
 const DEFAULT_CENTER: [number, number] = [-50.5375, -20.27];
 const DEFAULT_ZOOM = 14;
 const DEFAULT_BOUNDS: [[number, number], [number, number]] = [
-  [JALES_BBOX[0], JALES_BBOX[1]],
-  [JALES_BBOX[2], JALES_BBOX[3]],
+  [UBATUBA_BBOX[0], UBATUBA_BBOX[1]],
+  [UBATUBA_BBOX[2], UBATUBA_BBOX[3]],
 ];
 
 const MAP_FEATURE_LAYER_PREFIX = "local-map-feature";
@@ -752,13 +752,13 @@ export default function MapsPage() {
   const mapDefaults = useMemo<MapDefaults>(() => {
     const project = projectsData?.find((item) => item.isDefault) ?? projectsData?.[0];
     const projectBbox = normalizeBbox(project?.defaultBbox);
-    const allowedJalesEnvelope = withBboxPadding(JALES_BBOX, 0.02, 0.02);
+    const allowedUbatubaEnvelope = withBboxPadding(UBATUBA_BBOX, 0.02, 0.02);
     const projectBboxIsReasonable =
       !!projectBbox &&
-      isBboxInside(projectBbox, allowedJalesEnvelope) &&
+      isBboxInside(projectBbox, allowedUbatubaEnvelope) &&
       bboxArea(projectBbox) > 0 &&
-      bboxArea(projectBbox) <= bboxArea(allowedJalesEnvelope);
-    const baseBbox = projectBboxIsReasonable ? (projectBbox as [number, number, number, number]) : JALES_BBOX;
+      bboxArea(projectBbox) <= bboxArea(allowedUbatubaEnvelope);
+    const baseBbox = projectBboxIsReasonable ? (projectBbox as [number, number, number, number]) : UBATUBA_BBOX;
     const bbox = withBboxPadding(baseBbox, 0.006, 0.006);
     const center = normalizeCenter(project?.defaultCenter) ?? DEFAULT_CENTER;
     const zoom = toFiniteNumber(project?.defaultZoom) ?? DEFAULT_ZOOM;

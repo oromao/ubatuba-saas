@@ -1,7 +1,7 @@
 {
   "project": {
-    "name": "Projeto PoC Jales",
-    "slug": "poc-jales"
+    "name": "Projeto PoC Ubatuba",
+    "slug": "poc-ubatuba"
   },
   "parcels": [
     { "sqlu": "001-001-001-001", "inscription": "INS-0001", "status": "ATIVO", "workflowStatus": "PENDENTE" },
@@ -30,8 +30,8 @@
     { "code": "ZV-02", "name": "Zona Expansao" }
   ],
   "surveys": [
-    { "name": "Aerolevantamento Sede", "type": "AEROFOTO_RGB_5CM", "municipality": "Jales", "gsdCm": 5 },
-    { "name": "Mobile 360 Centro", "type": "MOBILE_LIDAR_360", "municipality": "Jales" }
+    { "name": "Aerolevantamento Sede", "type": "AEROFOTO_RGB_5CM", "municipality": "Ubatuba", "gsdCm": 5 },
+    { "name": "Mobile 360 Centro", "type": "MOBILE_LIDAR_360", "municipality": "Ubatuba" }
   ],
   "letterTemplate": {
     "name": "Notificacao Padrao PoC",

@@ -140,7 +140,7 @@ export default function LoginPage() {
                   <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
                     Tenant
                   </label>
-                  <Input placeholder="ex: prefeitura-jales" {...register("tenantSlug")} />
+                  <Input placeholder="ex: prefeitura-ubatuba" {...register("tenantSlug")} />
                 </div>
 
                 <Button type="submit" className="mt-2 w-full bg-ocean text-white" loading={isSubmitting}>

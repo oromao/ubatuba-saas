@@ -115,7 +115,7 @@ async function loginHuman(page: any, profile: Profile) {
 
   await humanType(page, page.locator('input[type="email"]'), profile.email);
   await humanType(page, page.locator('input[type="password"]'), profile.password);
-  await humanType(page, page.locator('input[placeholder="ex: prefeitura-jales"]'), TENANT);
+  await humanType(page, page.locator('input[placeholder="ex: prefeitura-ubatuba"]'), TENANT);
 
   await page.getByRole('button', { name: 'Entrar' }).hover();
   await Promise.all([

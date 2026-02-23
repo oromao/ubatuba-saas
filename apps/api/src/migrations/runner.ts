@@ -16,7 +16,7 @@ type Migration = {
   run: (connection: mongoose.Connection) => Promise<void>;
 };
 
-const JALES_BBOX: [number, number, number, number] = [-50.558, -20.294, -50.518, -20.248];
+const UBATUBA_BBOX: [number, number, number, number] = [-50.558, -20.294, -50.518, -20.248];
 
 const migrations: Migration[] = [
   {
@@ -229,7 +229,7 @@ const migrations: Migration[] = [
           $set: {
             defaultCenter: [-50.546, -20.268],
             defaultZoom: 14,
-            defaultBbox: JALES_BBOX,
+            defaultBbox: UBATUBA_BBOX,
           },
         },
       );
@@ -1697,7 +1697,7 @@ async function publishGeoTiff({
     throw new Error(`Falha ao publicar GeoTIFF: ${upload.status} ${text}`);
   }
 
-  const [minx, miny, maxx, maxy] = JALES_BBOX;
+  const [minx, miny, maxx, maxy] = UBATUBA_BBOX;
   const bounds = {
     minx,
     maxx,

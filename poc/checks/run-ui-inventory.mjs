@@ -41,7 +41,7 @@ try {
   await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
   await page.locator('input[placeholder="nome@prefeitura.gov.br"]').fill(EMAIL);
   await page.locator('input[type="password"]').fill(PASSWORD);
-  await page.locator('input[placeholder="ex: prefeitura-jales"]').fill(TENANT);
+  await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').fill(TENANT);
   await page.getByRole("button", { name: "Entrar" }).click();
   await page.waitForURL(/\/app\/dashboard/);
 

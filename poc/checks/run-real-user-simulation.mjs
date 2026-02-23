@@ -124,7 +124,7 @@ const loginUi = async (page, profile) => {
   await clearSession(page);
   await page.locator('input[placeholder="nome@prefeitura.gov.br"]').fill(profile.email);
   await page.locator('input[type="password"]').fill(profile.password);
-  await page.locator('input[placeholder="ex: prefeitura-jales"]').fill(TENANT_SLUG);
+  await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').fill(TENANT_SLUG);
   const loginReq = page.waitForResponse(
     (res) => res.url().includes("/auth/login") && res.request().method() === "POST",
   );
@@ -327,7 +327,7 @@ await runStep("admin_full_flow_api_all_modules", async () => {
       projectId: adminSimulationProjectId,
       name: `Levantamento Sim ${runId}`,
       type: "AEROFOTO_RGB_5CM",
-      municipality: "Jales",
+      municipality: "Ubatuba",
       surveyDate: new Date().toISOString().slice(0, 10),
       gsdCm: 5,
       srcDatum: "SIRGAS2000 / EPSG:4326",

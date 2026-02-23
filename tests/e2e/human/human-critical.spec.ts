@@ -10,7 +10,7 @@ async function login(page: any, email = ADMIN_EMAIL, password = ADMIN_PASSWORD) 
   await page.keyboard.type(email, { delay: 40 });
   await page.locator('input[type="password"]').click();
   await page.keyboard.type(password, { delay: 40 });
-  await page.locator('input[placeholder="ex: prefeitura-jales"]').click();
+  await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').click();
   await page.keyboard.type(TENANT, { delay: 40 });
   await Promise.all([
     page.waitForResponse((res: any) => res.url().includes('/auth/login') && res.request().method() === 'POST'),

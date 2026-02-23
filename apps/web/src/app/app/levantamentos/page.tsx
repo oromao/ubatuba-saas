@@ -49,7 +49,7 @@ export default function LevantamentosPage() {
   const [createForm, setCreateForm] = useState({
     name: "",
     type: "AEROFOTO_RGB_5CM",
-    municipality: "Jales",
+    municipality: "Ubatuba",
     surveyDate: new Date().toISOString().slice(0, 10),
     gsdCm: "5",
     srcDatum: "SIRGAS2000 / EPSG:4326",

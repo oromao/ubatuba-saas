@@ -135,7 +135,7 @@ try {
   await runStep("login_submit", async () => {
     await page.locator('input[placeholder="nome@prefeitura.gov.br"]').fill(CREDENTIALS.email);
     await page.locator('input[type="password"]').fill(CREDENTIALS.password);
-    await page.locator('input[placeholder="ex: prefeitura-jales"]').fill(CREDENTIALS.tenantSlug);
+    await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').fill(CREDENTIALS.tenantSlug);
     const loginResponse = page.waitForResponse(
       (res) => res.url().includes("/auth/login") && res.request().method() === "POST",
       { timeout: TIMEOUT_MS },

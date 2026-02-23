@@ -7,7 +7,7 @@ const promises_1 = require("fs/promises");
 const path = require("path");
 const client_s3_1 = require("@aws-sdk/client-s3");
 const geo_1 = require("../common/utils/geo");
-const JALES_BBOX = [-50.558, -20.294, -50.518, -20.248];
+const UBATUBA_BBOX = [-50.558, -20.294, -50.518, -20.248];
 const migrations = [
     {
         id: '001-create-indexes',
@@ -193,7 +193,7 @@ const migrations = [
                 $set: {
                     defaultCenter: [-50.546, -20.268],
                     defaultZoom: 14,
-                    defaultBbox: JALES_BBOX,
+                    defaultBbox: UBATUBA_BBOX,
                 },
             });
             const uploadKey = `tenants/${tenantId}/rasters/ortomosaico-mock.tif`;
@@ -1553,7 +1553,7 @@ async function publishGeoTiff({ workspace, store, layerName, fileBuffer, }) {
         const text = await upload.text();
         throw new Error(`Falha ao publicar GeoTIFF: ${upload.status} ${text}`);
     }
-    const [minx, miny, maxx, maxy] = JALES_BBOX;
+    const [minx, miny, maxx, maxy] = UBATUBA_BBOX;
     const bounds = {
         minx,
         maxx,

@@ -48,7 +48,7 @@ export async function runContinuousFullScan(page: Page, testInfo: TestInfo, role
     await page.keyboard.type(credentials.email, { delay: 40 });
     await page.locator('input[type="password"]').click();
     await page.keyboard.type(credentials.password, { delay: 40 });
-    await page.locator('input[placeholder="ex: prefeitura-jales"]').click();
+    await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').click();
     await page.keyboard.type(credentials.tenant, { delay: 40 });
     await Promise.all([
       page.waitForResponse((r) => r.url().includes('/auth/login') && r.request().method() === 'POST'),

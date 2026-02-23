@@ -252,7 +252,7 @@ const loginUi = async (page, profile) => {
   await pause();
   await page.locator('input[type="password"]').fill(profile.password);
   await pause();
-  await page.locator('input[placeholder="ex: prefeitura-jales"]').fill(TENANT_SLUG);
+  await page.locator('input[placeholder="ex: prefeitura-ubatuba"]').fill(TENANT_SLUG);
   await pause();
 
   const loginReq = page.waitForResponse(
@@ -1348,7 +1348,7 @@ await runStep("admin_surveys_full_pipeline", async () => {
       projectId: state.qaProjectId,
       name: `RGB QA ${runId}`,
       type: "AEROFOTO_RGB_5CM",
-      municipality: "Jales",
+      municipality: "Ubatuba",
       surveyDate: new Date().toISOString().slice(0, 10),
       gsdCm: 5,
       srcDatum: "SIRGAS2000 / EPSG:4326",
@@ -1447,7 +1447,7 @@ await runStep("admin_surveys_full_pipeline", async () => {
       projectId: state.qaProjectId,
       name: `LiDAR 360 QA ${runId}`,
       type: "MOBILE_LIDAR_360",
-      municipality: "Jales",
+      municipality: "Ubatuba",
       surveyDate: new Date().toISOString().slice(0, 10),
       srcDatum: "SIRGAS2000 / EPSG:4326",
       precision: "PoC",
