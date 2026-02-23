@@ -25,6 +25,7 @@ const APP_ROUTE_RULES: RouteRule[] = [
   { prefix: "/app/integracoes", roles: ROLE_GROUPS.ops },
   { prefix: "/app/cartas", roles: ROLE_GROUPS.ops },
   { prefix: "/app/compliance", roles: ROLE_GROUPS.ops },
+  { prefix: "/app/reurb", roles: ROLE_GROUPS.ops },
 ];
 
 export const isAppRouteAllowed = (pathname: string, role?: string | null) => {

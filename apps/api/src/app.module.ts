@@ -30,6 +30,7 @@ import { NotificationsLettersModule } from './modules/notifications-letters/noti
 import { SurveysModule } from './modules/surveys/surveys.module';
 import { MobileModule } from './modules/mobile/mobile.module';
 import { PocModule } from './modules/poc/poc.module';
+import { ReurbModule } from './modules/reurb/reurb.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { PocModule } from './modules/poc/poc.module';
     SurveysModule,
     MobileModule,
     PocModule,
+    ReurbModule,
   ],
   providers: [
     {

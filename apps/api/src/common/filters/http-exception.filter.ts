@@ -22,10 +22,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
+    const exceptionResponse =
+      exception instanceof HttpException ? exception.getResponse() : undefined;
+
     const detail =
-      exception instanceof HttpException
-        ? exception.message
-        : 'Erro interno';
+      typeof exceptionResponse === 'object' && exceptionResponse !== null && 'message' in exceptionResponse
+        ? (Array.isArray((exceptionResponse as { message?: unknown }).message)
+          ? (exceptionResponse as { message: unknown[] }).message.join('; ')
+          : String((exceptionResponse as { message?: unknown }).message ?? 'Erro de validacao'))
+        : exception instanceof HttpException
+          ? exception.message
+          : 'Erro interno';
 
     const title =
       exception instanceof HttpException
@@ -50,6 +57,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
       this.logger.warnWithContext('http_exception', payload);
     }
 
+    const extra =
+      typeof exceptionResponse === 'object' && exceptionResponse !== null
+        ? Object.fromEntries(
+            Object.entries(exceptionResponse as Record<string, unknown>).filter(
+              ([key]) => !['statusCode', 'message', 'error'].includes(key),
+            ),
+          )
+        : {};
+
     response.status(status).json({
       type: 'about:blank',
       title,
@@ -57,6 +73,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       detail,
       instance: request.url,
       correlationId: request.correlationId ?? null,
+      ...extra,
     });
   }
 }

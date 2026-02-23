@@ -3,6 +3,7 @@ import {
   Bell,
   Building2,
   ClipboardCheck,
+  FileSpreadsheet,
   FileCheck2,
   Landmark,
   Layers,
@@ -89,6 +90,7 @@ export const navGroups: NavGroup[] = [
       withDefaultRoles({ label: "Integracoes", href: "/app/integracoes", icon: Link2, keywords: ["tributario", "sync", "conector"] }),
       withDefaultRoles({ label: "Cartas", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo"] }),
       withDefaultRoles({ label: "Compliance", href: "/app/compliance", icon: ShieldCheck, keywords: ["crea", "cau", "cat", "art"] }),
+      withDefaultRoles({ label: "REURB", href: "/app/reurb", icon: FileSpreadsheet, keywords: ["familias", "planilha", "cartorio"] }),
       {
         label: "PoC",
         href: "/app/poc",

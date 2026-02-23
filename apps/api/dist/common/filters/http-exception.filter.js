@@ -23,9 +23,14 @@ let HttpExceptionFilter = class HttpExceptionFilter {
         const status = exception instanceof common_1.HttpException
             ? exception.getStatus()
             : common_1.HttpStatus.INTERNAL_SERVER_ERROR;
-        const detail = exception instanceof common_1.HttpException
-            ? exception.message
-            : 'Erro interno';
+        const exceptionResponse = exception instanceof common_1.HttpException ? exception.getResponse() : undefined;
+        const detail = typeof exceptionResponse === 'object' && exceptionResponse !== null && 'message' in exceptionResponse
+            ? (Array.isArray(exceptionResponse.message)
+                ? exceptionResponse.message.join('; ')
+                : String(exceptionResponse.message ?? 'Erro de validacao'))
+            : exception instanceof common_1.HttpException
+                ? exception.message
+                : 'Erro interno';
         const title = exception instanceof common_1.HttpException
             ? common_1.HttpStatus[status]
             : 'Internal Server Error';
@@ -47,6 +52,9 @@ let HttpExceptionFilter = class HttpExceptionFilter {
         else {
             this.logger.warnWithContext('http_exception', payload);
         }
+        const extra = typeof exceptionResponse === 'object' && exceptionResponse !== null
+            ? Object.fromEntries(Object.entries(exceptionResponse).filter(([key]) => !['statusCode', 'message', 'error'].includes(key)))
+            : {};
         response.status(status).json({
             type: 'about:blank',
             title,
@@ -54,6 +62,7 @@ let HttpExceptionFilter = class HttpExceptionFilter {
             detail,
             instance: request.url,
             correlationId: request.correlationId ?? null,
+            ...extra,
         });
     }
 };

@@ -39,6 +39,7 @@ const notifications_letters_module_1 = require("./modules/notifications-letters/
 const surveys_module_1 = require("./modules/surveys/surveys.module");
 const mobile_module_1 = require("./modules/mobile/mobile.module");
 const poc_module_1 = require("./modules/poc/poc.module");
+const reurb_module_1 = require("./modules/reurb/reurb.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -76,6 +77,7 @@ exports.AppModule = AppModule = __decorate([
             surveys_module_1.SurveysModule,
             mobile_module_1.MobileModule,
             poc_module_1.PocModule,
+            reurb_module_1.ReurbModule,
         ],
         providers: [
             {

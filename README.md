@@ -278,3 +278,7 @@ curl -X POST -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/js
 - `apps/api`: NestJS + MongoDB + JWT + RBAC + Multi-tenant
 - `infra/scripts`: utilitarios (wait-for)
 - `infra/assets`: GeoTIFF mockado para DEV
+
+## Guias Ubatuba
+- Uso ponta a ponta: `docs/guia-ubatuba-ponta-a-ponta.md`
+- Configuracao tenant REURB: `docs/tenant-ubatuba.md`
