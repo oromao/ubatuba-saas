@@ -59,7 +59,7 @@ Credenciais DEV:
 ## OSM Ubatuba (ruas e edificacoes)
 Para popular vias e edificacoes reais da area urbana de Ubatuba/SP:
 ```bash
-OSM_BBOX=-50.558,-20.294,-50.518,-20.248 \
+OSM_BBOX=-45.110,-23.474,-45.040,-23.428 \
 OSM_TENANT_SLUG=demo \
 OSM_PROJECT_SLUG=demo \
 npm run import:osm -w apps/api
@@ -89,11 +89,11 @@ Endpoints:
 Exemplo (cURL):
 ```bash
 curl -X POST -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" \\
-  -d '{\"featureType\":\"parcel\",\"properties\":{\"name\":\"Lote A\",\"status\":\"ATIVO\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-50.556,-20.292],[-50.552,-20.292],[-50.552,-20.288],[-50.556,-20.288],[-50.556,-20.292]]]}}' \\
+  -d '{\"featureType\":\"parcel\",\"properties\":{\"name\":\"Lote A\",\"status\":\"ATIVO\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-45.108,-23.446],[-45.102,-23.446],[-45.102,-23.440],[-45.108,-23.440],[-45.108,-23.446]]]}}' \\
   "http://localhost:4000/map-features"
 
 curl -H "Authorization: Bearer <TOKEN>" \\
-  "http://localhost:4000/map-features/geojson?bbox=-50.558,-20.294,-50.518,-20.248&type=parcel"
+  "http://localhost:4000/map-features/geojson?bbox=-45.110,-23.474,-45.040,-23.428&type=parcel"
 ```
 
 ## Testes (API)

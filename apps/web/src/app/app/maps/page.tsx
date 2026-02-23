@@ -166,9 +166,9 @@ type MapDefaults = {
   bounds: [[number, number], [number, number]];
 };
 
-const UBATUBA_BBOX: [number, number, number, number] = [-50.605, -20.34, -50.47, -20.2];
-const DEFAULT_CENTER: [number, number] = [-50.5375, -20.27];
-const DEFAULT_ZOOM = 14;
+const UBATUBA_BBOX: [number, number, number, number] = [-45.12, -23.48, -45.02, -23.38];
+const DEFAULT_CENTER: [number, number] = [-45.07, -23.43];
+const DEFAULT_ZOOM = 13;
 const DEFAULT_BOUNDS: [[number, number], [number, number]] = [
   [UBATUBA_BBOX[0], UBATUBA_BBOX[1]],
   [UBATUBA_BBOX[2], UBATUBA_BBOX[3]],

@@ -7,7 +7,7 @@ const promises_1 = require("fs/promises");
 const path = require("path");
 const client_s3_1 = require("@aws-sdk/client-s3");
 const geo_1 = require("../common/utils/geo");
-const UBATUBA_BBOX = [-50.558, -20.294, -50.518, -20.248];
+const UBATUBA_BBOX = [-45.110, -23.474, -45.040, -23.428];
 const migrations = [
     {
         id: '001-create-indexes',
@@ -191,7 +191,7 @@ const migrations = [
                 return;
             await projects.updateOne({ _id: projectId }, {
                 $set: {
-                    defaultCenter: [-50.546, -20.268],
+                    defaultCenter: [-45.098, -23.448],
                     defaultZoom: 14,
                     defaultBbox: UBATUBA_BBOX,
                 },
@@ -580,8 +580,8 @@ const migrations = [
                     geometry: {
                         type: 'LineString',
                         coordinates: [
-                            [-50.556, -20.268],
-                            [-50.524, -20.268],
+                            [-45.108, -23.448],
+                            [-45.076, -23.448],
                         ],
                     },
                     createdAt: now,
@@ -605,11 +605,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.555, -20.28],
-                                [-50.532, -20.28],
-                                [-50.532, -20.26],
-                                [-50.555, -20.26],
-                                [-50.555, -20.28],
+                                [-45.107, -23.460],
+                                [-45.084, -23.460],
+                                [-45.084, -23.440],
+                                [-45.107, -23.440],
+                                [-45.107, -23.460],
                             ],
                         ],
                     },
@@ -628,11 +628,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.556, -20.268],
-                                [-50.528, -20.268],
-                                [-50.528, -20.248],
-                                [-50.556, -20.248],
-                                [-50.556, -20.268],
+                                [-45.108, -23.448],
+                                [-45.080, -23.448],
+                                [-45.080, -23.428],
+                                [-45.108, -23.428],
+                                [-45.108, -23.448],
                             ],
                         ],
                     },
@@ -651,11 +651,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.556, -20.294],
-                                [-50.528, -20.294],
-                                [-50.528, -20.274],
-                                [-50.556, -20.274],
-                                [-50.556, -20.294],
+                                [-45.108, -23.474],
+                                [-45.080, -23.474],
+                                [-45.080, -23.454],
+                                [-45.108, -23.454],
+                                [-45.108, -23.474],
                             ],
                         ],
                     },
@@ -682,7 +682,7 @@ const migrations = [
                 .filter(Boolean);
             const primaryZone = zoneMap.get('ZV-01');
             const faceSeeds = Array.from({ length: 10 }).map((_, index) => {
-                const lng = -50.556 + index * 0.0035;
+                const lng = -45.108 + index * 0.0035;
                 const zoneId = zoneIds.length ? zoneIds[index % zoneIds.length] : undefined;
                 const landValuePerSqm = 480 + index * 12;
                 return {
@@ -700,8 +700,8 @@ const migrations = [
                     geometry: {
                         type: 'LineString',
                         coordinates: [
-                            [lng, -20.268],
-                            [lng + 0.003, -20.268],
+                            [lng, -23.448],
+                            [lng + 0.003, -23.448],
                         ],
                     },
                 };
@@ -731,8 +731,8 @@ const migrations = [
                 const parcelDocs = [];
                 const cols = 5;
                 const rows = 6;
-                const startLng = -50.556;
-                const startLat = -20.292;
+                const startLng = -45.108;
+                const startLat = -23.466;
                 const stepLng = 0.006;
                 const stepLat = 0.006;
                 const sizeLng = 0.004;
@@ -1077,8 +1077,8 @@ const migrations = [
                     geometry: {
                         type: 'LineString',
                         coordinates: [
-                            [-50.556, -20.268],
-                            [-50.524, -20.268],
+                            [-45.108, -23.448],
+                            [-45.076, -23.448],
                         ],
                     },
                     createdAt: now,
@@ -1102,11 +1102,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.555, -20.28],
-                                [-50.532, -20.28],
-                                [-50.532, -20.26],
-                                [-50.555, -20.26],
-                                [-50.555, -20.28],
+                                [-45.107, -23.460],
+                                [-45.084, -23.460],
+                                [-45.084, -23.440],
+                                [-45.107, -23.440],
+                                [-45.107, -23.460],
                             ],
                         ],
                     },
@@ -1125,11 +1125,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.556, -20.268],
-                                [-50.528, -20.268],
-                                [-50.528, -20.248],
-                                [-50.556, -20.248],
-                                [-50.556, -20.268],
+                                [-45.108, -23.448],
+                                [-45.080, -23.448],
+                                [-45.080, -23.428],
+                                [-45.108, -23.428],
+                                [-45.108, -23.448],
                             ],
                         ],
                     },
@@ -1148,11 +1148,11 @@ const migrations = [
                         type: 'Polygon',
                         coordinates: [
                             [
-                                [-50.556, -20.294],
-                                [-50.528, -20.294],
-                                [-50.528, -20.274],
-                                [-50.556, -20.274],
-                                [-50.556, -20.294],
+                                [-45.108, -23.474],
+                                [-45.080, -23.474],
+                                [-45.080, -23.454],
+                                [-45.108, -23.454],
+                                [-45.108, -23.474],
                             ],
                         ],
                     },
@@ -1179,7 +1179,7 @@ const migrations = [
                 .filter(Boolean);
             const primaryZone = zoneMap.get('ZV-01');
             const faceSeeds = Array.from({ length: 10 }).map((_, index) => {
-                const lng = -50.556 + index * 0.0035;
+                const lng = -45.108 + index * 0.0035;
                 const zoneId = zoneIds.length ? zoneIds[index % zoneIds.length] : undefined;
                 const landValuePerSqm = 480 + index * 12;
                 return {
@@ -1197,8 +1197,8 @@ const migrations = [
                     geometry: {
                         type: 'LineString',
                         coordinates: [
-                            [lng, -20.268],
-                            [lng + 0.003, -20.268],
+                            [lng, -23.448],
+                            [lng + 0.003, -23.448],
                         ],
                     },
                 };
@@ -1228,8 +1228,8 @@ const migrations = [
                 const parcelDocs = [];
                 const cols = 5;
                 const rows = 6;
-                const startLng = -50.556;
-                const startLat = -20.292;
+                const startLng = -45.108;
+                const startLat = -23.466;
                 const stepLng = 0.006;
                 const stepLat = 0.006;
                 const sizeLng = 0.004;
