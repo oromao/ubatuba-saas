@@ -13,6 +13,8 @@ exports.ReurbService = void 0;
 const common_1 = require("@nestjs/common");
 const crypto_1 = require("crypto");
 const events_1 = require("events");
+const promises_1 = require("node:fs/promises");
+const node_path_1 = require("node:path");
 const mongoose_1 = require("mongoose");
 const object_id_1 = require("../../common/utils/object-id");
 const projects_service_1 = require("../projects/projects.service");
@@ -20,6 +22,7 @@ const object_storage_service_1 = require("../shared/object-storage.service");
 const reurb_repository_1 = require("./reurb.repository");
 const reurb_utils_1 = require("./reurb.utils");
 const reurb_validation_service_1 = require("./reurb-validation.service");
+const nodemailer_1 = require("nodemailer");
 let ReurbService = class ReurbService {
     constructor(repository, projectsService, storage, validationService) {
         this.repository = repository;
@@ -27,6 +30,9 @@ let ReurbService = class ReurbService {
         this.storage = storage;
         this.validationService = validationService;
         this.pendencyEvents = new events_1.EventEmitter();
+        this.mailTransport = process.env.SMTP_URL
+            ? (0, nodemailer_1.createTransport)(process.env.SMTP_URL)
+            : null;
     }
     getPendencyEvents() {
         return this.pendencyEvents;
@@ -61,6 +67,8 @@ let ReurbService = class ReurbService {
                 titlesFolder: 'titulos',
                 approvedDocumentsFolder: 'documentos_aprovados',
                 requiredDocumentTypes: [],
+                requiredProjectDocumentTypes: [],
+                requiredUnitDocumentTypes: [],
             },
             validationRules: {
                 blockOnPendingDocumentIssues: true,
@@ -109,6 +117,7 @@ let ReurbService = class ReurbService {
             details: {
                 families: families.length,
                 pendencies: pendencies.length,
+                purpose: params.purpose ?? 'not_informed',
             },
             actorId: params.actorId ? (0, object_id_1.asObjectId)(params.actorId) : undefined,
             happenedAt: new Date().toISOString(),
@@ -121,8 +130,105 @@ let ReurbService = class ReurbService {
         }
         return { config, families };
     }
+    async auditAccess(params) {
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(params.tenantId),
+            projectId: (0, object_id_1.asObjectId)(params.projectId),
+            action: params.action,
+            success: true,
+            errors: [],
+            details: {
+                purpose: params.purpose ?? 'not_informed',
+                ...params.details,
+            },
+            actorId: params.actorId ? (0, object_id_1.asObjectId)(params.actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+    }
     async getTenantConfig(tenantId) {
         return this.loadConfig(tenantId);
+    }
+    async createProject(tenantId, dto, actorId) {
+        const project = await this.repository.createProject({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            name: dto.name.trim(),
+            area: dto.area?.trim(),
+            reurbType: dto.reurbType ?? 'REURB-S',
+            status: dto.status ?? 'RASCUNHO',
+            startDate: dto.startDate,
+            endDate: dto.endDate,
+            responsibles: dto.responsibles ?? [],
+            metadata: dto.metadata ?? {},
+            statusHistory: [
+                {
+                    id: (0, crypto_1.randomUUID)(),
+                    nextStatus: dto.status ?? 'RASCUNHO',
+                    observation: 'Projeto criado',
+                    actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+                    at: new Date().toISOString(),
+                },
+            ],
+            documents: [],
+            createdBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(project.id),
+            action: 'PROJECT_CREATE',
+            success: true,
+            errors: [],
+            details: { name: project.name, status: project.status },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return project;
+    }
+    async listProjects(tenantId) {
+        return this.repository.listProjects(tenantId);
+    }
+    async updateProject(tenantId, projectId, dto, actorId) {
+        const existing = await this.repository.findProjectById(tenantId, projectId);
+        if (!existing)
+            throw new common_1.NotFoundException('Projeto nao encontrado');
+        const statusHistory = dto.status && dto.status !== existing.status
+            ? [
+                ...(existing.statusHistory ?? []),
+                {
+                    id: (0, crypto_1.randomUUID)(),
+                    previousStatus: existing.status,
+                    nextStatus: dto.status,
+                    observation: dto.statusObservation,
+                    actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+                    at: new Date().toISOString(),
+                },
+            ]
+            : existing.statusHistory;
+        const updated = await this.repository.updateProject(tenantId, projectId, {
+            name: dto.name ?? existing.name,
+            area: dto.area ?? existing.area,
+            reurbType: dto.reurbType ?? existing.reurbType,
+            status: dto.status ?? existing.status,
+            startDate: dto.startDate ?? existing.startDate,
+            endDate: dto.endDate ?? existing.endDate,
+            responsibles: dto.responsibles ?? existing.responsibles,
+            metadata: dto.metadata ?? existing.metadata,
+            statusHistory,
+            updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        if (!updated)
+            throw new common_1.NotFoundException('Projeto nao encontrado');
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'PROJECT_UPDATE',
+            success: true,
+            errors: [],
+            details: { status: updated.status },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return updated;
     }
     async upsertTenantConfig(tenantId, dto, actorId) {
         const current = await this.loadConfig(tenantId);
@@ -141,6 +247,10 @@ let ReurbService = class ReurbService {
                     current.documentNaming?.approvedDocumentsFolder ??
                     'documentos_aprovados',
                 requiredDocumentTypes: dto.documentNaming?.requiredDocumentTypes ?? current.documentNaming?.requiredDocumentTypes ?? [],
+                requiredProjectDocumentTypes: dto.documentNaming?.requiredProjectDocumentTypes ??
+                    current.documentNaming?.requiredProjectDocumentTypes ??
+                    [],
+                requiredUnitDocumentTypes: dto.documentNaming?.requiredUnitDocumentTypes ?? current.documentNaming?.requiredUnitDocumentTypes ?? [],
             },
             validationRules: {
                 blockOnPendingDocumentIssues: dto.validationRules?.blockOnPendingDocumentIssues ??
@@ -163,7 +273,7 @@ let ReurbService = class ReurbService {
         const projectId = await this.resolveProjectId(tenantId, dto.projectId);
         if (!dto.familyCode?.trim())
             throw new common_1.BadRequestException('familyCode obrigatorio');
-        return this.repository.createFamily({
+        const created = await this.repository.createFamily({
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
             familyCode: dto.familyCode.trim(),
@@ -179,10 +289,119 @@ let ReurbService = class ReurbService {
             createdBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
             updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
         });
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'FAMILY_CREATE',
+            success: true,
+            errors: [],
+            details: { familyCode: created.familyCode, nucleus: created.nucleus },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return created;
     }
-    async listFamilies(tenantId, projectId, filters) {
+    async importFamiliesCsv(tenantId, dto, actorId) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const delimiter = dto.delimiter && dto.delimiter.length > 0 ? dto.delimiter : ',';
+        const lines = dto.csvContent.split(/\r?\n/).filter((line) => line.trim().length > 0);
+        if (lines.length === 0)
+            throw new common_1.BadRequestException('CSV vazio');
+        const parseLine = (line) => {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i += 1) {
+                const char = line[i];
+                if (char === '"') {
+                    const next = line[i + 1];
+                    if (next === '"') {
+                        current += '"';
+                        i += 1;
+                    }
+                    else {
+                        inQuotes = !inQuotes;
+                    }
+                    continue;
+                }
+                if (char === delimiter && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                    continue;
+                }
+                current += char;
+            }
+            result.push(current.trim());
+            return result;
+        };
+        const header = parseLine(lines[0]).map((col) => col.toLowerCase());
+        const idx = (name) => header.indexOf(name.toLowerCase());
+        const required = ['familycode', 'nucleus', 'responsiblename'];
+        const missing = required.filter((col) => idx(col) === -1);
+        if (missing.length > 0) {
+            throw new common_1.BadRequestException(`CSV faltando colunas: ${missing.join(', ')}`);
+        }
+        const errors = [];
+        let created = 0;
+        for (let i = 1; i < lines.length; i += 1) {
+            const row = parseLine(lines[i]);
+            const familyCode = row[idx('familycode')] ?? '';
+            const nucleus = row[idx('nucleus')] ?? '';
+            const responsibleName = row[idx('responsiblename')] ?? '';
+            if (!familyCode || !nucleus || !responsibleName) {
+                errors.push({ row: i + 1, message: 'Campos obrigatorios faltando', data: row });
+                continue;
+            }
+            try {
+                await this.repository.createFamily({
+                    tenantId: (0, object_id_1.asObjectId)(tenantId),
+                    projectId: (0, object_id_1.asObjectId)(projectId),
+                    familyCode: familyCode.trim(),
+                    nucleus: nucleus.trim(),
+                    responsibleName: responsibleName.trim(),
+                    cpf: row[idx('cpf')]?.trim() || undefined,
+                    address: row[idx('address')]?.trim() || undefined,
+                    membersCount: Number(row[idx('memberscount')] ?? 1) || 1,
+                    monthlyIncome: Number(row[idx('monthlyincome')] ?? 0) || undefined,
+                    status: row[idx('status')] ?? 'PENDENTE',
+                    data: {},
+                    documents: [],
+                    createdBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+                    updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+                });
+                created += 1;
+            }
+            catch (error) {
+                errors.push({ row: i + 1, message: error.message, data: row });
+            }
+        }
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'FAMILY_IMPORT_CSV',
+            success: errors.length === 0,
+            errors: errors.map((err) => ({ code: 'CSV_ROW_ERROR', message: err.message })),
+            details: { created, total: lines.length - 1 },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return { total: lines.length - 1, created, errors };
+    }
+    async listFamilies(tenantId, projectId, filters, params) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
-        return this.repository.listFamilies(tenantId, resolved, filters);
+        const families = await this.repository.listFamilies(tenantId, resolved, filters);
+        await this.auditAccess({
+            tenantId,
+            projectId: resolved,
+            actorId: params?.actorId,
+            purpose: params?.purpose,
+            action: 'ACCESS_FAMILIES_LIST',
+            details: {
+                count: families.length,
+                filters: filters ?? {},
+            },
+        });
+        return families;
     }
     async updateFamily(tenantId, familyId, dto, projectId, actorId) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
@@ -199,15 +418,26 @@ let ReurbService = class ReurbService {
         });
         if (!updated)
             throw new common_1.NotFoundException('Familia nao encontrada');
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            action: 'FAMILY_UPDATE',
+            success: true,
+            errors: [],
+            details: { familyCode: updated.familyCode, nucleus: updated.nucleus },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
         return updated;
     }
-    async exportFamiliesCsv(tenantId, projectId, actorId) {
+    async exportFamiliesCsv(tenantId, projectId, actorId, purpose) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
         const { config, families } = await this.validateAndAudit({
             tenantId,
             projectId: resolved,
             actorId,
             action: 'EXPORT_BANCO_TABULADO',
+            purpose,
         });
         const columns = this.normalizeColumns(config);
         const rows = this.familyRowsForExport(families);
@@ -226,13 +456,14 @@ let ReurbService = class ReurbService {
             },
         });
     }
-    async exportFamiliesXlsx(tenantId, projectId, actorId) {
+    async exportFamiliesXlsx(tenantId, projectId, actorId, purpose) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
         const { config, families } = await this.validateAndAudit({
             tenantId,
             projectId: resolved,
             actorId,
             action: 'EXPORT_BANCO_TABULADO',
+            purpose,
         });
         const columns = this.normalizeColumns(config);
         const rows = this.familyRowsForExport(families);
@@ -251,13 +482,14 @@ let ReurbService = class ReurbService {
             },
         });
     }
-    async generatePlanilhaSintese(tenantId, projectId, actorId) {
+    async generatePlanilhaSintese(tenantId, projectId, actorId, purpose) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
         const { config, families } = await this.validateAndAudit({
             tenantId,
             projectId: resolved,
             actorId,
             action: 'GENERATE_PLANILHA',
+            purpose,
         });
         const columns = this.normalizeColumns(config);
         const rows = this.familyRowsForExport(families);
@@ -315,9 +547,83 @@ let ReurbService = class ReurbService {
         });
         return created;
     }
-    async listPendencies(tenantId, projectId, filters) {
+    async listPendencies(tenantId, projectId, filters, params) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
-        return this.repository.listPendencies(tenantId, resolved, filters);
+        const pendencies = await this.repository.listPendencies(tenantId, resolved, filters);
+        await this.auditAccess({
+            tenantId,
+            projectId: resolved,
+            actorId: params?.actorId,
+            purpose: params?.purpose,
+            action: 'ACCESS_PENDENCIES_LIST',
+            details: {
+                count: pendencies.length,
+                filters: filters ?? {},
+            },
+        });
+        return pendencies;
+    }
+    async createUnit(tenantId, dto, actorId) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const created = await this.repository.createUnit({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            code: dto.code.trim(),
+            block: dto.block?.trim(),
+            lot: dto.lot?.trim(),
+            address: dto.address?.trim(),
+            area: dto.area,
+            geometry: dto.geometry,
+            familyIds: (dto.familyIds ?? []).map(object_id_1.asObjectId),
+            metadata: dto.metadata ?? {},
+            documents: [],
+            createdBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'UNIT_CREATE',
+            success: true,
+            errors: [],
+            details: { code: created.code },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return created;
+    }
+    async listUnits(tenantId, projectId, filters) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        return this.repository.listUnits(tenantId, resolved, filters);
+    }
+    async updateUnit(tenantId, unitId, dto, projectId, actorId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const existing = await this.repository.findUnitById(tenantId, resolved, unitId);
+        if (!existing)
+            throw new common_1.NotFoundException('Unidade nao encontrada');
+        const updated = await this.repository.updateUnit(tenantId, resolved, unitId, {
+            block: dto.block ?? existing.block,
+            lot: dto.lot ?? existing.lot,
+            address: dto.address ?? existing.address,
+            area: dto.area ?? existing.area,
+            geometry: dto.geometry ?? existing.geometry,
+            familyIds: dto.familyIds ? dto.familyIds.map(object_id_1.asObjectId) : existing.familyIds,
+            metadata: dto.metadata ?? existing.metadata,
+            updatedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        if (!updated)
+            throw new common_1.NotFoundException('Unidade nao encontrada');
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            action: 'UNIT_UPDATE',
+            success: true,
+            errors: [],
+            details: { code: updated.code },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return updated;
     }
     async updatePendencyStatus(tenantId, pendencyId, dto, projectId, actorId) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
@@ -388,15 +694,334 @@ let ReurbService = class ReurbService {
         });
         family.updatedBy = actorId ? (0, object_id_1.asObjectId)(actorId) : family.updatedBy;
         await family.save();
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'FAMILY_DOCUMENT_UPLOAD',
+            success: true,
+            errors: [],
+            details: { familyId: dto.familyId, documentType: dto.documentType, status: dto.status ?? 'PENDENTE' },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
         return family;
     }
-    async generateCartorioPackage(tenantId, projectId, actorId) {
+    async requestProjectDocumentUpload(tenantId, dto) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const project = await this.repository.findProjectById(tenantId, projectId);
+        if (!project)
+            throw new common_1.NotFoundException('Projeto nao encontrado');
+        const key = [
+            'tenants',
+            tenantId,
+            'reurb',
+            projectId,
+            'project_documents',
+            dto.documentType,
+            `${Date.now()}-${this.sanitizeName(dto.fileName)}`,
+        ].join('/');
+        return this.storage.createPresignedUpload({
+            key,
+            contentType: dto.mimeType ?? 'application/octet-stream',
+        });
+    }
+    async completeProjectDocumentUpload(tenantId, dto, actorId) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const project = await this.repository.findProjectById(tenantId, projectId);
+        if (!project)
+            throw new common_1.NotFoundException('Projeto nao encontrado');
+        const currentVersion = project.documents
+            ?.filter((doc) => doc.documentType === dto.documentType)
+            .reduce((max, item) => Math.max(max, item.version), 0) ?? 0;
+        project.documents.push({
+            id: (0, crypto_1.randomUUID)(),
+            documentType: dto.documentType,
+            name: dto.fileName,
+            key: dto.key,
+            version: currentVersion + 1,
+            status: dto.status ?? 'PENDENTE',
+            metadata: dto.metadata ?? {},
+            uploadedAt: new Date().toISOString(),
+            uploadedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        project.updatedBy = actorId ? (0, object_id_1.asObjectId)(actorId) : project.updatedBy;
+        await project.save();
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'PROJECT_DOCUMENT_UPLOAD',
+            success: true,
+            errors: [],
+            details: { documentType: dto.documentType, status: dto.status ?? 'PENDENTE' },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return project;
+    }
+    async requestUnitDocumentUpload(tenantId, dto) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const unit = await this.repository.findUnitById(tenantId, projectId, dto.unitId);
+        if (!unit)
+            throw new common_1.NotFoundException('Unidade nao encontrada');
+        const key = [
+            'tenants',
+            tenantId,
+            'reurb',
+            projectId,
+            'units',
+            dto.unitId,
+            dto.documentType,
+            `${Date.now()}-${this.sanitizeName(dto.fileName)}`,
+        ].join('/');
+        return this.storage.createPresignedUpload({
+            key,
+            contentType: dto.mimeType ?? 'application/octet-stream',
+        });
+    }
+    async completeUnitDocumentUpload(tenantId, dto, actorId) {
+        const projectId = await this.resolveProjectId(tenantId, dto.projectId);
+        const unit = await this.repository.findUnitById(tenantId, projectId, dto.unitId);
+        if (!unit)
+            throw new common_1.NotFoundException('Unidade nao encontrada');
+        const currentVersion = unit.documents
+            ?.filter((doc) => doc.documentType === dto.documentType)
+            .reduce((max, item) => Math.max(max, item.version), 0) ?? 0;
+        unit.documents.push({
+            id: (0, crypto_1.randomUUID)(),
+            documentType: dto.documentType,
+            name: dto.fileName,
+            key: dto.key,
+            version: currentVersion + 1,
+            status: dto.status ?? 'PENDENTE',
+            metadata: dto.metadata ?? {},
+            uploadedAt: new Date().toISOString(),
+            uploadedBy: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+        });
+        unit.updatedBy = actorId ? (0, object_id_1.asObjectId)(actorId) : unit.updatedBy;
+        await unit.save();
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            action: 'UNIT_DOCUMENT_UPLOAD',
+            success: true,
+            errors: [],
+            details: { unitId: dto.unitId, documentType: dto.documentType, status: dto.status ?? 'PENDENTE' },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return unit;
+    }
+    async listNotificationTemplates(tenantId, projectId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        return this.repository.listNotificationTemplates(tenantId, resolved);
+    }
+    async createNotificationTemplate(tenantId, dto) {
+        const resolved = await this.resolveProjectId(tenantId, dto.projectId);
+        const variables = Array.from(new Set((dto.body.match(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g) ?? []).map((item) => item.replace(/[{} ]/g, ''))));
+        const version = await this.repository.nextNotificationTemplateVersion(tenantId, resolved, dto.name);
+        return this.repository.createNotificationTemplate({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            name: dto.name,
+            subject: dto.subject,
+            body: dto.body,
+            variables,
+            version,
+            isActive: true,
+        });
+    }
+    async updateNotificationTemplate(tenantId, projectId, templateId, dto) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const updated = await this.repository.updateNotificationTemplate(tenantId, resolved, templateId, dto);
+        if (!updated)
+            throw new common_1.BadRequestException('Template nao encontrado');
+        return updated;
+    }
+    async listNotifications(tenantId, projectId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        return this.repository.listNotifications(tenantId, resolved);
+    }
+    async sendNotificationEmail(params) {
+        const resolved = await this.resolveProjectId(params.tenantId, params.projectId);
+        const template = await this.repository.findNotificationTemplateById(params.tenantId, resolved, params.templateId);
+        if (!template)
+            throw new common_1.BadRequestException('Template nao encontrado');
+        const body = template.body.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_match, key) => {
+            const value = params.variables?.[key];
+            return value !== undefined ? String(value) : '';
+        });
+        const subject = template.subject.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_match, key) => {
+            const value = params.variables?.[key];
+            return value !== undefined ? String(value) : '';
+        });
+        let status = 'QUEUED';
+        let error;
+        if (this.mailTransport) {
+            try {
+                await this.mailTransport.sendMail({
+                    from: process.env.SMTP_FROM ?? 'no-reply@flydea.local',
+                    to: params.to,
+                    subject,
+                    text: body,
+                });
+                status = 'SENT';
+            }
+            catch (err) {
+                status = 'FAILED';
+                error = err.message;
+            }
+        }
+        const notification = await this.repository.createNotification({
+            tenantId: (0, object_id_1.asObjectId)(params.tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            templateId: (0, object_id_1.asObjectId)(template.id),
+            templateName: template.name,
+            templateVersion: template.version,
+            channel: 'EMAIL',
+            to: params.to,
+            status,
+            payload: params.variables ?? {},
+            evidenceKeys: [],
+            error,
+            sentAt: status === 'SENT' ? new Date().toISOString() : undefined,
+            createdBy: params.actorId ? (0, object_id_1.asObjectId)(params.actorId) : undefined,
+        });
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(params.tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            action: 'NOTIFICATION_EMAIL_SEND',
+            success: status === 'SENT',
+            errors: error ? [{ code: 'EMAIL_SEND_FAILED', message: error }] : [],
+            details: { to: params.to, template: template.name },
+            actorId: params.actorId ? (0, object_id_1.asObjectId)(params.actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return notification;
+    }
+    async attachNotificationEvidence(tenantId, projectId, notificationId, key, actorId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const notification = await this.repository.findNotificationById(tenantId, resolved, notificationId);
+        if (!notification)
+            throw new common_1.NotFoundException('Notificacao nao encontrada');
+        const updated = await this.repository.updateNotification(tenantId, resolved, notificationId, {
+            evidenceKeys: Array.from(new Set([...(notification.evidenceKeys ?? []), key])),
+        });
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            action: 'NOTIFICATION_EVIDENCE_ATTACH',
+            success: true,
+            errors: [],
+            details: { notificationId, key },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return updated;
+    }
+    async requestNotificationEvidenceUpload(tenantId, projectId, fileName, mimeType) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const key = [
+            'tenants',
+            tenantId,
+            'reurb',
+            resolved,
+            'notification_evidence',
+            `${Date.now()}-${this.sanitizeName(fileName ?? 'evidencia')}`,
+        ].join('/');
+        return this.storage.createPresignedUpload({
+            key,
+            contentType: mimeType ?? 'application/octet-stream',
+        });
+    }
+    async pingIntegration(tenantId, projectId, payload, actorId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const url = process.env.INTEGRATION_HTTP_URL ?? 'https://httpbin.org/post';
+        const method = (process.env.INTEGRATION_HTTP_METHOD ?? 'POST').toUpperCase();
+        const startedAt = Date.now();
+        let status = 'FAILED';
+        let responseBody = null;
+        let error;
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: { 'content-type': 'application/json' },
+                body: method === 'GET'
+                    ? undefined
+                    : JSON.stringify({
+                        tenantId,
+                        projectId: resolved,
+                        payload,
+                        sentAt: new Date().toISOString(),
+                    }),
+            });
+            status = response.ok ? 'SENT' : 'FAILED';
+            responseBody = await response.json().catch(() => ({ ok: response.ok }));
+            if (!response.ok) {
+                error = `HTTP ${response.status}`;
+            }
+        }
+        catch (err) {
+            status = 'FAILED';
+            error = err.message;
+        }
+        await this.repository.createAuditLog({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(resolved),
+            action: 'INTEGRATION_HTTP_PING',
+            success: status === 'SENT',
+            errors: error ? [{ code: 'INTEGRATION_HTTP_FAILED', message: error }] : [],
+            details: { url, durationMs: Date.now() - startedAt, payload },
+            actorId: actorId ? (0, object_id_1.asObjectId)(actorId) : undefined,
+            happenedAt: new Date().toISOString(),
+        });
+        return {
+            status,
+            url,
+            response: responseBody,
+            error,
+        };
+    }
+    async getDossierSummary(tenantId, projectId) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const [config, project, families, units] = await Promise.all([
+            this.loadConfig(tenantId),
+            this.repository.findProjectById(tenantId, resolved),
+            this.repository.listFamilies(tenantId, resolved),
+            this.repository.listUnits(tenantId, resolved),
+        ]);
+        if (!project)
+            throw new common_1.NotFoundException('Projeto nao encontrado');
+        const requiredFamily = config.documentNaming?.requiredDocumentTypes ?? [];
+        const requiredProject = config.documentNaming?.requiredProjectDocumentTypes ?? [];
+        const requiredUnit = config.documentNaming?.requiredUnitDocumentTypes ?? [];
+        const projectMissing = requiredProject.filter((doc) => !project.documents?.some((item) => item.documentType === doc && item.status === 'APROVADO'));
+        const familiesMissing = families.map((family) => {
+            const missing = requiredFamily.filter((doc) => !family.documents?.some((item) => item.documentType === doc && item.status === 'APROVADO'));
+            return { familyId: String(family.id ?? ''), missing };
+        });
+        const unitsMissing = units.map((unit) => {
+            const missing = requiredUnit.filter((doc) => !unit.documents?.some((item) => item.documentType === doc && item.status === 'APROVADO'));
+            return { unitId: String(unit.id ?? ''), missing };
+        });
+        return {
+            project: {
+                id: String(project.id ?? ''),
+                name: project.name,
+                status: project.status,
+                missingDocuments: projectMissing,
+            },
+            families: familiesMissing,
+            units: unitsMissing,
+        };
+    }
+    async generateCartorioPackage(tenantId, projectId, actorId, purpose) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
         const { config, families } = await this.validateAndAudit({
             tenantId,
             projectId: resolved,
             actorId,
             action: 'GENERATE_CARTORIO_PACKAGE',
+            purpose,
         });
         const columns = this.normalizeColumns(config);
         const rows = this.familyRowsForExport(families);
@@ -426,6 +1051,15 @@ let ReurbService = class ReurbService {
                 };
             }
         }));
+        const extraFiles = [];
+        const reportPath = process.env.REURB_ADERENCIA_PDF_PATH ??
+            node_path_1.default.resolve(process.cwd(), 'docs', 'ubatuba-ce24-2025-aderencia-mvp.pdf');
+        try {
+            const reportContent = await promises_1.default.readFile(reportPath);
+            extraFiles.push({ path: 'relatorios/aderencia-mvp.pdf', content: reportContent });
+        }
+        catch {
+        }
         const zipBuffer = await (0, reurb_utils_1.buildCartorioZip)({
             naming: {
                 familyFolder: config.documentNaming?.familyFolder ?? 'familias',
@@ -437,6 +1071,7 @@ let ReurbService = class ReurbService {
             spreadsheetBuffer,
             familyRows: rows,
             approvedDocuments,
+            extraFiles,
         });
         return this.persistDeliverable({
             tenantId,
@@ -453,16 +1088,67 @@ let ReurbService = class ReurbService {
             },
         });
     }
-    async listDeliverables(tenantId, projectId, kind) {
+    async exportFamiliesJson(tenantId, projectId, actorId, purpose) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
-        return this.repository.listDeliverables(tenantId, resolved, kind);
+        const { config, families } = await this.validateAndAudit({
+            tenantId,
+            projectId: resolved,
+            actorId,
+            action: 'EXPORT_BANCO_TABULADO',
+            purpose,
+        });
+        const columns = this.normalizeColumns(config);
+        const rows = this.familyRowsForExport(families);
+        const payload = Buffer.from(JSON.stringify({ columns, rows }, null, 2), 'utf-8');
+        return this.persistDeliverable({
+            tenantId,
+            projectId: resolved,
+            actorId,
+            kind: 'BANCO_TABULADO_JSON',
+            fileNameBase: 'banco_tabulado_familias',
+            extension: 'json',
+            payload,
+            metadata: {
+                rows: rows.length,
+                columns: columns.map((col) => col.key),
+            },
+        });
     }
-    async getDeliverableDownload(tenantId, deliverableId, projectId) {
+    async listDeliverables(tenantId, projectId, kind, params) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        const deliverables = await this.repository.listDeliverables(tenantId, resolved, kind);
+        await this.auditAccess({
+            tenantId,
+            projectId: resolved,
+            actorId: params?.actorId,
+            purpose: params?.purpose,
+            action: 'ACCESS_DELIVERABLES_LIST',
+            details: {
+                count: deliverables.length,
+                kind: kind ?? 'all',
+            },
+        });
+        return deliverables;
+    }
+    async getDeliverableDownload(tenantId, deliverableId, projectId, params) {
         const resolved = await this.resolveProjectId(tenantId, projectId);
         const deliverable = await this.repository.findDeliverableById(tenantId, resolved, deliverableId);
         if (!deliverable)
             throw new common_1.NotFoundException('Entregavel nao encontrado');
-        return this.storage.createPresignedDownload({ key: deliverable.key });
+        const signed = await this.storage.createPresignedDownload({ key: deliverable.key });
+        await this.auditAccess({
+            tenantId,
+            projectId: resolved,
+            actorId: params?.actorId,
+            purpose: params?.purpose,
+            action: 'DOWNLOAD_DELIVERABLE',
+            details: {
+                deliverableId: String(deliverable._id),
+                kind: deliverable.kind,
+                fileName: deliverable.fileName,
+            },
+        });
+        return signed;
     }
     async persistDeliverable(params) {
         const actorObjectId = params.actorId ? (0, object_id_1.asObjectId)(params.actorId) : new mongoose_1.Types.ObjectId();
@@ -484,7 +1170,9 @@ let ReurbService = class ReurbService {
                 ? 'application/zip'
                 : params.extension === 'csv'
                     ? 'text/csv'
-                    : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    : params.extension === 'json'
+                        ? 'application/json'
+                        : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
         const hashSha256 = (0, reurb_utils_1.sha256Hex)(params.payload);
         const deliverable = await this.repository.createDeliverable({
@@ -504,6 +1192,10 @@ let ReurbService = class ReurbService {
             ...deliverable.toObject(),
             hashSha256,
         };
+    }
+    async listAuditLogs(tenantId, projectId, action, limit) {
+        const resolved = await this.resolveProjectId(tenantId, projectId);
+        return this.repository.listAuditLogs(tenantId, resolved, { action, limit });
     }
 };
 exports.ReurbService = ReurbService;

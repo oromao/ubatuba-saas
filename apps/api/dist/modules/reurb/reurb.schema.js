@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReurbAuditLogSchema = exports.ReurbAuditLog = exports.ReurbDeliverableSchema = exports.ReurbDeliverable = exports.ReurbDocumentPendencySchema = exports.ReurbDocumentPendency = exports.ReurbFamilySchema = exports.ReurbFamily = exports.TenantConfigSchema = exports.TenantConfig = void 0;
+exports.ReurbAuditLogSchema = exports.ReurbAuditLog = exports.ReurbDeliverableSchema = exports.ReurbDeliverable = exports.ReurbDocumentPendencySchema = exports.ReurbDocumentPendency = exports.ReurbNotificationSchema = exports.ReurbNotification = exports.ReurbNotificationTemplateSchema = exports.ReurbNotificationTemplate = exports.ReurbUnitSchema = exports.ReurbUnit = exports.ReurbFamilySchema = exports.ReurbFamily = exports.ReurbProjectSchema = exports.ReurbProject = exports.TenantConfigSchema = exports.TenantConfig = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let TenantConfig = class TenantConfig {
@@ -54,6 +54,8 @@ __decorate([
             titlesFolder: { type: String, default: 'titulos' },
             approvedDocumentsFolder: { type: String, default: 'documentos_aprovados' },
             requiredDocumentTypes: { type: [String], default: [] },
+            requiredProjectDocumentTypes: { type: [String], default: [] },
+            requiredUnitDocumentTypes: { type: [String], default: [] },
         },
         default: {},
     }),
@@ -79,6 +81,93 @@ exports.TenantConfig = TenantConfig = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true, collection: 'tenant_configs' })
 ], TenantConfig);
 exports.TenantConfigSchema = mongoose_1.SchemaFactory.createForClass(TenantConfig);
+let ReurbProject = class ReurbProject {
+};
+exports.ReurbProject = ReurbProject;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbProject.prototype, "tenantId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "area", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 'REURB-S' }),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "reurbType", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 'RASCUNHO' }),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "startDate", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbProject.prototype, "endDate", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], ReurbProject.prototype, "responsibles", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, default: {} }),
+    __metadata("design:type", Object)
+], ReurbProject.prototype, "metadata", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: [
+            {
+                id: { type: String, required: true },
+                previousStatus: { type: String },
+                nextStatus: { type: String, required: true },
+                observation: { type: String },
+                actorId: { type: mongoose_2.Types.ObjectId },
+                at: { type: String, required: true },
+            },
+        ],
+        default: [],
+    }),
+    __metadata("design:type", Array)
+], ReurbProject.prototype, "statusHistory", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: [
+            {
+                id: { type: String, required: true },
+                documentType: { type: String, required: true },
+                name: { type: String, required: true },
+                key: { type: String, required: true },
+                version: { type: Number, required: true, default: 1 },
+                status: { type: String, required: true, default: 'PENDENTE' },
+                metadata: { type: Object, default: {} },
+                uploadedBy: { type: mongoose_2.Types.ObjectId },
+                uploadedAt: { type: String, required: true },
+            },
+        ],
+        default: [],
+    }),
+    __metadata("design:type", Array)
+], ReurbProject.prototype, "documents", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbProject.prototype, "createdBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbProject.prototype, "updatedBy", void 0);
+exports.ReurbProject = ReurbProject = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true, collection: 'reurb_projects' })
+], ReurbProject);
+exports.ReurbProjectSchema = mongoose_1.SchemaFactory.createForClass(ReurbProject);
+exports.ReurbProjectSchema.index({ tenantId: 1, status: 1, name: 1 });
 let ReurbFamily = class ReurbFamily {
 };
 exports.ReurbFamily = ReurbFamily;
@@ -159,6 +248,181 @@ exports.ReurbFamily = ReurbFamily = __decorate([
 exports.ReurbFamilySchema = mongoose_1.SchemaFactory.createForClass(ReurbFamily);
 exports.ReurbFamilySchema.index({ tenantId: 1, projectId: 1, familyCode: 1 }, { unique: true });
 exports.ReurbFamilySchema.index({ tenantId: 1, projectId: 1, status: 1, nucleus: 1 });
+let ReurbUnit = class ReurbUnit {
+};
+exports.ReurbUnit = ReurbUnit;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbUnit.prototype, "tenantId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbUnit.prototype, "projectId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbUnit.prototype, "code", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbUnit.prototype, "block", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbUnit.prototype, "lot", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbUnit.prototype, "address", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], ReurbUnit.prototype, "area", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], ReurbUnit.prototype, "geometry", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [mongoose_2.Types.ObjectId], default: [] }),
+    __metadata("design:type", Array)
+], ReurbUnit.prototype, "familyIds", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, default: {} }),
+    __metadata("design:type", Object)
+], ReurbUnit.prototype, "metadata", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: [
+            {
+                id: { type: String, required: true },
+                documentType: { type: String, required: true },
+                name: { type: String, required: true },
+                key: { type: String, required: true },
+                version: { type: Number, required: true, default: 1 },
+                status: { type: String, required: true, default: 'PENDENTE' },
+                metadata: { type: Object, default: {} },
+                uploadedBy: { type: mongoose_2.Types.ObjectId },
+                uploadedAt: { type: String, required: true },
+            },
+        ],
+        default: [],
+    }),
+    __metadata("design:type", Array)
+], ReurbUnit.prototype, "documents", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbUnit.prototype, "createdBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbUnit.prototype, "updatedBy", void 0);
+exports.ReurbUnit = ReurbUnit = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true, collection: 'reurb_units' })
+], ReurbUnit);
+exports.ReurbUnitSchema = mongoose_1.SchemaFactory.createForClass(ReurbUnit);
+exports.ReurbUnitSchema.index({ tenantId: 1, projectId: 1, code: 1 }, { unique: true });
+let ReurbNotificationTemplate = class ReurbNotificationTemplate {
+};
+exports.ReurbNotificationTemplate = ReurbNotificationTemplate;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotificationTemplate.prototype, "tenantId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotificationTemplate.prototype, "projectId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotificationTemplate.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Number)
+], ReurbNotificationTemplate.prototype, "version", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotificationTemplate.prototype, "subject", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotificationTemplate.prototype, "body", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], ReurbNotificationTemplate.prototype, "variables", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: true }),
+    __metadata("design:type", Boolean)
+], ReurbNotificationTemplate.prototype, "isActive", void 0);
+exports.ReurbNotificationTemplate = ReurbNotificationTemplate = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true, collection: 'reurb_notification_templates' })
+], ReurbNotificationTemplate);
+exports.ReurbNotificationTemplateSchema = mongoose_1.SchemaFactory.createForClass(ReurbNotificationTemplate);
+exports.ReurbNotificationTemplateSchema.index({ tenantId: 1, projectId: 1, name: 1, version: 1 }, { unique: true });
+let ReurbNotification = class ReurbNotification {
+};
+exports.ReurbNotification = ReurbNotification;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotification.prototype, "tenantId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotification.prototype, "projectId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotification.prototype, "templateId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "templateName", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Number)
+], ReurbNotification.prototype, "templateVersion", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "channel", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "to", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, default: {} }),
+    __metadata("design:type", Object)
+], ReurbNotification.prototype, "payload", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], ReurbNotification.prototype, "evidenceKeys", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "error", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReurbNotification.prototype, "sentAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ReurbNotification.prototype, "createdBy", void 0);
+exports.ReurbNotification = ReurbNotification = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true, collection: 'reurb_notifications' })
+], ReurbNotification);
+exports.ReurbNotificationSchema = mongoose_1.SchemaFactory.createForClass(ReurbNotification);
+exports.ReurbNotificationSchema.index({ tenantId: 1, projectId: 1, createdAt: -1 });
 let ReurbDocumentPendency = class ReurbDocumentPendency {
 };
 exports.ReurbDocumentPendency = ReurbDocumentPendency;

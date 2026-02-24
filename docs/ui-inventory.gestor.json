@@ -73,164 +73,1267 @@
         "text": ""
       },
       {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
         "href": "/app/poc",
         "text": ""
       },
       {
         "href": "/app/maps",
         "text": "Abrir mapa"
+      },
+      {
+        "href": "/app/integracoes",
+        "text": "Abrir integracoes"
       }
     ]
   },
   {
     "role": "gestor",
     "route": "/app/maps",
-    "url": "http://localhost:3000/login",
-    "title": "",
-    "inputs": 0,
-    "selects": 0,
-    "buttons": 0,
-    "links": []
+    "url": "http://localhost:3000/app/maps",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 15,
+    "selects": 2,
+    "buttons": 57,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/levantamentos",
-    "url": "http://localhost:3000/login",
-    "title": "",
-    "inputs": 0,
-    "selects": 0,
-    "buttons": 0,
-    "links": []
+    "url": "http://localhost:3000/app/levantamentos",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 7,
+    "selects": 1,
+    "buttons": 7,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/ctm/parcelas",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/ctm/parcelas",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/ctm/logradouros",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/ctm/logradouros",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/ctm/mobiliario",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/ctm/mobiliario",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/pgv/zonas",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/pgv/zonas",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/pgv/faces",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/pgv/faces",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/pgv/fatores",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/pgv/fatores",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 7,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/pgv/relatorio",
-    "url": "http://localhost:3000/login",
-    "title": "",
+    "url": "http://localhost:3000/app/pgv/relatorio",
+    "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
-    "buttons": 0,
-    "links": []
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/integracoes",
-    "url": "http://localhost:3000/login",
-    "title": "",
-    "inputs": 0,
-    "selects": 0,
-    "buttons": 0,
-    "links": []
+    "url": "http://localhost:3000/app/integracoes",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 4,
+    "selects": 1,
+    "buttons": 8,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/cartas",
-    "url": "http://localhost:3000/login",
+    "url": "http://localhost:3000/app/cartas",
     "title": "FlyDea - GeoInteligencia Municipal",
-    "inputs": 3,
-    "selects": 0,
-    "buttons": 1,
-    "links": []
+    "inputs": 2,
+    "selects": 2,
+    "buttons": 8,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/compliance",
-    "url": "http://localhost:3000/login",
-    "title": "",
-    "inputs": 0,
-    "selects": 0,
-    "buttons": 0,
-    "links": []
+    "url": "http://localhost:3000/app/compliance",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 11,
+    "selects": 2,
+    "buttons": 10,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/assets",
-    "url": "http://localhost:3000/login",
+    "url": "http://localhost:3000/app/assets",
     "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
     "buttons": 6,
-    "links": []
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/app/alerts",
-    "url": "http://localhost:3000/login",
-    "title": "",
-    "inputs": 0,
-    "selects": 0,
-    "buttons": 0,
-    "links": []
-  },
-  {
-    "role": "gestor",
-    "route": "/app/processes",
-    "url": "http://localhost:3000/login",
+    "url": "http://localhost:3000/app/alerts",
     "title": "FlyDea - GeoInteligencia Municipal",
     "inputs": 0,
     "selects": 0,
     "buttons": 6,
-    "links": []
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "role": "gestor",
+    "route": "/app/processes",
+    "url": "http://localhost:3000/app/processes",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 0,
+    "selects": 0,
+    "buttons": 6,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
@@ -240,16 +1343,172 @@
     "inputs": 0,
     "selects": 0,
     "buttons": 6,
-    "links": []
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   },
   {
     "role": "gestor",
     "route": "/mobile",
     "url": "http://localhost:3000/mobile",
     "title": "FlyDea - GeoInteligencia Municipal",
-    "inputs": 0,
+    "inputs": 6,
     "selects": 0,
-    "buttons": 0,
+    "buttons": 4,
     "links": []
+  },
+  {
+    "role": "gestor",
+    "route": "/app/reurb",
+    "url": "http://localhost:3000/app/reurb",
+    "title": "FlyDea - GeoInteligencia Municipal",
+    "inputs": 24,
+    "selects": 5,
+    "buttons": 42,
+    "links": [
+      {
+        "href": "/app/dashboard",
+        "text": ""
+      },
+      {
+        "href": "/app/maps",
+        "text": ""
+      },
+      {
+        "href": "/app/levantamentos",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/parcelas",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/logradouros",
+        "text": ""
+      },
+      {
+        "href": "/app/ctm/mobiliario",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/zonas",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/faces",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/fatores",
+        "text": ""
+      },
+      {
+        "href": "/app/pgv/relatorio",
+        "text": ""
+      },
+      {
+        "href": "/app/alerts",
+        "text": ""
+      },
+      {
+        "href": "/app/processes",
+        "text": ""
+      },
+      {
+        "href": "/app/assets",
+        "text": ""
+      },
+      {
+        "href": "/app/integracoes",
+        "text": ""
+      },
+      {
+        "href": "/app/cartas",
+        "text": ""
+      },
+      {
+        "href": "/app/compliance",
+        "text": ""
+      },
+      {
+        "href": "/app/reurb",
+        "text": ""
+      },
+      {
+        "href": "/app/poc",
+        "text": ""
+      }
+    ]
   }
 ]

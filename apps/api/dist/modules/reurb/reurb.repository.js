@@ -19,9 +19,13 @@ const mongoose_2 = require("mongoose");
 const object_id_1 = require("../../common/utils/object-id");
 const reurb_schema_1 = require("./reurb.schema");
 let ReurbRepository = class ReurbRepository {
-    constructor(tenantConfigModel, familyModel, pendencyModel, deliverableModel, auditModel) {
+    constructor(tenantConfigModel, familyModel, projectModel, unitModel, notificationTemplateModel, notificationModel, pendencyModel, deliverableModel, auditModel) {
         this.tenantConfigModel = tenantConfigModel;
         this.familyModel = familyModel;
+        this.projectModel = projectModel;
+        this.unitModel = unitModel;
+        this.notificationTemplateModel = notificationTemplateModel;
+        this.notificationModel = notificationModel;
         this.pendencyModel = pendencyModel;
         this.deliverableModel = deliverableModel;
         this.auditModel = auditModel;
@@ -36,6 +40,75 @@ let ReurbRepository = class ReurbRepository {
             upsert: true,
             setDefaultsOnInsert: true,
         })
+            .exec();
+    }
+    createProject(data) {
+        return this.projectModel.create(data);
+    }
+    listProjects(tenantId) {
+        return this.projectModel.find({ tenantId: (0, object_id_1.asObjectId)(tenantId) }).sort({ updatedAt: -1 }).exec();
+    }
+    findProjectById(tenantId, projectId) {
+        return this.projectModel
+            .findOne({ _id: (0, object_id_1.asObjectId)(projectId), tenantId: (0, object_id_1.asObjectId)(tenantId) })
+            .exec();
+    }
+    updateProject(tenantId, projectId, data) {
+        return this.projectModel
+            .findOneAndUpdate({ _id: (0, object_id_1.asObjectId)(projectId), tenantId: (0, object_id_1.asObjectId)(tenantId) }, data, { new: true })
+            .exec();
+    }
+    async nextNotificationTemplateVersion(tenantId, projectId, name) {
+        const latest = await this.notificationTemplateModel
+            .findOne({ tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId), name })
+            .sort({ version: -1 })
+            .exec();
+        return (latest?.version ?? 0) + 1;
+    }
+    createNotificationTemplate(data) {
+        return this.notificationTemplateModel.create(data);
+    }
+    listNotificationTemplates(tenantId, projectId) {
+        return this.notificationTemplateModel
+            .find({ tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) })
+            .sort({ updatedAt: -1 })
+            .exec();
+    }
+    findNotificationTemplateById(tenantId, projectId, templateId) {
+        return this.notificationTemplateModel
+            .findOne({
+            _id: (0, object_id_1.asObjectId)(templateId),
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        })
+            .exec();
+    }
+    updateNotificationTemplate(tenantId, projectId, templateId, data) {
+        return this.notificationTemplateModel
+            .findOneAndUpdate({ _id: (0, object_id_1.asObjectId)(templateId), tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) }, data, { new: true })
+            .exec();
+    }
+    createNotification(data) {
+        return this.notificationModel.create(data);
+    }
+    listNotifications(tenantId, projectId) {
+        return this.notificationModel
+            .find({ tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) })
+            .sort({ createdAt: -1 })
+            .exec();
+    }
+    findNotificationById(tenantId, projectId, notificationId) {
+        return this.notificationModel
+            .findOne({
+            _id: (0, object_id_1.asObjectId)(notificationId),
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        })
+            .exec();
+    }
+    updateNotification(tenantId, projectId, notificationId, data) {
+        return this.notificationModel
+            .findOneAndUpdate({ _id: (0, object_id_1.asObjectId)(notificationId), tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) }, data, { new: true })
             .exec();
     }
     createFamily(data) {
@@ -74,6 +147,40 @@ let ReurbRepository = class ReurbRepository {
         return this.familyModel
             .findOneAndUpdate({
             _id: familyId,
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        }, data, { new: true })
+            .exec();
+    }
+    createUnit(data) {
+        return this.unitModel.create(data);
+    }
+    listUnits(tenantId, projectId, filters) {
+        const query = {
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        };
+        if (filters?.code)
+            query.code = new RegExp(filters.code, 'i');
+        if (filters?.block)
+            query.block = new RegExp(filters.block, 'i');
+        if (filters?.lot)
+            query.lot = new RegExp(filters.lot, 'i');
+        return this.unitModel.find(query).sort({ updatedAt: -1 }).exec();
+    }
+    findUnitById(tenantId, projectId, unitId) {
+        return this.unitModel
+            .findOne({
+            _id: (0, object_id_1.asObjectId)(unitId),
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        })
+            .exec();
+    }
+    updateUnit(tenantId, projectId, unitId, data) {
+        return this.unitModel
+            .findOneAndUpdate({
+            _id: (0, object_id_1.asObjectId)(unitId),
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
         }, data, { new: true })
@@ -157,16 +264,37 @@ let ReurbRepository = class ReurbRepository {
     createAuditLog(data) {
         return this.auditModel.create(data);
     }
+    listAuditLogs(tenantId, projectId, filters) {
+        const query = {
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+        };
+        if (filters?.action)
+            query.action = filters.action;
+        return this.auditModel
+            .find(query)
+            .sort({ createdAt: -1 })
+            .limit(filters?.limit ?? 200)
+            .exec();
+    }
 };
 exports.ReurbRepository = ReurbRepository;
 exports.ReurbRepository = ReurbRepository = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(reurb_schema_1.TenantConfig.name)),
     __param(1, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbFamily.name)),
-    __param(2, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbDocumentPendency.name)),
-    __param(3, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbDeliverable.name)),
-    __param(4, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbAuditLog.name)),
+    __param(2, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbProject.name)),
+    __param(3, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbUnit.name)),
+    __param(4, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbNotificationTemplate.name)),
+    __param(5, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbNotification.name)),
+    __param(6, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbDocumentPendency.name)),
+    __param(7, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbDeliverable.name)),
+    __param(8, (0, mongoose_1.InjectModel)(reurb_schema_1.ReurbAuditLog.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,

@@ -11,6 +11,14 @@ import {
   ReurbDocumentPendencyDocument,
   ReurbFamily,
   ReurbFamilyDocument,
+  ReurbNotification,
+  ReurbNotificationDocument,
+  ReurbNotificationTemplate,
+  ReurbNotificationTemplateDocument,
+  ReurbProject,
+  ReurbProjectDocument,
+  ReurbUnit,
+  ReurbUnitDocument,
   TenantConfig,
   TenantConfigDocument,
 } from './reurb.schema';
@@ -22,6 +30,14 @@ export class ReurbRepository {
     private readonly tenantConfigModel: Model<TenantConfigDocument>,
     @InjectModel(ReurbFamily.name)
     private readonly familyModel: Model<ReurbFamilyDocument>,
+    @InjectModel(ReurbProject.name)
+    private readonly projectModel: Model<ReurbProjectDocument>,
+    @InjectModel(ReurbUnit.name)
+    private readonly unitModel: Model<ReurbUnitDocument>,
+    @InjectModel(ReurbNotificationTemplate.name)
+    private readonly notificationTemplateModel: Model<ReurbNotificationTemplateDocument>,
+    @InjectModel(ReurbNotification.name)
+    private readonly notificationModel: Model<ReurbNotificationDocument>,
     @InjectModel(ReurbDocumentPendency.name)
     private readonly pendencyModel: Model<ReurbDocumentPendencyDocument>,
     @InjectModel(ReurbDeliverable.name)
@@ -41,6 +57,110 @@ export class ReurbRepository {
         upsert: true,
         setDefaultsOnInsert: true,
       })
+      .exec();
+  }
+
+  createProject(data: Partial<ReurbProject>) {
+    return this.projectModel.create(data);
+  }
+
+  listProjects(tenantId: string) {
+    return this.projectModel.find({ tenantId: asObjectId(tenantId) }).sort({ updatedAt: -1 }).exec();
+  }
+
+  findProjectById(tenantId: string, projectId: string) {
+    return this.projectModel
+      .findOne({ _id: asObjectId(projectId), tenantId: asObjectId(tenantId) })
+      .exec();
+  }
+
+  updateProject(tenantId: string, projectId: string, data: Partial<ReurbProject>) {
+    return this.projectModel
+      .findOneAndUpdate(
+        { _id: asObjectId(projectId), tenantId: asObjectId(tenantId) },
+        data,
+        { new: true },
+      )
+      .exec();
+  }
+
+  async nextNotificationTemplateVersion(tenantId: string, projectId: string, name: string) {
+    const latest = await this.notificationTemplateModel
+      .findOne({ tenantId: asObjectId(tenantId), projectId: asObjectId(projectId), name })
+      .sort({ version: -1 })
+      .exec();
+    return (latest?.version ?? 0) + 1;
+  }
+
+  createNotificationTemplate(data: Partial<ReurbNotificationTemplate>) {
+    return this.notificationTemplateModel.create(data);
+  }
+
+  listNotificationTemplates(tenantId: string, projectId: string) {
+    return this.notificationTemplateModel
+      .find({ tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
+      .sort({ updatedAt: -1 })
+      .exec();
+  }
+
+  findNotificationTemplateById(tenantId: string, projectId: string, templateId: string) {
+    return this.notificationTemplateModel
+      .findOne({
+        _id: asObjectId(templateId),
+        tenantId: asObjectId(tenantId),
+        projectId: asObjectId(projectId),
+      })
+      .exec();
+  }
+
+  updateNotificationTemplate(
+    tenantId: string,
+    projectId: string,
+    templateId: string,
+    data: Partial<ReurbNotificationTemplate>,
+  ) {
+    return this.notificationTemplateModel
+      .findOneAndUpdate(
+        { _id: asObjectId(templateId), tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
+        data,
+        { new: true },
+      )
+      .exec();
+  }
+
+  createNotification(data: Partial<ReurbNotification>) {
+    return this.notificationModel.create(data);
+  }
+
+  listNotifications(tenantId: string, projectId: string) {
+    return this.notificationModel
+      .find({ tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
+  findNotificationById(tenantId: string, projectId: string, notificationId: string) {
+    return this.notificationModel
+      .findOne({
+        _id: asObjectId(notificationId),
+        tenantId: asObjectId(tenantId),
+        projectId: asObjectId(projectId),
+      })
+      .exec();
+  }
+
+  updateNotification(
+    tenantId: string,
+    projectId: string,
+    notificationId: string,
+    data: Partial<ReurbNotification>,
+  ) {
+    return this.notificationModel
+      .findOneAndUpdate(
+        { _id: asObjectId(notificationId), tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
+        data,
+        { new: true },
+      )
       .exec();
   }
 
@@ -88,6 +208,49 @@ export class ReurbRepository {
       .findOneAndUpdate(
         {
           _id: familyId,
+          tenantId: asObjectId(tenantId),
+          projectId: asObjectId(projectId),
+        },
+        data,
+        { new: true },
+      )
+      .exec();
+  }
+
+  createUnit(data: Partial<ReurbUnit>) {
+    return this.unitModel.create(data);
+  }
+
+  listUnits(
+    tenantId: string,
+    projectId: string,
+    filters?: { code?: string; block?: string; lot?: string },
+  ) {
+    const query: Record<string, unknown> = {
+      tenantId: asObjectId(tenantId),
+      projectId: asObjectId(projectId),
+    };
+    if (filters?.code) query.code = new RegExp(filters.code, 'i');
+    if (filters?.block) query.block = new RegExp(filters.block, 'i');
+    if (filters?.lot) query.lot = new RegExp(filters.lot, 'i');
+    return this.unitModel.find(query).sort({ updatedAt: -1 }).exec();
+  }
+
+  findUnitById(tenantId: string, projectId: string, unitId: string) {
+    return this.unitModel
+      .findOne({
+        _id: asObjectId(unitId),
+        tenantId: asObjectId(tenantId),
+        projectId: asObjectId(projectId),
+      })
+      .exec();
+  }
+
+  updateUnit(tenantId: string, projectId: string, unitId: string, data: Partial<ReurbUnit>) {
+    return this.unitModel
+      .findOneAndUpdate(
+        {
+          _id: asObjectId(unitId),
           tenantId: asObjectId(tenantId),
           projectId: asObjectId(projectId),
         },
@@ -203,5 +366,22 @@ export class ReurbRepository {
 
   createAuditLog(data: Partial<ReurbAuditLog>) {
     return this.auditModel.create(data);
+  }
+
+  listAuditLogs(
+    tenantId: string,
+    projectId: string,
+    filters?: { action?: string; limit?: number },
+  ) {
+    const query: Record<string, unknown> = {
+      tenantId: asObjectId(tenantId),
+      projectId: asObjectId(projectId),
+    };
+    if (filters?.action) query.action = filters.action;
+    return this.auditModel
+      .find(query)
+      .sort({ createdAt: -1 })
+      .limit(filters?.limit ?? 200)
+      .exec();
   }
 }

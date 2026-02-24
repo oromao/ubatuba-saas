@@ -11,6 +11,25 @@ import { TaxIntegrationService } from './tax-integration.service';
 export class TaxIntegrationController {
   constructor(private readonly service: TaxIntegrationService) {}
 
+  @Get('echo')
+  echoIntegration() {
+    return {
+      data: [
+        {
+          inscricao: '123',
+          contribuinte: 'JOAO DA SILVA',
+          endereco: 'RUA A, 100',
+          valor_venal: 120000,
+        },
+      ],
+    };
+  }
+
+  @Post('echo')
+  echoIntegrationPost(@Body() body: Record<string, unknown>) {
+    return { data: body };
+  }
+
   @Get('connectors')
   listConnectors(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
     return this.service.listConnectors(req.tenantId, projectId);
@@ -70,4 +89,3 @@ export class TaxIntegrationController {
     return this.service.listLogs(req.tenantId, projectId, id);
   }
 }
-

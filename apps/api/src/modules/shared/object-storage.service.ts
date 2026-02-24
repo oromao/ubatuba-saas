@@ -15,6 +15,7 @@ export class ObjectStorageService {
   private readonly endpoint: string;
   private readonly publicEndpoint: string;
   private readonly client: S3Client;
+  private readonly publicClient: S3Client;
 
   constructor() {
     this.endpoint = process.env.MINIO_ENDPOINT ?? 'http://minio:9000';
@@ -24,6 +25,15 @@ export class ObjectStorageService {
     this.client = new S3Client({
       region: process.env.MINIO_REGION ?? 'us-east-1',
       endpoint: this.endpoint,
+      forcePathStyle: true,
+      credentials: {
+        accessKeyId: process.env.MINIO_ACCESS_KEY ?? 'minioadmin',
+        secretAccessKey: process.env.MINIO_SECRET_KEY ?? 'minioadmin',
+      },
+    });
+    this.publicClient = new S3Client({
+      region: process.env.MINIO_REGION ?? 'us-east-1',
+      endpoint: this.publicEndpoint,
       forcePathStyle: true,
       credentials: {
         accessKeyId: process.env.MINIO_ACCESS_KEY ?? 'minioadmin',
@@ -71,7 +81,7 @@ export class ObjectStorageService {
       ContentType: params.contentType ?? 'application/octet-stream',
     });
     const expiresIn = params.expiresInSeconds ?? 900;
-    const url = await getSignedUrl(this.client, command, { expiresIn });
+    const url = await getSignedUrl(this.publicClient, command, { expiresIn });
     return {
       method: 'PUT' as const,
       url,
@@ -87,7 +97,7 @@ export class ObjectStorageService {
   async createPresignedDownload(params: { key: string; expiresInSeconds?: number }) {
     const command = new GetObjectCommand({ Bucket: this.bucket, Key: params.key });
     const expiresIn = params.expiresInSeconds ?? 900;
-    const url = await getSignedUrl(this.client, command, { expiresIn });
+    const url = await getSignedUrl(this.publicClient, command, { expiresIn });
     return {
       method: 'GET' as const,
       url,
@@ -125,4 +135,3 @@ export class ObjectStorageService {
     };
   }
 }
-

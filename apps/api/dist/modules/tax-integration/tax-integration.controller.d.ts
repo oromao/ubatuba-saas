@@ -3,6 +3,17 @@ import { TaxIntegrationService } from './tax-integration.service';
 export declare class TaxIntegrationController {
     private readonly service;
     constructor(service: TaxIntegrationService);
+    echoIntegration(): {
+        data: {
+            inscricao: string;
+            contribuinte: string;
+            endereco: string;
+            valor_venal: number;
+        }[];
+    };
+    echoIntegrationPost(body: Record<string, unknown>): {
+        data: Record<string, unknown>;
+    };
     listConnectors(req: {
         tenantId: string;
     }, projectId?: string): Promise<(import("mongoose").Document<unknown, {}, import("./tax-connector.schema").TaxConnectorDocument, {}, {}> & import("./tax-connector.schema").TaxConnector & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{

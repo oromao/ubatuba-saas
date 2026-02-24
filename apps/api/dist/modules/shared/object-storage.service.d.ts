@@ -3,6 +3,7 @@ export declare class ObjectStorageService {
     private readonly endpoint;
     private readonly publicEndpoint;
     private readonly client;
+    private readonly publicClient;
     constructor();
     getBucket(): string;
     private toBuffer;

@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/paulo/sass/playwright.config.js",
-    "rootDir": "/Users/paulo/sass",
+    "configFile": "/Users/paulo/ubatuba-saas/playwright.config.js",
+    "rootDir": "/Users/paulo/ubatuba-saas",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -11,20 +11,20 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1
+      "actualWorkers": 4
     },
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/paulo/sass/test-results/artifacts",
+        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "default",
         "name": "default",
-        "testDir": "/Users/paulo/sass/poc/checks",
+        "testDir": "/Users/paulo/ubatuba-saas/poc/checks",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.js"
@@ -32,36 +32,36 @@
         "timeout": 90000
       },
       {
-        "outputDir": "/Users/paulo/sass/test-results/artifacts",
+        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "human",
         "name": "human",
-        "testDir": "/Users/paulo/sass/tests/e2e/fullscan",
+        "testDir": "/Users/paulo/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
         ],
-        "timeout": 300000
+        "timeout": 1200000
       },
       {
-        "outputDir": "/Users/paulo/sass/test-results/artifacts",
+        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "scan",
         "name": "scan",
-        "testDir": "/Users/paulo/sass/tests/e2e/fullscan",
+        "testDir": "/Users/paulo/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
         ],
-        "timeout": 300000
+        "timeout": 1200000
       }
     ],
     "quiet": false,
@@ -94,61 +94,442 @@
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
     "version": "1.58.2",
-    "workers": 1,
+    "workers": 4,
     "webServer": null
   },
   "suites": [
     {
-      "title": "tests/e2e/fullscan/fullscan.admin.spec.ts",
-      "file": "tests/e2e/fullscan/fullscan.admin.spec.ts",
+      "title": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
+      "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
       "column": 0,
       "line": 0,
-      "specs": [
+      "specs": [],
+      "suites": [
         {
-          "title": "@fullscan @admin fluxo continuo sem relogin",
-          "ok": true,
-          "tags": [
-            "fullscan",
-            "admin"
-          ],
-          "tests": [
+          "title": "reurb auditoria + lgpd + dossier",
+          "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
+          "line": 49,
+          "column": 6,
+          "specs": [
             {
-              "timeout": 300000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "scan",
-              "projectName": "scan",
-              "results": [
+              "title": "registro de acesso LGPD e checklist de dossier",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 51755,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-02-20T20:02:57.632Z",
+                  "timeout": 1200000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 605,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:14.369Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-audit-lgpd-reurb-aud-b510c-LGPD-e-checklist-de-dossier-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
+              "id": "f84a1b627dbbcb27a90b-81613b06a11c0c4eed61",
+              "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
+              "line": 50,
+              "column": 7
             }
-          ],
-          "id": "7ef86024859098e72e45-464d6e5862e8dd85a267",
-          "file": "tests/e2e/fullscan/fullscan.admin.spec.ts",
-          "line": 8,
-          "column": 5
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tests/e2e/fullscan/reurb-flow.spec.ts",
+      "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "reurb flow",
+          "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
+          "line": 40,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@reurb admin fluxo ponta a ponta",
+              "ok": true,
+              "tags": [
+                "reurb"
+              ],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 25276,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:14.358Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d8d290173584d7d5d80c-b7824ce5ddff8bfba796",
+              "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
+              "line": 43,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "reurb rbac",
+          "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
+          "line": 205,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@reurb operador nao exporta pacote cartorio",
+              "ok": true,
+              "tags": [
+                "reurb"
+              ],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5818,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:45.630Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d8d290173584d7d5d80c-a8db1e0da869624f1866",
+              "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
+              "line": 208,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tests/e2e/fullscan/reurb-guia.spec.ts",
+      "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "reurb guia ponta a ponta",
+          "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
+          "line": 36,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@reurb guia completo conforme edital",
+              "ok": true,
+              "tags": [
+                "reurb"
+              ],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 25277,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Login e ativacao REURB",
+                          "duration": 2097
+                        },
+                        {
+                          "title": "Criar projeto REURB-S",
+                          "duration": 2415
+                        },
+                        {
+                          "title": "Selecionar projeto",
+                          "duration": 1375
+                        },
+                        {
+                          "title": "Cadastrar familias + importar CSV",
+                          "duration": 2728
+                        },
+                        {
+                          "title": "Cadastrar unidades e vincular",
+                          "duration": 1494
+                        },
+                        {
+                          "title": "Upload de documentos (projeto/familia/unidade)",
+                          "duration": 3606
+                        },
+                        {
+                          "title": "Notificacao + evidencia",
+                          "duration": 3633
+                        },
+                        {
+                          "title": "Exportacoes obrigatorias + pacote cartorio",
+                          "duration": 3054
+                        }
+                      ],
+                      "startTime": "2026-02-24T18:03:14.359Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f73cab1227140d66cb58-27893f375223902feedb",
+              "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
+              "line": 39,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+      "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "reurb rbac api",
+          "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+          "line": 49,
+          "column": 6,
+          "specs": [
+            {
+              "title": "admin e gestor podem criar e exportar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1873,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:14.321Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--2cb19-stor-podem-criar-e-exportar-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d0d3e7c031dbffa07627-7e306e903b3b364e4c0c",
+              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+              "line": 50,
+              "column": 7
+            },
+            {
+              "title": "operador nao gera pacote cartorio e leitor nao cria familia",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 162,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:16.222Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--9dda6-o-e-leitor-nao-cria-familia-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d0d3e7c031dbffa07627-d428606751d128e8329a",
+              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "integracao http permitida somente admin/gestor",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 1200000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "human",
+                  "projectName": "human",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2240,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-02-24T18:03:16.393Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--01bcc-mitida-somente-admin-gestor-human/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d0d3e7c031dbffa07627-72ca4f5d5eb9ed036f0e",
+              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
+              "line": 126,
+              "column": 7
+            }
+          ]
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-02-20T20:02:56.860Z",
-    "duration": 53708.337,
-    "expected": 1,
+    "startTime": "2026-02-24T18:03:13.333Z",
+    "duration": 38377.072,
+    "expected": 7,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

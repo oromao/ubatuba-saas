@@ -26,6 +26,10 @@ exports.ReurbModule = ReurbModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: reurb_schema_1.TenantConfig.name, schema: reurb_schema_1.TenantConfigSchema },
                 { name: reurb_schema_1.ReurbFamily.name, schema: reurb_schema_1.ReurbFamilySchema },
+                { name: reurb_schema_1.ReurbProject.name, schema: reurb_schema_1.ReurbProjectSchema },
+                { name: reurb_schema_1.ReurbUnit.name, schema: reurb_schema_1.ReurbUnitSchema },
+                { name: reurb_schema_1.ReurbNotificationTemplate.name, schema: reurb_schema_1.ReurbNotificationTemplateSchema },
+                { name: reurb_schema_1.ReurbNotification.name, schema: reurb_schema_1.ReurbNotificationSchema },
                 { name: reurb_schema_1.ReurbDocumentPendency.name, schema: reurb_schema_1.ReurbDocumentPendencySchema },
                 { name: reurb_schema_1.ReurbDeliverable.name, schema: reurb_schema_1.ReurbDeliverableSchema },
                 { name: reurb_schema_1.ReurbAuditLog.name, schema: reurb_schema_1.ReurbAuditLogSchema },

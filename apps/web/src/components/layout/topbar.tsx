@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu, Bell, LogOut, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSidebar } from "./sidebar-context";
 import { useAuth } from "@/lib/auth";
 
@@ -17,6 +18,7 @@ import {
 export function Topbar() {
   const { collapsed, setCollapsed, setMobileOpen } = useSidebar();
   const { logout, userName, userEmail, tenantId } = useAuth();
+  const router = useRouter();
   const avatarInitial = (userName || userEmail || "A").charAt(0).toUpperCase();
 
   return (
@@ -57,6 +59,7 @@ export function Topbar() {
         <button
           className="relative rounded-md p-2 text-on-surface-muted transition-colors hover:bg-cloud hover:text-on-surface"
           aria-label="Notificacoes"
+          onClick={() => router.push("/app/notifications")}
         >
           <Bell className="h-5 w-5" />
           <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-accent" />
@@ -75,7 +78,7 @@ export function Topbar() {
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuLabel>{userEmail || "Minha Conta"}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/app/profile")}>
               <User className="h-4 w-4" />
               Perfil
             </DropdownMenuItem>

@@ -1,4 +1,4 @@
-import { FamilyStatus, PendencyStatus } from '../reurb.schema';
+import { FamilyStatus, PendencyStatus, ReurbProjectStatus } from '../reurb.schema';
 export declare class SpreadsheetColumnDto {
     key: string;
     label: string;
@@ -14,6 +14,8 @@ export declare class TenantConfigDocumentNamingDto {
     titlesFolder?: string;
     approvedDocumentsFolder?: string;
     requiredDocumentTypes?: string[];
+    requiredProjectDocumentTypes?: string[];
+    requiredUnitDocumentTypes?: string[];
 }
 export declare class TenantConfigValidationRulesDto {
     blockOnPendingDocumentIssues?: boolean;
@@ -39,6 +41,52 @@ export declare class CreateReurbFamilyDto {
     monthlyIncome?: number;
     status?: FamilyStatus;
     data?: Record<string, unknown>;
+}
+export declare class ImportFamiliesCsvDto {
+    projectId?: string;
+    csvContent: string;
+    delimiter?: string;
+}
+export declare class CreateReurbProjectDto {
+    name: string;
+    area?: string;
+    reurbType?: string;
+    status?: ReurbProjectStatus;
+    startDate?: string;
+    endDate?: string;
+    responsibles?: string[];
+    metadata?: Record<string, unknown>;
+}
+export declare class UpdateReurbProjectDto {
+    name?: string;
+    area?: string;
+    reurbType?: string;
+    status?: ReurbProjectStatus;
+    startDate?: string;
+    endDate?: string;
+    responsibles?: string[];
+    metadata?: Record<string, unknown>;
+    statusObservation?: string;
+}
+export declare class CreateReurbUnitDto {
+    projectId?: string;
+    code: string;
+    block?: string;
+    lot?: string;
+    address?: string;
+    area?: number;
+    geometry?: Record<string, unknown>;
+    familyIds?: string[];
+    metadata?: Record<string, unknown>;
+}
+export declare class UpdateReurbUnitDto {
+    block?: string;
+    lot?: string;
+    address?: string;
+    area?: number;
+    geometry?: Record<string, unknown>;
+    familyIds?: string[];
+    metadata?: Record<string, unknown>;
 }
 export declare class UpdateReurbFamilyDto {
     nucleus?: string;
@@ -72,6 +120,68 @@ export declare class RequestDocumentUploadDto {
     fileName: string;
     mimeType?: string;
     metadata?: Record<string, unknown>;
+}
+export declare class RequestProjectDocumentUploadDto {
+    projectId?: string;
+    documentType: string;
+    fileName: string;
+    mimeType?: string;
+    metadata?: Record<string, unknown>;
+}
+export declare class CompleteProjectDocumentUploadDto {
+    projectId?: string;
+    documentType: string;
+    key: string;
+    fileName: string;
+    status?: 'PENDENTE' | 'APROVADO' | 'REPROVADO';
+    metadata?: Record<string, unknown>;
+}
+export declare class RequestUnitDocumentUploadDto {
+    projectId?: string;
+    unitId: string;
+    documentType: string;
+    fileName: string;
+    mimeType?: string;
+    metadata?: Record<string, unknown>;
+}
+export declare class CompleteUnitDocumentUploadDto {
+    projectId?: string;
+    unitId: string;
+    documentType: string;
+    key: string;
+    fileName: string;
+    status?: 'PENDENTE' | 'APROVADO' | 'REPROVADO';
+    metadata?: Record<string, unknown>;
+}
+export declare class CreateNotificationTemplateDto {
+    projectId?: string;
+    name: string;
+    subject: string;
+    body: string;
+}
+export declare class UpdateNotificationTemplateDto {
+    subject?: string;
+    body?: string;
+    isActive?: boolean;
+}
+export declare class SendNotificationEmailDto {
+    projectId?: string;
+    templateId: string;
+    to: string;
+    variables?: Record<string, string | number>;
+}
+export declare class RequestNotificationEvidenceUploadDto {
+    projectId?: string;
+    fileName?: string;
+    mimeType?: string;
+}
+export declare class AttachNotificationEvidenceDto {
+    projectId?: string;
+    key: string;
+}
+export declare class IntegrationPingDto {
+    projectId?: string;
+    payload?: Record<string, unknown>;
 }
 export declare class CompleteDocumentUploadDto {
     projectId?: string;

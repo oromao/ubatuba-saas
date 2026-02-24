@@ -80,6 +80,9 @@ async function buildCartorioZip(params) {
         const scoped = doc.nucleus ? `${doc.nucleus}/${doc.fileName}` : doc.fileName;
         approved.file(scoped, doc.content);
     });
+    (params.extraFiles ?? []).forEach((file) => {
+        zip.file(file.path, file.content);
+    });
     return zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
 }
 function sha256Hex(payload) {

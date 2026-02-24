@@ -74,9 +74,12 @@ services:
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}
+      INTEGRATION_HTTP_URL: ${INTEGRATION_HTTP_URL:-http://localhost:4000/health}
+      INTEGRATION_HTTP_METHOD: ${INTEGRATION_HTTP_METHOD:-GET}
       MOCK_GEOTIFF_PATH: ${MOCK_GEOTIFF_PATH:-/infra/assets/mock-geotiff.tif}
     command:
       [
@@ -113,9 +116,12 @@ services:
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}
+      INTEGRATION_HTTP_URL: ${INTEGRATION_HTTP_URL:-http://localhost:4000/health}
+      INTEGRATION_HTTP_METHOD: ${INTEGRATION_HTTP_METHOD:-GET}
     volumes:
       - ./:/workspace:ro
     command: ["node", "/infra/scripts/wait-for.js", "mongodb:27017", "--", "node", "dist/main.js"]
@@ -168,6 +174,7 @@ services:
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-flydea-geotiffs}

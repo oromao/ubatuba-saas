@@ -227,6 +227,7 @@ curl -X POST "http://localhost:4000/reurb/planilha-sintese/generate" \
 ### Banco tabulado
 - CSV: `POST /reurb/families/export.csv`
 - XLSX: `POST /reurb/families/export.xlsx`
+- JSON: `POST /reurb/families/export.json`
 
 ### Pacote cartorio (ZIP)
 ```bash
@@ -281,6 +282,7 @@ curl -X GET "http://localhost:4000/reurb/deliverables/<DELIVERABLE_ID>/download"
 7. Gerar planilha e CSV
 8. Fazer upload de doc aprovado
 9. Gerar pacote ZIP cartorio
+10. Auditar acessos LGPD: `GET /reurb/audit?projectId=<ID>&limit=200`
 10. Baixar entregaveis e validar hash/estrutura
 
 ## 9. Referencias internas

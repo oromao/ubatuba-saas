@@ -1,496 +1,8 @@
 [
   {
     "route": "/app/dashboard",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/maps",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/levantamentos",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/ctm/parcelas",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/ctm/logradouros",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/ctm/mobiliario",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/pgv/zonas",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/pgv/faces",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/pgv/fatores",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/pgv/relatorio",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/integracoes",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/cartas",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/compliance",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/assets",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/alerts",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/processes",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "button",
-        "label": "Entrar",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
-      "Failed to fetch RSC payload for http://localhost:3000/login. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:57:27)\n    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:305:90)\n    at renderWithHooks (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:11121:18)\n    at mountIndeterminateComponent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:16869:13)\n    at beginWork$1 (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:18458:16)\n    at beginWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:26927:14)\n    at performUnitOfWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25748:12)\n    at workLoopConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25734:5)\n    at renderRootConcurrent (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:25690:9)\n    at performConcurrentWorkOnRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:24504:38)\n    at workLoop (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:256:34)\n    at flushWork (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:225:14)\n    at MessagePort.performWorkUntilDeadline (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js:534:21)",
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/poc",
-    "finalUrl": "http://localhost:3000/login",
-    "status": "blocked",
+    "finalUrl": "http://localhost:3000/app/dashboard",
+    "status": "ok",
     "actions": [
       {
         "kind": "button",
@@ -501,6 +13,378 @@
         "kind": "button",
         "label": "Recolher",
         "outcome": "clicked"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    ],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/maps",
+    "finalUrl": "http://localhost:3000/app/maps",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-3",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-0",
+        "outcome": "selected"
+      },
+      {
+        "kind": "select",
+        "label": "select-1",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/levantamentos",
+    "finalUrl": "http://localhost:3000/app/levantamentos",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-3",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-0",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/ctm/parcelas",
+    "finalUrl": "http://localhost:3000/app/ctm/parcelas",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/ctm/logradouros",
+    "finalUrl": "http://localhost:3000/app/ctm/logradouros",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/ctm/mobiliario",
+    "finalUrl": "http://localhost:3000/app/ctm/mobiliario",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/pgv/zonas",
+    "finalUrl": "http://localhost:3000/app/pgv/zonas",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/pgv/faces",
+    "finalUrl": "http://localhost:3000/app/pgv/faces",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/pgv/fatores",
+    "finalUrl": "http://localhost:3000/app/pgv/fatores",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/pgv/relatorio",
+    "finalUrl": "http://localhost:3000/app/pgv/relatorio",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/integracoes",
+    "finalUrl": "http://localhost:3000/app/integracoes",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-3",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-0",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/cartas",
+    "finalUrl": "http://localhost:3000/app/cartas",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-1",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/compliance",
+    "finalUrl": "http://localhost:3000/app/compliance",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-3",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-0",
+        "outcome": "selected"
+      },
+      {
+        "kind": "select",
+        "label": "select-1",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/assets",
+    "finalUrl": "http://localhost:3000/app/assets",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/alerts",
+    "finalUrl": "http://localhost:3000/app/alerts",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/processes",
+    "finalUrl": "http://localhost:3000/app/processes",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/poc",
+    "finalUrl": "http://localhost:3000/app/poc",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
       }
     ],
     "consoleErrors": [],
@@ -510,7 +394,92 @@
     "route": "/mobile",
     "finalUrl": "http://localhost:3000/mobile",
     "status": "ok",
-    "actions": [],
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "toggle",
+        "label": "input-1",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "toggle",
+        "label": "input-2",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "toggle",
+        "label": "input-3",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "button",
+        "label": "Buscar",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "button",
+        "label": "Capturar GPS",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "button",
+        "label": "Salvar offline",
+        "outcome": "clicked"
+      },
+      {
+        "kind": "button",
+        "label": "Sincronizar agora",
+        "outcome": "clicked"
+      }
+    ],
+    "consoleErrors": [],
+    "httpErrors": []
+  },
+  {
+    "route": "/app/reurb",
+    "finalUrl": "http://localhost:3000/app/reurb",
+    "status": "ok",
+    "actions": [
+      {
+        "kind": "input",
+        "label": "input-0",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-1",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-2",
+        "outcome": "typed"
+      },
+      {
+        "kind": "input",
+        "label": "input-3",
+        "outcome": "typed"
+      },
+      {
+        "kind": "select",
+        "label": "select-0",
+        "outcome": "selected"
+      },
+      {
+        "kind": "select",
+        "label": "select-1",
+        "outcome": "selected"
+      },
+      {
+        "kind": "button",
+        "label": "AUsuario",
+        "outcome": "clicked"
+      }
+    ],
     "consoleErrors": [],
     "httpErrors": []
   }

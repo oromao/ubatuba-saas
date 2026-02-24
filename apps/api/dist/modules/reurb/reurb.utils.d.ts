@@ -23,5 +23,9 @@ export declare function buildCartorioZip(params: {
         content: Buffer;
         nucleus?: string;
     }>;
+    extraFiles?: Array<{
+        path: string;
+        content: Buffer;
+    }>;
 }): Promise<Buffer<ArrayBufferLike>>;
 export declare function sha256Hex(payload: Buffer | string): string;

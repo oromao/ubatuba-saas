@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FamilyStatus, PendencyStatus } from '../reurb.schema';
+import { FamilyStatus, PendencyStatus, ReurbProjectStatus } from '../reurb.schema';
 
 export class SpreadsheetColumnDto {
   @IsString()
@@ -60,6 +60,16 @@ export class TenantConfigDocumentNamingDto {
   @IsArray()
   @IsString({ each: true })
   requiredDocumentTypes?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  requiredProjectDocumentTypes?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  requiredUnitDocumentTypes?: string[];
 }
 
 export class TenantConfigValidationRulesDto {
@@ -146,6 +156,164 @@ export class CreateReurbFamilyDto {
   @IsOptional()
   @IsObject()
   data?: Record<string, unknown>;
+}
+
+export class ImportFamiliesCsvDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  csvContent!: string;
+
+  @IsOptional()
+  @IsString()
+  delimiter?: string;
+}
+
+export class CreateReurbProjectDto {
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  @IsOptional()
+  @IsString()
+  area?: string;
+
+  @IsOptional()
+  @IsString()
+  reurbType?: string;
+
+  @IsOptional()
+  @IsIn(['RASCUNHO', 'EM_CAMPO', 'EM_ANALISE', 'EM_NOTIFICACOES', 'PACOTE_CARTORIO', 'CONCLUIDO'])
+  status?: ReurbProjectStatus;
+
+  @IsOptional()
+  @IsString()
+  startDate?: string;
+
+  @IsOptional()
+  @IsString()
+  endDate?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  responsibles?: string[];
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class UpdateReurbProjectDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  area?: string;
+
+  @IsOptional()
+  @IsString()
+  reurbType?: string;
+
+  @IsOptional()
+  @IsIn(['RASCUNHO', 'EM_CAMPO', 'EM_ANALISE', 'EM_NOTIFICACOES', 'PACOTE_CARTORIO', 'CONCLUIDO'])
+  status?: ReurbProjectStatus;
+
+  @IsOptional()
+  @IsString()
+  startDate?: string;
+
+  @IsOptional()
+  @IsString()
+  endDate?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  responsibles?: string[];
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsString()
+  statusObservation?: string;
+}
+
+export class CreateReurbUnitDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  code!: string;
+
+  @IsOptional()
+  @IsString()
+  block?: string;
+
+  @IsOptional()
+  @IsString()
+  lot?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsNumber()
+  area?: number;
+
+  @IsOptional()
+  @IsObject()
+  geometry?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  familyIds?: string[];
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class UpdateReurbUnitDto {
+  @IsOptional()
+  @IsString()
+  block?: string;
+
+  @IsOptional()
+  @IsString()
+  lot?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsNumber()
+  area?: number;
+
+  @IsOptional()
+  @IsObject()
+  geometry?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  familyIds?: string[];
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
 }
 
 export class UpdateReurbFamilyDto {
@@ -254,6 +422,194 @@ export class RequestDocumentUploadDto {
   @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
+}
+
+export class RequestProjectDocumentUploadDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  documentType!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName!: string;
+
+  @IsOptional()
+  @IsString()
+  mimeType?: string;
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class CompleteProjectDocumentUploadDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  documentType!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  key!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName!: string;
+
+  @IsOptional()
+  @IsIn(['PENDENTE', 'APROVADO', 'REPROVADO'])
+  status?: 'PENDENTE' | 'APROVADO' | 'REPROVADO';
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class RequestUnitDocumentUploadDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  unitId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  documentType!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName!: string;
+
+  @IsOptional()
+  @IsString()
+  mimeType?: string;
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class CompleteUnitDocumentUploadDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  unitId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  documentType!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  key!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName!: string;
+
+  @IsOptional()
+  @IsIn(['PENDENTE', 'APROVADO', 'REPROVADO'])
+  status?: 'PENDENTE' | 'APROVADO' | 'REPROVADO';
+
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
+export class CreateNotificationTemplateDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  subject!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  body!: string;
+}
+
+export class UpdateNotificationTemplateDto {
+  @IsOptional()
+  @IsString()
+  subject?: string;
+
+  @IsOptional()
+  @IsString()
+  body?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
+}
+
+export class SendNotificationEmailDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  templateId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  to!: string;
+
+  @IsOptional()
+  @IsObject()
+  variables?: Record<string, string | number>;
+}
+
+export class RequestNotificationEvidenceUploadDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsOptional()
+  @IsString()
+  fileName?: string;
+
+  @IsOptional()
+  @IsString()
+  mimeType?: string;
+}
+
+export class AttachNotificationEvidenceDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  key!: string;
+}
+
+export class IntegrationPingDto {
+  @IsOptional()
+  @IsString()
+  projectId?: string;
+
+  @IsOptional()
+  @IsObject()
+  payload?: Record<string, unknown>;
 }
 
 export class CompleteDocumentUploadDto {

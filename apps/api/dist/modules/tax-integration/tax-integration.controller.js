@@ -23,6 +23,21 @@ let TaxIntegrationController = class TaxIntegrationController {
     constructor(service) {
         this.service = service;
     }
+    echoIntegration() {
+        return {
+            data: [
+                {
+                    inscricao: '123',
+                    contribuinte: 'JOAO DA SILVA',
+                    endereco: 'RUA A, 100',
+                    valor_venal: 120000,
+                },
+            ],
+        };
+    }
+    echoIntegrationPost(body) {
+        return { data: body };
+    }
     listConnectors(req, projectId) {
         return this.service.listConnectors(req.tenantId, projectId);
     }
@@ -43,6 +58,19 @@ let TaxIntegrationController = class TaxIntegrationController {
     }
 };
 exports.TaxIntegrationController = TaxIntegrationController;
+__decorate([
+    (0, common_1.Get)('echo'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TaxIntegrationController.prototype, "echoIntegration", null);
+__decorate([
+    (0, common_1.Post)('echo'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], TaxIntegrationController.prototype, "echoIntegrationPost", null);
 __decorate([
     (0, common_1.Get)('connectors'),
     __param(0, (0, common_1.Req)()),

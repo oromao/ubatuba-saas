@@ -9,7 +9,8 @@
     "lint": "eslint \"{src,test}/**/*.ts\" --max-warnings=0",
     "test": "jest --runInBand",
     "migrate": "node dist/migrations/runner.js",
-    "import:osm": "ts-node src/scripts/import-osm.ts"
+    "import:osm": "ts-node src/scripts/import-osm.ts",
+    "seed:reurb": "ts-node src/scripts/seed-reurb.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.993.0",
@@ -30,6 +31,7 @@
     "helmet": "^7.1.0",
     "jszip": "^3.10.1",
     "mongoose": "^8.5.2",
+    "nodemailer": "^6.10.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pino": "^9.2.0",
@@ -48,6 +50,7 @@
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.12",
+    "@types/nodemailer": "^7.0.11",
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^7.18.0",

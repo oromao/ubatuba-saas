@@ -75,6 +75,7 @@ export async function buildCartorioZip(params: {
   spreadsheetBuffer: Buffer;
   familyRows: Array<Record<string, unknown>>;
   approvedDocuments: Array<{ fileName: string; content: Buffer; nucleus?: string }>;
+  extraFiles?: Array<{ path: string; content: Buffer }>;
 }) {
   const zip = new JSZip();
   const { naming } = params;
@@ -99,6 +100,10 @@ export async function buildCartorioZip(params: {
   params.approvedDocuments.forEach((doc) => {
     const scoped = doc.nucleus ? `${doc.nucleus}/${doc.fileName}` : doc.fileName;
     approved.file(scoped, doc.content);
+  });
+
+  (params.extraFiles ?? []).forEach((file) => {
+    zip.file(file.path, file.content);
   });
 
   return zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
