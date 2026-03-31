@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Parcel, ParcelDocument } from './parcel.schema';
 import { asObjectId } from '../../../common/utils/object-id';
 
+
 type ParcelFilters = {
   projectId: string;
   sqlu?: string;
@@ -21,7 +22,7 @@ type ParcelFilters = {
 export class ParcelsRepository {
   constructor(@InjectModel(Parcel.name) private readonly model: Model<ParcelDocument>) {}
 
-  list(tenantId: string, filters: ParcelFilters) {
+  list(tenantId: string, filters: ParcelFilters): Promise<ParcelDocument[]> {
     const query: Record<string, unknown> = {
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(filters.projectId),
@@ -65,17 +66,17 @@ export class ParcelsRepository {
     return this.model.find(query).sort({ sqlu: 1 }).exec();
   }
 
-  findById(tenantId: string, projectId: string, id: string) {
+  findById(tenantId: string, projectId: string, id: string): Promise<ParcelDocument | null> {
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
       .exec();
   }
 
-  create(data: Partial<Parcel>) {
+  create(data: Partial<Parcel>): Promise<ParcelDocument> {
     return this.model.create(data);
   }
 
-  update(tenantId: string, projectId: string, id: string, data: Partial<Parcel>) {
+  update(tenantId: string, projectId: string, id: string, data: Partial<Parcel>): Promise<ParcelDocument | null> {
     return this.model
       .findOneAndUpdate(
         { _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
@@ -85,11 +86,11 @@ export class ParcelsRepository {
       .exec();
   }
 
-  delete(tenantId: string, projectId: string, id: string) {
+  delete(tenantId: string, projectId: string, id: string): Promise<any> {
     return this.model.deleteOne({
       _id: id,
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
-    });
+    }).exec();
   }
 }

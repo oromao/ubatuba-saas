@@ -25,39 +25,39 @@ export class AuthRepository {
     private readonly eventModel: Model<AuthEventDocument>,
   ) {}
 
-  createRefreshToken(data: Partial<RefreshToken>) {
+  createRefreshToken(data: Partial<RefreshToken>): Promise<RefreshTokenDocument> {
     return this.refreshModel.create(data);
   }
 
-  findRefreshToken(tokenHash: string) {
+  findRefreshToken(tokenHash: string): Promise<RefreshTokenDocument | null> {
     return this.refreshModel.findOne({ tokenHash }).exec();
   }
 
-  deleteRefreshToken(tokenHash: string) {
+  deleteRefreshToken(tokenHash: string): Promise<any> {
     return this.refreshModel.deleteOne({ tokenHash }).exec();
   }
 
-  deleteRefreshTokensByUser(userId: string) {
+  deleteRefreshTokensByUser(userId: string): Promise<any> {
     return this.refreshModel.deleteMany({ userId }).exec();
   }
 
-  createPasswordResetToken(data: Partial<PasswordResetToken>) {
+  createPasswordResetToken(data: Partial<PasswordResetToken>): Promise<PasswordResetTokenDocument> {
     return this.resetModel.create(data);
   }
 
-  findPasswordResetToken(tokenHash: string) {
+  findPasswordResetToken(tokenHash: string): Promise<PasswordResetTokenDocument | null> {
     return this.resetModel.findOne({ tokenHash }).exec();
   }
 
-  markPasswordResetUsed(id: string) {
+  markPasswordResetUsed(id: string): Promise<PasswordResetTokenDocument | null> {
     return this.resetModel.findByIdAndUpdate(id, { used: true }).exec();
   }
 
-  createEmailOutbox(data: Partial<EmailOutbox>) {
+  createEmailOutbox(data: Partial<EmailOutbox>): Promise<EmailOutboxDocument> {
     return this.outboxModel.create(data);
   }
 
-  createAuthEvent(data: Partial<AuthEvent>) {
+  createAuthEvent(data: Partial<AuthEvent>): Promise<AuthEventDocument> {
     return this.eventModel.create(data);
   }
 }

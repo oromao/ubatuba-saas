@@ -75,7 +75,7 @@ let ZonesRepository = class ZonesRepository {
             _id: id,
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
-        });
+        }).exec();
     }
 };
 exports.ZonesRepository = ZonesRepository;

@@ -15,30 +15,10 @@ type ParcelFilters = {
 export declare class ParcelsRepository {
     private readonly model;
     constructor(model: Model<ParcelDocument>);
-    list(tenantId: string, filters: ParcelFilters): Promise<(import("mongoose").Document<unknown, {}, ParcelDocument, {}, {}> & Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
-    findById(tenantId: string, projectId: string, id: string): Promise<(import("mongoose").Document<unknown, {}, ParcelDocument, {}, {}> & Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    create(data: Partial<Parcel>): Promise<import("mongoose").Document<unknown, {}, ParcelDocument, {}, {}> & Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    update(tenantId: string, projectId: string, id: string, data: Partial<Parcel>): Promise<(import("mongoose").Document<unknown, {}, ParcelDocument, {}, {}> & Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    delete(tenantId: string, projectId: string, id: string): import("mongoose").Query<import("mongodb").DeleteResult, import("mongoose").Document<unknown, {}, ParcelDocument, {}, {}> & Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }, {}, ParcelDocument, "deleteOne", {}>;
+    list(tenantId: string, filters: ParcelFilters): Promise<ParcelDocument[]>;
+    findById(tenantId: string, projectId: string, id: string): Promise<ParcelDocument | null>;
+    create(data: Partial<Parcel>): Promise<ParcelDocument>;
+    update(tenantId: string, projectId: string, id: string, data: Partial<Parcel>): Promise<ParcelDocument | null>;
+    delete(tenantId: string, projectId: string, id: string): Promise<any>;
 }
 export {};

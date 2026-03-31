@@ -6,11 +6,7 @@ export declare class UrbanFurnitureController {
     constructor(urbanFurnitureService: UrbanFurnitureService);
     list(req: {
         tenantId: string;
-    }, projectId?: string, bbox?: string): Promise<(import("mongoose").Document<unknown, {}, import("./urban-furniture.schema").UrbanFurnitureDocument, {}, {}> & import("./urban-furniture.schema").UrbanFurniture & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, projectId?: string, bbox?: string): Promise<import("./urban-furniture.schema").UrbanFurnitureDocument[]>;
     geojson(req: {
         tenantId: string;
     }, projectId?: string, bbox?: string): Promise<{
@@ -35,29 +31,17 @@ export declare class UrbanFurnitureController {
     }>;
     get(req: {
         tenantId: string;
-    }, id: string, projectId?: string): Promise<(import("mongoose").Document<unknown, {}, import("./urban-furniture.schema").UrbanFurnitureDocument, {}, {}> & import("./urban-furniture.schema").UrbanFurniture & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId?: string): Promise<import("./urban-furniture.schema").UrbanFurnitureDocument | null>;
     create(req: {
         tenantId: string;
         user?: {
             sub?: string;
         };
-    }, projectId: string | undefined, dto: CreateUrbanFurnitureDto): Promise<import("mongoose").Document<unknown, {}, import("./urban-furniture.schema").UrbanFurnitureDocument, {}, {}> & import("./urban-furniture.schema").UrbanFurniture & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, projectId: string | undefined, dto: CreateUrbanFurnitureDto): Promise<import("./urban-furniture.schema").UrbanFurnitureDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, projectId: string | undefined, dto: UpdateUrbanFurnitureDto): Promise<(import("mongoose").Document<unknown, {}, import("./urban-furniture.schema").UrbanFurnitureDocument, {}, {}> & import("./urban-furniture.schema").UrbanFurniture & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId: string | undefined, dto: UpdateUrbanFurnitureDto): Promise<import("./urban-furniture.schema").UrbanFurnitureDocument | null>;
     remove(req: {
         tenantId: string;
-    }, id: string, projectId?: string): Promise<import("mongodb").DeleteResult>;
+    }, id: string, projectId?: string): Promise<any>;
 }

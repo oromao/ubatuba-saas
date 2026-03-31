@@ -4,13 +4,14 @@ import { Model } from 'mongoose';
 import { UrbanFurniture, UrbanFurnitureDocument } from './urban-furniture.schema';
 import { asObjectId } from '../../../common/utils/object-id';
 
+
 @Injectable()
 export class UrbanFurnitureRepository {
   constructor(
     @InjectModel(UrbanFurniture.name) private readonly model: Model<UrbanFurnitureDocument>,
   ) {}
 
-  list(tenantId: string, projectId: string, bbox?: string) {
+  list(tenantId: string, projectId: string, bbox?: string): Promise<UrbanFurnitureDocument[]> {
     const query: Record<string, unknown> = {
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
@@ -29,17 +30,17 @@ export class UrbanFurnitureRepository {
     return this.model.find(query).sort({ createdAt: -1 }).exec();
   }
 
-  findById(tenantId: string, projectId: string, id: string) {
+  findById(tenantId: string, projectId: string, id: string): Promise<UrbanFurnitureDocument | null> {
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
       .exec();
   }
 
-  create(data: Partial<UrbanFurniture>) {
+  create(data: Partial<UrbanFurniture>): Promise<UrbanFurnitureDocument> {
     return this.model.create(data);
   }
 
-  update(tenantId: string, projectId: string, id: string, data: Partial<UrbanFurniture>) {
+  update(tenantId: string, projectId: string, id: string, data: Partial<UrbanFurniture>): Promise<UrbanFurnitureDocument | null> {
     return this.model
       .findOneAndUpdate(
         { _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
@@ -49,11 +50,11 @@ export class UrbanFurnitureRepository {
       .exec();
   }
 
-  delete(tenantId: string, projectId: string, id: string) {
+  delete(tenantId: string, projectId: string, id: string): Promise<any> {
     return this.model.deleteOne({
       _id: id,
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
-    });
+    }).exec();
   }
 }

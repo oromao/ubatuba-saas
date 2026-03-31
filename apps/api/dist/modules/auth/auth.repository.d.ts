@@ -9,41 +9,13 @@ export declare class AuthRepository {
     private readonly outboxModel;
     private readonly eventModel;
     constructor(refreshModel: Model<RefreshTokenDocument>, resetModel: Model<PasswordResetTokenDocument>, outboxModel: Model<EmailOutboxDocument>, eventModel: Model<AuthEventDocument>);
-    createRefreshToken(data: Partial<RefreshToken>): Promise<import("mongoose").Document<unknown, {}, RefreshTokenDocument, {}, {}> & RefreshToken & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    findRefreshToken(tokenHash: string): Promise<(import("mongoose").Document<unknown, {}, RefreshTokenDocument, {}, {}> & RefreshToken & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    deleteRefreshToken(tokenHash: string): Promise<import("mongodb").DeleteResult>;
-    deleteRefreshTokensByUser(userId: string): Promise<import("mongodb").DeleteResult>;
-    createPasswordResetToken(data: Partial<PasswordResetToken>): Promise<import("mongoose").Document<unknown, {}, PasswordResetTokenDocument, {}, {}> & PasswordResetToken & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    findPasswordResetToken(tokenHash: string): Promise<(import("mongoose").Document<unknown, {}, PasswordResetTokenDocument, {}, {}> & PasswordResetToken & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    markPasswordResetUsed(id: string): Promise<(import("mongoose").Document<unknown, {}, PasswordResetTokenDocument, {}, {}> & PasswordResetToken & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    createEmailOutbox(data: Partial<EmailOutbox>): Promise<import("mongoose").Document<unknown, {}, EmailOutboxDocument, {}, {}> & EmailOutbox & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    createAuthEvent(data: Partial<AuthEvent>): Promise<import("mongoose").Document<unknown, {}, AuthEventDocument, {}, {}> & AuthEvent & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    createRefreshToken(data: Partial<RefreshToken>): Promise<RefreshTokenDocument>;
+    findRefreshToken(tokenHash: string): Promise<RefreshTokenDocument | null>;
+    deleteRefreshToken(tokenHash: string): Promise<any>;
+    deleteRefreshTokensByUser(userId: string): Promise<any>;
+    createPasswordResetToken(data: Partial<PasswordResetToken>): Promise<PasswordResetTokenDocument>;
+    findPasswordResetToken(tokenHash: string): Promise<PasswordResetTokenDocument | null>;
+    markPasswordResetUsed(id: string): Promise<PasswordResetTokenDocument | null>;
+    createEmailOutbox(data: Partial<EmailOutbox>): Promise<EmailOutboxDocument>;
+    createAuthEvent(data: Partial<AuthEvent>): Promise<AuthEventDocument>;
 }

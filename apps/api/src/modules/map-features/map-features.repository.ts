@@ -4,11 +4,12 @@ import { Model } from 'mongoose';
 import { asObjectId } from '../../common/utils/object-id';
 import { MapFeature, MapFeatureDocument, MapFeatureType } from './map-feature.schema';
 
+
 @Injectable()
 export class MapFeaturesRepository {
   constructor(@InjectModel(MapFeature.name) private readonly model: Model<MapFeatureDocument>) {}
 
-  list(tenantId: string, projectId: string, featureType?: MapFeatureType, bbox?: string) {
+  list(tenantId: string, projectId: string, featureType?: MapFeatureType, bbox?: string): Promise<MapFeatureDocument[]> {
     const query: Record<string, unknown> = {
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
@@ -38,17 +39,17 @@ export class MapFeaturesRepository {
     return this.model.find(query).exec();
   }
 
-  findById(tenantId: string, projectId: string, id: string) {
+  findById(tenantId: string, projectId: string, id: string): Promise<MapFeatureDocument | null> {
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
       .exec();
   }
 
-  create(data: Partial<MapFeature>) {
+  create(data: Partial<MapFeature>): Promise<MapFeatureDocument> {
     return this.model.create(data);
   }
 
-  update(tenantId: string, projectId: string, id: string, data: Partial<MapFeature>) {
+  update(tenantId: string, projectId: string, id: string, data: Partial<MapFeature>): Promise<MapFeatureDocument | null> {
     return this.model
       .findOneAndUpdate(
         { _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
@@ -58,11 +59,11 @@ export class MapFeaturesRepository {
       .exec();
   }
 
-  delete(tenantId: string, projectId: string, id: string) {
+  delete(tenantId: string, projectId: string, id: string): Promise<any> {
     return this.model.deleteOne({
       _id: id,
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
-    });
+    }).exec();
   }
 }

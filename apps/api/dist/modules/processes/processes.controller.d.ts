@@ -7,46 +7,22 @@ export declare class ProcessesController {
     constructor(processesService: ProcessesService);
     list(req: {
         tenantId: string;
-    }): Promise<(import("mongoose").Document<unknown, {}, import("./process.schema").ProcessDocument, {}, {}> & import("./process.schema").Process & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }): Promise<import("./process.schema").ProcessDocument[]>;
     get(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./process.schema").ProcessDocument, {}, {}> & import("./process.schema").Process & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string): Promise<import("./process.schema").ProcessDocument | null>;
     create(req: {
         tenantId: string;
-    }, dto: CreateProcessDto): Promise<import("mongoose").Document<unknown, {}, import("./process.schema").ProcessDocument, {}, {}> & import("./process.schema").Process & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateProcessDto): Promise<import("./process.schema").ProcessDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, dto: UpdateProcessDto): Promise<(import("mongoose").Document<unknown, {}, import("./process.schema").ProcessDocument, {}, {}> & import("./process.schema").Process & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, dto: UpdateProcessDto): Promise<import("./process.schema").ProcessDocument | null>;
     transition(req: {
         tenantId: string;
-    }, id: string, dto: TransitionDto): Promise<(import("mongoose").Document<unknown, {}, import("./process.schema").ProcessDocument, {}, {}> & import("./process.schema").Process & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, dto: TransitionDto): Promise<import("./process.schema").ProcessDocument | null>;
     events(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./process-event.schema").ProcessEventDocument, {}, {}> & import("./process-event.schema").ProcessEvent & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, id: string): Promise<import("./process-event.schema").ProcessEventDocument[]>;
     remove(req: {
         tenantId: string;
     }, id: string): Promise<{

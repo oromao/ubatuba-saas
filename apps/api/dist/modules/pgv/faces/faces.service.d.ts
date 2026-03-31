@@ -15,26 +15,10 @@ export declare class FacesService {
     private readonly repository;
     private readonly projectsService;
     constructor(repository: FacesRepository, projectsService: ProjectsService);
-    list(tenantId: string, projectId?: string, bbox?: string): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
-    findById(tenantId: string, projectId: string | undefined, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
-    create(tenantId: string, dto: CreateFaceDto, userId?: string): Promise<import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    update(tenantId: string, projectId: string | undefined, id: string, dto: UpdateFaceDto): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    list(tenantId: string, projectId?: string, bbox?: string): Promise<import("./face.schema").PgvFaceDocument[]>;
+    findById(tenantId: string, projectId: string | undefined, id: string): Promise<import("./face.schema").PgvFaceDocument | null>;
+    create(tenantId: string, dto: CreateFaceDto, userId?: string): Promise<import("./face.schema").PgvFaceDocument>;
+    update(tenantId: string, projectId: string | undefined, id: string, dto: UpdateFaceDto): Promise<import("./face.schema").PgvFaceDocument | null>;
     remove(tenantId: string, projectId: string | undefined, id: string): Promise<{
         success: boolean;
     }>;

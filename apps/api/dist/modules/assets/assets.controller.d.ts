@@ -6,32 +6,16 @@ export declare class AssetsController {
     constructor(assetsService: AssetsService);
     list(req: {
         tenantId: string;
-    }, bbox?: string): Promise<(import("mongoose").Document<unknown, {}, import("./asset.schema").AssetDocument, {}, {}> & import("./asset.schema").Asset & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, bbox?: string): Promise<import("./asset.schema").AssetDocument[]>;
     get(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./asset.schema").AssetDocument, {}, {}> & import("./asset.schema").Asset & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string): Promise<import("./asset.schema").AssetDocument | null>;
     create(req: {
         tenantId: string;
-    }, dto: CreateAssetDto): Promise<import("mongoose").Document<unknown, {}, import("./asset.schema").AssetDocument, {}, {}> & import("./asset.schema").Asset & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateAssetDto): Promise<import("./asset.schema").AssetDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, dto: UpdateAssetDto): Promise<(import("mongoose").Document<unknown, {}, import("./asset.schema").AssetDocument, {}, {}> & import("./asset.schema").Asset & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, dto: UpdateAssetDto): Promise<import("./asset.schema").AssetDocument | null>;
     remove(req: {
         tenantId: string;
     }, id: string): Promise<{

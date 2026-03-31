@@ -15,11 +15,7 @@ export declare class ParcelsController {
     constructor(parcelsService: ParcelsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService);
     list(req: {
         tenantId: string;
-    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string): Promise<import("./parcel.schema").ParcelDocument[]>;
     pending(req: {
         tenantId: string;
     }, projectId?: string): Promise<{
@@ -42,19 +38,11 @@ export declare class ParcelsController {
     }>;
     get(req: {
         tenantId: string;
-    }, id: string, projectId?: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId?: string): Promise<import("./parcel.schema").ParcelDocument | null>;
     summary(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<{
-        parcel: import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
-        }> & {
-            __v: number;
-        };
+        parcel: import("./parcel.schema").ParcelDocument;
         building: (import("mongoose").Document<unknown, {}, import("../parcel-buildings/parcel-building.schema").ParcelBuildingDocument, {}, {}> & import("../parcel-buildings/parcel-building.schema").ParcelBuilding & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
@@ -70,11 +58,7 @@ export declare class ParcelsController {
         }> & {
             __v: number;
         }) | null;
-        logradouro: (import("mongoose").Document<unknown, {}, import("../logradouros/logradouro.schema").LogradouroDocument, {}, {}> & import("../logradouros/logradouro.schema").Logradouro & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
-        }> & {
-            __v: number;
-        }) | null;
+        logradouro: import("../logradouros/logradouro.schema").LogradouroDocument | null;
     }>;
     history(req: {
         tenantId: string;
@@ -88,21 +72,13 @@ export declare class ParcelsController {
         user?: {
             sub?: string;
         };
-    }, dto: CreateParcelDto): Promise<import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateParcelDto): Promise<import("./parcel.schema").ParcelDocument>;
     update(req: {
         tenantId: string;
         user?: {
             sub?: string;
         };
-    }, id: string, projectId: string | undefined, dto: UpdateParcelDto): Promise<import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, id: string, projectId: string | undefined, dto: UpdateParcelDto): Promise<import("./parcel.schema").ParcelDocument>;
     remove(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<{

@@ -6,46 +6,22 @@ export declare class AlertsController {
     constructor(alertsService: AlertsService);
     list(req: {
         tenantId: string;
-    }): Promise<(import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }): Promise<import("./alert.schema").EnvironmentalAlertDocument[]>;
     get(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
     create(req: {
         tenantId: string;
-    }, dto: CreateAlertDto): Promise<import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateAlertDto): Promise<import("./alert.schema").EnvironmentalAlertDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, dto: UpdateAlertDto): Promise<(import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, dto: UpdateAlertDto): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
     ack(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
     resolve(req: {
         tenantId: string;
-    }, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./alert.schema").EnvironmentalAlertDocument, {}, {}> & import("./alert.schema").EnvironmentalAlert & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
     remove(req: {
         tenantId: string;
     }, id: string): Promise<{

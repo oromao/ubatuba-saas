@@ -4,11 +4,12 @@ import { Model } from 'mongoose';
 import { Asset, AssetDocument } from './asset.schema';
 import { asObjectId } from '../../common/utils/object-id';
 
+
 @Injectable()
 export class AssetsRepository {
   constructor(@InjectModel(Asset.name) private readonly model: Model<AssetDocument>) {}
 
-  list(tenantId: string, bbox?: string) {
+  list(tenantId: string, bbox?: string): Promise<AssetDocument[]> {
     if (bbox) {
       const [minLng, minLat, maxLng, maxLat] = bbox.split(',').map(Number);
       return this.model
@@ -28,21 +29,21 @@ export class AssetsRepository {
     return this.model.find({ tenantId: asObjectId(tenantId) }).exec();
   }
 
-  findById(tenantId: string, id: string) {
+  findById(tenantId: string, id: string): Promise<AssetDocument | null> {
     return this.model.findOne({ _id: id, tenantId: asObjectId(tenantId) }).exec();
   }
 
-  create(data: Partial<Asset>) {
+  create(data: Partial<Asset>): Promise<AssetDocument> {
     return this.model.create(data);
   }
 
-  update(tenantId: string, id: string, data: Partial<Asset>) {
+  update(tenantId: string, id: string, data: Partial<Asset>): Promise<AssetDocument | null> {
     return this.model
       .findOneAndUpdate({ _id: id, tenantId: asObjectId(tenantId) }, data, { new: true })
       .exec();
   }
 
-  delete(tenantId: string, id: string) {
+  delete(tenantId: string, id: string): Promise<any> {
     return this.model.deleteOne({ _id: id, tenantId: asObjectId(tenantId) }).exec();
   }
 }

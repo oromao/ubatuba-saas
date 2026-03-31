@@ -6,11 +6,7 @@ export declare class FacesController {
     constructor(facesService: FacesService);
     list(req: {
         tenantId: string;
-    }, projectId?: string, bbox?: string): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, projectId?: string, bbox?: string): Promise<import("./face.schema").PgvFaceDocument[]>;
     geojson(req: {
         tenantId: string;
     }, projectId?: string, bbox?: string): Promise<{
@@ -24,28 +20,16 @@ export declare class FacesController {
     }>;
     get(req: {
         tenantId: string;
-    }, id: string, projectId?: string): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId?: string): Promise<import("./face.schema").PgvFaceDocument | null>;
     create(req: {
         tenantId: string;
         user?: {
             sub?: string;
         };
-    }, dto: CreateFaceDto): Promise<import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateFaceDto): Promise<import("./face.schema").PgvFaceDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, projectId: string | undefined, dto: UpdateFaceDto): Promise<(import("mongoose").Document<unknown, {}, import("./face.schema").PgvFaceDocument, {}, {}> & import("./face.schema").PgvFace & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId: string | undefined, dto: UpdateFaceDto): Promise<import("./face.schema").PgvFaceDocument | null>;
     remove(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<{

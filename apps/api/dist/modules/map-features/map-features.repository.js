@@ -69,7 +69,7 @@ let MapFeaturesRepository = class MapFeaturesRepository {
             _id: id,
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
-        });
+        }).exec();
     }
 };
 exports.MapFeaturesRepository = MapFeaturesRepository;

@@ -6,35 +6,19 @@ export declare class FactorsController {
     constructor(factorsService: FactorsService);
     list(req: {
         tenantId: string;
-    }, projectId?: string, category?: string): Promise<(import("mongoose").Document<unknown, {}, import("./factor.schema").PgvFactorDocument, {}, {}> & import("./factor.schema").PgvFactor & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }, projectId?: string, category?: string): Promise<import("./factor.schema").PgvFactorDocument[]>;
     get(req: {
         tenantId: string;
-    }, id: string, projectId?: string): Promise<(import("mongoose").Document<unknown, {}, import("./factor.schema").PgvFactorDocument, {}, {}> & import("./factor.schema").PgvFactor & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId?: string): Promise<import("./factor.schema").PgvFactorDocument | null>;
     create(req: {
         tenantId: string;
         user?: {
             sub?: string;
         };
-    }, dto: CreateFactorDto): Promise<import("mongoose").Document<unknown, {}, import("./factor.schema").PgvFactorDocument, {}, {}> & import("./factor.schema").PgvFactor & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    }, dto: CreateFactorDto): Promise<import("./factor.schema").PgvFactorDocument>;
     update(req: {
         tenantId: string;
-    }, id: string, projectId: string | undefined, dto: UpdateFactorDto): Promise<(import("mongoose").Document<unknown, {}, import("./factor.schema").PgvFactorDocument, {}, {}> & import("./factor.schema").PgvFactor & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    }, id: string, projectId: string | undefined, dto: UpdateFactorDto): Promise<import("./factor.schema").PgvFactorDocument | null>;
     remove(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<{

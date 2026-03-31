@@ -35,11 +35,7 @@ export declare class ParcelsService {
         workflowStatus?: string;
         bbox?: string;
         q?: string;
-    }): Promise<(import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    })[]>;
+    }): Promise<import("./parcel.schema").ParcelDocument[]>;
     listPendencias(tenantId: string, projectId?: string): Promise<{
         parcelId: any;
         sqlu: string;
@@ -47,26 +43,14 @@ export declare class ParcelsService {
         workflowStatus: "PENDENTE" | "EM_VALIDACAO" | "APROVADA" | "REPROVADA";
         pendingIssues: string[];
     }[]>;
-    findById(tenantId: string, projectId: string | undefined, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }) | null>;
+    findById(tenantId: string, projectId: string | undefined, id: string): Promise<import("./parcel.schema").ParcelDocument | null>;
     getHistory(tenantId: string, projectId: string | undefined, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel-audit.schema").ParcelAuditLogDocument, {}, {}> & import("./parcel-audit.schema").ParcelAuditLog & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {
         __v: number;
     })[]>;
-    create(tenantId: string, dto: CreateParcelDto, userId?: string): Promise<import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
-    update(tenantId: string, projectId: string | undefined, id: string, dto: UpdateParcelDto, userId?: string): Promise<import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }> & {
-        __v: number;
-    }>;
+    create(tenantId: string, dto: CreateParcelDto, userId?: string): Promise<import("./parcel.schema").ParcelDocument>;
+    update(tenantId: string, projectId: string | undefined, id: string, dto: UpdateParcelDto, userId?: string): Promise<import("./parcel.schema").ParcelDocument>;
     remove(tenantId: string, projectId: string | undefined, id: string): Promise<{
         success: boolean;
     }>;
@@ -80,11 +64,7 @@ export declare class ParcelsService {
         q?: string;
     }): Promise<ParcelGeoJson>;
     getSummary(tenantId: string, projectId: string | undefined, id: string): Promise<{
-        parcel: import("mongoose").Document<unknown, {}, import("./parcel.schema").ParcelDocument, {}, {}> & import("./parcel.schema").Parcel & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
-        }> & {
-            __v: number;
-        };
+        parcel: import("./parcel.schema").ParcelDocument;
         building: (import("mongoose").Document<unknown, {}, import("../parcel-buildings/parcel-building.schema").ParcelBuildingDocument, {}, {}> & import("../parcel-buildings/parcel-building.schema").ParcelBuilding & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
@@ -100,11 +80,7 @@ export declare class ParcelsService {
         }> & {
             __v: number;
         }) | null;
-        logradouro: (import("mongoose").Document<unknown, {}, import("../logradouros/logradouro.schema").LogradouroDocument, {}, {}> & import("../logradouros/logradouro.schema").Logradouro & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
-        }> & {
-            __v: number;
-        }) | null;
+        logradouro: import("../logradouros/logradouro.schema").LogradouroDocument | null;
     }>;
     importGeojson(tenantId: string, projectId: string | undefined, featureCollection: ParcelGeoJson, userId?: string): Promise<{
         inserted: number;

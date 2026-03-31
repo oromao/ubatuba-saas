@@ -4,11 +4,12 @@ import { Model } from 'mongoose';
 import { PgvZone, PgvZoneDocument } from './zone.schema';
 import { asObjectId } from '../../../common/utils/object-id';
 
+
 @Injectable()
 export class ZonesRepository {
   constructor(@InjectModel(PgvZone.name) private readonly model: Model<PgvZoneDocument>) {}
 
-  list(tenantId: string, projectId: string, bbox?: string) {
+  list(tenantId: string, projectId: string, bbox?: string): Promise<PgvZoneDocument[]> {
     const query: Record<string, unknown> = {
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
@@ -35,13 +36,13 @@ export class ZonesRepository {
     return this.model.find(query).sort({ code: 1 }).exec();
   }
 
-  findById(tenantId: string, projectId: string, id: string) {
+  findById(tenantId: string, projectId: string, id: string): Promise<PgvZoneDocument | null> {
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
       .exec();
   }
 
-  findByGeometry(tenantId: string, projectId: string, geometry: unknown) {
+  findByGeometry(tenantId: string, projectId: string, geometry: unknown): Promise<PgvZoneDocument | null> {
     return this.model
       .findOne({
         tenantId: asObjectId(tenantId),
@@ -51,11 +52,11 @@ export class ZonesRepository {
       .exec();
   }
 
-  create(data: Partial<PgvZone>) {
+  create(data: Partial<PgvZone>): Promise<PgvZoneDocument> {
     return this.model.create(data);
   }
 
-  update(tenantId: string, projectId: string, id: string, data: Partial<PgvZone>) {
+  update(tenantId: string, projectId: string, id: string, data: Partial<PgvZone>): Promise<PgvZoneDocument | null> {
     return this.model
       .findOneAndUpdate(
         { _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) },
@@ -65,11 +66,11 @@ export class ZonesRepository {
       .exec();
   }
 
-  delete(tenantId: string, projectId: string, id: string) {
+  delete(tenantId: string, projectId: string, id: string): Promise<any> {
     return this.model.deleteOne({
       _id: id,
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
-    });
+    }).exec();
   }
 }

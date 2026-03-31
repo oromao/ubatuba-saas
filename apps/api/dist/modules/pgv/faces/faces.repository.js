@@ -75,7 +75,7 @@ let FacesRepository = class FacesRepository {
             _id: id,
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
-        });
+        }).exec();
     }
 };
 exports.FacesRepository = FacesRepository;
