@@ -44,7 +44,7 @@ const main = async () => {
       // Hash password using bcrypt (MUST match what auth.service.ts expects)
       const passwordHash = await bcrypt.hash(testUser.password, 10);
 
-      const existingUser = await usersCollection.findOne({ email: testUser.email });
+      let existingUser = await usersCollection.findOne({ email: testUser.email });
 
       if (existingUser) {
         // Update existing user with new hash

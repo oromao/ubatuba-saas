@@ -134,8 +134,8 @@ export class AuthService {
 
   async forgotPassword(email: string, ip: string) {
     try {
-      await this.rateLimiter.consume(`forgot:${ip}`, 1);
-      await this.rateLimiter.consume(`forgot:${email.toLowerCase()}`, 1);
+      await this.rateLimiter.consume(`forgot:${ip}`);
+      await this.rateLimiter.consume(`forgot:${email.toLowerCase()}`);
     } catch {
       throw new HttpException('Muitas solicitacoes', HttpStatus.TOO_MANY_REQUESTS);
     }

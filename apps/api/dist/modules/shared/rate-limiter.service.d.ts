@@ -1,9 +1,22 @@
 import { RedisService } from './redis.service';
+interface RateLimitTier {
+    role: string;
+    points: number;
+    duration: number;
+    description: string;
+}
 export declare class RateLimiterService {
     private readonly redisService;
-    private limiter;
+    private limiters;
     private readonly logger;
+    private redisAvailable;
     constructor(redisService: RedisService);
     private setup;
-    consume(key: string, points?: number): Promise<void>;
+    consume(userId: string, role?: string, points?: number): Promise<void>;
+    private checkLimit;
+    getTierInfo(role: string): RateLimitTier | undefined;
+    getAllTiers(): RateLimitTier[];
+    isRedisAvailable(): boolean;
+    reset(userId: string, role?: string): Promise<void>;
 }
+export {};

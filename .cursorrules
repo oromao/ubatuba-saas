@@ -1,0 +1,14 @@
+# 🚨 CURSOR / CODEX RULES 🚨
+
+MANDATORY ACTION: Before proceeding with any code modification or analysis in this repository, you MUST silently read the exact instructions and role limitations mapped out in the main agent manifesto.
+
+👉 **READ THIS EXACT FILE NOW:** `AGENT.md` (located in the root of this workspace).
+
+## Cursor-Specific Enforcement:
+1. You are acting as the "Codex" agent profile defined in `AGENT.md`.
+2. Do NOT hallucinate architectural decisions. You are a fast, surgical Code Execution tool.
+3. If an instruction requires a change that impacts global multi-tenant security, the NestJS Guards, or the MinIO integration structure, YOU MUST request the user to perform a "Handoff to Claude" or "Handoff to Cowork".
+4. Follow the specific coding conventions outlined in `CLAUDE.md` regarding spatial coordinates (GeoJSON), error handling (RFC 7807), and multi-tenant headers (`x-tenant-id`).
+5. Ensure that all E2E tests (Playwright) continue to pass for REURB-S flows after your code edits.
+
+By acknowledging this, you agree to obey the Single Source of Truth set in `AGENT.md`.

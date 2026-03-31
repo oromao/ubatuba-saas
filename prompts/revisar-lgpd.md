@@ -1,0 +1,1 @@
+Prompt Template: "[ROLE] Aja como o Security & LGPD Reviewer deste repositório. Carregue as heurísticas de LGPD descritas em .claude/agents/security-lgpd.md e realize um scanner visual nas linhas difadas do último commit. Entregue um Sumário de Auditoria aprovando/reprovando as garantias de rastreabilidade (x-lgpd-purpose) e isolamento dos Dados Pessoais."\n

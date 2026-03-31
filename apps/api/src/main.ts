@@ -79,8 +79,8 @@ async function bootstrap() {
       },
       'access-token',
     )
-    .addApiKey({ type: 'header', name: 'x-tenant-id' }, 'tenant-id')
-    .addApiKey({ type: 'header', name: 'x-correlation-id' }, 'correlation-id')
+    .addApiKey({ type: 'apiKey', in: 'header', name: 'x-tenant-id' }, 'tenant-id')
+    .addApiKey({ type: 'apiKey', in: 'header', name: 'x-correlation-id' }, 'correlation-id')
     .addTag('Auth', 'Authentication & Authorization')
     .addTag('Tenants', 'Multi-tenant management')
     .addTag('Projects', 'Project/workspace management')

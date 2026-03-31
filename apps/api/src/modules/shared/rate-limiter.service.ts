@@ -1,4 +1,4 @@
-import { Injectable, Logger, TooManyRequestsException } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { RateLimiterMemory, RateLimiterRedis } from 'rate-limiter-flexible';
 import { RedisService } from './redis.service';
 
@@ -78,7 +78,6 @@ export class RateLimiterService {
             storeClient: client,
             points: tier.points,
             duration: tier.duration,
-            blockDurationSeconds: 60, // Block for 60s if exceeded
             keyPrefix: `ratelimit:${tier.role}:`,
           }),
         );
@@ -88,7 +87,6 @@ export class RateLimiterService {
           new RateLimiterMemory({
             points: tier.points,
             duration: tier.duration,
-            blockDurationSeconds: 60,
           }),
         );
       }
@@ -103,7 +101,7 @@ export class RateLimiterService {
    * @param userId - User ID (or IP for anonymous)
    * @param role - User role (ADMIN, GESTOR, OPERADOR, LEITOR, ANONYMOUS)
    * @param points - Points to consume (default: 1)
-   * @throws TooManyRequestsException if limit exceeded
+   * @throws HttpException (429) if limit exceeded
    */
   async consume(userId: string, role: string = 'ANONYMOUS', points = 1): Promise<void> {
     // Validate role and get appropriate limiter
@@ -142,11 +140,14 @@ export class RateLimiterService {
       const retryAfter = Math.ceil(
         ((rateLimiterRes?.msBeforeNext ?? 0) / 1000),
       );
-      throw new TooManyRequestsException({
-        message: `Rate limit exceeded. Please retry after ${retryAfter} seconds.`,
-        retryAfter,
-        role,
-      });
+      throw new HttpException(
+        {
+          message: `Rate limit exceeded. Please retry after ${retryAfter} seconds.`,
+          retryAfter,
+          role,
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
   }
 

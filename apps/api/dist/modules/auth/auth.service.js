@@ -112,8 +112,8 @@ let AuthService = class AuthService {
     }
     async forgotPassword(email, ip) {
         try {
-            await this.rateLimiter.consume(`forgot:${ip}`, 1);
-            await this.rateLimiter.consume(`forgot:${email.toLowerCase()}`, 1);
+            await this.rateLimiter.consume(`forgot:${ip}`);
+            await this.rateLimiter.consume(`forgot:${email.toLowerCase()}`);
         }
         catch {
             throw new common_1.HttpException('Muitas solicitacoes', common_1.HttpStatus.TOO_MANY_REQUESTS);

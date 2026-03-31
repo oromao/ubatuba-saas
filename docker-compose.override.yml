@@ -1,0 +1,23 @@
+# Infrastructure-only compose for local development
+# Run API/Web locally with npm run dev to avoid Docker build issues
+
+services:
+  # Skip all services requiring NestJS build
+  migrate:
+    deploy:
+      resources:
+        limits:
+          cpus: '0'
+    profiles: ["none"]
+
+  api:
+    profiles: ["none"]
+
+  api-dev:
+    profiles: ["none"]
+
+  web:
+    profiles: ["none"]
+
+  web-dev:
+    profiles: ["none"]

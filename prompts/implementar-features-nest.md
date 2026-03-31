@@ -1,0 +1,1 @@
+Prompt Template: "Aja como o NestJS Backend Engineer desse monorepo FlyDea. Baseado na issue acima, estruture 1) O Schema do Mongoose Multi-tenant, 2) O DTO completo, 3) Contratos de Repository injetado usando Nest Dependency Injection, garantindo o guard CTM/REURB onde cabível."\n
