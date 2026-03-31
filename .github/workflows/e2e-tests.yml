@@ -1,0 +1,86 @@
+name: E2E Tests (Playwright)
+
+on:
+  push:
+    branches: [main, develop, claude/**]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start Docker services
+        run: |
+          docker compose --profile dev up -d
+          echo "Waiting for services to be ready..."
+          sleep 30
+
+      - name: Wait for API health
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:4000/health > /dev/null 2>&1; then
+              echo "✅ API is ready"
+              break
+            fi
+            echo "Attempt $i: API not ready yet, retrying..."
+            sleep 2
+          done
+
+      - name: Wait for Web service
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:3000 > /dev/null 2>&1; then
+              echo "✅ Web is ready"
+              break
+            fi
+            echo "Attempt $i: Web not ready yet, retrying..."
+            sleep 2
+          done
+
+      - name: Run E2E tests (Scan mode)
+        run: npm run test:e2e:fullscan:all
+        env:
+          BASE_URL: http://localhost:3000
+          CI: true
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
+
+      - name: Stop Docker services
+        if: always()
+        run: docker compose --profile dev down -v
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: test-results/playwright-report.json
+          check_name: 'E2E Test Results'
+          comment_title: 'E2E Test Report'
