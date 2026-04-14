@@ -3,7 +3,9 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { json } from 'express';
 import { randomUUID } from 'crypto';
+import { join } from 'path';
 import { NextFunction, Request, Response } from 'express';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -11,9 +13,12 @@ import { LoggerService } from './common/logger/logger.service';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
+
+  // Serve uploaded files statically
+  app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads/' });
 
   const logger = app.get(LoggerService);
   app.useLogger(logger);
@@ -107,6 +112,25 @@ async function bootstrap() {
   const port = process.env.PORT ? Number(process.env.PORT) : 4000;
   await app.listen(port);
   logger.log(`API started on port ${port}`);
+
+  // Graceful shutdown
+  const shutdown = async (signal: string) => {
+    logger.log(`Received ${signal}, shutting down gracefully...`);
+    await app.close();
+    process.exit(0);
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
+
+  process.on('unhandledRejection', (reason: unknown) => {
+    logger.error(`Unhandled Promise Rejection: ${String(reason)}`);
+  });
+
+  process.on('uncaughtException', (error: Error) => {
+    logger.error(`Uncaught Exception: ${error.message}\n${error.stack}`);
+    process.exit(1);
+  });
 }
 
 bootstrap();
