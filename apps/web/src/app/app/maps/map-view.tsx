@@ -1,48 +1,317 @@
-import React, { useEffect, useRef } from 'react';
-import { MapToolbar } from '../../../components/maps/MapToolbar';
-import { MapLayers } from '../../../components/maps/MapLayers';
-import { useMapStore } from '../../../lib/stores/useMapStore';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+"use client";
+
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { MapToolbar } from "../../../components/maps/MapToolbar";
+import { MapLayers } from "../../../components/maps/MapLayers";
+import { API_URL, apiFetch } from "../../../lib/api";
+import { useMapStore } from "../../../lib/stores/useMapStore";
+
+type LayerItem = {
+  id: string;
+  name: string;
+  type: "raster" | "vector" | "basemap" | "mvt";
+  source: "geoserver" | "api" | "external";
+  visible?: boolean;
+  opacity?: number;
+  order?: number;
+  tileUrl?: string;
+  dataUrl?: string;
+  geometryType?: "line" | "polygon" | "point";
+  style?: {
+    fillColor?: string;
+    lineColor?: string;
+    lineWidth?: number;
+    labelField?: string;
+  };
+};
+
+const isUnavailableTileUrl = (url?: string) =>
+  Boolean(url && (url.includes("localhost:8080") || url.includes("127.0.0.1:8080") || url.includes("geoserver:8080")));
+
+const buildPaint = (layer: LayerItem, type: "circle" | "line" | "fill") => {
+  if (type === "circle") {
+    return {
+      "circle-color": layer.style?.lineColor ?? "#0f766e",
+      "circle-radius": 5,
+      "circle-opacity": layer.opacity ?? 0.9,
+    };
+  }
+
+  if (type === "line") {
+    return {
+      "line-color": layer.style?.lineColor ?? "#0f766e",
+      "line-width": layer.style?.lineWidth ?? 2,
+      "line-opacity": layer.opacity ?? 0.9,
+    };
+  }
+
+  return {
+    "fill-color": layer.style?.fillColor ?? "#2dd4bf",
+    "fill-opacity": layer.opacity ?? 0.15,
+    "fill-outline-color": layer.style?.lineColor ?? "#0f766e",
+  };
+};
 
 export default function DynamicMapViewer() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapConfig = useRef<maplibregl.Map | null>(null);
-  
-  // Inscrito no estado gerido pelo Zustand
-  const { activeLayers, drawMode } = useMapStore();
+  const [layers, setLayers] = useState<LayerItem[]>([]);
+  const [mapReady, setMapReady] = useState(false);
+  const [geoserverUnavailable, setGeoserverUnavailable] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
+
+  const { activeLayers, drawMode, setActiveLayers } = useMapStore();
+
+  const orderedLayers = useMemo(
+    () => [...layers].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    [layers],
+  );
+
+  const visibleLayers = useMemo(
+    () => orderedLayers.filter((layer) => layer.visible !== false),
+    [orderedLayers],
+  );
+
+  useEffect(() => {
+    let mounted = true;
+    apiFetch<LayerItem[]>("/layers")
+      .then((data) => {
+        if (!mounted) return;
+        setLayers(data);
+        if (useMapStore.getState().activeLayers.length === 0) {
+          setActiveLayers(data.filter((layer) => layer.visible !== false).map((layer) => layer.id));
+        }
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error("Falha ao carregar camadas do mapa", error);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [setActiveLayers]);
 
   useEffect(() => {
     if (!mapContainer.current || mapConfig.current) return;
-    
-    // 1. Core Engine Setup (Isolado e limpo)
+
     mapConfig.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-      center: [-45.0711, -23.4339], // Coordenadas de Ubatuba-SP
+      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+      center: [-45.0711, -23.4339],
       zoom: 13,
       pitch: 0,
       bearing: 0,
     });
 
-    mapConfig.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
-    
+    mapConfig.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+    mapConfig.current.on("load", () => setMapReady(true));
+    mapConfig.current.on("error", (e) => {
+      // Suppress tile 404 errors (expected for unavailable GeoServer)
+      const msg: string = (e as unknown as { error?: { message?: string } })?.error?.message ?? "";
+      if (!msg.includes("404") && !msg.includes("Failed to fetch")) {
+        // eslint-disable-next-line no-console
+        console.warn("[MapLibre]", msg);
+      }
+    });
+
     return () => {
       mapConfig.current?.remove();
       mapConfig.current = null;
+      setMapReady(false);
+      setGeoserverUnavailable(false);
     };
   }, []);
 
+  useEffect(() => {
+    if (!mapReady || !mapConfig.current) return;
+
+    const map = mapConfig.current;
+    let hasUnavailableGeoServer = false;
+
+    for (const layer of orderedLayers) {
+      const sourceId = `source-${layer.id}`;
+      const layerId = `layer-${layer.id}`;
+      const active = activeLayers.includes(layer.id) && layer.visible !== false;
+
+      if (!active) {
+        if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, "visibility", "none");
+        }
+        continue;
+      }
+
+      if (layer.source === "geoserver" && isUnavailableTileUrl(layer.tileUrl)) {
+        hasUnavailableGeoServer = true;
+        if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, "visibility", "none");
+        }
+        continue;
+      }
+
+      if (layer.type === "basemap" && layer.tileUrl) {
+        if (!map.getSource(sourceId)) {
+          map.addSource(sourceId, {
+            type: "raster",
+            tiles: [layer.tileUrl],
+            tileSize: 256,
+          });
+        }
+
+        if (!map.getLayer(layerId)) {
+          map.addLayer({
+            id: layerId,
+            type: "raster",
+            source: sourceId,
+            paint: {
+              "raster-opacity": layer.opacity ?? 1,
+            },
+          });
+        } else {
+          map.setLayoutProperty(layerId, "visibility", "visible");
+        }
+        continue;
+      }
+
+      if (layer.type === "raster" && layer.tileUrl) {
+        if (isUnavailableTileUrl(layer.tileUrl)) {
+          hasUnavailableGeoServer = true;
+          if (map.getLayer(layerId)) {
+            map.setLayoutProperty(layerId, "visibility", "none");
+          }
+          continue;
+        }
+
+        if (!map.getSource(sourceId)) {
+          map.addSource(sourceId, {
+            type: "raster",
+            tiles: [layer.tileUrl],
+            tileSize: 256,
+          });
+        }
+
+        if (!map.getLayer(layerId)) {
+          map.addLayer({
+            id: layerId,
+            type: "raster",
+            source: sourceId,
+            paint: {
+              "raster-opacity": layer.opacity ?? 0.8,
+            },
+          });
+        } else {
+          map.setLayoutProperty(layerId, "visibility", "visible");
+        }
+        continue;
+      }
+
+      if (layer.type === "mvt" && layer.tileUrl) {
+        const fullTileUrl = layer.tileUrl.startsWith("http") ? layer.tileUrl : `${API_URL}${layer.tileUrl}`;
+
+        if (isUnavailableTileUrl(fullTileUrl)) {
+          hasUnavailableGeoServer = true;
+          if (map.getLayer(layerId)) {
+            map.setLayoutProperty(layerId, "visibility", "none");
+          }
+          continue;
+        }
+
+        if (!map.getSource(sourceId)) {
+          map.addSource(sourceId, {
+            type: "vector",
+            tiles: [fullTileUrl],
+          });
+        }
+
+        const type = layer.geometryType === "point" ? "circle" : layer.geometryType === "line" ? "line" : "fill";
+
+        if (!map.getLayer(layerId)) {
+          try {
+            map.addLayer({
+              id: layerId,
+              type,
+              source: sourceId,
+              "source-layer": "layer",
+              paint: buildPaint(layer, type),
+            } as Parameters<typeof map.addLayer>[0]);
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.warn(`[Mapa] Falha ao adicionar camada MVT ${layer.name}:`, err);
+          }
+        } else {
+          map.setLayoutProperty(layerId, "visibility", "visible");
+        }
+        continue;
+      }
+
+      if (layer.type === "vector" && layer.dataUrl) {
+        if (!map.getSource(sourceId)) {
+          apiFetch<unknown>(layer.dataUrl)
+            .then((geojson) => {
+              if (!map.getSource(sourceId)) {
+                map.addSource(sourceId, {
+                  type: "geojson",
+                  data: geojson as maplibregl.GeoJSONSourceSpecification["data"],
+                });
+              }
+
+              const type = layer.geometryType === "point" ? "circle" : layer.geometryType === "line" ? "line" : "fill";
+
+              if (!map.getLayer(layerId)) {
+                try {
+                  map.addLayer({
+                    id: layerId,
+                    type,
+                    source: sourceId,
+                    paint: buildPaint(layer, type),
+                  } as Parameters<typeof map.addLayer>[0]);
+                } catch (err) {
+                  // eslint-disable-next-line no-console
+                  console.warn(`[Mapa] Falha ao adicionar camada vector ${layer.name}:`, err);
+                }
+              } else {
+                map.setLayoutProperty(layerId, "visibility", "visible");
+              }
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-console
+              console.error(`Falha ao carregar camada ${layer.name}`, error);
+            });
+        } else if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, "visibility", "visible");
+        }
+      }
+    }
+
+    setGeoserverUnavailable(hasUnavailableGeoServer);
+  }, [activeLayers, mapReady, orderedLayers]);
+
   return (
-    <div className="relative w-full h-full min-h-screen overflow-hidden bg-[#e5e7eb] font-sans">
-      {/* Action Toolbar UI (Zustand Injected) */}
+    <div className="relative h-full w-full overflow-hidden bg-[#e5e7eb] font-sans">
       <MapToolbar />
-      
-      {/* Canvas Principal */}
-      <div ref={mapContainer} className="absolute inset-0 w-full h-full" />
-      
-      {/* Side Controllers (Zustand Injected) */}
-      <MapLayers />
+
+      <div ref={mapContainer} className="absolute inset-0 h-full w-full" />
+
+      {visibleLayers.length === 0 && (
+        <div className="pointer-events-none absolute left-1/2 top-6 z-[10] -translate-x-1/2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs text-slate-700 shadow-lg backdrop-blur">
+          Carregando camadas do tenant...
+        </div>
+      )}
+
+      {geoserverUnavailable && (
+        <div className="pointer-events-none absolute left-4 top-4 z-[10] max-w-sm rounded-xl border border-amber-200 bg-amber-50/95 px-4 py-3 text-xs text-amber-900 shadow-lg backdrop-blur">
+          Infraestrutura GIS indisponivel nesta sessao. O mapa segue com basemap e camadas nao dependentes de GeoServer.
+        </div>
+      )}
+
+      <MapLayers layers={orderedLayers} geoserverUnavailable={geoserverUnavailable} />
+      {drawMode && (
+        <div className="pointer-events-none absolute right-4 top-20 z-[10] rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-medium text-orange-800 shadow">
+          Modo desenho ativo: {drawMode}
+        </div>
+      )}
     </div>
   );
 }

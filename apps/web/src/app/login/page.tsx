@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { z } from "zod";
 import { ShieldCheck, Sparkles } from "lucide-react";
 import { API_URL } from "@/lib/api";
@@ -21,11 +22,11 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-const metrics = [
-  { label: "Camadas ativas", value: "64" },
-  { label: "Missoes semanais", value: "12" },
-  { label: "Alertas monitorados", value: "284" },
-  { label: "Aprovacoes digitais", value: "1.4k" },
+const loginSignals = [
+  "Tenant assistido para reduzir friccao",
+  "Sessao persistida no navegador",
+  "RBAC e trilha de auditoria ativos",
+  "Portal e painel prontos para demo e operacao",
 ];
 
 export default function LoginPage() {
@@ -33,8 +34,20 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
+
+  const fixedTenant = process.env.NEXT_PUBLIC_TENANT_SLUG ?? null;
+
+  useEffect(() => {
+    if (fixedTenant) {
+      setValue("tenantSlug", fixedTenant);
+      return;
+    }
+    const storedTenant = window.localStorage.getItem("lastTenantSlug") ?? "ubatuba";
+    setValue("tenantSlug", storedTenant);
+  }, [fixedTenant, setValue]);
 
   const onSubmit = async (values: FormValues) => {
     const res = await fetch(`${API_URL}/auth/login`, {
@@ -44,6 +57,9 @@ export default function LoginPage() {
     });
     const payload = await res.json();
     if (res.ok) {
+      if (!fixedTenant) {
+        window.localStorage.setItem("lastTenantSlug", values.tenantSlug);
+      }
       login(payload.data.accessToken, payload.data.refreshToken, payload.data.tenantId);
       return;
     }
@@ -56,7 +72,7 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-teal/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-sun/20 blur-3xl" />
 
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-6 py-10 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1.08fr_0.92fr]">
         <section className="relative space-y-8">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-on-surface">
@@ -70,19 +86,15 @@ export default function LoginPage() {
               Controle territorial em um painel moderno, auditavel e pronto para escala.
             </h1>
             <p className="max-w-xl text-base text-slate">
-              Mapeamento, cadastro tecnico, processos digitais e monitoramento integrados com
+              Mapeamento, cadastro técnico, processos digitais e monitoramento integrados com
               governanca por perfil.
             </p>
           </div>
 
-          <div className="grid max-w-2xl gap-4 sm:grid-cols-2">
-            {metrics.map((item) => (
-              <div
-                key={item.label}
-                className="rounded-2xl border border-outline/70 bg-surface-elevated/90 p-4 shadow-1"
-              >
-                <p className="text-xs text-slate">{item.label}</p>
-                <p className="mt-1 text-2xl font-semibold text-on-surface">{item.value}</p>
+          <div className="grid max-w-2xl gap-3 sm:grid-cols-2">
+            {loginSignals.map((item) => (
+              <div key={item} className="rounded-2xl border border-outline/70 bg-surface-elevated/90 p-4 shadow-1">
+                <p className="text-sm font-medium text-on-surface">{item}</p>
               </div>
             ))}
           </div>
@@ -116,7 +128,7 @@ export default function LoginPage() {
             <CardHeader className="space-y-2">
               <CardTitle className="font-display text-3xl">Entrar no painel</CardTitle>
               <CardDescription>
-                Informe credenciais de acesso para sua operacao geoespacial.
+                Informe credenciais de acesso para sua operação geoespacial.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -125,30 +137,46 @@ export default function LoginPage() {
                   <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
                     Email institucional
                   </label>
-                  <Input placeholder="nome@prefeitura.gov.br" type="email" {...register("email")} />
-                  {errors.email && <p className="text-xs text-red-500">Email invalido</p>}
+                  <Input
+                    placeholder="nome@prefeitura.gov.br"
+                    type="email"
+                    autoComplete="email"
+                    {...register("email")}
+                  />
+                  {errors.email && <p className="text-xs text-red-500">Email inválido</p>}
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
                     Senha
                   </label>
-                  <Input placeholder="********" type="password" {...register("password")} />
+                  <Input
+                    placeholder="********"
+                    type="password"
+                    autoComplete="current-password"
+                    {...register("password")}
+                  />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
-                    Tenant
-                  </label>
-                  <Input placeholder="ex: prefeitura-ubatuba" {...register("tenantSlug")} />
-                </div>
+                {!fixedTenant && (
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
+                      Municipio / Tenant
+                    </label>
+                    <Input
+                      placeholder="ubatuba"
+                      autoComplete="organization"
+                      {...register("tenantSlug")}
+                    />
+                  </div>
+                )}
 
                 <Button type="submit" className="mt-2 w-full bg-ocean text-white" loading={isSubmitting}>
                   {isSubmitting ? "Entrando..." : "Entrar"}
                 </Button>
               </form>
 
-              <div className="flex items-center justify-between text-sm text-slate">
+              <div className="flex flex-col gap-3 text-sm text-slate sm:flex-row sm:items-center sm:justify-between">
                 <Link href="/forgot-password">Esqueci minha senha</Link>
                 <Link href="/" className="text-on-surface/75">
                   Voltar ao site

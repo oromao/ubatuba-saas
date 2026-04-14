@@ -2,8 +2,11 @@
 
 import { Menu, Bell, LogOut, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useSidebar } from "./sidebar-context";
 import { useAuth } from "@/lib/auth";
+import { apiFetch } from "@/lib/api";
 
 import { SearchCommand } from "@/components/layout/search-command";
 import {
@@ -17,9 +20,28 @@ import {
 
 export function Topbar() {
   const { collapsed, setCollapsed, setMobileOpen } = useSidebar();
-  const { logout, userName, userEmail, tenantId } = useAuth();
+  const { logout, userName, userEmail } = useAuth();
+  const [lastTenantSlug, setLastTenantSlug] = useState<string | null>(null);
   const router = useRouter();
   const avatarInitial = (userName || userEmail || "A").charAt(0).toUpperCase();
+  const { data: tenant } = useQuery({
+    queryKey: ["current-tenant"],
+    queryFn: () => apiFetch<{ name: string; slug: string } | null>("/tenants/me"),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: notifData } = useQuery({
+    queryKey: ["notifications-unread-count"],
+    queryFn: () => apiFetch<{ count: number }>("/notifications-letters/unread-count").catch(() => ({ count: 0 })),
+    refetchInterval: 60_000,
+    staleTime: 30_000,
+  });
+  const unreadCount = notifData?.count ?? 0;
+
+  useEffect(() => {
+    setLastTenantSlug(window.localStorage.getItem("lastTenantSlug"));
+  }, []);
+  const tenantLabel = tenant?.name ?? lastTenantSlug ?? "Tenant demo";
 
   return (
     <header className="flex h-14 shrink-0 items-center gap-4 border-b border-outline bg-surface-elevated px-4">
@@ -49,20 +71,24 @@ export function Topbar() {
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        {tenantId && (
+        {tenantLabel && (
           <span className="hidden rounded-full border border-outline bg-cloud px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-on-surface-muted lg:inline">
-            {tenantId}
+            {tenantLabel}
           </span>
         )}
 
         {/* Notification bell */}
         <button
           className="relative rounded-md p-2 text-on-surface-muted transition-colors hover:bg-cloud hover:text-on-surface"
-          aria-label="Notificacoes"
+          aria-label={unreadCount > 0 ? `${unreadCount} notificacoes nao lidas` : "Notificacoes"}
           onClick={() => router.push("/app/notifications")}
         >
           <Bell className="h-5 w-5" />
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-accent" />
+          {unreadCount > 0 && (
+            <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
         </button>
 
         {/* User dropdown */}
