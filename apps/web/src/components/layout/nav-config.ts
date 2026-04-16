@@ -1,7 +1,5 @@
 import {
   Armchair,
-  Bell,
-  Building2,
   ClipboardCheck,
   FileSpreadsheet,
   FileCheck2,
@@ -12,14 +10,9 @@ import {
   LineChart,
   Mail,
   MapPinned,
-  Radar,
   Route,
   ShieldCheck,
-  SlidersHorizontal,
   Briefcase,
-  FolderKanban,
-  Users,
-  Settings,
   HardHat
 } from "lucide-react";
 import type { ComponentType } from "react";
