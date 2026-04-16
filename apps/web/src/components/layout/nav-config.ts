@@ -48,7 +48,22 @@ const withDefaultRoles = (item: Omit<NavItem, "roles"> & { roles?: UserRole[] })
 
 export const navGroups: NavGroup[] = [
   {
-    title: "INTELIGÊNCIA EXECUTIVA",
+    title: "CADASTRO TERRITORIAL",
+    items: [
+      withDefaultRoles({ label: "Lotes e Imóveis", href: "/app/ctm/parcelas", icon: Landmark, keywords: ["lotes", "ctm", "parcelas"] }),
+      withDefaultRoles({ label: "Malha Viária ↗", href: "/app/ctm/logradouros", icon: Route, keywords: ["ruas", "vias", "logradouros"] }),
+      withDefaultRoles({ label: "Equipamentos ↗", href: "/app/ctm/mobiliario", icon: Armchair, keywords: ["urbano", "mobiliario"] }),
+      withDefaultRoles({ label: "Vistorias", href: "/app/ctm/vistorias", icon: ClipboardCheck, keywords: ["vistoria", "campo", "inspecao", "foto"] }),
+      withDefaultRoles({
+        label: "Mapa Interativo",
+        href: "/app/maps",
+        icon: MapPinned,
+        keywords: ["mapa", "camadas", "geo", "drone"],
+      }),
+    ],
+  },
+  {
+    title: "PAINEL E ANÁLISE",
     items: [
       {
         label: "Painel de Gestão",
@@ -63,48 +78,36 @@ export const navGroups: NavGroup[] = [
         icon: LineChart,
         keywords: ["mercado", "pgv", "arrecadacao", "bi"],
       }),
-      withDefaultRoles({
-        label: "Mapa Interativo",
-        href: "/app/maps",
-        icon: MapPinned,
-        keywords: ["mapa", "camadas", "geo", "drone"],
-      }),
     ],
   },
   {
-    title: "CADASTRO TERRITORIAL (CTM)",
-    items: [
-      withDefaultRoles({ label: "Lotes e Imóveis", href: "/app/ctm/parcelas", icon: Landmark, keywords: ["lotes", "ctm", "parcelas"] }),
-      withDefaultRoles({ label: "Malha Viária", href: "/app/ctm/logradouros", icon: Route, keywords: ["ruas", "vias", "logradouros"] }),
-      withDefaultRoles({ label: "Equipamentos Urbanos", href: "/app/ctm/mobiliario", icon: Armchair, keywords: ["urbano", "mobiliario"] }),
-      withDefaultRoles({ label: "Planta Genérica (PGV)", href: "/app/pgv/zonas", icon: Layers, keywords: ["valor", "pgv", "zonas"] }),
-      withDefaultRoles({ label: "Regularização (REURB)", href: "/app/reurb", icon: FileSpreadsheet, keywords: ["familias", "planilha", "cartorio"] }),
-      withDefaultRoles({ label: "Vistorias", href: "/app/ctm/vistorias", icon: ClipboardCheck, keywords: ["vistoria", "campo", "inspecao", "foto"] }),
-    ],
-  },
-  {
-    title: "FISCALIZAÇÃO E PROCESSOS",
+    title: "FISCALIZAÇÃO",
     items: [
       withDefaultRoles({ label: "Processos Digitais", href: "/app/processes", icon: FileCheck2, keywords: ["workflow", "alvara"] }),
-      withDefaultRoles({ label: "Monitoramento e Alertas", href: "/app/monitoramento", icon: Bell, keywords: ["ambiental", "risco", "defesa civil"] }),
-      withDefaultRoles({ label: "Atendimento 156", href: "/app/156", icon: Users, keywords: ["chamado", "reclamacao", "cidadao"] }),
       withDefaultRoles({ label: "Notificações Oficiais", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo", "multa"] }),
     ],
   },
   {
-    title: "MÓDULOS DE NEGÓCIO",
+    title: "TRIBUTAÇÃO",
     items: [
-      withDefaultRoles({ label: "Obras Particulares", href: "/app/modulos/obras", icon: HardHat, keywords: ["alvara", "habite-se", "obra"] }),
-      withDefaultRoles({ label: "Atividades Econômicas", href: "/app/modulos/empresas", icon: Briefcase, keywords: ["alvara", "empresa", "inscricao"] }),
-      withDefaultRoles({ label: "Licenciamento Ambiental", href: "/app/ambiental", icon: ShieldCheck, keywords: ["licenciamento", "poda", "app", "laudo"] }),
+      withDefaultRoles({ label: "Integração Tributária", href: "/app/integracoes", icon: Link2, keywords: ["tributario", "sync", "conector"] }),
     ],
   },
   {
-    title: "CONFIGURAÇÃO E INTEGRAÇÃO",
+    title: "MÓDULOS",
     items: [
-      withDefaultRoles({ label: "Integrações ERP", href: "/app/integracoes", icon: Link2, keywords: ["tributario", "sync", "conector"] }),
+      withDefaultRoles({ label: "Obras ↗", href: "/app/modulos/obras", icon: HardHat, keywords: ["alvara", "habite-se", "obra"] }),
+      withDefaultRoles({ label: "Atividades Econômicas ↗", href: "/app/modulos/empresas", icon: Briefcase, keywords: ["alvara", "empresa", "inscricao"] }),
+      withDefaultRoles({ label: "Licenciamento ↗", href: "/app/ambiental", icon: ShieldCheck, keywords: ["licenciamento", "poda", "app", "laudo"] }),
+      withDefaultRoles({ label: "Planta de Valores ↗", href: "/app/pgv/zonas", icon: Layers, keywords: ["valor", "pgv", "zonas"] }),
+      withDefaultRoles({ label: "Regularização ↗", href: "/app/reurb", icon: FileSpreadsheet, keywords: ["familias", "planilha", "cartorio"] }),
+    ],
+  },
+  {
+    title: "ADMINISTRAÇÃO",
+    items: [
       {
-        label: "Conformidade interna",
+        label: "Conformidade",
         href: "/app/poc",
         icon: ClipboardCheck,
         keywords: ["score", "aderencia", "evidencia", "conformidade"],
