@@ -9,6 +9,7 @@ import { Citizen156Service } from '../citizen-156/citizen-156.service';
 import { EnvironmentService } from '../environment/environment.service';
 import { PublicWorksService } from '../public-works/public-works.service';
 import { CemeteryService } from '../cemetery/cemetery.service';
+import { ParcelsService } from '../ctm/parcels/parcels.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DashboardLayout, DashboardLayoutDocument } from './dashboard-layout.schema';
@@ -26,6 +27,7 @@ export class DashboardService {
     private readonly environmentService: EnvironmentService,
     private readonly publicWorksService: PublicWorksService,
     private readonly cemeteryService: CemeteryService,
+    private readonly parcelsService: ParcelsService,
     private readonly cacheService: CacheService,
     @InjectModel(DashboardLayout.name) private readonly layoutModel: Model<DashboardLayoutDocument>,
   ) {}
@@ -78,7 +80,21 @@ export class DashboardService {
       this.cemeteryService.list(tenantId),
     ]);
 
+    const parcelStats = await this.parcelsService.getStatistics(tenantId).catch(() => null);
+
     const result = {
+      ctm: parcelStats ? {
+        totalParcelas: parcelStats.total,
+        oficiais: parcelStats.official,
+        demo: parcelStats.demo,
+        comSqlu: parcelStats.withSqlu,
+        taxaAdimplencia: parcelStats.taxaAdimplencia,
+        totalValorVenal: parcelStats.totalValorVenal,
+        totalIptuLancado: parcelStats.totalIptuLancado,
+        totalIptuPago: parcelStats.totalIptuPago,
+        totalIptuEmAberto: parcelStats.totalIptuEmAberto,
+        porStatus: parcelStats.byStatus,
+      } : null,
       summary: {
         processos: processes.length,
         alertas: alerts.length,
