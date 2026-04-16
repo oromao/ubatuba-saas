@@ -148,6 +148,23 @@ export class ParcelsController {
     res.end(buffer);
   }
 
+  @Post('bulk-transicao')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  bulkTransicao(
+    @Req() req: { tenantId: string; user?: { sub?: string; role?: string } },
+    @Body() body: { ids: string[]; status: string; observacao: string },
+  ) {
+    return this.parcelsService.bulkTransicao(
+      req.tenantId,
+      body.ids,
+      body.status as any,
+      body.observacao,
+      req.user?.sub,
+      req.user?.role,
+    );
+  }
+
   @Get(':id')
   get(@Req() req: { tenantId: string }, @Param('id') id: string, @Query('projectId') projectId?: string) {
     return this.parcelsService.findById(req.tenantId, projectId, id);

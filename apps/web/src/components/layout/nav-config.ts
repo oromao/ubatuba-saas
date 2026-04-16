@@ -1,5 +1,6 @@
 import {
   Armchair,
+  CheckSquare,
   ClipboardCheck,
   FileSpreadsheet,
   FileCheck2,
@@ -79,6 +80,7 @@ export const navGroups: NavGroup[] = [
     items: [
       withDefaultRoles({ label: "Processos Digitais", href: "/app/processes", icon: FileCheck2, keywords: ["workflow", "alvara"] }),
       withDefaultRoles({ label: "Notificações Oficiais", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo", "multa"] }),
+      withDefaultRoles({ label: "Fila de Aprovacao", href: "/app/aprovacao", icon: CheckSquare, keywords: ["aprovacao", "validacao", "pendentes"] }),
     ],
   },
   {

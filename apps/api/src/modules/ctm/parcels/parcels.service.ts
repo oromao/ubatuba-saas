@@ -1113,4 +1113,33 @@ export class ParcelsService {
     const total = await this.parcelAuditRepository.countAll(tenantId, filters);
     return { entries, total, limit: filters.limit ?? 50, offset: filters.offset ?? 0 };
   }
+
+  async bulkTransicao(
+    tenantId: string,
+    ids: string[],
+    newStatus: 'PENDENTE' | 'EM_VALIDACAO' | 'APROVADA' | 'REPROVADA',
+    observacao: string,
+    userId?: string,
+    userRole?: string,
+  ) {
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        this.transicao(tenantId, undefined, id, newStatus, observacao, userId, userRole),
+      ),
+    );
+
+    const successful = results.filter((r) => r.status === 'fulfilled').length;
+    const failed = results.filter((r) => r.status === 'rejected').length;
+
+    return {
+      total: ids.length,
+      successful,
+      failed,
+      results: results.map((r, i) => ({
+        id: ids[i],
+        status: r.status === 'fulfilled' ? 'ok' : 'erro',
+        message: r.status === 'rejected' ? (r.reason as Error).message : undefined,
+      })),
+    };
+  }
 }
