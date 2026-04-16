@@ -2,4 +2,5 @@ export declare class LoginDto {
     email: string;
     password: string;
     tenantSlug: string;
+    roleHint?: string;
 }

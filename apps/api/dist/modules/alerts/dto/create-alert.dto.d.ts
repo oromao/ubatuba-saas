@@ -3,4 +3,6 @@ export declare class CreateAlertDto {
     level: string;
     lat: number;
     lng: number;
+    assignedTo?: string;
+    evidenceKeys?: string[];
 }

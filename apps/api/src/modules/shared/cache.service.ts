@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { createHash } from 'crypto';
 import { RedisService } from './redis.service';
 
 @Injectable()
 export class CacheService {
-  constructor(private readonly redisService: RedisService) {}
+  constructor(@Optional() private readonly redisService?: RedisService) {}
 
   private buildKey(key: string) {
     return `flydea:${key}`;
@@ -16,7 +16,7 @@ export class CacheService {
   }
 
   async get<T>(key: string): Promise<T | null> {
-    const client = await this.redisService.getClient();
+    const client = await this.redisService?.getClient();
     if (!client) return null;
     try {
       const value = await client.get(this.buildKey(key));
@@ -27,7 +27,7 @@ export class CacheService {
   }
 
   async set(key: string, value: unknown, ttlSeconds: number) {
-    const client = await this.redisService.getClient();
+    const client = await this.redisService?.getClient();
     if (!client) return;
     try {
       await client.set(this.buildKey(key), JSON.stringify(value), {
@@ -39,7 +39,7 @@ export class CacheService {
   }
 
   async invalidateByPrefix(prefix: string) {
-    const client = await this.redisService.getClient();
+    const client = await this.redisService?.getClient();
     if (!client) return;
     const pattern = this.buildKey(`${prefix}*`);
     const keys = await client.keys(pattern);

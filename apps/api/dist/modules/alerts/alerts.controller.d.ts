@@ -27,4 +27,14 @@ export declare class AlertsController {
     }, id: string): Promise<{
         success: boolean;
     }>;
+    advanceStage(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+        };
+    }, id: string, dto: {
+        stage: 'TRIAGEM' | 'FISCALIZACAO' | 'EVIDENCIA' | 'NOTIFICACAO' | 'DESFECHO';
+        message: string;
+        evidenceKeys?: string[];
+    }): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
 }

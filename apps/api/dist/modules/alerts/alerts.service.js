@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlertsService = void 0;
 const common_1 = require("@nestjs/common");
+const crypto_1 = require("crypto");
 const cache_service_1 = require("../shared/cache.service");
 const alerts_repository_1 = require("./alerts.repository");
 const object_id_1 = require("../../common/utils/object-id");
@@ -31,7 +32,19 @@ let AlertsService = class AlertsService {
             title: dto.title,
             level: dto.level,
             status: 'ABERTO',
+            stage: 'TRIAGEM',
             location: { type: 'Point', coordinates: [dto.lng, dto.lat] },
+            evidenceKeys: dto.evidenceKeys ?? [],
+            assignedTo: dto.assignedTo,
+            timeline: [
+                {
+                    id: (0, crypto_1.randomUUID)(),
+                    stage: 'TRIAGEM',
+                    message: 'Alerta criado e encaminhado para triagem',
+                    createdAt: new Date().toISOString(),
+                    evidenceKeys: dto.evidenceKeys ?? [],
+                },
+            ],
         });
         await this.cacheService.invalidateByPrefix(`dashboard:${tenantId}`);
         return created;
@@ -44,6 +57,7 @@ let AlertsService = class AlertsService {
     async ack(tenantId, id) {
         const updated = await this.alertsRepository.update(tenantId, id, {
             status: 'EM_ANALISE',
+            stage: 'FISCALIZACAO',
         });
         await this.cacheService.invalidateByPrefix(`alerts:${tenantId}`);
         return updated;
@@ -51,6 +65,8 @@ let AlertsService = class AlertsService {
     async resolve(tenantId, id) {
         const updated = await this.alertsRepository.update(tenantId, id, {
             status: 'RESOLVIDO',
+            stage: 'DESFECHO',
+            resolvedAt: new Date().toISOString(),
         });
         await this.cacheService.invalidateByPrefix(`alerts:${tenantId}`);
         return updated;
@@ -59,6 +75,32 @@ let AlertsService = class AlertsService {
         await this.alertsRepository.delete(tenantId, id);
         await this.cacheService.invalidateByPrefix(`alerts:${tenantId}`);
         return { success: true };
+    }
+    async advanceStage(tenantId, id, stage, message, actorId, evidenceKeys) {
+        const current = await this.alertsRepository.findById(tenantId, id);
+        if (!current)
+            return null;
+        const timeline = Array.isArray(current.timeline)
+            ? (current.timeline ?? [])
+            : [];
+        timeline.unshift({
+            id: (0, crypto_1.randomUUID)(),
+            stage,
+            message,
+            createdAt: new Date().toISOString(),
+            actorId,
+            evidenceKeys,
+        });
+        const updated = await this.alertsRepository.update(tenantId, id, {
+            stage,
+            evidenceKeys: evidenceKeys ?? current.evidenceKeys ?? [],
+            timeline: timeline,
+        });
+        if (stage === 'DESFECHO') {
+            await this.alertsRepository.update(tenantId, id, { resolvedAt: new Date().toISOString() });
+        }
+        await this.cacheService.invalidateByPrefix(`alerts:${tenantId}`);
+        return updated;
     }
 };
 exports.AlertsService = AlertsService;

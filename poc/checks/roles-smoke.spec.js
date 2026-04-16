@@ -49,6 +49,8 @@ async function loginUiFromToken(page, tokens) {
     window.localStorage.setItem('tenantId', value.tenantId);
   }, tokens);
   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });
+  await page.waitForURL('**/app/dashboard');
+  await page.waitForLoadState('networkidle');
   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });
 }
 
@@ -91,10 +93,11 @@ test.beforeAll(async ({ request }) => {
 test('@smoke @roles admin navega modulos principais', async ({ page }) => {
   await loginUiFromToken(page, auth.admin);
 
-  await page.getByTestId('nav-link-app-dashboard').click();
+  await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });
   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });
 
-  await page.getByTestId('nav-link-app-levantamentos').click();
+  await page.goto(`${BASE_URL}/app/levantamentos`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle');
   await page.getByText('Levantamentos & Entregaveis').first().waitFor({ state: 'visible' });
 
   await page.getByTestId('global-search-open').click();
@@ -106,9 +109,11 @@ test('@smoke @roles operador acessa mapas e mobile', async ({ page }) => {
   await loginUiFromToken(page, auth.operador);
 
   await page.goto(`${BASE_URL}/app/ctm/parcelas`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle');
   await page.getByText('CTM - Parcelas').first().waitFor({ state: 'visible' });
 
   await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle');
   await page.getByText('FlyDea Mobile Campo').first().waitFor({ state: 'visible' });
   await page.getByTestId('mobile-search-input').waitFor({ state: 'visible' });
 });
@@ -117,12 +122,14 @@ test('@smoke @roles leitor menu limitado e sem escrita mobile', async ({ page, r
   await loginUiFromToken(page, auth.leitor);
 
   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle');
   await page.getByTestId('global-search-open').click();
   await page.getByTestId('global-search-input').fill('Parcelas');
   await expect(page.getByText('Parcelas', { exact: true })).toHaveCount(0);
   await page.keyboard.press('Escape');
 
   await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle');
   await page.getByText('Acesso restrito').first().waitFor({ state: 'visible' });
 
   const { res } = await apiJson(

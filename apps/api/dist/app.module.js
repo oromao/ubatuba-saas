@@ -27,6 +27,7 @@ const layers_module_1 = require("./modules/layers/layers.module");
 const areas_module_1 = require("./modules/areas/areas.module");
 const uploads_module_1 = require("./modules/uploads/uploads.module");
 const roles_guard_1 = require("./common/guards/roles.guard");
+const shared_module_1 = require("./modules/shared/shared.module");
 const projects_module_1 = require("./modules/projects/projects.module");
 const ctm_module_1 = require("./modules/ctm/ctm.module");
 const pgv_module_1 = require("./modules/pgv/pgv.module");
@@ -40,6 +41,16 @@ const surveys_module_1 = require("./modules/surveys/surveys.module");
 const mobile_module_1 = require("./modules/mobile/mobile.module");
 const poc_module_1 = require("./modules/poc/poc.module");
 const reurb_module_1 = require("./modules/reurb/reurb.module");
+const certificates_module_1 = require("./modules/certificates/certificates.module");
+const permits_works_module_1 = require("./modules/permits-works/permits-works.module");
+const permits_business_module_1 = require("./modules/permits-business/permits-business.module");
+const monitoring_module_1 = require("./modules/monitoring/monitoring.module");
+const environment_module_1 = require("./modules/environment/environment.module");
+const citizen_156_module_1 = require("./modules/citizen-156/citizen-156.module");
+const public_works_module_1 = require("./modules/public-works/public-works.module");
+const cemetery_module_1 = require("./modules/cemetery/cemetery.module");
+const observatory_module_1 = require("./modules/observatory/observatory.module");
+const integration_hub_module_1 = require("./modules/integration-hub/integration-hub.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -50,6 +61,7 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
             }),
             logger_module_1.LoggerModule,
+            shared_module_1.SharedModule,
             mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL ?? '', {
                 autoIndex: false,
             }),
@@ -78,6 +90,16 @@ exports.AppModule = AppModule = __decorate([
             mobile_module_1.MobileModule,
             poc_module_1.PocModule,
             reurb_module_1.ReurbModule,
+            certificates_module_1.CertificatesModule,
+            permits_works_module_1.PermitsWorksModule,
+            permits_business_module_1.PermitsBusinessModule,
+            monitoring_module_1.MonitoringModule,
+            environment_module_1.EnvironmentModule,
+            citizen_156_module_1.Citizen156Module,
+            public_works_module_1.PublicWorksModule,
+            cemetery_module_1.CemeteryModule,
+            observatory_module_1.ObservatoryModule,
+            integration_hub_module_1.IntegrationHubModule,
         ],
         providers: [
             {

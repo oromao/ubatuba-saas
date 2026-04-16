@@ -25,5 +25,9 @@ export class MobileController {
   list(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
     return this.mobileService.listRecords(req.tenantId, projectId);
   }
-}
 
+  @Get('dashboard')
+  dashboard(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
+    return this.mobileService.summary(req.tenantId, projectId);
+  }
+}

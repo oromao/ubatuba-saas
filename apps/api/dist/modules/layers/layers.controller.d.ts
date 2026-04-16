@@ -17,4 +17,14 @@ export declare class LayersController {
     }> & {
         __v: number;
     }) | null>;
+    importSpZoneamento(req: {
+        tenantId: string;
+    }): Promise<{
+        imported: number;
+        errors: number;
+        errorDetails: Array<{
+            layer: string;
+            message: string;
+        }>;
+    }>;
 }

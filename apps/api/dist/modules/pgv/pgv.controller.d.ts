@@ -60,6 +60,34 @@ export declare class PgvController {
     reportCsv(req: {
         tenantId: string;
     }, projectId: string | undefined, res: Response): Promise<void>;
+    getImpactReport(req: {
+        tenantId: string;
+    }, projectId: string | undefined, baseVersionId: string, targetVersionId: string): Promise<{
+        baseVersion: {
+            id: string;
+            name: string | null;
+        };
+        targetVersion: {
+            id: string;
+            name: string | null;
+        };
+        summary: {
+            parcelsCompared: number;
+            totalOld: number;
+            totalNew: number;
+            totalDelta: number;
+            totalDeltaPct: number;
+        };
+        changes: {
+            parcelId: string;
+            oldValue: number;
+            newValue: number;
+            delta: number;
+            deltaPct: number;
+        }[];
+    } | {
+        error: string;
+    }>;
     parcelsGeojson(req: {
         tenantId: string;
     }, projectId?: string, bbox?: string): Promise<{

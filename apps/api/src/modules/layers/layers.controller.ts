@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Roles } from '../../common/guards/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { UpdateLayerDto } from './dto/update-layer.dto';
@@ -18,5 +18,12 @@ export class LayersController {
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
   update(@Req() req: { tenantId: string }, @Param('id') id: string, @Body() dto: UpdateLayerDto) {
     return this.layersService.update(req.tenantId, id, dto);
+  }
+
+  @Post('import-sp-zoneamento')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  importSpZoneamento(@Req() req: { tenantId: string }) {
+    return this.layersService.importSpZoneamentoLayers(req.tenantId);
   }
 }

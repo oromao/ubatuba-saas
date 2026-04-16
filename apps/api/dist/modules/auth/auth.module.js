@@ -17,6 +17,7 @@ const refresh_token_schema_1 = require("./refresh-token.schema");
 const password_reset_schema_1 = require("./password-reset.schema");
 const email_outbox_schema_1 = require("./email-outbox.schema");
 const auth_event_schema_1 = require("./auth-event.schema");
+const portal_session_schema_1 = require("./portal-session.schema");
 const users_module_1 = require("../users/users.module");
 const tenants_module_1 = require("../tenants/tenants.module");
 const memberships_module_1 = require("../memberships/memberships.module");
@@ -37,6 +38,7 @@ exports.AuthModule = AuthModule = __decorate([
                 { name: password_reset_schema_1.PasswordResetToken.name, schema: password_reset_schema_1.PasswordResetTokenSchema },
                 { name: email_outbox_schema_1.EmailOutbox.name, schema: email_outbox_schema_1.EmailOutboxSchema },
                 { name: auth_event_schema_1.AuthEvent.name, schema: auth_event_schema_1.AuthEventSchema },
+                { name: portal_session_schema_1.PortalSession.name, schema: portal_session_schema_1.PortalSessionSchema },
             ]),
         ],
         controllers: [auth_controller_1.AuthController],

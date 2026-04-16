@@ -31,7 +31,7 @@ export declare class ProjectParcelsController {
         type: "FeatureCollection";
         features: Array<{
             type: "Feature";
-            id: string;
+            id?: string;
             geometry: unknown;
             properties: Record<string, unknown>;
         }>;
@@ -123,7 +123,16 @@ export declare class ProjectParcelsController {
         type: 'FeatureCollection';
         features: unknown[];
     }): Promise<{
+        batchId: any;
         inserted: number;
+        updated: number;
+        skipped: number;
         errors: number;
+        errorDetails: {
+            row: number;
+            featureId?: string;
+            message: string;
+            field?: string;
+        }[];
     }>;
 }

@@ -32,6 +32,26 @@ __decorate([
     __metadata("design:type", String)
 ], EnvironmentalAlert.prototype, "status", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ required: true, default: 'TRIAGEM' }),
+    __metadata("design:type", String)
+], EnvironmentalAlert.prototype, "stage", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], EnvironmentalAlert.prototype, "evidenceKeys", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], EnvironmentalAlert.prototype, "assignedTo", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], EnvironmentalAlert.prototype, "resolvedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [Object], default: [] }),
+    __metadata("design:type", Array)
+], EnvironmentalAlert.prototype, "timeline", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: Object, required: true }),
     __metadata("design:type", Object)
 ], EnvironmentalAlert.prototype, "location", void 0);

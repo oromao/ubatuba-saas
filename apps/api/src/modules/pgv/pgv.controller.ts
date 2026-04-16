@@ -41,6 +41,26 @@ export class PgvController {
     res.send(csv);
   }
 
+  @Get('impact-report')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  async getImpactReport(
+    @Req() req: { tenantId: string },
+    @Query('projectId') projectId: string | undefined,
+    @Query('baseVersionId') baseVersionId: string,
+    @Query('targetVersionId') targetVersionId: string,
+  ) {
+    if (!baseVersionId || !targetVersionId) {
+      return { error: 'baseVersionId and targetVersionId are required' };
+    }
+    return this.valuationsService.getImpactReport(
+      req.tenantId,
+      projectId,
+      baseVersionId,
+      targetVersionId,
+    );
+  }
+
   @Get('parcels.geojson')
   parcelsGeojson(
     @Req() req: { tenantId: string },

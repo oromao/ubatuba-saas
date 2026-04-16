@@ -4,8 +4,7 @@ import { Model } from 'mongoose';
 import { Parcel, ParcelDocument } from './parcel.schema';
 import { asObjectId } from '../../../common/utils/object-id';
 
-
-type ParcelFilters = {
+export type ParcelFilters = {
   projectId: string;
   sqlu?: string;
   inscription?: string;
@@ -16,6 +15,10 @@ type ParcelFilters = {
   q?: string;
   zoneId?: string;
   faceId?: string;
+  sourceType?: string;
+  isOfficial?: boolean;
+  zoneamento?: string;
+  statusIPTU?: string;
 };
 
 @Injectable()
@@ -36,6 +39,10 @@ export class ParcelsRepository {
     if (filters.workflowStatus) query.workflowStatus = filters.workflowStatus;
     if (filters.zoneId) query.zoneId = asObjectId(filters.zoneId);
     if (filters.faceId) query.faceId = asObjectId(filters.faceId);
+    if (filters.sourceType) query.sourceType = filters.sourceType;
+    if (filters.isOfficial !== undefined) query.isOfficial = filters.isOfficial;
+    if (filters.zoneamento) query.zoneamento = filters.zoneamento;
+    if (filters.statusIPTU) query.statusIPTU = filters.statusIPTU;
 
     if (filters.q) {
       const term = filters.q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -69,6 +76,25 @@ export class ParcelsRepository {
   findById(tenantId: string, projectId: string, id: string): Promise<ParcelDocument | null> {
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
+      .exec();
+  }
+
+  findBySqlu(tenantId: string, projectId: string, sqlu: string): Promise<ParcelDocument | null> {
+    return this.model
+      .findOne({ sqlu, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
+      .exec();
+  }
+
+  findByInscription(tenantId: string, projectId: string, inscription: string): Promise<ParcelDocument | null> {
+    return this.model
+      .findOne({ 
+        $or: [
+          { inscricaoImobiliaria: inscription },
+          { inscription: inscription },
+        ],
+        tenantId: asObjectId(tenantId), 
+        projectId: asObjectId(projectId) 
+      })
       .exec();
   }
 

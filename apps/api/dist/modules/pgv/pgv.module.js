@@ -16,6 +16,7 @@ const factor_set_schema_1 = require("./factor-sets/factor-set.schema");
 const version_schema_1 = require("./versions/version.schema");
 const valuation_schema_1 = require("./valuations/valuation.schema");
 const assessment_schema_1 = require("./assessments/assessment.schema");
+const pgv_scenario_schema_1 = require("./simulations/pgv-scenario.schema");
 const zones_repository_1 = require("./zones/zones.repository");
 const zones_service_1 = require("./zones/zones.service");
 const zones_controller_1 = require("./zones/zones.controller");
@@ -38,6 +39,9 @@ const assessments_repository_1 = require("./assessments/assessments.repository")
 const pgv_controller_1 = require("./pgv.controller");
 const projects_module_1 = require("../projects/projects.module");
 const ctm_module_1 = require("../ctm/ctm.module");
+const pgv_scenarios_repository_1 = require("./simulations/pgv-scenarios.repository");
+const pgv_simulations_service_1 = require("./simulations/pgv-simulations.service");
+const pgv_simulations_controller_1 = require("./simulations/pgv-simulations.controller");
 let PgvModule = class PgvModule {
 };
 exports.PgvModule = PgvModule;
@@ -54,6 +58,7 @@ exports.PgvModule = PgvModule = __decorate([
                 { name: version_schema_1.PgvVersion.name, schema: version_schema_1.PgvVersionSchema },
                 { name: valuation_schema_1.PgvValuation.name, schema: valuation_schema_1.PgvValuationSchema },
                 { name: assessment_schema_1.PgvAssessment.name, schema: assessment_schema_1.PgvAssessmentSchema },
+                { name: pgv_scenario_schema_1.PgvScenario.name, schema: pgv_scenario_schema_1.PgvScenarioSchema },
             ]),
         ],
         controllers: [
@@ -64,6 +69,7 @@ exports.PgvModule = PgvModule = __decorate([
             versions_controller_1.VersionsController,
             valuations_controller_1.ValuationsController,
             pgv_controller_1.PgvController,
+            pgv_simulations_controller_1.PgvSimulationsController,
         ],
         providers: [
             zones_repository_1.ZonesRepository,
@@ -79,7 +85,10 @@ exports.PgvModule = PgvModule = __decorate([
             valuations_repository_1.ValuationsRepository,
             valuations_service_1.ValuationsService,
             assessments_repository_1.AssessmentsRepository,
+            pgv_scenarios_repository_1.PgvScenariosRepository,
+            pgv_simulations_service_1.PgvSimulationsService,
         ],
+        exports: [valuations_service_1.ValuationsService],
     })
 ], PgvModule);
 //# sourceMappingURL=pgv.module.js.map

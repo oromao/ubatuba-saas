@@ -15,4 +15,5 @@ export declare class AlertsService {
     remove(tenantId: string, id: string): Promise<{
         success: boolean;
     }>;
+    advanceStage(tenantId: string, id: string, stage: 'TRIAGEM' | 'FISCALIZACAO' | 'EVIDENCIA' | 'NOTIFICACAO' | 'DESFECHO', message: string, actorId?: string, evidenceKeys?: string[]): Promise<import("./alert.schema").EnvironmentalAlertDocument | null>;
 }

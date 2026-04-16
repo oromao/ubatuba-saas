@@ -7,6 +7,7 @@ import { PgvFactorSet, PgvFactorSetSchema } from './factor-sets/factor-set.schem
 import { PgvVersion, PgvVersionSchema } from './versions/version.schema';
 import { PgvValuation, PgvValuationSchema } from './valuations/valuation.schema';
 import { PgvAssessment, PgvAssessmentSchema } from './assessments/assessment.schema';
+import { PgvScenario, PgvScenarioSchema } from './simulations/pgv-scenario.schema';
 import { ZonesRepository } from './zones/zones.repository';
 import { ZonesService } from './zones/zones.service';
 import { ZonesController } from './zones/zones.controller';
@@ -29,6 +30,9 @@ import { AssessmentsRepository } from './assessments/assessments.repository';
 import { PgvController } from './pgv.controller';
 import { ProjectsModule } from '../projects/projects.module';
 import { CtmModule } from '../ctm/ctm.module';
+import { PgvScenariosRepository } from './simulations/pgv-scenarios.repository';
+import { PgvSimulationsService } from './simulations/pgv-simulations.service';
+import { PgvSimulationsController } from './simulations/pgv-simulations.controller';
 
 @Module({
   imports: [
@@ -42,6 +46,7 @@ import { CtmModule } from '../ctm/ctm.module';
       { name: PgvVersion.name, schema: PgvVersionSchema },
       { name: PgvValuation.name, schema: PgvValuationSchema },
       { name: PgvAssessment.name, schema: PgvAssessmentSchema },
+      { name: PgvScenario.name, schema: PgvScenarioSchema },
     ]),
   ],
   controllers: [
@@ -52,6 +57,7 @@ import { CtmModule } from '../ctm/ctm.module';
     VersionsController,
     ValuationsController,
     PgvController,
+    PgvSimulationsController,
   ],
   providers: [
     ZonesRepository,
@@ -67,6 +73,9 @@ import { CtmModule } from '../ctm/ctm.module';
     ValuationsRepository,
     ValuationsService,
     AssessmentsRepository,
+    PgvScenariosRepository,
+    PgvSimulationsService,
   ],
+  exports: [ValuationsService],
 })
 export class PgvModule {}

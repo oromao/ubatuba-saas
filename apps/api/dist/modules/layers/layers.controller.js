@@ -28,6 +28,9 @@ let LayersController = class LayersController {
     update(req, id, dto) {
         return this.layersService.update(req.tenantId, id, dto);
     }
+    importSpZoneamento(req) {
+        return this.layersService.importSpZoneamentoLayers(req.tenantId);
+    }
 };
 exports.LayersController = LayersController;
 __decorate([
@@ -48,6 +51,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, update_layer_dto_1.UpdateLayerDto]),
     __metadata("design:returntype", void 0)
 ], LayersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Post)('import-sp-zoneamento'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], LayersController.prototype, "importSpZoneamento", null);
 exports.LayersController = LayersController = __decorate([
     (0, common_1.Controller)('layers'),
     __metadata("design:paramtypes", [layers_service_1.LayersService])

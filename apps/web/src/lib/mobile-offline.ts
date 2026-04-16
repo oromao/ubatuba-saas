@@ -10,24 +10,57 @@ export type MobileLocation = {
   lng: number;
 };
 
+export type OfflineSyncHistoryEntry = {
+  at: string;
+  status: "PENDENTE" | "SINCRONIZADO" | "ERRO" | "CONFLITO";
+  message: string;
+  source: "device" | "sync" | "system";
+};
+
 export type OfflineQueueRecord = {
   id: string;
   projectId?: string;
+  clientId: string;
   parcelId: string;
   parcelLabel: string;
+  parcelUpdatedAt?: string;
   checklist: MobileChecklist;
   location?: MobileLocation;
   photoBase64?: string;
+  evidences?: Array<{
+    clientId: string;
+    fileName?: string;
+    mimeType?: string;
+    base64: string;
+    checksum?: string;
+    capturedAt?: string;
+    size?: number;
+    status: "PENDENTE" | "SINCRONIZADO" | "ERRO";
+    retries: number;
+    lastError?: string;
+    lastAttemptAt?: string;
+  }>;
   createdAt: string;
+  status: "PENDENTE" | "SINCRONIZADO" | "ERRO";
+  retries: number;
+  lastError?: string;
+  lastAttemptAt?: string;
+  syncHistory?: OfflineSyncHistoryEntry[];
 };
 
 const DB_NAME = 'flydea_mobile_db';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_NAME = 'ctm_queue';
 
 const ensureBrowser = () => {
   if (typeof window === 'undefined' || !window.indexedDB) {
     throw new Error('IndexedDB indisponivel neste ambiente');
+  }
+};
+
+const ensureStore = (db: IDBDatabase) => {
+  if (!db.objectStoreNames.contains(STORE_NAME)) {
+    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
   }
 };
 
@@ -37,13 +70,13 @@ const openDb = (): Promise<IDBDatabase> => {
     const request = window.indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onupgradeneeded = () => {
-      const db = request.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: 'id' });
-      }
+      ensureStore(request.result);
     };
 
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      ensureStore(request.result);
+      resolve(request.result);
+    };
     request.onerror = () => reject(request.error ?? new Error('Falha ao abrir IndexedDB'));
   });
 };
@@ -79,6 +112,48 @@ export async function listOfflineQueue(): Promise<OfflineQueueRecord[]> {
 export async function putOfflineQueueItem(item: OfflineQueueRecord): Promise<void> {
   await withStore('readwrite', async (store) => {
     await requestToPromise(store.put(item));
+  });
+}
+
+export async function markOfflineQueueStatus(
+  id: string,
+  patch: Partial<Pick<OfflineQueueRecord, 'status' | 'retries' | 'lastError' | 'lastAttemptAt' | 'parcelUpdatedAt'>>,
+): Promise<void> {
+  await withStore('readwrite', async (store) => {
+    const current = await requestToPromise<OfflineQueueRecord | undefined>(store.get(id));
+    if (!current) return;
+    await requestToPromise(
+      store.put({
+        ...current,
+        ...patch,
+      }),
+    );
+  });
+}
+
+export async function appendOfflineQueueHistory(id: string, entry: OfflineSyncHistoryEntry): Promise<void> {
+  await withStore('readwrite', async (store) => {
+    const current = await requestToPromise<OfflineQueueRecord | undefined>(store.get(id));
+    if (!current) return;
+    await requestToPromise(
+      store.put({
+        ...current,
+        syncHistory: [entry, ...(current.syncHistory ?? [])].slice(0, 12),
+      }),
+    );
+  });
+}
+
+export async function markOfflineEvidenceStatus(
+  queueId: string,
+  evidenceId: string,
+  patch: Partial<Pick<NonNullable<OfflineQueueRecord['evidences']>[number], 'status' | 'retries' | 'lastError' | 'lastAttemptAt'>>,
+): Promise<void> {
+  await withStore('readwrite', async (store) => {
+    const current = await requestToPromise<OfflineQueueRecord | undefined>(store.get(queueId));
+    if (!current) return;
+    const evidences = (current.evidences ?? []).map((item) => (item.clientId === evidenceId ? { ...item, ...patch } : item));
+    await requestToPromise(store.put({ ...current, evidences }));
   });
 }
 

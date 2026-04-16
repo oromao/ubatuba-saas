@@ -3,69 +3,15 @@
     "route": "/app/dashboard",
     "finalUrl": "http://localhost:3000/app/dashboard",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "Sair",
-        "outcome": "skipped-auth-button"
-      },
-      {
-        "kind": "button",
-        "label": "Recolher",
-        "outcome": "clicked"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
-    "consoleErrors": [
-      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
-    ],
+    "actions": [],
+    "consoleErrors": [],
     "httpErrors": []
   },
   {
     "route": "/app/maps",
     "finalUrl": "http://localhost:3000/app/maps",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-3",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-0",
-        "outcome": "selected"
-      },
-      {
-        "kind": "select",
-        "label": "select-1",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -73,38 +19,7 @@
     "route": "/app/levantamentos",
     "finalUrl": "http://localhost:3000/app/levantamentos",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-3",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-0",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -112,13 +27,7 @@
     "route": "/app/ctm/parcelas",
     "finalUrl": "http://localhost:3000/app/ctm/parcelas",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -126,13 +35,7 @@
     "route": "/app/ctm/logradouros",
     "finalUrl": "http://localhost:3000/app/ctm/logradouros",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -140,13 +43,7 @@
     "route": "/app/ctm/mobiliario",
     "finalUrl": "http://localhost:3000/app/ctm/mobiliario",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -154,13 +51,7 @@
     "route": "/app/pgv/zonas",
     "finalUrl": "http://localhost:3000/app/pgv/zonas",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -168,13 +59,7 @@
     "route": "/app/pgv/faces",
     "finalUrl": "http://localhost:3000/app/pgv/faces",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -182,13 +67,7 @@
     "route": "/app/pgv/fatores",
     "finalUrl": "http://localhost:3000/app/pgv/fatores",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -196,13 +75,7 @@
     "route": "/app/pgv/relatorio",
     "finalUrl": "http://localhost:3000/app/pgv/relatorio",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -210,38 +83,7 @@
     "route": "/app/integracoes",
     "finalUrl": "http://localhost:3000/app/integracoes",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-3",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-0",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -249,28 +91,7 @@
     "route": "/app/cartas",
     "finalUrl": "http://localhost:3000/app/cartas",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-1",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -278,57 +99,17 @@
     "route": "/app/compliance",
     "finalUrl": "http://localhost:3000/app/compliance",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-3",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-0",
-        "outcome": "selected"
-      },
-      {
-        "kind": "select",
-        "label": "select-1",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
+    "actions": [],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
     ],
-    "consoleErrors": [],
     "httpErrors": []
   },
   {
     "route": "/app/assets",
     "finalUrl": "http://localhost:3000/app/assets",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -336,13 +117,7 @@
     "route": "/app/alerts",
     "finalUrl": "http://localhost:3000/app/alerts",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -350,13 +125,7 @@
     "route": "/app/processes",
     "finalUrl": "http://localhost:3000/app/processes",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -364,13 +133,7 @@
     "route": "/app/poc",
     "finalUrl": "http://localhost:3000/app/poc",
     "status": "ok",
-    "actions": [
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
-    ],
+    "actions": [],
     "consoleErrors": [],
     "httpErrors": []
   },
@@ -420,51 +183,12 @@
         "outcome": "clicked"
       }
     ],
-    "consoleErrors": [],
-    "httpErrors": []
-  },
-  {
-    "route": "/app/reurb",
-    "finalUrl": "http://localhost:3000/app/reurb",
-    "status": "ok",
-    "actions": [
-      {
-        "kind": "input",
-        "label": "input-0",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-1",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-2",
-        "outcome": "typed"
-      },
-      {
-        "kind": "input",
-        "label": "input-3",
-        "outcome": "typed"
-      },
-      {
-        "kind": "select",
-        "label": "select-0",
-        "outcome": "selected"
-      },
-      {
-        "kind": "select",
-        "label": "select-1",
-        "outcome": "selected"
-      },
-      {
-        "kind": "button",
-        "label": "AUsuario",
-        "outcome": "clicked"
-      }
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
     ],
-    "consoleErrors": [],
     "httpErrors": []
   }
 ]

@@ -44,6 +44,9 @@ let AlertsController = class AlertsController {
     remove(req, id) {
         return this.alertsService.remove(req.tenantId, id);
     }
+    advanceStage(req, id, dto) {
+        return this.alertsService.advanceStage(req.tenantId, id, dto.stage, dto.message, req.user?.sub, dto.evidenceKeys);
+    }
 };
 exports.AlertsController = AlertsController;
 __decorate([
@@ -112,6 +115,17 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], AlertsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)(':id/stage'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:returntype", void 0)
+], AlertsController.prototype, "advanceStage", null);
 exports.AlertsController = AlertsController = __decorate([
     (0, common_1.Controller)('alerts'),
     __metadata("design:paramtypes", [alerts_service_1.AlertsService])

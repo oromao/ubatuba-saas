@@ -44,6 +44,11 @@ __decorate([
 class MobileSyncItemDto {
 }
 __decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MobileSyncItemDto.prototype, "clientId", void 0);
+__decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
@@ -67,6 +72,15 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], MobileSyncItemDto.prototype, "photoBase64", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], MobileSyncItemDto.prototype, "parcelUpdatedAt", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], MobileSyncItemDto.prototype, "evidences", void 0);
 class MobileSyncDto {
 }
 exports.MobileSyncDto = MobileSyncDto;

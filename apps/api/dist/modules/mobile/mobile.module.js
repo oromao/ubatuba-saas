@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MobileModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const ctm_module_1 = require("../ctm/ctm.module");
 const projects_module_1 = require("../projects/projects.module");
 const mobile_controller_1 = require("./mobile.controller");
 const mobile_field_record_schema_1 = require("./mobile-field-record.schema");
@@ -21,6 +22,7 @@ exports.MobileModule = MobileModule = __decorate([
     (0, common_1.Module)({
         imports: [
             projects_module_1.ProjectsModule,
+            ctm_module_1.CtmModule,
             mongoose_1.MongooseModule.forFeature([{ name: mobile_field_record_schema_1.MobileFieldRecord.name, schema: mobile_field_record_schema_1.MobileFieldRecordSchema }]),
         ],
         controllers: [mobile_controller_1.MobileController],

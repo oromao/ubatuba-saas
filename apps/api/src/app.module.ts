@@ -18,6 +18,7 @@ import { LayersModule } from './modules/layers/layers.module';
 import { AreasModule } from './modules/areas/areas.module';
 import { UploadsModule } from './modules/uploads/uploads.module';
 import { RolesGuard } from './common/guards/roles.guard';
+import { SharedModule } from './modules/shared/shared.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { CtmModule } from './modules/ctm/ctm.module';
 import { PgvModule } from './modules/pgv/pgv.module';
@@ -31,6 +32,16 @@ import { SurveysModule } from './modules/surveys/surveys.module';
 import { MobileModule } from './modules/mobile/mobile.module';
 import { PocModule } from './modules/poc/poc.module';
 import { ReurbModule } from './modules/reurb/reurb.module';
+import { CertificatesModule } from './modules/certificates/certificates.module';
+import { PermitsWorksModule } from './modules/permits-works/permits-works.module';
+import { PermitsBusinessModule } from './modules/permits-business/permits-business.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
+import { EnvironmentModule } from './modules/environment/environment.module';
+import { Citizen156Module } from './modules/citizen-156/citizen-156.module';
+import { PublicWorksModule } from './modules/public-works/public-works.module';
+import { CemeteryModule } from './modules/cemetery/cemetery.module';
+import { ObservatoryModule } from './modules/observatory/observatory.module';
+import { IntegrationHubModule } from './modules/integration-hub/integration-hub.module';
 
 @Module({
   imports: [
@@ -38,6 +49,7 @@ import { ReurbModule } from './modules/reurb/reurb.module';
       isGlobal: true,
     }),
     LoggerModule,
+    SharedModule,
     MongooseModule.forRoot(process.env.MONGO_URL ?? '', {
       autoIndex: false,
     }),
@@ -66,6 +78,16 @@ import { ReurbModule } from './modules/reurb/reurb.module';
     MobileModule,
     PocModule,
     ReurbModule,
+    CertificatesModule,
+    PermitsWorksModule,
+    PermitsBusinessModule,
+    MonitoringModule,
+    EnvironmentModule,
+    Citizen156Module,
+    PublicWorksModule,
+    CemeteryModule,
+    ObservatoryModule,
+    IntegrationHubModule,
   ],
   providers: [
     {

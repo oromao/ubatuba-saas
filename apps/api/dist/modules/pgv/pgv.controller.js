@@ -34,6 +34,12 @@ let PgvController = class PgvController {
         res.setHeader('Content-Type', 'text/csv');
         res.send(csv);
     }
+    async getImpactReport(req, projectId, baseVersionId, targetVersionId) {
+        if (!baseVersionId || !targetVersionId) {
+            return { error: 'baseVersionId and targetVersionId are required' };
+        }
+        return this.valuationsService.getImpactReport(req.tenantId, projectId, baseVersionId, targetVersionId);
+    }
     parcelsGeojson(req, projectId, bbox) {
         return this.valuationsService.exportParcelsGeojson(req.tenantId, projectId, bbox);
     }
@@ -68,6 +74,18 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], PgvController.prototype, "reportCsv", null);
+__decorate([
+    (0, common_1.Get)('impact-report'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __param(2, (0, common_1.Query)('baseVersionId')),
+    __param(3, (0, common_1.Query)('targetVersionId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, String, String]),
+    __metadata("design:returntype", Promise)
+], PgvController.prototype, "getImpactReport", null);
 __decorate([
     (0, common_1.Get)('parcels.geojson'),
     __param(0, (0, common_1.Req)()),

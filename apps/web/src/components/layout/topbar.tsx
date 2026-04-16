@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Bell, LogOut, User } from "lucide-react";
+import { Menu, Bell, LogOut, User, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -63,12 +63,21 @@ export function Topbar() {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Global search */}
+      {/* Global search — desktop */}
       <div className="hidden flex-1 md:block">
         <div className="max-w-md">
           <SearchCommand />
         </div>
       </div>
+
+      {/* Global search — mobile button triggers Ctrl+K listener */}
+      <button
+        className="flex rounded-md p-2 text-on-surface-muted transition-colors hover:bg-cloud hover:text-on-surface md:hidden"
+        aria-label="Buscar"
+        onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }))}
+      >
+        <Search className="h-5 w-5" />
+      </button>
 
       <div className="ml-auto flex items-center gap-2">
         {tenantLabel && (

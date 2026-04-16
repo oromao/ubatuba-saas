@@ -1,0 +1,200 @@
+- generic [ref=e1]:
+  - alert [ref=e57]
+  - generic [ref=e58]:
+    - complementary [ref=e59]:
+      - generic [ref=e60]:
+        - generic [ref=e61]: F
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: FlyDea
+          - paragraph [ref=e64]: GeoInteligencia Municipal
+      - navigation [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: INTELIGÊNCIA EXECUTIVA
+          - generic [ref=e69]:
+            - link "Painel de Gestão" [ref=e70] [cursor=pointer]:
+              - /url: /app/dashboard
+              - img [ref=e72]
+              - generic [ref=e77]: Painel de Gestão
+            - link "Observatório Urbano" [ref=e78] [cursor=pointer]:
+              - /url: /app/observatorio
+              - img [ref=e79]
+              - generic [ref=e82]: Observatório Urbano
+            - link "Mapa Interativo" [ref=e83] [cursor=pointer]:
+              - /url: /app/maps
+              - img [ref=e84]
+              - generic [ref=e88]: Mapa Interativo
+        - generic [ref=e89]:
+          - paragraph [ref=e90]: CADASTRO TERRITORIAL (CTM)
+          - generic [ref=e91]:
+            - link "Lotes e Imóveis" [ref=e92] [cursor=pointer]:
+              - /url: /app/ctm/parcelas
+              - img [ref=e93]
+              - generic [ref=e95]: Lotes e Imóveis
+            - link "Malha Viária" [ref=e96] [cursor=pointer]:
+              - /url: /app/ctm/logradouros
+              - img [ref=e97]
+              - generic [ref=e101]: Malha Viária
+            - link "Equipamentos Urbanos" [ref=e102] [cursor=pointer]:
+              - /url: /app/ctm/mobiliario
+              - img [ref=e103]
+              - generic [ref=e106]: Equipamentos Urbanos
+            - link "Planta Genérica (PGV)" [ref=e107] [cursor=pointer]:
+              - /url: /app/pgv/zonas
+              - img [ref=e108]
+              - generic [ref=e112]: Planta Genérica (PGV)
+            - link "Regularização (REURB)" [ref=e113] [cursor=pointer]:
+              - /url: /app/reurb
+              - img [ref=e114]
+              - generic [ref=e117]: Regularização (REURB)
+            - link "Vistorias" [ref=e118] [cursor=pointer]:
+              - /url: /app/ctm/vistorias
+              - img [ref=e119]
+              - generic [ref=e123]: Vistorias
+        - generic [ref=e124]:
+          - paragraph [ref=e125]: FISCALIZAÇÃO E PROCESSOS
+          - generic [ref=e126]:
+            - link "Processos Digitais" [ref=e127] [cursor=pointer]:
+              - /url: /app/processes
+              - img [ref=e128]
+              - generic [ref=e132]: Processos Digitais
+            - link "Monitoramento e Alertas" [active] [ref=e133] [cursor=pointer]:
+              - /url: /app/monitoramento
+              - img [ref=e134]
+              - generic [ref=e137]: Monitoramento e Alertas
+            - link "Atendimento 156" [ref=e138] [cursor=pointer]:
+              - /url: /app/156
+              - img [ref=e139]
+              - generic [ref=e144]: Atendimento 156
+            - link "Notificações Oficiais" [ref=e145] [cursor=pointer]:
+              - /url: /app/cartas
+              - img [ref=e146]
+              - generic [ref=e149]: Notificações Oficiais
+        - generic [ref=e150]:
+          - paragraph [ref=e151]: MÓDULOS DE NEGÓCIO
+          - generic [ref=e152]:
+            - link "Obras Particulares" [ref=e153] [cursor=pointer]:
+              - /url: /app/modulos/obras
+              - img [ref=e154]
+              - generic [ref=e159]: Obras Particulares
+            - link "Atividades Econômicas" [ref=e160] [cursor=pointer]:
+              - /url: /app/modulos/empresas
+              - img [ref=e161]
+              - generic [ref=e164]: Atividades Econômicas
+            - link "Licenciamento Ambiental" [ref=e165] [cursor=pointer]:
+              - /url: /app/ambiental
+              - img [ref=e166]
+              - generic [ref=e169]: Licenciamento Ambiental
+        - generic [ref=e170]:
+          - paragraph [ref=e171]: CONFIGURAÇÃO E INTEGRAÇÃO
+          - generic [ref=e172]:
+            - link "Integrações ERP" [ref=e173] [cursor=pointer]:
+              - /url: /app/integracoes
+              - img [ref=e174]
+              - generic [ref=e177]: Integrações ERP
+            - link "Documentação PoC" [ref=e178] [cursor=pointer]:
+              - /url: /app/poc
+              - img [ref=e179]
+              - generic [ref=e183]: Documentação PoC
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - generic [ref=e187]: A
+          - generic [ref=e188]:
+            - paragraph [ref=e189]: Usuario
+            - paragraph [ref=e190]: "Tenant: 69de380ebc43fc5166d3b3c0"
+        - button "Sair" [ref=e191] [cursor=pointer]:
+          - img [ref=e192]
+          - generic [ref=e195]: Sair
+      - button "Recolher" [ref=e196] [cursor=pointer]:
+        - img [ref=e197]
+        - generic [ref=e199]: Recolher
+    - generic [ref=e200]:
+      - banner [ref=e201]:
+        - button "Recolher menu" [ref=e202] [cursor=pointer]:
+          - img [ref=e203]
+        - button "Abrir busca global" [ref=e206] [cursor=pointer]:
+          - img [ref=e207]
+          - generic [ref=e210]: Buscar parcelas, telas e modulos...
+          - generic [ref=e211]: Ctrl + K
+        - generic [ref=e212]:
+          - generic [ref=e213]: 69de380ebc43fc5166d3b3c0
+          - button "Notificacoes" [ref=e214] [cursor=pointer]:
+            - img [ref=e215]
+          - button "A Usuario" [ref=e219] [cursor=pointer]:
+            - generic [ref=e220]: A
+            - generic [ref=e221]: Usuario
+      - main [ref=e222]:
+        - generic [ref=e496]:
+          - generic [ref=e497]:
+            - generic [ref=e498]:
+              - heading "Monitoramento Ambiental" [level=1] [ref=e499]
+              - paragraph [ref=e500]: Ingestão, triagem e desfecho de eventos ambientais.
+            - generic [ref=e501]: P1
+          - generic [ref=e502]:
+            - generic [ref=e503]:
+              - generic [ref=e504]:
+                - heading "Ingerir evento" [level=3] [ref=e505]
+                - paragraph [ref=e506]: Fonte preparada para operação, sensores e futuros adaptadores externos.
+              - generic [ref=e507]:
+                - textbox "Tipo" [ref=e508]: INUNDACAO
+                - textbox "Título" [ref=e509]: Chuvas intensas e alagamento
+                - textbox "Severidade" [ref=e510]: ALTA
+                - textbox "Fonte" [ref=e511]: CEMADEN
+                - textbox "Modo da fonte" [ref=e512]: API
+                - textbox "Adapter externo" [ref=e513]: CEMADEN
+                - textbox "Latitude" [ref=e514]: "-23.432"
+                - textbox "Longitude" [ref=e515]: "-45.083"
+                - button "Ingerir evento" [ref=e516] [cursor=pointer]
+            - generic [ref=e517]:
+              - generic [ref=e518]:
+                - heading "Eventos" [level=3] [ref=e519]
+                - paragraph [ref=e520]: Painel operacional com filtro, estágio, evidência e desfecho.
+              - generic [ref=e521]:
+                - generic [ref=e522]:
+                  - textbox "Filtrar por estágio" [ref=e523]
+                  - textbox "Filtrar por severidade" [ref=e524]
+                  - textbox "Filtrar por tipo" [ref=e525]
+                  - textbox "Filtrar por modo" [ref=e526]
+                - paragraph [ref=e528]: Nenhum evento monitorado.
+          - generic [ref=e529]:
+            - generic [ref=e531]: "Total: 0"
+            - generic [ref=e533]: "Triagem: 0"
+            - generic [ref=e535]: "Alta criticidade: 0"
+          - generic [ref=e536]:
+            - generic [ref=e538]: "Com evidencia: 0"
+            - generic [ref=e540]: "Sem atribuicao: 0"
+            - generic [ref=e542]: "Notificados: 0"
+          - generic [ref=e543]:
+            - generic [ref=e545]:
+              - heading "Fontes monitoradas" [level=3] [ref=e546]
+              - paragraph [ref=e547]: Defesa civil, sensores e origem de ingestão.
+            - generic [ref=e550]:
+              - heading "Tipos em foco" [level=3] [ref=e551]
+              - paragraph [ref=e552]: Distribuição por tipo de evento.
+          - generic [ref=e554]:
+            - generic [ref=e556]:
+              - heading "Modos de origem" [level=3] [ref=e557]
+              - paragraph [ref=e558]: Preparo para manual, sensor, satelite ou API externa.
+            - generic [ref=e560]:
+              - generic [ref=e561]:
+                - heading "Adaptadores preparados" [level=3] [ref=e562]
+                - paragraph [ref=e563]: Seams prontas para feeds externos sem prometer integração oficial.
+              - generic [ref=e564]:
+                - generic [ref=e565]:
+                  - generic [ref=e566]:
+                    - text: CEMADEN
+                    - paragraph [ref=e567]: API
+                  - generic [ref=e568]: READY_FOR_INTEGRATION
+                - generic [ref=e569]:
+                  - generic [ref=e570]:
+                    - text: INMET
+                    - paragraph [ref=e571]: API
+                  - generic [ref=e572]: READY_FOR_INTEGRATION
+                - generic [ref=e573]:
+                  - generic [ref=e574]:
+                    - text: INPE
+                    - paragraph [ref=e575]: SATELLITE
+                  - generic [ref=e576]: READY_FOR_INTEGRATION
+          - generic [ref=e578]:
+            - heading "Linha do tempo operacional" [level=3] [ref=e579]
+            - paragraph [ref=e580]: Últimos eventos com estágio e situação de desfecho.
+  - region "Notifications alt+T"

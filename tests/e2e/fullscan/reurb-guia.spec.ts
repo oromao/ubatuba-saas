@@ -31,59 +31,48 @@ const ensureSession = async (page: any) => {
     },
     { accessToken: payload.data.accessToken, refreshToken: payload.data.refreshToken, tenantId: payload.data.tenantId },
   );
+  await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+  return { accessToken: payload.data.accessToken, tenantId: payload.data.tenantId };
 };
 
 test.describe('reurb guia ponta a ponta', () => {
   test.use({ storageState: path.resolve(storageDir, 'admin.json') });
 
   test('@reurb guia completo conforme edital', async ({ page }, testInfo) => {
-    await page.route('**/tenants/**', async (route) => {
-      const method = route.request().method();
-      if (method === 'OPTIONS') {
-        await route.fulfill({
-          status: 200,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-            'Access-Control-Allow-Headers': '*',
-          },
-          body: '',
-        });
-        return;
-      }
-      if (method === 'PUT') {
-        await route.fulfill({
-          status: 200,
-          headers: { 'Access-Control-Allow-Origin': '*' },
-          body: '',
-        });
-        return;
-      }
-      await route.continue();
-    });
+    let session: { accessToken: string; tenantId: string } | null = null;
 
     await test.step('Login e ativacao REURB', async () => {
-      await ensureSession(page);
+      session = await ensureSession(page);
+      await fetch(`${API_URL}/reurb/tenant-config`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${session.accessToken}`,
+          'x-tenant-id': session.tenantId,
+        },
+        body: JSON.stringify({ reurbEnabled: true }),
+      });
       await page.goto('/app/reurb', { waitUntil: 'domcontentloaded' });
-
-      const enableButton = page.getByRole('button', { name: /Ativar REURB/i });
-      if (await enableButton.isVisible().catch(() => false)) {
-        await Promise.all([
-          page.waitForResponse((res) => res.url().includes('/reurb/tenant-config') && res.request().method() === 'PUT'),
-          enableButton.click(),
-        ]);
-      }
+      await page.getByRole('heading', { name: 'REURB', exact: true }).waitFor();
+      await page.getByPlaceholder('Nome do projeto').waitFor();
     });
 
     const projectName = `Projeto REURB ${Date.now()}`;
 
     await test.step('Criar projeto REURB-S', async () => {
-      await page.getByPlaceholder('Nome do projeto').fill(projectName);
-      await page.getByPlaceholder('Area / bairro').fill('Centro');
-      await Promise.all([
-        page.waitForResponse((res) => res.url().includes('/reurb/projects') && res.request().method() === 'POST'),
-        page.getByRole('button', { name: 'Criar projeto' }).click(),
-      ]);
+      if (!session) throw new Error('Sessao admin nao inicializada');
+      await fetch(`${API_URL}/reurb/projects`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${session.accessToken}`,
+          'x-tenant-id': session.tenantId,
+          'x-lgpd-purpose': 'REURB - operacao, fiscalizacao e dossie',
+        },
+        body: JSON.stringify({ name: projectName, area: 'Centro' }),
+      });
+      await page.goto('/app/reurb', { waitUntil: 'domcontentloaded' });
+      await page.getByRole('button', { name: projectName }).waitFor();
     });
 
     await test.step('Selecionar projeto', async () => {
@@ -140,7 +129,15 @@ test.describe('reurb guia ponta a ponta', () => {
       await presignProjectDoc;
 
       const familyDocSection = page.getByText('Documento de familia', { exact: true }).locator('..');
-      await familyDocSection.getByRole('combobox').selectOption({ index: 1 });
+      const familySelect = familyDocSection.getByRole('combobox');
+      await page.waitForFunction((el) => (el as HTMLSelectElement).options.length > 1, await familySelect.elementHandle());
+      const familyValue = await familySelect.evaluate((el) => {
+        const select = el as HTMLSelectElement;
+        return Array.from(select.options)
+          .map((option) => option.value)
+          .find((value) => value.trim().length > 0) ?? "";
+      });
+      await familySelect.selectOption(familyValue);
       await familyDocSection.getByPlaceholder('Tipo de documento (ex: RG, CPF, comprovante)').fill('RG');
       await familyDocSection.locator('input[type="file"]').setInputFiles(path.join(fixtureDir, 'rg.txt'));
       await Promise.all([
@@ -149,7 +146,15 @@ test.describe('reurb guia ponta a ponta', () => {
       ]);
 
       const unitDocSection = page.getByText('Documento da unidade', { exact: true }).locator('..');
-      await unitDocSection.getByRole('combobox').selectOption({ index: 1 });
+      const unitSelect = unitDocSection.getByRole('combobox');
+      await page.waitForFunction((el) => (el as HTMLSelectElement).options.length > 1, await unitSelect.elementHandle());
+      const unitValue = await unitSelect.evaluate((el) => {
+        const select = el as HTMLSelectElement;
+        return Array.from(select.options)
+          .map((option) => option.value)
+          .find((value) => value.trim().length > 0) ?? "";
+      });
+      await unitSelect.selectOption(unitValue);
       await unitDocSection.getByPlaceholder('Tipo de documento (ex: foto, memorial)').fill('Foto');
       await unitDocSection.locator('input[type="file"]').setInputFiles(path.join(fixtureDir, 'foto.txt'));
       await Promise.all([

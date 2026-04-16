@@ -6,6 +6,8 @@ import { ParcelsService } from './parcels/parcels.service';
 import { ParcelsRepository } from './parcels/parcels.repository';
 import { Parcel, ParcelSchema } from './parcels/parcel.schema';
 import { ParcelAuditLog, ParcelAuditLogSchema } from './parcels/parcel-audit.schema';
+import { ImportBatch, ImportBatchSchema } from './parcels/import-batch.schema';
+import { ImportBatchRepository } from './parcels/import-batch.repository';
 import { Logradouro, LogradouroSchema } from './logradouros/logradouro.schema';
 import { LogradourosRepository } from './logradouros/logradouros.repository';
 import { LogradourosService } from './logradouros/logradouros.service';
@@ -37,13 +39,21 @@ import { UrbanFurnitureService } from './urban-furniture/urban-furniture.service
 import { UrbanFurnitureController } from './urban-furniture/urban-furniture.controller';
 import { ProjectsModule } from '../projects/projects.module';
 import { ParcelAuditRepository } from './parcels/parcel-audit.repository';
+import { UploadsModule } from '../uploads/uploads.module';
+import { Vistoria, VistoriaSchema } from './vistoria.schema';
+import { VistoriasService } from './vistorias.service';
+import { VistoriasController } from './vistorias.controller';
+import { GeometryService } from './geometry.service';
 
 @Module({
   imports: [
     ProjectsModule,
+    UploadsModule,
     MongooseModule.forFeature([
+      { name: Vistoria.name, schema: VistoriaSchema },
       { name: Parcel.name, schema: ParcelSchema },
       { name: ParcelAuditLog.name, schema: ParcelAuditLogSchema },
+      { name: ImportBatch.name, schema: ImportBatchSchema },
       { name: Logradouro.name, schema: LogradouroSchema },
       { name: ParcelBuilding.name, schema: ParcelBuildingSchema },
       { name: ParcelSocioeconomic.name, schema: ParcelSocioeconomicSchema },
@@ -56,10 +66,13 @@ import { ParcelAuditRepository } from './parcels/parcel-audit.repository';
     ProjectParcelsController,
     LogradourosController,
     UrbanFurnitureController,
+    VistoriasController,
   ],
   providers: [
     ParcelsRepository,
+    ImportBatchRepository,
     ParcelsService,
+    VistoriasService,
     LogradourosRepository,
     LogradourosService,
     ParcelBuildingsRepository,
@@ -71,13 +84,16 @@ import { ParcelAuditRepository } from './parcels/parcel-audit.repository';
     UrbanFurnitureRepository,
     UrbanFurnitureService,
     ParcelAuditRepository,
+    GeometryService,
   ],
   exports: [
     ParcelsRepository,
     ParcelBuildingsRepository,
     ParcelSocioeconomicRepository,
     ParcelInfrastructureRepository,
+    ImportBatchRepository,
     ParcelsService,
+    GeometryService,
   ],
 })
 export class CtmModule {}

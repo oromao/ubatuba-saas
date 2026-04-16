@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   ChevronLeft,
   LogOut,
@@ -11,11 +12,14 @@ import { useSidebar } from "./sidebar-context";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useAuth } from "@/lib/auth";
+import { useQuery } from "@tanstack/react-query";
+import { apiFetch } from "@/lib/api";
 import { getNavGroupsByRole, type NavItem } from "./nav-config";
 
 function NavLink({ item, collapsed, onNavigate }: { item: NavItem; collapsed: boolean; onNavigate?: () => void }) {
   const pathname = usePathname();
-  const active = pathname === item.href || pathname.startsWith(item.href + "/");
+  const currentPath = pathname ?? "";
+  const active = currentPath === item.href || currentPath.startsWith(item.href + "/");
   const Icon = item.icon;
 
   const link = (
@@ -95,8 +99,20 @@ function SidebarBrand({ collapsed }: { collapsed: boolean }) {
 }
 
 function SidebarProfile({ collapsed }: { collapsed: boolean }) {
-  const { userName, userEmail, tenantId, logout } = useAuth();
+  const { userName, userEmail, logout } = useAuth();
+  const [lastTenantSlug, setLastTenantSlug] = useState<string | null>(null);
+  const { data: tenant } = useQuery({
+    queryKey: ["current-tenant"],
+    queryFn: () => apiFetch<{ name: string; slug: string } | null>("/tenants/me"),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  useEffect(() => {
+    setLastTenantSlug(window.localStorage.getItem("lastTenantSlug"));
+  }, []);
+
   const initial = (userName || userEmail || "A").charAt(0).toUpperCase();
+  const tenantLabel = tenant ? `${tenant.name} · ${tenant.slug}` : lastTenantSlug ? `Tenant ${lastTenantSlug}` : "Tenant demo";
 
   return (
     <div className={cn("mx-3 mb-3 mt-3 rounded-md border border-outline bg-cloud/60 p-3", collapsed && "p-2")}>
@@ -107,7 +123,7 @@ function SidebarProfile({ collapsed }: { collapsed: boolean }) {
         {!collapsed && (
           <div className="min-w-0">
             <p className="truncate text-xs font-semibold text-on-surface">{userName || "Usuario"}</p>
-            <p className="truncate text-[11px] text-on-surface-muted">{tenantId ? `Tenant: ${tenantId}` : "Tenant nao definido"}</p>
+            <p className="truncate text-[11px] text-on-surface-muted">{tenantLabel}</p>
           </div>
         )}
       </div>

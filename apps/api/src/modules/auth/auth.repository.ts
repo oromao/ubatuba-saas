@@ -11,6 +11,7 @@ import {
 } from './password-reset.schema';
 import { EmailOutbox, EmailOutboxDocument } from './email-outbox.schema';
 import { AuthEvent, AuthEventDocument } from './auth-event.schema';
+import { PortalSession, PortalSessionDocument } from './portal-session.schema';
 
 @Injectable()
 export class AuthRepository {
@@ -23,6 +24,8 @@ export class AuthRepository {
     private readonly outboxModel: Model<EmailOutboxDocument>,
     @InjectModel(AuthEvent.name)
     private readonly eventModel: Model<AuthEventDocument>,
+    @InjectModel(PortalSession.name)
+    private readonly portalSessionModel: Model<PortalSessionDocument>,
   ) {}
 
   createRefreshToken(data: Partial<RefreshToken>): Promise<RefreshTokenDocument> {
@@ -59,5 +62,17 @@ export class AuthRepository {
 
   createAuthEvent(data: Partial<AuthEvent>): Promise<AuthEventDocument> {
     return this.eventModel.create(data);
+  }
+
+  createPortalSession(data: Partial<PortalSession>): Promise<PortalSessionDocument> {
+    return this.portalSessionModel.create(data);
+  }
+
+  findPortalSession(tokenHash: string): Promise<PortalSessionDocument | null> {
+    return this.portalSessionModel.findOne({ tokenHash }).exec();
+  }
+
+  deletePortalSession(tokenHash: string): Promise<any> {
+    return this.portalSessionModel.deleteOne({ tokenHash }).exec();
   }
 }

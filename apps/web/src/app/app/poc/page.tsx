@@ -31,9 +31,9 @@ export default function PocPage() {
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 px-8 py-6">
       <div>
-        <h1 className="font-display text-2xl font-semibold text-on-surface">PoC 95% - Aderencia</h1>
+        <h1 className="font-display text-2xl font-semibold text-on-surface">Conformidade interna</h1>
         <p className="text-sm text-on-surface-muted">
-          Painel de checagem automatizada dos requisitos do edital e evidencias implementadas.
+          Painel interno de checagem automatizada dos requisitos do edital e evidencias implementadas.
         </p>
       </div>
 

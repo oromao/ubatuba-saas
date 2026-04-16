@@ -2,6 +2,7 @@ import { CacheService } from '../shared/cache.service';
 import { Layer, LayerDocument } from './layer.schema';
 import { LayersRepository } from './layers.repository';
 import { UpdateLayerDto } from './dto/update-layer.dto';
+import { ImportLayerDto, BulkImportLayersDto } from './dto/import-layer.dto';
 type LayerResponse = Layer & {
     id: string;
     legendUrl?: string;
@@ -10,6 +11,7 @@ type LayerResponse = Layer & {
 export declare class LayersService {
     private readonly layersRepository;
     private readonly cacheService;
+    private readonly logger;
     constructor(layersRepository: LayersRepository, cacheService: CacheService);
     private buildGeoserverTileUrl;
     private buildLegendUrl;
@@ -20,5 +22,22 @@ export declare class LayersService {
     }> & {
         __v: number;
     }) | null>;
+    importLayer(tenantId: string, dto: ImportLayerDto): Promise<LayerResponse>;
+    bulkImportLayers(tenantId: string, dto: BulkImportLayersDto): Promise<{
+        imported: number;
+        errors: number;
+        errorDetails: Array<{
+            layer: string;
+            message: string;
+        }>;
+    }>;
+    importSpZoneamentoLayers(tenantId: string): Promise<{
+        imported: number;
+        errors: number;
+        errorDetails: Array<{
+            layer: string;
+            message: string;
+        }>;
+    }>;
 }
 export {};

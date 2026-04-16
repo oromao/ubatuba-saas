@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], MobileFieldRecord.prototype, "parcelId", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], MobileFieldRecord.prototype, "clientId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: Object, default: {} }),
     __metadata("design:type", Object)
 ], MobileFieldRecord.prototype, "checklist", void 0);
@@ -40,9 +44,37 @@ __decorate([
     __metadata("design:type", String)
 ], MobileFieldRecord.prototype, "photoBase64", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], MobileFieldRecord.prototype, "parcelUpdatedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [Object], default: [] }),
+    __metadata("design:type", Array)
+], MobileFieldRecord.prototype, "evidences", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: 'RECEBIDO' }),
     __metadata("design:type", String)
 ], MobileFieldRecord.prototype, "syncStatus", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], MobileFieldRecord.prototype, "syncAttempts", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], MobileFieldRecord.prototype, "syncedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], MobileFieldRecord.prototype, "syncError", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], MobileFieldRecord.prototype, "syncContext", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [Object], default: [] }),
+    __metadata("design:type", Array)
+], MobileFieldRecord.prototype, "syncTimeline", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
@@ -52,4 +84,5 @@ exports.MobileFieldRecord = MobileFieldRecord = __decorate([
 ], MobileFieldRecord);
 exports.MobileFieldRecordSchema = mongoose_1.SchemaFactory.createForClass(MobileFieldRecord);
 exports.MobileFieldRecordSchema.index({ tenantId: 1, projectId: 1, parcelId: 1, createdAt: -1 });
+exports.MobileFieldRecordSchema.index({ tenantId: 1, projectId: 1, clientId: 1 }, { unique: true, sparse: true });
 //# sourceMappingURL=mobile-field-record.schema.js.map

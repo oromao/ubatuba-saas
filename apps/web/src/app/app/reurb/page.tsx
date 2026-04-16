@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DataTable } from "@/components/app/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -89,9 +89,21 @@ type DossierSummary = {
   units: Array<{ unitId: string; missing: string[] }>;
 };
 
+type ImportResult = {
+  created: number;
+  total: number;
+};
+
 export default function ReurbPage() {
   const queryClient = useQueryClient();
-  const getId = (item: { id?: string; _id?: string }) => item.id ?? item._id ?? "";
+  const getId = useCallback((item: { id?: string; _id?: string }) => item.id ?? item._id ?? "", []);
+  const lgpdPurpose = "REURB - operacao, fiscalizacao e dossie";
+  const lgpdHeaders = useCallback(
+    () => ({
+      "x-lgpd-purpose": lgpdPurpose,
+    }),
+    [],
+  );
   const [q, setQ] = useState("");
   const [projectId, setProjectId] = useState("");
   const projectIdSafe = typeof projectId === "string" ? projectId : "";
@@ -148,24 +160,34 @@ export default function ReurbPage() {
     queryFn: () => apiFetch<ReurbProject[]>("/reurb/projects"),
   });
 
+  useEffect(() => {
+    if (!projectIdSafe && projectsQuery.data?.length) {
+      setProjectId(getId(projectsQuery.data[0]));
+    }
+  }, [getId, projectIdSafe, projectsQuery.data]);
+
   const familiesQuery = useQuery({
     queryKey: ["reurb-families", q, projectIdSafe],
     queryFn: () =>
       apiFetch<Family[]>(
         `/reurb/families${projectIdSafe ? `?projectId=${projectIdSafe}&` : "?"}q=${encodeURIComponent(q)}`,
+        { headers: lgpdHeaders() },
       ),
+    enabled: projectIdSafe.length > 0,
   });
 
   const pendenciesQuery = useQuery({
     queryKey: ["reurb-pendencies", projectIdSafe],
     queryFn: () =>
       apiFetch<Pendency[]>(`/reurb/pendencies${projectIdSafe ? `?projectId=${projectIdSafe}` : ""}`),
+    enabled: projectIdSafe.length > 0,
   });
 
   const deliverablesQuery = useQuery({
     queryKey: ["reurb-deliverables", projectIdSafe],
     queryFn: () =>
       apiFetch<Deliverable[]>(`/reurb/deliverables${projectIdSafe ? `?projectId=${projectIdSafe}` : ""}`),
+    enabled: projectIdSafe.length > 0,
   });
 
   const unitsQuery = useQuery({
@@ -307,7 +329,7 @@ export default function ReurbPage() {
     },
   });
 
-  const importFamilies = useMutation({
+  const importFamilies = useMutation<ImportResult>({
     mutationFn: async () => {
       ensureReurbEnabled();
       ensureProjectSelected();
@@ -331,6 +353,7 @@ export default function ReurbPage() {
       ensureProjectSelected();
       return apiFetch<Deliverable>("/reurb/planilha-sintese/generate", {
         method: "POST",
+        headers: lgpdHeaders(),
         body: JSON.stringify({ projectId: projectIdSafe }),
       });
     },
@@ -349,6 +372,7 @@ export default function ReurbPage() {
       ensureProjectSelected();
       return apiFetch<Deliverable>("/reurb/families/export.csv", {
         method: "POST",
+        headers: lgpdHeaders(),
         body: JSON.stringify({ projectId: projectIdSafe }),
       });
     },
@@ -367,6 +391,7 @@ export default function ReurbPage() {
       ensureProjectSelected();
       return apiFetch<Deliverable>("/reurb/families/export.json", {
         method: "POST",
+        headers: lgpdHeaders(),
         body: JSON.stringify({ projectId: projectIdSafe }),
       });
     },
@@ -385,6 +410,7 @@ export default function ReurbPage() {
       ensureProjectSelected();
       return apiFetch<Deliverable>("/reurb/cartorio/package", {
         method: "POST",
+        headers: lgpdHeaders(),
         body: JSON.stringify({ projectId: projectIdSafe }),
       });
     },
@@ -613,13 +639,19 @@ export default function ReurbPage() {
     [configQuery.data?.spreadsheet?.columns],
   );
 
+  const totalFamilias = familiesQuery.data?.length ?? 0;
+  const familiasAptas = familiesQuery.data?.filter((f) => f.status === "APTA").length ?? 0;
+  const familiasPendentes = familiesQuery.data?.filter((f) => f.status === "PENDENTE").length ?? 0;
+  const totalPendencias = pendenciesQuery.data?.filter((p) => p.status === "ABERTA").length ?? 0;
+  const totalProjetos = projectsQuery.data?.length ?? 0;
+
   return (
     <div className="mx-auto w-full max-w-7xl space-y-6 px-8 py-6">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-semibold text-on-surface">REURB</h1>
+          <h1 className="font-display text-2xl font-semibold text-on-surface">REURB — Regularizacao Fundiaria</h1>
           <p className="text-sm text-on-surface-muted">
-            Banco tabulado, planilha sintese, pendencias documentais e pacote cartorio por tenant.
+            Gestao de familias, unidades, documentos e entregaveis para REURB-S e REURB-E.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -630,6 +662,48 @@ export default function ReurbPage() {
             {configQuery.data?.reurbEnabled ? "Desativar" : "Ativar"} REURB
           </Button>
         </div>
+      </div>
+
+      {/* Stats cards */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs uppercase tracking-[0.12em] text-on-surface-muted">Projetos</p>
+            <p className="mt-1 text-2xl font-semibold text-on-surface">
+              {projectsQuery.isLoading ? <span className="inline-block h-7 w-12 animate-pulse rounded bg-muted" /> : totalProjetos}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs uppercase tracking-[0.12em] text-on-surface-muted">Familias Cadastradas</p>
+            <p className="mt-1 text-2xl font-semibold text-on-surface">
+              {familiesQuery.isLoading ? <span className="inline-block h-7 w-12 animate-pulse rounded bg-muted" /> : totalFamilias}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs uppercase tracking-[0.12em] text-on-surface-muted">Familias Aptas</p>
+            <p className="mt-1 text-2xl font-semibold text-emerald-600">
+              {familiesQuery.isLoading ? <span className="inline-block h-7 w-12 animate-pulse rounded bg-muted" /> : familiasAptas}
+            </p>
+            {totalFamilias > 0 && !familiesQuery.isLoading && (
+              <p className="text-xs text-on-surface-muted">{Math.round((familiasAptas / totalFamilias) * 100)}% do total</p>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs uppercase tracking-[0.12em] text-on-surface-muted">Pendencias Abertas</p>
+            <p className={`mt-1 text-2xl font-semibold ${totalPendencias > 0 ? "text-rose-600" : "text-on-surface"}`}>
+              {pendenciesQuery.isLoading ? <span className="inline-block h-7 w-12 animate-pulse rounded bg-muted" /> : totalPendencias}
+            </p>
+            {familiasPendentes > 0 && !familiesQuery.isLoading && (
+              <p className="text-xs text-amber-600">{familiasPendentes} familias pendentes</p>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
@@ -709,7 +783,7 @@ export default function ReurbPage() {
             {(projectsQuery.data ?? []).map((project) => (
               <Button
                 key={getId(project)}
-                variant={projectIdSafe === getId(project) ? "default" : "outline"}
+                variant={projectIdSafe === getId(project) ? "primary" : "outline"}
                 onClick={() => setProjectId(getId(project))}
               >
                 {project.name}

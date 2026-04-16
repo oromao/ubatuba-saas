@@ -1,0 +1,135 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e2]
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - paragraph [ref=e8]: FlyDea
+          - paragraph [ref=e9]: GeoInteligencia Municipal
+      - navigation [ref=e11]:
+        - generic [ref=e12]:
+          - paragraph [ref=e13]: INTELIGÊNCIA EXECUTIVA
+          - generic [ref=e14]:
+            - link "Painel de Gestão" [ref=e15] [cursor=pointer]:
+              - /url: /app/dashboard
+              - img [ref=e16]
+              - generic [ref=e21]: Painel de Gestão
+            - link "Observatório Urbano" [ref=e22] [cursor=pointer]:
+              - /url: /app/observatorio
+              - img [ref=e23]
+              - generic [ref=e26]: Observatório Urbano
+            - link "Mapa Interativo" [ref=e27] [cursor=pointer]:
+              - /url: /app/maps
+              - img [ref=e28]
+              - generic [ref=e32]: Mapa Interativo
+        - generic [ref=e33]:
+          - paragraph [ref=e34]: CADASTRO TERRITORIAL (CTM)
+          - generic [ref=e35]:
+            - link "Lotes e Imóveis" [ref=e36] [cursor=pointer]:
+              - /url: /app/ctm/parcelas
+              - img [ref=e37]
+              - generic [ref=e39]: Lotes e Imóveis
+            - link "Malha Viária" [ref=e40] [cursor=pointer]:
+              - /url: /app/ctm/logradouros
+              - img [ref=e41]
+              - generic [ref=e45]: Malha Viária
+            - link "Equipamentos Urbanos" [ref=e46] [cursor=pointer]:
+              - /url: /app/ctm/mobiliario
+              - img [ref=e47]
+              - generic [ref=e50]: Equipamentos Urbanos
+            - link "Planta Genérica (PGV)" [ref=e51] [cursor=pointer]:
+              - /url: /app/pgv/zonas
+              - img [ref=e52]
+              - generic [ref=e56]: Planta Genérica (PGV)
+            - link "Regularização (REURB)" [ref=e57] [cursor=pointer]:
+              - /url: /app/reurb
+              - img [ref=e58]
+              - generic [ref=e61]: Regularização (REURB)
+            - link "Vistorias" [ref=e62] [cursor=pointer]:
+              - /url: /app/ctm/vistorias
+              - img [ref=e63]
+              - generic [ref=e67]: Vistorias
+        - generic [ref=e68]:
+          - paragraph [ref=e69]: FISCALIZAÇÃO E PROCESSOS
+          - generic [ref=e70]:
+            - link "Processos Digitais" [ref=e71] [cursor=pointer]:
+              - /url: /app/processes
+              - img [ref=e72]
+              - generic [ref=e76]: Processos Digitais
+            - link "Monitoramento e Alertas" [ref=e77] [cursor=pointer]:
+              - /url: /app/monitoramento
+              - img [ref=e78]
+              - generic [ref=e81]: Monitoramento e Alertas
+            - link "Atendimento 156" [ref=e82] [cursor=pointer]:
+              - /url: /app/156
+              - img [ref=e83]
+              - generic [ref=e88]: Atendimento 156
+            - link "Notificações Oficiais" [ref=e89] [cursor=pointer]:
+              - /url: /app/cartas
+              - img [ref=e90]
+              - generic [ref=e93]: Notificações Oficiais
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: MÓDULOS DE NEGÓCIO
+          - generic [ref=e96]:
+            - link "Obras Particulares" [ref=e97] [cursor=pointer]:
+              - /url: /app/modulos/obras
+              - img [ref=e98]
+              - generic [ref=e103]: Obras Particulares
+            - link "Atividades Econômicas" [ref=e104] [cursor=pointer]:
+              - /url: /app/modulos/empresas
+              - img [ref=e105]
+              - generic [ref=e108]: Atividades Econômicas
+            - link "Licenciamento Ambiental" [ref=e109] [cursor=pointer]:
+              - /url: /app/ambiental
+              - img [ref=e110]
+              - generic [ref=e113]: Licenciamento Ambiental
+        - generic [ref=e114]:
+          - paragraph [ref=e115]: CONFIGURAÇÃO E INTEGRAÇÃO
+          - generic [ref=e116]:
+            - link "Integrações ERP" [ref=e117] [cursor=pointer]:
+              - /url: /app/integracoes
+              - img [ref=e118]
+              - generic [ref=e121]: Integrações ERP
+            - link "Documentação PoC" [ref=e122] [cursor=pointer]:
+              - /url: /app/poc
+              - img [ref=e123]
+              - generic [ref=e127]: Documentação PoC
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - generic [ref=e131]: A
+          - generic [ref=e132]:
+            - paragraph [ref=e133]: Usuario
+            - paragraph [ref=e134]: "Tenant: 69de380ebc43fc5166d3b3c0"
+        - button "Sair" [ref=e135] [cursor=pointer]:
+          - img [ref=e136]
+          - generic [ref=e139]: Sair
+      - button "Recolher" [ref=e140] [cursor=pointer]:
+        - img [ref=e141]
+        - generic [ref=e143]: Recolher
+    - generic [ref=e144]:
+      - banner [ref=e145]:
+        - button "Recolher menu" [ref=e146] [cursor=pointer]:
+          - img [ref=e147]
+        - button "Abrir busca global" [ref=e150] [cursor=pointer]:
+          - img [ref=e151]
+          - generic [ref=e154]: Buscar parcelas, telas e modulos...
+          - generic [ref=e155]: Ctrl + K
+        - generic [ref=e156]:
+          - generic [ref=e157]: 69de380ebc43fc5166d3b3c0
+          - button "Notificacoes" [ref=e158] [cursor=pointer]:
+            - img [ref=e159]
+          - button "A Usuario" [ref=e163] [cursor=pointer]:
+            - generic [ref=e164]: A
+            - generic [ref=e165]: Usuario
+      - main [ref=e166]:
+        - generic [ref=e167]:
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - heading "PGV - Faces de Quadra" [level=1] [ref=e170]
+              - paragraph [ref=e171]: Planta Genérica de Valores aplicada à infraestrutura urbana.
+            - generic [ref=e172]: P0 Tributário
+          - generic [ref=e175]:
+            - heading "Valoração de Terrenos" [level=3] [ref=e176]
+            - paragraph [ref=e177]: Valores base para cálculo venal por metro quadrado.
+  - region "Notifications alt+T"

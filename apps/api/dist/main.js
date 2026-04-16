@@ -5,6 +5,7 @@ const common_1 = require("@nestjs/common");
 const helmet_1 = require("helmet");
 const express_1 = require("express");
 const crypto_1 = require("crypto");
+const path_1 = require("path");
 const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 const http_exception_filter_1 = require("./common/filters/http-exception.filter");
@@ -14,6 +15,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         bufferLogs: true,
     });
+    app.useStaticAssets((0, path_1.join)(process.cwd(), 'uploads'), { prefix: '/uploads/' });
     const logger = app.get(logger_service_1.LoggerService);
     app.useLogger(logger);
     app.use((0, helmet_1.default)());
@@ -94,6 +96,20 @@ async function bootstrap() {
     const port = process.env.PORT ? Number(process.env.PORT) : 4000;
     await app.listen(port);
     logger.log(`API started on port ${port}`);
+    const shutdown = async (signal) => {
+        logger.log(`Received ${signal}, shutting down gracefully...`);
+        await app.close();
+        process.exit(0);
+    };
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on('unhandledRejection', (reason) => {
+        logger.error(`Unhandled Promise Rejection: ${String(reason)}`);
+    });
+    process.on('uncaughtException', (error) => {
+        logger.error(`Uncaught Exception: ${error.message}\n${error.stack}`);
+        process.exit(1);
+    });
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

@@ -1,0 +1,338 @@
+[    1113ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3002/login:0
+[    1428ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3002/favicon.ico:0
+[   27928ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2685691.425827954,-5016715.040412689,-2683245.4409228265:0
+[   27929ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27931ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5016715.040412689,-2685691.425827954,-5014269.055507563,-2683245.4409228265:0
+[   27933ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27934ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2688137.4107330777,-5016715.040412689,-2685691.425827954:0
+[   27935ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27939ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2683245.4409228265,-5016715.040412689,-2680799.456017703:0
+[   27939ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27940ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5016715.040412689,-2688137.4107330777,-5014269.055507563,-2685691.425827954:0
+[   27941ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27941ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5021607.01022294,-2685691.425827954,-5019161.025317814,-2683245.4409228265:0
+[   27941ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27942ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5016715.040412689,-2683245.4409228265,-5014269.055507563,-2680799.456017703:0
+[   27942ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27943ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5021607.01022294,-2688137.4107330777,-5019161.025317814,-2685691.425827954:0
+[   27943ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27943ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5021607.01022294,-2683245.4409228265,-5019161.025317814,-2680799.456017703:0
+[   27944ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27944ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5014269.055507563,-2685691.425827954,-5011823.0706024375,-2683245.4409228265:0
+[   27944ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27945ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5014269.055507563,-2688137.4107330777,-5011823.0706024375,-2685691.425827954:0
+[   27945ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27945ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5014269.055507563,-2683245.4409228265,-5011823.0706024375,-2680799.456017703:0
+[   27945ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27946ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5024052.995128065,-2685691.425827954,-5021607.01022294,-2683245.4409228265:0
+[   27947ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27948ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5024052.995128065,-2688137.4107330777,-5021607.01022294,-2685691.425827954:0
+[   27949ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27949ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5024052.995128065,-2683245.4409228265,-5021607.01022294,-2680799.456017703:0
+[   27949ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27973ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2685691.425827954,-5014269.055507563,-2680799.456017703:0
+[   27973ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27975ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2690583.395638205,-5014269.055507563,-2685691.425827954:0
+[   27975ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27976ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5024052.995128065,-2685691.425827954,-5019161.025317814,-2680799.456017703:0
+[   27976ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27982ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5024052.995128065,-2690583.395638205,-5019161.025317814,-2685691.425827954:0
+[   27982ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27983ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5014269.055507563,-2685691.425827954,-5009377.085697312,-2680799.456017703:0
+[   27984ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27989ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5014269.055507563,-2690583.395638205,-5009377.085697312,-2685691.425827954:0
+[   27989ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27990ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5019161.025317814,-2690583.395638205,-5009377.085697312,-2680799.456017703:0
+[   27990ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   27990ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5028944.9649383165,-2690583.395638205,-5019161.025317814,-2680799.456017703:0
+[   27990ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   28023ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5028944.9649383165,-2700367.3352587074,-5009377.085697312,-2680799.456017703:0
+[   28023ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   28044ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5048512.844179321,-2700367.3352587074,-5009377.085697312,-2661231.576776698:0
+[   28044ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   28060ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5087648.602661332,-2739503.0937407166,-5009377.085697312,-2661231.576776698:0
+[   28061ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   28256ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5165920.119625352,-2817774.6107047386,-5009377.085697312,-2661231.576776698:0
+[   28256ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[   28272ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=tenant_demo:ortomosaico_mock&STYLES=&FORMAT=image/png&TRANSPARENT=true&SRS=EPSG:3857&WIDTH=256&HEIGHT=256&BBOX=-5322463.153553393,-2817774.6107047386,-5009377.085697312,-2504688.542848654:0
+[   28272ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at Object.et [as m] (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:247151
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770 @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0

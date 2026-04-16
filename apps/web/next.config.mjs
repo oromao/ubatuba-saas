@@ -7,6 +7,16 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@watergis/maplibre-gl-terradraw'],
+  async rewrites() {
+    const apiTarget = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${apiTarget}/:path*`,
+      },
+    ];
+  },
   webpack(config) {
     config.resolve.alias['@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css'] =
       join(__dirname, 'node_modules', '@watergis', 'maplibre-gl-terradraw', 'dist', 'maplibre-gl-terradraw.css');

@@ -1,0 +1,307 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e2]
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - paragraph [ref=e8]: FlyDea
+          - paragraph [ref=e9]: GeoInteligencia Municipal
+      - navigation [ref=e11]
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: A
+          - generic [ref=e16]:
+            - paragraph [ref=e17]: Usuario
+            - paragraph [ref=e18]: Tenant nao definido
+        - button "Sair" [ref=e19] [cursor=pointer]:
+          - img [ref=e20]
+          - generic [ref=e23]: Sair
+      - button "Recolher" [ref=e24] [cursor=pointer]:
+        - img [ref=e25]
+        - generic [ref=e27]: Recolher
+    - generic [ref=e28]:
+      - banner [ref=e29]:
+        - button "Recolher menu" [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+        - button "Abrir busca global" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+          - generic [ref=e38]: Buscar parcelas, telas e modulos...
+          - generic [ref=e39]: Ctrl + K
+        - generic [ref=e40]:
+          - button "Notificacoes" [ref=e41] [cursor=pointer]:
+            - img [ref=e42]
+          - button "A Usuario" [ref=e46] [cursor=pointer]:
+            - generic [ref=e47]: A
+            - generic [ref=e48]: Usuario
+      - main [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]:
+              - heading "REURB — Regularizacao Fundiaria" [level=1] [ref=e53]
+              - paragraph [ref=e54]: Gestao de familias, unidades, documentos e entregaveis para REURB-S e REURB-E.
+            - generic [ref=e55]:
+              - generic [ref=e56]: REURB desabilitado
+              - button "Ativar REURB" [ref=e57] [cursor=pointer]
+          - generic [ref=e58]:
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: Projetos
+              - paragraph [ref=e62]
+            - generic [ref=e65]:
+              - paragraph [ref=e66]: Familias Cadastradas
+              - paragraph [ref=e67]: "0"
+            - generic [ref=e69]:
+              - paragraph [ref=e70]: Familias Aptas
+              - paragraph [ref=e71]: "0"
+            - generic [ref=e73]:
+              - paragraph [ref=e74]: Pendencias Abertas
+              - paragraph [ref=e75]: "0"
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - heading "Entregaveis obrigatorios" [level=3] [ref=e78]
+              - paragraph [ref=e79]: Geracao bloqueada automaticamente quando houver inconsistencias de conformidade.
+            - generic [ref=e80]:
+              - button "Gerar Planilha Sintese" [disabled]
+              - button "Exportar Banco Tabulado (CSV)" [disabled]
+              - button "Exportar Banco Tabulado (JSON)" [disabled]
+              - button "Gerar Pacote Cartorio (ZIP)" [disabled]
+            - paragraph [ref=e81]: REURB esta desabilitado. Ative o modulo para liberar as geracoes.
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - heading "Projetos REURB" [level=3] [ref=e84]
+              - paragraph [ref=e85]: Selecione um projeto ativo para trabalhar nas familias e unidades.
+            - generic [ref=e87]:
+              - textbox "Nome do projeto" [ref=e88]
+              - textbox "Area / bairro" [ref=e89]
+              - button "Criar projeto" [disabled]
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - heading "Cadastro de familias beneficiarias" [level=3] [ref=e93]
+                - paragraph [ref=e94]: Modelo estruturado, com status Apta/Pendente/Irregular.
+              - generic [ref=e95]:
+                - generic [ref=e96]:
+                  - textbox "Codigo da familia" [ref=e97]
+                  - textbox "Nucleo" [ref=e98]
+                - generic [ref=e99]:
+                  - textbox "Responsavel" [ref=e100]
+                  - textbox "CPF" [ref=e101]
+                - combobox [ref=e102]:
+                  - option "Pendente" [selected]
+                  - option "Apta"
+                  - option "Irregular"
+                - button "Cadastrar familia" [disabled]
+                - generic [ref=e103]:
+                  - textbox "CSV (familyCode,nucleus,responsibleName,cpf,address)" [ref=e104]: familyCode,nucleus,responsibleName,cpf,address
+                  - button "Importar CSV" [disabled]
+                - textbox "Buscar por codigo, responsavel, CPF..." [ref=e105]
+                - table [ref=e109]:
+                  - rowgroup [ref=e110]:
+                    - row "Codigo Nucleo Responsavel Status" [ref=e111]:
+                      - columnheader "Codigo" [ref=e112] [cursor=pointer]:
+                        - generic [ref=e113]:
+                          - text: Codigo
+                          - img [ref=e114]
+                      - columnheader "Nucleo" [ref=e117] [cursor=pointer]:
+                        - generic [ref=e118]:
+                          - text: Nucleo
+                          - img [ref=e119]
+                      - columnheader "Responsavel" [ref=e122] [cursor=pointer]:
+                        - generic [ref=e123]:
+                          - text: Responsavel
+                          - img [ref=e124]
+                      - columnheader "Status" [ref=e127] [cursor=pointer]:
+                        - generic [ref=e128]:
+                          - text: Status
+                          - img [ref=e129]
+                  - rowgroup [ref=e132]:
+                    - row "Nenhuma familia cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e133]:
+                      - cell "Nenhuma familia cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e134]:
+                        - generic [ref=e135]:
+                          - paragraph [ref=e136]: Nenhuma familia cadastrada.
+                          - paragraph [ref=e137]: Ajuste filtros ou verifique se existem dados cadastrados.
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - heading "Unidades / Imoveis" [level=3] [ref=e140]
+                - paragraph [ref=e141]: Base para plantas, memoriais e CRF.
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - textbox "Codigo da unidade" [ref=e144]
+                  - textbox "Quadra" [ref=e145]
+                  - textbox "Lote" [ref=e146]
+                  - textbox "Endereco" [ref=e147]
+                - button "Cadastrar unidade" [disabled]
+                - table [ref=e151]:
+                  - rowgroup [ref=e152]:
+                    - row "Codigo Quadra Lote Endereco" [ref=e153]:
+                      - columnheader "Codigo" [ref=e154] [cursor=pointer]:
+                        - generic [ref=e155]:
+                          - text: Codigo
+                          - img [ref=e156]
+                      - columnheader "Quadra" [ref=e159] [cursor=pointer]:
+                        - generic [ref=e160]:
+                          - text: Quadra
+                          - img [ref=e161]
+                      - columnheader "Lote" [ref=e164] [cursor=pointer]:
+                        - generic [ref=e165]:
+                          - text: Lote
+                          - img [ref=e166]
+                      - columnheader "Endereco" [ref=e169] [cursor=pointer]:
+                        - generic [ref=e170]:
+                          - text: Endereco
+                          - img [ref=e171]
+                  - rowgroup [ref=e174]:
+                    - row "Nenhuma unidade cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e175]:
+                      - cell "Nenhuma unidade cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e176]:
+                        - generic [ref=e177]:
+                          - paragraph [ref=e178]: Nenhuma unidade cadastrada.
+                          - paragraph [ref=e179]: Ajuste filtros ou verifique se existem dados cadastrados.
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - heading "Documentos e dossie" [level=3] [ref=e182]
+              - paragraph [ref=e183]: "Tipos exigidos: familias (livre), projeto (livre), unidades (livre)."
+            - generic [ref=e184]:
+              - generic [ref=e185]:
+                - paragraph [ref=e186]: Documento de familia
+                - combobox [ref=e187]:
+                  - option "Selecione uma familia" [selected]
+                - 'textbox "Tipo de documento (ex: RG, CPF, comprovante)" [ref=e188]'
+                - button "Choose File" [ref=e189]
+                - button "Enviar documento" [ref=e190] [cursor=pointer]
+              - generic [ref=e191]:
+                - paragraph [ref=e192]: Documento do projeto
+                - 'textbox "Tipo de documento (ex: planta, memorial)" [ref=e193]'
+                - button "Choose File" [ref=e194]
+                - button "Enviar documento" [ref=e195] [cursor=pointer]
+              - generic [ref=e196]:
+                - paragraph [ref=e197]: Documento da unidade
+                - combobox [ref=e198]:
+                  - option "Selecione uma unidade" [selected]
+                - 'textbox "Tipo de documento (ex: foto, memorial)" [ref=e199]'
+                - button "Choose File" [ref=e200]
+                - button "Enviar documento" [ref=e201] [cursor=pointer]
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - heading "Dossie do projeto" [level=3] [ref=e204]
+              - paragraph [ref=e205]: Status consolidado de documentos faltantes.
+            - paragraph [ref=e207]: Selecione um projeto para ver o dossie.
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - heading "Notificacoes e evidencias" [level=3] [ref=e210]
+              - paragraph [ref=e211]: Templates, envios por email e anexos de comprovantes.
+            - generic [ref=e212]:
+              - generic [ref=e213]:
+                - generic [ref=e214]:
+                  - paragraph [ref=e215]: Novo template
+                  - textbox "Nome do template" [ref=e216]
+                  - textbox "Assunto" [ref=e217]
+                  - 'textbox "Corpo (use {{variavel}})" [ref=e218]'
+                  - button "Criar template" [ref=e219] [cursor=pointer]
+                - generic [ref=e220]:
+                  - paragraph [ref=e221]: Enviar email
+                  - combobox [ref=e222]:
+                    - option "Selecione um template" [selected]
+                  - textbox "Email destinatario" [ref=e223]
+                  - 'textbox "Variaveis JSON (ex: {\"nome\":\"Maria\"})" [ref=e224]': "{}"
+                  - button "Enviar notificacao" [ref=e225] [cursor=pointer]
+              - generic [ref=e226]:
+                - generic [ref=e227]:
+                  - paragraph [ref=e228]: Evidencia de notificacao
+                  - combobox [ref=e229]:
+                    - option "Selecione uma notificacao" [selected]
+                  - button "Choose File" [ref=e230]
+                  - button "Anexar evidencia" [ref=e231] [cursor=pointer]
+                - generic [ref=e232]:
+                  - paragraph [ref=e233]: Historico de notificacoes
+                  - table [ref=e237]:
+                    - rowgroup [ref=e238]:
+                      - row "Template Destino Status Enviado em" [ref=e239]:
+                        - columnheader "Template" [ref=e240] [cursor=pointer]:
+                          - generic [ref=e241]:
+                            - text: Template
+                            - img [ref=e242]
+                        - columnheader "Destino" [ref=e245] [cursor=pointer]:
+                          - generic [ref=e246]:
+                            - text: Destino
+                            - img [ref=e247]
+                        - columnheader "Status" [ref=e250] [cursor=pointer]:
+                          - generic [ref=e251]:
+                            - text: Status
+                            - img [ref=e252]
+                        - columnheader "Enviado em" [ref=e255] [cursor=pointer]:
+                          - generic [ref=e256]:
+                            - text: Enviado em
+                            - img [ref=e257]
+                    - rowgroup [ref=e260]:
+                      - row "Nenhuma notificacao enviada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e261]:
+                        - cell "Nenhuma notificacao enviada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e262]:
+                          - generic [ref=e263]:
+                            - paragraph [ref=e264]: Nenhuma notificacao enviada.
+                            - paragraph [ref=e265]: Ajuste filtros ou verifique se existem dados cadastrados.
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - heading "Pendencias documentais" [level=3] [ref=e268]
+              - paragraph [ref=e269]: Controle por nucleo/familia com trilha de status.
+            - table [ref=e274]:
+              - rowgroup [ref=e275]:
+                - row "Nucleo Tipo Documento faltante Responsavel Status" [ref=e276]:
+                  - columnheader "Nucleo" [ref=e277] [cursor=pointer]:
+                    - generic [ref=e278]:
+                      - text: Nucleo
+                      - img [ref=e279]
+                  - columnheader "Tipo" [ref=e282] [cursor=pointer]:
+                    - generic [ref=e283]:
+                      - text: Tipo
+                      - img [ref=e284]
+                  - columnheader "Documento faltante" [ref=e287] [cursor=pointer]:
+                    - generic [ref=e288]:
+                      - text: Documento faltante
+                      - img [ref=e289]
+                  - columnheader "Responsavel" [ref=e292] [cursor=pointer]:
+                    - generic [ref=e293]:
+                      - text: Responsavel
+                      - img [ref=e294]
+                  - columnheader "Status" [ref=e297] [cursor=pointer]:
+                    - generic [ref=e298]:
+                      - text: Status
+                      - img [ref=e299]
+              - rowgroup [ref=e302]:
+                - row "Nenhuma pendencia cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e303]:
+                  - cell "Nenhuma pendencia cadastrada. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e304]:
+                    - generic [ref=e305]:
+                      - paragraph [ref=e306]: Nenhuma pendencia cadastrada.
+                      - paragraph [ref=e307]: Ajuste filtros ou verifique se existem dados cadastrados.
+          - generic [ref=e308]:
+            - generic [ref=e309]:
+              - heading "Historico de entregaveis" [level=3] [ref=e310]
+              - paragraph [ref=e311]: "Template: v1. Colunas: padrao."
+            - table [ref=e316]:
+              - rowgroup [ref=e317]:
+                - row "Tipo Versao Arquivo Gerado em Hash" [ref=e318]:
+                  - columnheader "Tipo" [ref=e319] [cursor=pointer]:
+                    - generic [ref=e320]:
+                      - text: Tipo
+                      - img [ref=e321]
+                  - columnheader "Versao" [ref=e324] [cursor=pointer]:
+                    - generic [ref=e325]:
+                      - text: Versao
+                      - img [ref=e326]
+                  - columnheader "Arquivo" [ref=e329] [cursor=pointer]:
+                    - generic [ref=e330]:
+                      - text: Arquivo
+                      - img [ref=e331]
+                  - columnheader "Gerado em" [ref=e334] [cursor=pointer]:
+                    - generic [ref=e335]:
+                      - text: Gerado em
+                      - img [ref=e336]
+                  - columnheader "Hash" [ref=e339] [cursor=pointer]:
+                    - generic [ref=e340]:
+                      - text: Hash
+                      - img [ref=e341]
+              - rowgroup [ref=e344]:
+                - row "Nenhum entregavel gerado ainda. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e345]:
+                  - cell "Nenhum entregavel gerado ainda. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e346]:
+                    - generic [ref=e347]:
+                      - paragraph [ref=e348]: Nenhum entregavel gerado ainda.
+                      - paragraph [ref=e349]: Ajuste filtros ou verifique se existem dados cadastrados.
+  - region "Notifications alt+T"

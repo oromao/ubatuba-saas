@@ -10,6 +10,20 @@ export declare class MobileController {
         };
     }, dto: MobileSyncDto): Promise<{
         processed: number;
+        failed: {
+            clientId?: string;
+            status: "PROCESSADO" | "ERRO";
+            error?: string;
+            evidenceCount: number;
+            details?: {
+                clientParcelUpdatedAt?: string;
+                serverParcelUpdatedAt?: string;
+            } | undefined;
+        }[];
+        evidenceSummary: {
+            processed: number;
+            failed: number;
+        };
     }>;
     list(req: {
         tenantId: string;
@@ -18,4 +32,15 @@ export declare class MobileController {
     }> & {
         __v: number;
     })[]>;
+    dashboard(req: {
+        tenantId: string;
+    }, projectId?: string): Promise<{
+        total: number;
+        processado: number;
+        conflito: number;
+        recebido: number;
+        comEvidencias: number;
+        evidenciasTotal: number;
+        erros: number;
+    }>;
 }

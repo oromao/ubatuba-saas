@@ -1,0 +1,5 @@
+[    1409ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://172.233.188.166:3000/favicon.ico:0
+[    1578ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://172.233.188.166:4000/reurb/projects:0
+[    1582ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://172.233.188.166:4000/reurb/tenant-config:0
+[    1588ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://172.233.188.166:3000/login:0
+[    1885ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://172.233.188.166:3000/login:0

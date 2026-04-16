@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { Roles } from '../../../common/guards/roles.decorator';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { ParcelsService } from './parcels.service';
@@ -7,6 +8,7 @@ import { UpdateParcelDto } from './dto/update-parcel.dto';
 import { UpsertParcelBuildingDto } from '../parcel-buildings/dto/upsert-parcel-building.dto';
 import { UpsertParcelSocioeconomicDto } from '../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto';
 import { UpsertParcelInfrastructureDto } from '../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto';
+import { GeometryService } from '../geometry.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelSocioeconomicService } from '../parcel-socioeconomic/parcel-socioeconomic.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
@@ -18,7 +20,13 @@ export class ParcelsController {
     private readonly parcelBuildingsService: ParcelBuildingsService,
     private readonly parcelSocioeconomicService: ParcelSocioeconomicService,
     private readonly parcelInfrastructureService: ParcelInfrastructureService,
+    private readonly geometryService: GeometryService,
   ) {}
+
+  @Post('validate-geometry')
+  validateGeometry(@Body() body: { geometry: any }) {
+    return this.geometryService.validateGeometry(body.geometry);
+  }
 
   @Get()
   list(
@@ -31,6 +39,10 @@ export class ParcelsController {
     @Query('workflowStatus') workflowStatus?: string,
     @Query('bbox') bbox?: string,
     @Query('q') q?: string,
+    @Query('sourceType') sourceType?: string,
+    @Query('isOfficial') isOfficial?: string,
+    @Query('zoneamento') zoneamento?: string,
+    @Query('statusIPTU') statusIPTU?: string,
   ) {
     return this.parcelsService.list(req.tenantId, projectId, {
       sqlu,
@@ -40,7 +52,16 @@ export class ParcelsController {
       workflowStatus,
       bbox,
       q,
+      sourceType,
+      isOfficial: isOfficial === 'true' ? true : isOfficial === 'false' ? false : undefined,
+      zoneamento,
+      statusIPTU,
     });
+  }
+
+  @Get('statistics')
+  statistics(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
+    return this.parcelsService.getStatistics(req.tenantId, projectId);
   }
 
   @Get('pendencias')
@@ -59,6 +80,8 @@ export class ParcelsController {
     @Query('workflowStatus') workflowStatus?: string,
     @Query('bbox') bbox?: string,
     @Query('q') q?: string,
+    @Query('sourceType') sourceType?: string,
+    @Query('isOfficial') isOfficial?: string,
   ) {
     return this.parcelsService.geojson(req.tenantId, projectId, {
       sqlu,
@@ -68,7 +91,30 @@ export class ParcelsController {
       workflowStatus,
       bbox,
       q,
+      sourceType,
+      isOfficial: isOfficial === 'true' ? true : isOfficial === 'false' ? false : undefined,
     });
+  }
+
+  @Get('tiles/:z/:x/:y.pbf')
+  async mvt(
+    @Req() req: { tenantId: string },
+    @Res() res: Response,
+    @Param('z') z: string,
+    @Param('x') x: string,
+    @Param('y') y: string,
+    @Query('projectId') projectId?: string,
+  ) {
+    const buffer = await this.parcelsService.vectorTiles(
+      req.tenantId,
+      projectId,
+      parseInt(z, 10),
+      parseInt(x, 10),
+      parseInt(y, 10),
+    );
+    res.setHeader('Content-Type', 'application/x-protobuf');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(buffer);
   }
 
   @Get(':id')
@@ -178,16 +224,87 @@ export class ParcelsController {
   importGeojson(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
-    @Body() featureCollection: { type: 'FeatureCollection'; features: unknown[] },
+    @Body() body: {
+      sourceType?: string;
+      fileName?: string;
+      upsert?: boolean;
+      data: { type: 'FeatureCollection'; features: unknown[] };
+      municipalityName?: string;
+      municipalityCode?: string;
+    },
   ) {
     return this.parcelsService.importGeojson(
       req.tenantId,
       projectId,
-      featureCollection as {
+      body.data as {
         type: 'FeatureCollection';
-        features: Array<{ type: 'Feature'; id: string; geometry: unknown; properties: Record<string, unknown> }>;
+        features: Array<{ type: 'Feature'; id?: string; geometry: unknown; properties: Record<string, unknown> }>;
       },
+      body.sourceType || 'GEOJSON',
+      body.fileName,
+      body.upsert || false,
       req.user?.sub,
+      body.municipalityName,
+      body.municipalityCode,
+    );
+  }
+
+  @Post('import-enrichment')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  importEnrichment(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Query('projectId') projectId: string | undefined,
+    @Body() body: {
+      sourceType?: string;
+      fileName?: string;
+      csv: string;
+      columnMapping?: Record<string, string>;
+    },
+  ) {
+    return this.parcelsService.importFromCsvEnrichment(
+      req.tenantId,
+      projectId,
+      body.csv,
+      body.sourceType || 'CSV_ENRICHMENT',
+      body.fileName,
+      body.columnMapping,
+      req.user?.sub,
+    );
+  }
+
+  @Post('import-csv')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  importCsv(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Query('projectId') projectId: string | undefined,
+    @Body() body: { csv: string },
+  ) {
+    return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, 'CSV_ENRICHMENT', undefined, undefined, req.user?.sub);
+  }
+
+  @Post(':id/transicao')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  transicao(
+    @Req() req: { tenantId: string; user?: { sub?: string; role?: string } },
+    @Param('id') id: string,
+    @Query('projectId') projectId: string | undefined,
+    @Body() body: { status: string; observacao: string },
+  ) {
+    const validStatuses = ['PENDENTE', 'EM_VALIDACAO', 'APROVADA', 'REPROVADA'] as const;
+    if (!validStatuses.includes(body.status as any)) {
+      throw new Error('Status invalido');
+    }
+    return this.parcelsService.transicao(
+      req.tenantId,
+      projectId,
+      id,
+      body.status as 'PENDENTE' | 'EM_VALIDACAO' | 'APROVADA' | 'REPROVADA',
+      body.observacao,
+      req.user?.sub,
+      req.user?.role,
     );
   }
 }

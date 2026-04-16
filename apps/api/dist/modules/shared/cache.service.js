@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CacheService = void 0;
 const common_1 = require("@nestjs/common");
@@ -25,7 +28,7 @@ let CacheService = class CacheService {
         return (0, crypto_1.createHash)('sha256').update(payload).digest('hex').slice(0, 16);
     }
     async get(key) {
-        const client = await this.redisService.getClient();
+        const client = await this.redisService?.getClient();
         if (!client)
             return null;
         try {
@@ -37,7 +40,7 @@ let CacheService = class CacheService {
         }
     }
     async set(key, value, ttlSeconds) {
-        const client = await this.redisService.getClient();
+        const client = await this.redisService?.getClient();
         if (!client)
             return;
         try {
@@ -50,7 +53,7 @@ let CacheService = class CacheService {
         }
     }
     async invalidateByPrefix(prefix) {
-        const client = await this.redisService.getClient();
+        const client = await this.redisService?.getClient();
         if (!client)
             return;
         const pattern = this.buildKey(`${prefix}*`);
@@ -63,6 +66,7 @@ let CacheService = class CacheService {
 exports.CacheService = CacheService;
 exports.CacheService = CacheService = __decorate([
     (0, common_1.Injectable)(),
+    __param(0, (0, common_1.Optional)()),
     __metadata("design:paramtypes", [redis_service_1.RedisService])
 ], CacheService);
 //# sourceMappingURL=cache.service.js.map

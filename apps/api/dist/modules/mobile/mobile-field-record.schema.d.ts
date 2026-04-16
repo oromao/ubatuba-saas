@@ -3,6 +3,7 @@ export declare class MobileFieldRecord {
     tenantId: Types.ObjectId;
     projectId: Types.ObjectId;
     parcelId: Types.ObjectId;
+    clientId?: string;
     checklist: {
         occupancyChecked?: boolean;
         addressChecked?: boolean;
@@ -14,7 +15,34 @@ export declare class MobileFieldRecord {
         lng: number;
     };
     photoBase64?: string;
-    syncStatus: 'RECEBIDO' | 'PROCESSADO';
+    parcelUpdatedAt?: string;
+    evidences: Array<{
+        clientId: string;
+        fileName?: string;
+        mimeType?: string;
+        base64: string;
+        checksum?: string;
+        capturedAt?: string;
+        size?: number;
+        status?: 'PENDENTE' | 'SINCRONIZADO' | 'ERRO';
+        retries?: number;
+        lastError?: string;
+        lastAttemptAt?: string;
+    }>;
+    syncStatus: 'RECEBIDO' | 'PROCESSADO' | 'CONFLITO';
+    syncAttempts: number;
+    syncedAt?: string;
+    syncError?: string;
+    syncContext?: {
+        clientParcelUpdatedAt?: string;
+        serverParcelUpdatedAt?: string;
+    };
+    syncTimeline: Array<{
+        at: string;
+        status: 'RECEBIDO' | 'PROCESSADO' | 'CONFLITO' | 'ERRO';
+        message: string;
+        actorId?: string;
+    }>;
     syncedBy?: Types.ObjectId;
 }
 export type MobileFieldRecordDocument = MobileFieldRecord & Document;

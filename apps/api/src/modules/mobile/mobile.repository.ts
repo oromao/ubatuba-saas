@@ -22,5 +22,17 @@ export class MobileRepository {
       .limit(200)
       .exec();
   }
-}
 
+  async summary(tenantId: string, projectId: string) {
+    const items = await this.list(tenantId, projectId);
+    return {
+      total: items.length,
+      processado: items.filter((item) => item.syncStatus === 'PROCESSADO').length,
+      conflito: items.filter((item) => item.syncStatus === 'CONFLITO').length,
+      recebido: items.filter((item) => item.syncStatus === 'RECEBIDO').length,
+      comEvidencias: items.filter((item) => (item.evidences?.length ?? 0) > 0).length,
+      evidenciasTotal: items.reduce((acc, item) => acc + (item.evidences?.length ?? 0), 0),
+      erros: items.filter((item) => item.syncStatus !== 'PROCESSADO').length,
+    };
+  }
+}

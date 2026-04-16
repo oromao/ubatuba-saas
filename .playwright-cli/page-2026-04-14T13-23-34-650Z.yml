@@ -1,0 +1,59 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "FlyDea Atlas SaaS geoespacial" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - text: FlyDea Atlas
+          - generic [ref=e7]: SaaS geoespacial
+        - generic [ref=e8]: Acesso seguro ao painel operacional
+        - heading "Controle territorial em um painel moderno, auditavel e pronto para escala." [level=1] [ref=e9]
+        - paragraph [ref=e10]: Mapeamento, cadastro técnico, processos digitais e monitoramento integrados com governanca por perfil.
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - paragraph [ref=e13]: Camadas ativas
+          - paragraph [ref=e14]: "64"
+        - generic [ref=e15]:
+          - paragraph [ref=e16]: Missoes semanais
+          - paragraph [ref=e17]: "12"
+        - generic [ref=e18]:
+          - paragraph [ref=e19]: Alertas monitorados
+          - paragraph [ref=e20]: "284"
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Aprovacoes digitais
+          - paragraph [ref=e23]: 1.4k
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - img [ref=e26]
+          - generic [ref=e29]:
+            - paragraph [ref=e30]: Seguranca institucional
+            - paragraph [ref=e31]: Logs por usuario, trilha de auditoria e segregacao multi-tenant.
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - img [ref=e34]
+            - text: Fluxo simplificado
+          - generic [ref=e36]:
+            - img [ref=e37]
+            - text: LGPD + RBAC
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - heading "Entrar no painel" [level=3] [ref=e43]
+        - paragraph [ref=e44]: Informe credenciais de acesso para sua operação geoespacial.
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - text: Email institucional
+            - textbox "nome@prefeitura.gov.br" [ref=e48]
+          - generic [ref=e49]:
+            - text: Senha
+            - textbox "********" [ref=e50]
+          - generic [ref=e51]:
+            - text: Tenant
+            - 'textbox "ex: prefeitura-ubatuba" [ref=e52]'
+          - button "Entrar" [ref=e53] [cursor=pointer]
+        - generic [ref=e54]:
+          - link "Esqueci minha senha" [ref=e55] [cursor=pointer]:
+            - /url: /forgot-password
+          - link "Voltar ao site" [ref=e56] [cursor=pointer]:
+            - /url: /
+  - alert [ref=e57]

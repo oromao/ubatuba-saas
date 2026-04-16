@@ -1,0 +1,413 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e57]
+  - generic [ref=e58]:
+    - complementary [ref=e59]:
+      - generic [ref=e60]:
+        - generic [ref=e61]: F
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: FlyDea
+          - paragraph [ref=e64]: GeoInteligencia Municipal
+      - navigation [ref=e66]:
+        - generic [ref=e67]:
+          - paragraph [ref=e68]: INTELIGÊNCIA EXECUTIVA
+          - generic [ref=e69]:
+            - link "Painel de Gestão" [ref=e70] [cursor=pointer]:
+              - /url: /app/dashboard
+              - img [ref=e72]
+              - generic [ref=e77]: Painel de Gestão
+            - link "Observatório Urbano" [ref=e78] [cursor=pointer]:
+              - /url: /app/observatorio
+              - img [ref=e79]
+              - generic [ref=e82]: Observatório Urbano
+            - link "Mapa Interativo" [ref=e83] [cursor=pointer]:
+              - /url: /app/maps
+              - img [ref=e84]
+              - generic [ref=e88]: Mapa Interativo
+        - generic [ref=e89]:
+          - paragraph [ref=e90]: CADASTRO TERRITORIAL (CTM)
+          - generic [ref=e91]:
+            - link "Lotes e Imóveis" [ref=e92] [cursor=pointer]:
+              - /url: /app/ctm/parcelas
+              - img [ref=e93]
+              - generic [ref=e95]: Lotes e Imóveis
+            - link "Malha Viária" [ref=e96] [cursor=pointer]:
+              - /url: /app/ctm/logradouros
+              - img [ref=e97]
+              - generic [ref=e101]: Malha Viária
+            - link "Equipamentos Urbanos" [ref=e102] [cursor=pointer]:
+              - /url: /app/ctm/mobiliario
+              - img [ref=e103]
+              - generic [ref=e106]: Equipamentos Urbanos
+            - link "Planta Genérica (PGV)" [ref=e107] [cursor=pointer]:
+              - /url: /app/pgv/zonas
+              - img [ref=e108]
+              - generic [ref=e112]: Planta Genérica (PGV)
+            - link "Regularização (REURB)" [ref=e113] [cursor=pointer]:
+              - /url: /app/reurb
+              - img [ref=e114]
+              - generic [ref=e117]: Regularização (REURB)
+            - link "Vistorias" [ref=e118] [cursor=pointer]:
+              - /url: /app/ctm/vistorias
+              - img [ref=e119]
+              - generic [ref=e123]: Vistorias
+        - generic [ref=e124]:
+          - paragraph [ref=e125]: FISCALIZAÇÃO E PROCESSOS
+          - generic [ref=e126]:
+            - link "Processos Digitais" [ref=e127] [cursor=pointer]:
+              - /url: /app/processes
+              - img [ref=e128]
+              - generic [ref=e132]: Processos Digitais
+            - link "Monitoramento e Alertas" [ref=e133] [cursor=pointer]:
+              - /url: /app/monitoramento
+              - img [ref=e134]
+              - generic [ref=e137]: Monitoramento e Alertas
+            - link "Atendimento 156" [ref=e138] [cursor=pointer]:
+              - /url: /app/156
+              - img [ref=e139]
+              - generic [ref=e144]: Atendimento 156
+            - link "Notificações Oficiais" [ref=e145] [cursor=pointer]:
+              - /url: /app/cartas
+              - img [ref=e146]
+              - generic [ref=e149]: Notificações Oficiais
+        - generic [ref=e150]:
+          - paragraph [ref=e151]: MÓDULOS DE NEGÓCIO
+          - generic [ref=e152]:
+            - link "Obras Particulares" [ref=e153] [cursor=pointer]:
+              - /url: /app/modulos/obras
+              - img [ref=e154]
+              - generic [ref=e159]: Obras Particulares
+            - link "Atividades Econômicas" [ref=e160] [cursor=pointer]:
+              - /url: /app/modulos/empresas
+              - img [ref=e161]
+              - generic [ref=e164]: Atividades Econômicas
+            - link "Licenciamento Ambiental" [ref=e165] [cursor=pointer]:
+              - /url: /app/ambiental
+              - img [ref=e166]
+              - generic [ref=e169]: Licenciamento Ambiental
+        - generic [ref=e170]:
+          - paragraph [ref=e171]: CONFIGURAÇÃO E INTEGRAÇÃO
+          - generic [ref=e172]:
+            - link "Integrações ERP" [ref=e173] [cursor=pointer]:
+              - /url: /app/integracoes
+              - img [ref=e174]
+              - generic [ref=e177]: Integrações ERP
+            - link "Documentação PoC" [ref=e178] [cursor=pointer]:
+              - /url: /app/poc
+              - img [ref=e179]
+              - generic [ref=e183]: Documentação PoC
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - generic [ref=e187]: A
+          - generic [ref=e188]:
+            - paragraph [ref=e189]: Usuario
+            - paragraph [ref=e190]: "Tenant: 69de380ebc43fc5166d3b3c0"
+        - button "Sair" [ref=e191] [cursor=pointer]:
+          - img [ref=e192]
+          - generic [ref=e195]: Sair
+      - button "Recolher" [ref=e196] [cursor=pointer]:
+        - img [ref=e197]
+        - generic [ref=e199]: Recolher
+    - generic [ref=e200]:
+      - banner [ref=e201]:
+        - button "Recolher menu" [ref=e202] [cursor=pointer]:
+          - img [ref=e203]
+        - button "Abrir busca global" [ref=e206] [cursor=pointer]:
+          - img [ref=e207]
+          - generic [ref=e210]: Buscar parcelas, telas e modulos...
+          - generic [ref=e211]: Ctrl + K
+        - generic [ref=e212]:
+          - generic [ref=e213]: 69de380ebc43fc5166d3b3c0
+          - button "Notificacoes" [ref=e214] [cursor=pointer]:
+            - img [ref=e215]
+          - button "A Usuario" [ref=e219] [cursor=pointer]:
+            - generic [ref=e220]: A
+            - generic [ref=e221]: Usuario
+      - main [ref=e222]:
+        - generic [ref=e223]:
+          - heading "Painel Executivo" [level=1] [ref=e225]
+          - generic [ref=e226]:
+            - generic [ref=e227]:
+              - generic [ref=e228]:
+                - heading "Widgets configuráveis" [level=3] [ref=e229]
+                - paragraph [ref=e230]: Layout persistido por usuário para demo executiva e operação.
+              - generic [ref=e231]:
+                - generic [ref=e232]:
+                  - text: Visão
+                  - combobox [ref=e233]:
+                    - option "Executiva" [selected]
+                    - option "Operacional"
+                - generic [ref=e234]:
+                  - generic [ref=e235]:
+                    - generic [ref=e236]:
+                      - generic [ref=e237]: summary
+                      - generic [ref=e238]: Ordem 0
+                    - generic [ref=e239]:
+                      - generic [ref=e240]:
+                        - checkbox "Visível" [checked] [ref=e241]
+                        - text: Visível
+                      - button "↑" [ref=e242] [cursor=pointer]
+                      - button "↓" [ref=e243] [cursor=pointer]
+                  - generic [ref=e244]:
+                    - generic [ref=e245]:
+                      - generic [ref=e246]: secretarias
+                      - generic [ref=e247]: Ordem 1
+                    - generic [ref=e248]:
+                      - generic [ref=e249]:
+                        - checkbox "Visível" [checked] [ref=e250]
+                        - text: Visível
+                      - button "↑" [ref=e251] [cursor=pointer]
+                      - button "↓" [ref=e252] [cursor=pointer]
+                  - generic [ref=e253]:
+                    - generic [ref=e254]:
+                      - generic [ref=e255]: priorities
+                      - generic [ref=e256]: Ordem 2
+                    - generic [ref=e257]:
+                      - generic [ref=e258]:
+                        - checkbox "Visível" [checked] [ref=e259]
+                        - text: Visível
+                      - button "↑" [ref=e260] [cursor=pointer]
+                      - button "↓" [ref=e261] [cursor=pointer]
+                  - generic [ref=e262]:
+                    - generic [ref=e263]:
+                      - generic [ref=e264]: satelliteHealth
+                      - generic [ref=e265]: Ordem 3
+                    - generic [ref=e266]:
+                      - generic [ref=e267]:
+                        - checkbox "Visível" [checked] [ref=e268]
+                        - text: Visível
+                      - button "↑" [ref=e269] [cursor=pointer]
+                      - button "↓" [ref=e270] [cursor=pointer]
+                  - generic [ref=e271]:
+                    - generic [ref=e272]:
+                      - generic [ref=e273]: readinessSignals
+                      - generic [ref=e274]: Ordem 4
+                    - generic [ref=e275]:
+                      - generic [ref=e276]:
+                        - checkbox "Visível" [checked] [ref=e277]
+                        - text: Visível
+                      - button "↑" [ref=e278] [cursor=pointer]
+                      - button "↓" [ref=e279] [cursor=pointer]
+                  - generic [ref=e280]:
+                    - generic [ref=e281]:
+                      - generic [ref=e282]: map
+                      - generic [ref=e283]: Ordem 5
+                    - generic [ref=e284]:
+                      - generic [ref=e285]:
+                        - checkbox "Visível" [checked] [ref=e286]
+                        - text: Visível
+                      - button "↑" [ref=e287] [cursor=pointer]
+                      - button "↓" [ref=e288] [cursor=pointer]
+                  - generic [ref=e289]:
+                    - generic [ref=e290]:
+                      - generic [ref=e291]: operations
+                      - generic [ref=e292]: Ordem 6
+                    - generic [ref=e293]:
+                      - generic [ref=e294]:
+                        - checkbox "Visível" [checked] [ref=e295]
+                        - text: Visível
+                      - button "↑" [ref=e296] [cursor=pointer]
+                      - button "↓" [ref=e297] [cursor=pointer]
+                  - generic [ref=e298]:
+                    - generic [ref=e299]:
+                      - generic [ref=e300]: integrations
+                      - generic [ref=e301]: Ordem 7
+                    - generic [ref=e302]:
+                      - generic [ref=e303]:
+                        - checkbox "Visível" [checked] [ref=e304]
+                        - text: Visível
+                      - button "↑" [ref=e305] [cursor=pointer]
+                      - button "↓" [ref=e306] [cursor=pointer]
+                - generic [ref=e307]:
+                  - button "Salvar layout" [ref=e308] [cursor=pointer]
+                  - button "Restaurar" [ref=e309] [cursor=pointer]
+            - generic [ref=e310]:
+              - generic [ref=e311]:
+                - generic [ref=e312]:
+                  - paragraph [ref=e313]: Processos digitais
+                  - heading "5" [level=3] [ref=e314]
+                - generic [ref=e315]: Fluxos com SLA ativo
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - paragraph [ref=e318]: Alertas ambientais
+                  - heading "5" [level=3] [ref=e319]
+                - generic [ref=e320]: Risco monitorado
+              - generic [ref=e321]:
+                - generic [ref=e322]:
+                  - paragraph [ref=e323]: Ativos territoriais
+                  - heading "5" [level=3] [ref=e324]
+                - generic [ref=e325]: Cadastro atualizado
+            - generic [ref=e326]:
+              - generic [ref=e327]:
+                - generic [ref=e328]:
+                  - heading "Visão por secretaria" [level=3] [ref=e329]
+                  - paragraph [ref=e330]: Consolida operação urbana, atendimento e fiscalização.
+                - generic [ref=e331]:
+                  - generic [ref=e332]:
+                    - generic [ref=e333]:
+                      - paragraph [ref=e334]: Obras
+                      - paragraph [ref=e335]: operacional
+                    - generic [ref=e336]: "0"
+                  - generic [ref=e337]:
+                    - generic [ref=e338]:
+                      - paragraph [ref=e339]: Urbanismo
+                      - paragraph [ref=e340]: operacional
+                    - generic [ref=e341]: "5"
+                  - generic [ref=e342]:
+                    - generic [ref=e343]:
+                      - paragraph [ref=e344]: Meio Ambiente
+                      - paragraph [ref=e345]: monitoramento
+                    - generic [ref=e346]: "5"
+                  - generic [ref=e347]:
+                    - generic [ref=e348]:
+                      - paragraph [ref=e349]: Atendimento
+                      - paragraph [ref=e350]: fila
+                    - generic [ref=e351]: "0"
+                  - generic [ref=e352]:
+                    - generic [ref=e353]:
+                      - paragraph [ref=e354]: Tributário
+                      - paragraph [ref=e355]: integração
+                    - generic [ref=e356]: "0"
+                  - generic [ref=e357]:
+                    - generic [ref=e358]:
+                      - paragraph [ref=e359]: Patrimônio
+                      - paragraph [ref=e360]: cadastro
+                    - generic [ref=e361]: "0"
+              - generic [ref=e362]:
+                - generic [ref=e363]:
+                  - heading "Prioridades de hoje" [level=3] [ref=e364]
+                  - paragraph [ref=e365]: Fila resumida para leitura executiva.
+                - generic [ref=e366]:
+                  - generic [ref=e367]:
+                    - generic [ref=e368]: Obras em andamento
+                    - generic [ref=e369]: "0"
+                  - generic [ref=e370]:
+                    - generic [ref=e371]: Chamados abertos
+                    - generic [ref=e372]: "0"
+                  - generic [ref=e373]:
+                    - generic [ref=e374]: Alertas em triagem
+                    - generic [ref=e375]: "5"
+            - generic [ref=e376]:
+              - generic [ref=e377]:
+                - generic [ref=e378]:
+                  - heading "Saúde dos módulos satélite" [level=3] [ref=e379]
+                  - paragraph [ref=e380]: Leitura rápida de 156, ambiental, obras públicas e cemitério.
+                - generic [ref=e381]:
+                  - generic [ref=e383]:
+                    - generic [ref=e384]:
+                      - paragraph [ref=e385]: Atendimento 156
+                      - paragraph [ref=e386]: 0 abertos · 0 em andamento · 0 encerrados
+                    - generic [ref=e387]: "0"
+                  - generic [ref=e389]:
+                    - generic [ref=e390]:
+                      - paragraph [ref=e391]: Ambiental
+                      - paragraph [ref=e392]: 0 abertos · 0 em andamento · 0 encerrados
+                    - generic [ref=e393]: "0"
+                  - generic [ref=e395]:
+                    - generic [ref=e396]:
+                      - paragraph [ref=e397]: Obras Públicas
+                      - paragraph [ref=e398]: 0 abertos · 0 em andamento · 0 encerrados
+                    - generic [ref=e399]: "0"
+                  - generic [ref=e401]:
+                    - generic [ref=e402]:
+                      - paragraph [ref=e403]: Cemitério
+                      - paragraph [ref=e404]: 0 abertos · 0 em andamento · 0 encerrados
+                    - generic [ref=e405]: "0"
+              - generic [ref=e406]:
+                - generic [ref=e407]:
+                  - heading "Sinais de prontidão" [level=3] [ref=e408]
+                  - paragraph [ref=e409]: Resume o estado institucional para banca e demo.
+                - generic [ref=e410]:
+                  - generic [ref=e411]:
+                    - generic [ref=e412]:
+                      - text: Portal institucional
+                      - paragraph [ref=e413]: Handoff, callback e logout prontos para demo
+                    - generic [ref=e414]: OK
+                  - generic [ref=e415]:
+                    - generic [ref=e416]:
+                      - text: RBAC e tenant
+                      - paragraph [ref=e417]: Isolamento por tenant e perfil operacional
+                    - generic [ref=e418]: OK
+                  - generic [ref=e419]:
+                    - generic [ref=e420]:
+                      - text: Rastreabilidade
+                      - paragraph [ref=e421]: Histórico em módulos críticos e fluxos de campo
+                    - generic [ref=e422]: OK
+                  - generic [ref=e423]:
+                    - generic [ref=e424]:
+                      - text: Satélites
+                      - paragraph [ref=e425]: Volume operacional disponível para demo
+                    - generic [ref=e426]: PENDENTE
+            - generic [ref=e427]:
+              - generic [ref=e428]:
+                - generic:
+                  - generic:
+                    - region "Map"
+                - generic [ref=e429]:
+                  - generic [ref=e430]:
+                    - heading "Mapa situacional" [level=3] [ref=e431]
+                    - paragraph [ref=e432]: Camadas com dados de campo e drone.
+                  - link "Abrir mapa" [ref=e433] [cursor=pointer]:
+                    - /url: /app/maps
+                - generic [ref=e434]:
+                  - generic [ref=e435]:
+                    - generic [ref=e436]:
+                      - paragraph [ref=e437]: Área mapeada
+                      - paragraph [ref=e438]: 128 km2
+                    - generic [ref=e439]:
+                      - paragraph [ref=e440]: Missões em andamento
+                      - paragraph [ref=e441]: "3"
+                    - generic [ref=e442]:
+                      - paragraph [ref=e443]: Atualização cartográfica
+                      - paragraph [ref=e444]: 2h
+                  - generic [ref=e445]:
+                    - generic [ref=e446]: Ortomosaico
+                    - generic [ref=e447]: Modelo 3D
+                    - generic [ref=e448]: Nuvem de pontos
+                    - generic [ref=e449]: Risco hidrológico
+              - generic [ref=e450]:
+                - generic [ref=e451]:
+                  - heading "Operação do dia" [level=3] [ref=e452]
+                  - paragraph [ref=e453]: Equipe em campo e relatórios pendentes.
+                - generic [ref=e454]:
+                  - generic [ref=e455]:
+                    - generic [ref=e456]: Drone 02 - Zona Norte
+                    - generic [ref=e457]: Em voo
+                  - generic [ref=e458]:
+                    - generic [ref=e459]: Equipe Ambiental - Rio Azul
+                    - generic [ref=e460]: Vistoria 14h
+                  - generic [ref=e461]:
+                    - generic [ref=e462]: Licenciamento - Bairro Central
+                    - generic [ref=e463]: Pendências
+                  - generic [ref=e464]:
+                    - paragraph [ref=e465]: Integrações
+                    - paragraph [ref=e466]: Monitore conectores tributários, execute sync manual e inspecione logs de erro.
+                    - link "Abrir integrações" [ref=e467] [cursor=pointer]:
+                      - /url: /app/integracoes
+            - generic [ref=e469]:
+              - generic [ref=e470]:
+                - heading "Integrações e prontidão" [level=3] [ref=e471]
+                - paragraph [ref=e472]: Leitura rápida para TI, secretaria e banca técnica.
+              - generic [ref=e473]:
+                - generic [ref=e474]:
+                  - paragraph [ref=e475]: Estado institucional
+                  - paragraph [ref=e476]: Portal coexistente, handoff institucional e layout por usuário já estão operacionais para demo e homologação.
+                  - generic [ref=e477]:
+                    - generic [ref=e478]: Portal ready
+                    - generic [ref=e479]: RBAC
+                    - generic [ref=e480]: Tenant isolation
+                    - generic [ref=e481]: Auditoria
+                - generic [ref=e482]:
+                  - paragraph [ref=e483]: Próximos conectores
+                  - generic [ref=e484]:
+                    - generic [ref=e485]:
+                      - generic [ref=e486]: Tributário municipal
+                      - generic [ref=e487]: Preparado
+                    - generic [ref=e488]:
+                      - generic [ref=e489]: Portal cidadão / SSO externo
+                      - generic [ref=e490]: Preparado
+                    - generic [ref=e491]:
+                      - generic [ref=e492]: Feed territorial oficial
+                      - generic [ref=e493]: Preparado
+                  - link "Abrir hub de integrações" [ref=e494] [cursor=pointer]:
+                    - /url: /app/integracoes
+  - region "Notifications alt+T"

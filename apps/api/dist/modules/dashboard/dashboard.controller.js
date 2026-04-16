@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardController = void 0;
 const common_1 = require("@nestjs/common");
+const roles_decorator_1 = require("../../common/guards/roles.decorator");
+const roles_guard_1 = require("../../common/guards/roles.guard");
 const dashboard_service_1 = require("./dashboard.service");
 let DashboardController = class DashboardController {
     constructor(dashboardService) {
@@ -21,6 +23,15 @@ let DashboardController = class DashboardController {
     }
     getKpis(req) {
         return this.dashboardService.getKpis(req.tenantId);
+    }
+    getExecutive(req) {
+        return this.dashboardService.getExecutive(req.tenantId, req.user?.sub ?? 'anonymous');
+    }
+    getLayout(req) {
+        return this.dashboardService.getLayout(req.tenantId, req.user?.sub ?? 'anonymous');
+    }
+    saveLayout(req, body) {
+        return this.dashboardService.saveLayout(req.tenantId, req.user?.sub ?? 'anonymous', body);
     }
 };
 exports.DashboardController = DashboardController;
@@ -31,6 +42,30 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "getKpis", null);
+__decorate([
+    (0, common_1.Get)('executive'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "getExecutive", null);
+__decorate([
+    (0, common_1.Get)('layout'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "getLayout", null);
+__decorate([
+    (0, common_1.Patch)('layout'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "saveLayout", null);
 exports.DashboardController = DashboardController = __decorate([
     (0, common_1.Controller)('dashboard'),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])

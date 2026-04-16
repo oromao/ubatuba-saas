@@ -25,6 +25,10 @@ class MobileLocationDto {
 }
 
 class MobileSyncItemDto {
+  @IsOptional()
+  @IsString()
+  clientId?: string;
+
   @IsString()
   @IsNotEmpty()
   parcelId!: string;
@@ -44,6 +48,25 @@ class MobileSyncItemDto {
   @IsOptional()
   @IsString()
   photoBase64?: string;
+
+  @IsOptional()
+  @IsString()
+  parcelUpdatedAt?: string;
+
+  @IsOptional()
+  evidences?: Array<{
+    clientId: string;
+    fileName?: string;
+    mimeType?: string;
+    base64: string;
+    checksum?: string;
+    capturedAt?: string;
+    size?: number;
+    status?: 'PENDENTE' | 'SINCRONIZADO' | 'ERRO';
+    retries?: number;
+    lastError?: string;
+    lastAttemptAt?: string;
+  }>;
 }
 
 export class MobileSyncDto {
@@ -56,4 +79,3 @@ export class MobileSyncDto {
   @Type(() => MobileSyncItemDto)
   items!: MobileSyncItemDto[];
 }
-

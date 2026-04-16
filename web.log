@@ -1,0 +1,288 @@
+
+> @flydea/web@0.1.0 dev
+> next dev -H 0.0.0.0 -p 3000
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3000
+  - Network:      http://0.0.0.0:3000
+  - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 5.2s
+ ○ Compiling /login ...
+ ✓ Compiled /login in 2.6s (742 modules)
+ GET /login 200 in 2769ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/next isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/autoprefixer isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/tailwindcss isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/next isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/autoprefixer isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/tailwindcss isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ○ Compiling /app/dashboard ...
+ ✓ Compiled /app/dashboard in 1081ms (990 modules)
+ ✓ Compiled in 275ms (978 modules)
+ ✓ Compiled in 171ms (478 modules)
+ GET /app/dashboard 200 in 186ms
+ GET /app/dashboard 200 in 49ms
+ ○ Compiling /app/maps ...
+ ✓ Compiled /app/maps in 759ms (980 modules)
+ ○ Compiling /app/levantamentos ...
+ ✓ Compiled /app/levantamentos in 568ms (1005 modules)
+ ✓ Compiled /app/ctm/parcelas in 284ms (1011 modules)
+ ✓ Compiled /app/ctm/logradouros in 438ms (1017 modules)
+ ✓ Compiled /app/ctm/mobiliario in 231ms (1023 modules)
+ ✓ Compiled /app/pgv/zonas in 207ms (1029 modules)
+ ✓ Compiled /app/pgv/faces in 265ms (1035 modules)
+ ✓ Compiled /app/pgv/fatores in 265ms (1041 modules)
+ ✓ Compiled /app/pgv/relatorio in 204ms (1043 modules)
+ ✓ Compiled /app/alerts in 221ms (1049 modules)
+ ✓ Compiled /app/monitoramento in 345ms (1055 modules)
+ ✓ Compiled in 512ms (1035 modules)
+ ✓ Compiled /app/ambiental in 251ms (1025 modules)
+ ✓ Compiled /app/156 in 196ms (1031 modules)
+ ✓ Compiled /app/observatorio in 269ms (1037 modules)
+ ✓ Compiled /app/processes in 271ms (1027 modules)
+ ✓ Compiled /app/certidoes in 240ms (1033 modules)
+ ✓ Compiled /app/dashboard in 165ms (534 modules)
+ ✓ Compiled /app/cartas in 289ms (1047 modules)
+ ✓ Compiled /app/assets in 410ms (1041 modules)
+ ✓ Compiled /app/integracoes in 209ms (1047 modules)
+ ✓ Compiled /portal/oidc/start in 298ms (1049 modules)
+ ✓ Compiled /portal/oidc/callback in 174ms (1051 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /portal/oidc/callback?code=eyJ0ZW5hbnRTbHVnIjoiZGVtbyIsImVtYWlsIjoiYWRtaW5AZGVtby5sb2NhbCIsInJvbGVIaW50IjoiQ0lEQURBTyIsImRlcGFydG1lbnQiOiJQb3J0YWwgQ2lkYWTDo28iLCJzdGF0ZSI6InBvcnRhbCIsInJlZGlyZWN0VXJpIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL3BvcnRhbC9vaWRjL2NhbGxiYWNrIiwibmV4dCI6Ii9hcHAvZGFzaGJvYXJkIiwiZXhwIjoxNzc1MTU1ODEyMTQzfQ.59f8d88148bd9c2494d35eb3361525893ca88aa580504310fc11060a31f014e0&state=portal&next=%2Fapp%2Fdashboard 200 in 194ms
+ GET /portal/oidc/start 200 in 14ms
+ GET /portal/oidc/callback?code=eyJ0ZW5hbnRTbHVnIjoiZGVtbyIsImVtYWlsIjoiYWRtaW5AZGVtby5sb2NhbCIsInJvbGVIaW50IjoiQ0lEQURBTyIsImRlcGFydG1lbnQiOiJQb3J0YWwgQ2lkYWTDo28iLCJzdGF0ZSI6InBvcnRhbCIsInJlZGlyZWN0VXJpIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwL3BvcnRhbC9vaWRjL2NhbGxiYWNrIiwibmV4dCI6Ii9hcHAvZGFzaGJvYXJkIiwiZXhwIjoxNzc1MTU1ODE3OTc1fQ.92b33c74f294ab8192c3f491ee0e43c7067602ea4a025be368c4c193a40dcd7e&state=portal&next=%2Fapp%2Fdashboard 200 in 39ms
+ GET /app/dashboard 200 in 53ms
+ ✓ Compiled /app/modulos/empresas in 262ms (1049 modules)
+ ✓ Compiled /app/modulos/cemiterio in 210ms (1055 modules)
+ ✓ Compiled /app/reurb in 364ms (1061 modules)
+ ✓ Compiled /app/poc in 323ms (1067 modules)
+ ✓ Compiled in 1028ms (1035 modules)
+ ✓ Compiled in 251ms (545 modules)
+ ✓ Compiled in 266ms (545 modules)
+ ✓ Compiled in 1223ms (1051 modules)
+ ✓ Compiled in 313ms (545 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ○ Compiling /_not-found ...
+ GET /app/dashboard 200 in 179ms
+ ✓ Compiled /app/maps in 1166ms (1038 modules)
+ ✓ Compiled /app/levantamentos in 1ms (533 modules)
+ GET /_next/static/chunks/app-pages-internals.js 404 in 1273ms
+ GET /_next/static/chunks/app/app/dashboard/page.js 404 in 1273ms
+ GET /_next/static/chunks/app/app/layout.js 404 in 1267ms
+ GET /_next/static/chunks/app/layout.js 404 in 1265ms
+ ✓ Compiled /app/ctm/mobiliario in 1ms (537 modules)
+ ✓ Compiled in 0ms (549 modules)
+ ✓ Compiled in 0ms (549 modules)
+ ✓ Compiled /app/pgv/zonas in 1ms (549 modules)
+ ✓ Compiled /app/pgv/faces in 0ms (553 modules)
+ ✓ Compiled /app/pgv/relatorio in 0ms (557 modules)
+ ✓ Compiled in 338ms (1098 modules)
+ GET /app/dashboard 200 in 97ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 27ms
+ GET /_next/static/chunks/app/app/dashboard/page.js 404 in 28ms
+ GET /_next/static/chunks/app/app/layout.js 404 in 23ms
+ GET /_next/static/css/app/layout.css?v=1775156620598 404 in 11ms
+ GET /_next/static/chunks/app/layout.js 404 in 25ms
+ GET /_next/static/chunks/main-app.js?v=1775156620598 404 in 15ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 24ms
+ GET /_next/static/chunks/app/app/dashboard/page.js 404 in 29ms
+ GET /_next/static/chunks/app/app/layout.js 404 in 28ms
+ GET /_next/static/chunks/app/layout.js 404 in 16ms
+ GET /app/dashboard 200 in 56ms
+ GET /_next/static/css/app/layout.css?v=1775156624753 404 in 43ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 54ms
+ GET /_next/static/chunks/app/app/dashboard/page.js 404 in 54ms
+ GET /_next/static/chunks/app/layout.js 404 in 55ms
+ GET /_next/static/chunks/app/app/layout.js 404 in 55ms
+ GET /_next/static/chunks/main-app.js?v=1775156624753 404 in 14ms
+ ○ Compiling / ...
+ ✓ Compiled / in 790ms (1120 modules)
+ GET / 200 in 946ms
+ GET /_next/static/css/app/layout.css?v=1775156627839 404 in 21ms
+ GET /_next/static/chunks/main-app.js?v=1775156627839 404 in 15ms
+ GET /_next/static/chunks/app/layout.js 404 in 12ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 14ms
+ ✓ Compiled in 810ms (1054 modules)
+ ✓ Compiled in 483ms (1054 modules)
+ ✓ Compiled in 1083ms (1054 modules)
+ ✓ Compiled in 299ms (548 modules)
+ ✓ Compiled / in 327ms (533 modules)
+Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/app-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Array.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7) {
+  digest: '1181871469'
+}
+ ⨯ Internal error: Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/app-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Array.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+digest: "1181871469"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3042649026"
+ ⨯ Internal error: Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/error-boundary.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Object.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+digest: "3223685953"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3501991522"
+ ⨯     at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "576904514"
+ ⨯ Internal error: Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/app-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Array.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+digest: "1181871469"
+ ⨯ Internal error: Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/app-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Array.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+digest: "1181871469"
+ ⨯ Internal error: Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/error-boundary.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Object.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+digest: "3223685953"
+ ⨯ Error: Could not find the module "/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/client/components/app-router.js#" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267034
+    at eN (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:267229)
+    at eF (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272113)
+    at /Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265943
+    at Array.toJSON (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266407)
+    at stringify (<anonymous>)
+    at eq (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274775)
+    at eJ (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275293)
+    at Timeout._onTimeout (/Users/paulo/Documents/ubatuba-saas/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265080)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7) {
+  digest: '1181871469',
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1077ms (1292 modules)
+ ⨯ Error: Cannot find module '/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/react/jsx-dev-runtime.js'
+    at createEsmNotFoundErr (node:internal/modules/cjs/loader:1512:15)
+    at finalizeEsmResolution (node:internal/modules/cjs/loader:1501:9)
+    at resolveExports (node:internal/modules/cjs/loader:684:14)
+    at Module._findPath (node:internal/modules/cjs/loader:751:31)
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1460:27)
+    at /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require-hook.js:55:36
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1048:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1072:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1093:12)
+    at Module._load (node:internal/modules/cjs/loader:1261:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1575:12)
+    at mod.require (/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:191:16)
+    at react/jsx-dev-runtime (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:52:18)
+    at __webpack_require__ (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/webpack-runtime.js:33:42)
+    at eval (webpack-internal:///./src/pages/_document.tsx:5:79)
+    at ./src/pages/_document.tsx (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:22:1)
+    at __webpack_require__ (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/webpack-runtime.js:33:42)
+    at __webpack_exec__ (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:82:39)
+    at /Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:83:169
+    at __webpack_require__.X (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/webpack-runtime.js:163:21)
+    at /Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:83:47
+    at Object.<anonymous> (/Users/paulo/Documents/ubatuba-saas/apps/web/.next/server/pages/_document.js:86:3)
+    at Module._compile (node:internal/modules/cjs/loader:1829:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1969:10)
+    at Module.load (node:internal/modules/cjs/loader:1552:32)
+    at Module._load (node:internal/modules/cjs/loader:1354:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1575:12)
+    at mod.require (/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:191:16)
+    at requirePage (/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require.js:109:84)
+    at /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/load-components.js:72:65
+    at async Promise.all (index 0)
+    at async loadComponentsImpl (/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/load-components.js:71:33)
+    at async DevServer.findPageComponentsImpl (/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/next-server.js:710:36) {
+  code: 'MODULE_NOT_FOUND',
+  path: '/Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/react'
+}
+ GET / 500 in 2560ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving 'rxjs/package.json' in /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build for build dependencies doesn't lead to expected result '/Users/paulo/Documents/ubatuba-saas/node_modules/rxjs/package.json', but to '/Users/paulo/Documents/ubatuba-saas/node_modules/.pnpm/rxjs@7.8.2/node_modules/rxjs/package.json' instead. Resolving dependencies are ignored for this path.
+<w>  at unknown 4 rxjs/package.json
+<w>  at file dependencies /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/create-compiler-aliases.js
+<w>  at file /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/create-compiler-aliases.js
+<w>  at file dependencies /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/webpack-config.js
+<w>  at file /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/webpack-config.js
+<w>  at file dependencies /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/paulo/Documents/ubatuba-saas/apps/web/node_modules/.pnpm/next@14.2.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+[?25h

@@ -1,5 +1,8 @@
 import { Document, Types } from 'mongoose';
 import { PolygonGeometry } from '../../../common/utils/geo';
+export type SourceType = 'DEMO' | 'DEMO_EXTERNAL' | 'OFFICIAL_SAMPLE' | 'MANUAL' | 'SHAPEFILE' | 'GEOJSON' | 'CSV_ENRICHMENT' | 'OFFICIAL_IMPORT';
+export type ValidationStatus = 'VALID' | 'INVALID' | 'PENDING' | 'WARNING';
+export type IptuStatus = 'QUITADO' | 'PARCELADO' | 'INADIMPLENTE' | 'ISENTO' | 'EXIGIVEL' | 'NAO_CADASTRADO';
 type EnderecoPrincipal = {
     logradouro?: string;
     numero?: string;
@@ -17,6 +20,47 @@ export declare class Parcel {
     inscription?: string;
     enderecoPrincipal?: EnderecoPrincipal;
     mainAddress?: string;
+    codigoImovel?: string;
+    setor?: string;
+    quadra?: string;
+    lote?: string;
+    cep?: string;
+    zoneamento?: string;
+    areaTerreno?: number;
+    area?: number;
+    areaConstruida?: number;
+    areaCartografica?: number;
+    valorVenalTerreno?: number;
+    valorVenalConstrucao?: number;
+    valorVenalTotal?: number;
+    iptuLancado?: number;
+    iptuPago?: number;
+    iptuEmAberto?: number;
+    statusIPTU?: IptuStatus;
+    exercicioIPTU?: number;
+    proprietarioNome?: string;
+    proprietarioDocumento?: string;
+    sourceType?: SourceType;
+    municipalityName?: string;
+    municipalityCode?: string;
+    importBatchId?: string;
+    isOfficial?: boolean;
+    active?: boolean;
+    validationStatus?: ValidationStatus;
+    validationErrors?: string[];
+    centroid?: {
+        type: string;
+        coordinates: [number, number];
+    };
+    bbox?: {
+        minX: number;
+        minY: number;
+        maxX: number;
+        maxY: number;
+    };
+    geometry: PolygonGeometry;
+    createdBy?: Types.ObjectId;
+    updatedBy?: Types.ObjectId;
     statusCadastral?: 'ATIVO' | 'INATIVO' | 'CONFLITO';
     status?: string;
     observacoes?: string;
@@ -25,11 +69,6 @@ export declare class Parcel {
     logradouroId?: Types.ObjectId;
     zoneId?: Types.ObjectId;
     faceId?: Types.ObjectId;
-    areaTerreno?: number;
-    area?: number;
-    geometry: PolygonGeometry;
-    createdBy?: Types.ObjectId;
-    updatedBy?: Types.ObjectId;
 }
 export type ParcelDocument = Parcel & Document;
 export declare const ParcelSchema: import("mongoose").Schema<Parcel, import("mongoose").Model<Parcel, any, any, any, Document<unknown, any, Parcel, any, {}> & Parcel & {

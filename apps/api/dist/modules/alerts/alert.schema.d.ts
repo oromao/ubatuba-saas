@@ -4,6 +4,18 @@ export declare class EnvironmentalAlert {
     title: string;
     level: string;
     status: string;
+    stage: 'TRIAGEM' | 'FISCALIZACAO' | 'EVIDENCIA' | 'NOTIFICACAO' | 'DESFECHO';
+    evidenceKeys: string[];
+    assignedTo?: string;
+    resolvedAt?: string;
+    timeline: Array<{
+        id: string;
+        stage: EnvironmentalAlert['stage'];
+        message: string;
+        createdAt: string;
+        actorId?: string;
+        evidenceKeys?: string[];
+    }>;
     location: {
         type: 'Point';
         coordinates: [number, number];

@@ -350,9 +350,9 @@ const migrations: Migration[] = [
           tenantId,
           name: 'Parcelas CTM',
           group: 'Cadastro Imobiliario',
-          type: 'vector',
+          type: 'mvt',
           source: 'api',
-          dataUrl: '/pgv/valuations/export/geojson',
+          tileUrl: '/ctm/parcels/tiles/{z}/{x}/{y}.pbf',
           visible: true,
           opacity: 0.1,
           order: 12,
@@ -518,7 +518,8 @@ const migrations: Migration[] = [
         { tenantId, name: 'Parcelas CTM' },
         {
           $set: {
-            dataUrl: '/pgv/valuations/export/geojson',
+            type: 'mvt',
+            tileUrl: '/ctm/parcels/tiles/{z}/{x}/{y}.pbf',
             geometryType: 'polygon',
             opacity: 0.1,
             style: {
@@ -1152,7 +1153,8 @@ const migrations: Migration[] = [
         { tenantId, name: 'Parcelas CTM' },
         {
           $set: {
-            dataUrl: '/pgv/valuations/export/geojson',
+            type: 'mvt',
+            tileUrl: '/ctm/parcels/tiles/{z}/{x}/{y}.pbf',
             geometryType: 'polygon',
           },
         },

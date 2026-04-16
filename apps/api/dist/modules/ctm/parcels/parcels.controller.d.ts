@@ -1,9 +1,11 @@
+import { Response } from 'express';
 import { ParcelsService } from './parcels.service';
 import { CreateParcelDto } from './dto/create-parcel.dto';
 import { UpdateParcelDto } from './dto/update-parcel.dto';
 import { UpsertParcelBuildingDto } from '../parcel-buildings/dto/upsert-parcel-building.dto';
 import { UpsertParcelSocioeconomicDto } from '../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto';
 import { UpsertParcelInfrastructureDto } from '../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto';
+import { GeometryService } from '../geometry.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelSocioeconomicService } from '../parcel-socioeconomic/parcel-socioeconomic.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
@@ -12,10 +14,31 @@ export declare class ParcelsController {
     private readonly parcelBuildingsService;
     private readonly parcelSocioeconomicService;
     private readonly parcelInfrastructureService;
-    constructor(parcelsService: ParcelsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService);
+    private readonly geometryService;
+    constructor(parcelsService: ParcelsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService, geometryService: GeometryService);
+    validateGeometry(body: {
+        geometry: any;
+    }): import("../geometry.service").GeometryValidationResult;
     list(req: {
         tenantId: string;
-    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string): Promise<import("./parcel.schema").ParcelDocument[]>;
+    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string, sourceType?: string, isOfficial?: string, zoneamento?: string, statusIPTU?: string): Promise<import("./parcel.schema").ParcelDocument[]>;
+    statistics(req: {
+        tenantId: string;
+    }, projectId?: string): Promise<{
+        total: number;
+        official: number;
+        demo: number;
+        withSqlu: number;
+        withIptu: number;
+        totalValorVenal: number;
+        totalIptuLancado: number;
+        totalIptuPago: number;
+        totalIptuEmAberto: number;
+        inadimplentes: number;
+        taxaAdimplencia: number;
+        byZone: Record<string, number>;
+        byStatus: Record<string, number>;
+    }>;
     pending(req: {
         tenantId: string;
     }, projectId?: string): Promise<{
@@ -27,15 +50,18 @@ export declare class ParcelsController {
     }[]>;
     geojson(req: {
         tenantId: string;
-    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string): Promise<{
+    }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string, sourceType?: string, isOfficial?: string): Promise<{
         type: "FeatureCollection";
         features: Array<{
             type: "Feature";
-            id: string;
+            id?: string;
             geometry: unknown;
             properties: Record<string, unknown>;
         }>;
     }>;
+    mvt(req: {
+        tenantId: string;
+    }, res: Response, z: string, x: string, y: string, projectId?: string): Promise<void>;
     get(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<import("./parcel.schema").ParcelDocument | null>;
@@ -119,11 +145,76 @@ export declare class ParcelsController {
         user?: {
             sub?: string;
         };
-    }, projectId: string | undefined, featureCollection: {
-        type: 'FeatureCollection';
-        features: unknown[];
+    }, projectId: string | undefined, body: {
+        sourceType?: string;
+        fileName?: string;
+        upsert?: boolean;
+        data: {
+            type: 'FeatureCollection';
+            features: unknown[];
+        };
+        municipalityName?: string;
+        municipalityCode?: string;
     }): Promise<{
+        batchId: any;
         inserted: number;
+        updated: number;
+        skipped: number;
         errors: number;
+        errorDetails: {
+            row: number;
+            featureId?: string;
+            message: string;
+            field?: string;
+        }[];
     }>;
+    importEnrichment(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+        };
+    }, projectId: string | undefined, body: {
+        sourceType?: string;
+        fileName?: string;
+        csv: string;
+        columnMapping?: Record<string, string>;
+    }): Promise<{
+        batchId: string | null;
+        processed: number;
+        updated: number;
+        notFound: number;
+        errors: number;
+        errorDetails: Array<{
+            row: number;
+            message: string;
+        }>;
+    }>;
+    importCsv(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+        };
+    }, projectId: string | undefined, body: {
+        csv: string;
+    }): Promise<{
+        batchId: string | null;
+        processed: number;
+        updated: number;
+        notFound: number;
+        errors: number;
+        errorDetails: Array<{
+            row: number;
+            message: string;
+        }>;
+    }>;
+    transicao(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+            role?: string;
+        };
+    }, id: string, projectId: string | undefined, body: {
+        status: string;
+        observacao: string;
+    }): Promise<import("./parcel.schema").ParcelDocument>;
 }

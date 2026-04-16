@@ -28,6 +28,9 @@ let LayersRepository = class LayersRepository {
     findById(tenantId, id) {
         return this.model.findOne({ _id: id, tenantId: (0, object_id_1.asObjectId)(tenantId) }).exec();
     }
+    create(data) {
+        return this.model.create(data);
+    }
     update(tenantId, id, data) {
         return this.model
             .findOneAndUpdate({ _id: id, tenantId: (0, object_id_1.asObjectId)(tenantId) }, data, { new: true })

@@ -15,14 +15,14 @@ import { Input } from "@/components/ui/input";
 
 const capabilities = [
   {
-    title: "Mapeamento com drone e satelite",
+    title: "Mapeamento com drone e satélite",
     desc: "Ortomosaico, nuvem de pontos e modelos 3D atualizados com voo programado.",
     tag: "Mapa 2D/3D",
     icon: MapPinned,
   },
   {
-    title: "Cadastro tecnico multifinalitario",
-    desc: "Base cartografica unica para IPTU, infraestrutura e planejamento urbano.",
+    title: "Cadastro técnico multifinalitario",
+    desc: "Base cartografica única para IPTU, infraestrutura e planejamento urbano.",
     tag: "Cadastro unico",
     icon: Building2,
   },
@@ -34,14 +34,14 @@ const capabilities = [
   },
   {
     title: "Monitoramento ambiental continuo",
-    desc: "Alertas, risco hidrologico e fiscalizacao georreferenciada.",
+    desc: "Alertas, risco hidrológico e fiscalização georreferenciada.",
     tag: "Risco e alerta",
     icon: BadgeCheck,
   },
   {
     title: "Painel executivo e indicadores",
     desc: "KPI territoriais, comparativos por regiao e visao consolidada.",
-    tag: "Gestao",
+    tag: "Gestão",
     icon: LayoutDashboard,
   },
   {
@@ -55,14 +55,14 @@ const capabilities = [
 const workflow = [
   {
     title: "Captura e processamento",
-    desc: "Coleta com drone, satelite e sensores. Processamento automatico em nuvem.",
+    desc: "Coleta com drone, satélite e sensores. Processamento automatico em nuvem.",
   },
   {
-    title: "Inteligencia e analise",
-    desc: "Comparacao temporal, deteccao de risco e analise cadastral integrada.",
+    title: "Inteligência e análise",
+    desc: "Comparacao temporal, deteccao de risco e análise cadastral integrada.",
   },
   {
-    title: "Operacao e auditoria",
+    title: "Operação e auditoria",
     desc: "Acoes de campo, relatorios e trilha completa de conformidade.",
   },
 ];
@@ -74,13 +74,13 @@ export default function HomePage() {
         <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-6">
           <Link href="/" className="min-w-[180px]">
             <p className="text-xl font-semibold text-on-surface">FlyDea Atlas</p>
-            <p className="text-xs text-slate">GeoInteligencia municipal com drone</p>
+            <p className="text-xs text-slate">GeoInteligência municipal com drone</p>
           </Link>
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-slate lg:flex">
             <Link href="#plataforma">Plataforma</Link>
             <Link href="#drone">Drone</Link>
-            <Link href="#confianca">Confianca</Link>
+            <Link href="#confianca">Confiança</Link>
             <Link href="#contato">Contato</Link>
           </nav>
 
@@ -105,11 +105,11 @@ export default function HomePage() {
             <div className="space-y-6">
               <Badge variant="info">Plataforma geoespacial completa</Badge>
               <h1 className="max-w-2xl font-display text-4xl font-semibold leading-tight md:text-6xl">
-                Gestao territorial com mapas precisos, drones e inteligencia aplicada.
+                Gestão territorial com mapas precisos, drones e inteligencia aplicada.
               </h1>
               <p className="max-w-2xl text-lg text-slate">
-                Uma base unica para cadastro tecnico, monitoramento ambiental, licenciamento e
-                planejamento urbano. Tudo integrado ao mapa com operacao segura e auditavel.
+                Uma base única para cadastro técnico, monitoramento ambiental, licenciamento e
+                planejamento urbano. Tudo integrado ao mapa com operação segura e auditavel.
               </p>
 
               <div className="flex flex-wrap items-center gap-3">
@@ -127,8 +127,8 @@ export default function HomePage() {
 
               <div className="grid max-w-2xl gap-4 pt-4 sm:grid-cols-3">
                 {[
-                  { label: "Municipios atendidos", value: "120+" },
-                  { label: "Atualizacao cartografica", value: "7 dias" },
+                  { label: "Municípios atendidos", value: "120+" },
+                  { label: "Atualização cartografica", value: "7 dias" },
                   { label: "Disponibilidade", value: "99.95%" },
                 ].map((item) => (
                   <div
@@ -154,8 +154,8 @@ export default function HomePage() {
                 <CardContent className="relative space-y-4">
                   <div className="flex flex-wrap gap-2">
                     <Badge className="bg-surface-elevated text-on-surface">Ortomosaico 10 cm</Badge>
-                    <Badge className="bg-surface-elevated text-on-surface">Cadastro tecnico</Badge>
-                    <Badge className="bg-surface-elevated text-on-surface">Risco hidrologico</Badge>
+                    <Badge className="bg-surface-elevated text-on-surface">Cadastro técnico</Badge>
+                    <Badge className="bg-surface-elevated text-on-surface">Risco hidrológico</Badge>
                   </div>
                   <div className="rounded-2xl border border-outline/70 bg-surface-elevated p-4">
                     <p className="text-xs text-slate">Missao ativa</p>
@@ -200,7 +200,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-0.5 h-5 w-5 text-teal" />
-                  Operacao multi-secretarias com perfis e permissoes
+                  Operação multi-secretarias com perfis e permissoes
                 </div>
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-0.5 h-5 w-5 text-teal" />
@@ -235,14 +235,14 @@ export default function HomePage() {
           <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="space-y-6">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate">
-                Operacao com drone
+                Operação com drone
               </p>
               <h2 className="font-display text-3xl font-semibold text-on-surface">
                 Do voo ao mapa em horas, com rastreio completo.
               </h2>
               <p className="text-slate">
                 Planeje missoes, acompanhe processamento automatico e publique camadas prontas para
-                inspeccao, fiscalizacao e planejamento urbano.
+                inspeccao, fiscalização e planejamento urbano.
               </p>
               <div className="grid gap-4">
                 {workflow.map((item) => (
@@ -288,7 +288,7 @@ export default function HomePage() {
           <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
             <div className="space-y-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate">
-                Confianca operacional
+                Confiança operacional
               </p>
               <h2 className="font-display text-3xl font-semibold text-on-surface">
                 Compliance, resiliencia e governanca para dados sensiveis.
@@ -341,10 +341,10 @@ export default function HomePage() {
                 Modernize a governanca territorial com mapa e drone.
               </h2>
               <p className="mt-4 text-slate">
-                Solicite uma demonstracao e receba um plano de implantacao completo.
+                Solicite uma demonstracao e receba um plano de implantação completo.
               </p>
               <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate">
-                <span>Implantacao guiada</span>
+                <span>Implantação guiada</span>
                 <span>Treinamento</span>
                 <span>Suporte 24/7</span>
               </div>
@@ -370,13 +370,13 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-3">
           <div>
             <p className="text-lg font-semibold text-on-surface">FlyDea Atlas</p>
-            <p className="mt-2 text-sm text-slate">GeoInteligencia para governos locais.</p>
+            <p className="mt-2 text-sm text-slate">GeoInteligência para governos locais.</p>
           </div>
           <div className="text-sm text-slate">
             <p className="font-semibold text-on-surface">Plataforma</p>
             <ul className="mt-3 space-y-2">
               <li>Mapa e drones</li>
-              <li>Cadastro tecnico</li>
+              <li>Cadastro técnico</li>
               <li>Monitoramento ambiental</li>
             </ul>
           </div>

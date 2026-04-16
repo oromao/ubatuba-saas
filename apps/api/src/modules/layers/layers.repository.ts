@@ -16,6 +16,10 @@ export class LayersRepository {
     return this.model.findOne({ _id: id, tenantId: asObjectId(tenantId) }).exec();
   }
 
+  create(data: Partial<Layer>): Promise<LayerDocument> {
+    return this.model.create(data as any);
+  }
+
   update(tenantId: string, id: string, data: Partial<Layer>) {
     return this.model
       .findOneAndUpdate({ _id: id, tenantId: asObjectId(tenantId) }, data, { new: true })

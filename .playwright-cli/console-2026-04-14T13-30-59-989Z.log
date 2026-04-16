@@ -1,0 +1,16 @@
+[     682ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/zones?projectId=demo:0
+[     687ms] [ERROR] {ts: 2026-04-14T13:31:00.671Z, level: error, scope: api, message: request_failed, path: /pgv/zones?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[     689ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/faces?projectId=demo:0
+[     689ms] [ERROR] {ts: 2026-04-14T13:31:00.678Z, level: error, scope: api, message: request_failed, path: /pgv/faces?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[     807ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/simulations?projectId=demo:0
+[     808ms] [ERROR] {ts: 2026-04-14T13:31:00.796Z, level: error, scope: api, message: request_failed, path: /pgv/simulations?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[     811ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/versions?projectId=demo:0
+[     811ms] [ERROR] {ts: 2026-04-14T13:31:00.800Z, level: error, scope: api, message: request_failed, path: /pgv/versions?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[    1828ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/zones?projectId=demo:0
+[    1828ms] [ERROR] {ts: 2026-04-14T13:31:01.817Z, level: error, scope: api, message: request_failed, path: /pgv/zones?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[    1829ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/faces?projectId=demo:0
+[    1830ms] [ERROR] {ts: 2026-04-14T13:31:01.818Z, level: error, scope: api, message: request_failed, path: /pgv/faces?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[    1941ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/simulations?projectId=demo:0
+[    1941ms] [ERROR] {ts: 2026-04-14T13:31:01.930Z, level: error, scope: api, message: request_failed, path: /pgv/simulations?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0
+[    1943ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://172.233.188.166:4000/pgv/versions?projectId=demo:0
+[    1944ms] [ERROR] {ts: 2026-04-14T13:31:01.932Z, level: error, scope: api, message: request_failed, path: /pgv/versions?projectId=demo} @ http://172.233.188.166:3000/_next/static/chunks/7023-5b2c22141c395d1b.js:0

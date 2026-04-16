@@ -7,6 +7,7 @@ interface MapState {
   
   // Ações
   toggleLayer: (layerId: string) => void;
+  setActiveLayers: (layerIds: string[]) => void;
   setDrawMode: (mode: string | null) => void;
   addFeature: (feature: any) => void;
   clearFeatures: () => void;
@@ -18,7 +19,7 @@ interface MapState {
  * e mitiga severos impactos de re-renderização (First Contentful Paint).
  */
 export const useMapStore = create<MapState>((set) => ({
-  activeLayers: ['layer-lotes', 'layer-bairros'],
+  activeLayers: [],
   drawMode: null,
   features: [],
   
@@ -31,7 +32,9 @@ export const useMapStore = create<MapState>((set) => ({
           : [...state.activeLayers, layerId],
       };
     }),
-    
+
+  setActiveLayers: (layerIds) => set({ activeLayers: layerIds }),
+
   setDrawMode: (mode) => set({ drawMode: mode }),
   
   addFeature: (feature) =>

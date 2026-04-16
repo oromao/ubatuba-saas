@@ -1,0 +1,15 @@
+
+> @flydea/web@0.1.0 dev /Users/paulo/Documents/ubatuba-saas/apps/web
+> next dev -H 0.0.0.0 -p 3000
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3000
+  - Network:      http://0.0.0.0:3000
+  - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1611ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.3s (646 modules)
+ HEAD / 200 in 2460ms
+[?25h

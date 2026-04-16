@@ -16,6 +16,11 @@ import {
   Route,
   ShieldCheck,
   SlidersHorizontal,
+  Briefcase,
+  FolderKanban,
+  Users,
+  Settings,
+  HardHat
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { ROLE_GROUPS, type AppRole } from "@/lib/rbac";
@@ -43,60 +48,67 @@ const withDefaultRoles = (item: Omit<NavItem, "roles"> & { roles?: UserRole[] })
 
 export const navGroups: NavGroup[] = [
   {
+    title: "INTELIGÊNCIA EXECUTIVA",
     items: [
       {
-        label: "Dashboard",
+        label: "Painel de Gestão",
         href: "/app/dashboard",
         icon: LayoutDashboard,
-        keywords: ["painel", "kpi", "executivo"],
+        keywords: ["painel", "kpi", "executivo", "arrecadacao"],
         roles: ROLE_GROUPS.all,
       },
       withDefaultRoles({
-        label: "Mapas & Drones",
+        label: "Observatório Urbano",
+        href: "/app/observatorio",
+        icon: LineChart,
+        keywords: ["mercado", "pgv", "arrecadacao", "bi"],
+      }),
+      withDefaultRoles({
+        label: "Mapa Interativo",
         href: "/app/maps",
         icon: MapPinned,
         keywords: ["mapa", "camadas", "geo", "drone"],
       }),
-      withDefaultRoles({
-        label: "Levantamentos",
-        href: "/app/levantamentos",
-        icon: Radar,
-        keywords: ["aerofoto", "lidar", "entregaveis"],
-      }),
     ],
   },
   {
-    title: "CADASTRO (CTM)",
+    title: "CADASTRO TERRITORIAL (CTM)",
     items: [
-      withDefaultRoles({ label: "Parcelas", href: "/app/ctm/parcelas", icon: Landmark, keywords: ["lotes", "ctm"] }),
-      withDefaultRoles({ label: "Logradouros", href: "/app/ctm/logradouros", icon: Route, keywords: ["ruas", "vias"] }),
-      withDefaultRoles({ label: "Mobiliario", href: "/app/ctm/mobiliario", icon: Armchair, keywords: ["urbano"] }),
+      withDefaultRoles({ label: "Lotes e Imóveis", href: "/app/ctm/parcelas", icon: Landmark, keywords: ["lotes", "ctm", "parcelas"] }),
+      withDefaultRoles({ label: "Malha Viária", href: "/app/ctm/logradouros", icon: Route, keywords: ["ruas", "vias", "logradouros"] }),
+      withDefaultRoles({ label: "Equipamentos Urbanos", href: "/app/ctm/mobiliario", icon: Armchair, keywords: ["urbano", "mobiliario"] }),
+      withDefaultRoles({ label: "Planta Genérica (PGV)", href: "/app/pgv/zonas", icon: Layers, keywords: ["valor", "pgv", "zonas"] }),
+      withDefaultRoles({ label: "Regularização (REURB)", href: "/app/reurb", icon: FileSpreadsheet, keywords: ["familias", "planilha", "cartorio"] }),
+      withDefaultRoles({ label: "Vistorias", href: "/app/ctm/vistorias", icon: ClipboardCheck, keywords: ["vistoria", "campo", "inspecao", "foto"] }),
     ],
   },
   {
-    title: "VALORACAO (PGV)",
+    title: "FISCALIZAÇÃO E PROCESSOS",
     items: [
-      withDefaultRoles({ label: "Zonas", href: "/app/pgv/zonas", icon: Layers, keywords: ["valor"] }),
-      withDefaultRoles({ label: "Faces", href: "/app/pgv/faces", icon: Route, keywords: ["quadra"] }),
-      withDefaultRoles({ label: "Fatores", href: "/app/pgv/fatores", icon: SlidersHorizontal, keywords: ["multiplicador"] }),
-      withDefaultRoles({ label: "Relatorio", href: "/app/pgv/relatorio", icon: LineChart, keywords: ["venal"] }),
+      withDefaultRoles({ label: "Processos Digitais", href: "/app/processes", icon: FileCheck2, keywords: ["workflow", "alvara"] }),
+      withDefaultRoles({ label: "Monitoramento e Alertas", href: "/app/monitoramento", icon: Bell, keywords: ["ambiental", "risco", "defesa civil"] }),
+      withDefaultRoles({ label: "Atendimento 156", href: "/app/156", icon: Users, keywords: ["chamado", "reclamacao", "cidadao"] }),
+      withDefaultRoles({ label: "Notificações Oficiais", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo", "multa"] }),
     ],
   },
   {
+    title: "MÓDULOS DE NEGÓCIO",
     items: [
-      withDefaultRoles({ label: "Alertas", href: "/app/alerts", icon: Bell, keywords: ["ambiental", "risco"] }),
-      withDefaultRoles({ label: "Processos", href: "/app/processes", icon: FileCheck2, keywords: ["workflow"] }),
-      withDefaultRoles({ label: "Ativos", href: "/app/assets", icon: Building2, keywords: ["inventario"] }),
-      withDefaultRoles({ label: "Integracoes", href: "/app/integracoes", icon: Link2, keywords: ["tributario", "sync", "conector"] }),
-      withDefaultRoles({ label: "Cartas", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo"] }),
-      withDefaultRoles({ label: "Compliance", href: "/app/compliance", icon: ShieldCheck, keywords: ["crea", "cau", "cat", "art"] }),
-      withDefaultRoles({ label: "REURB", href: "/app/reurb", icon: FileSpreadsheet, keywords: ["familias", "planilha", "cartorio"] }),
+      withDefaultRoles({ label: "Obras Particulares", href: "/app/modulos/obras", icon: HardHat, keywords: ["alvara", "habite-se", "obra"] }),
+      withDefaultRoles({ label: "Atividades Econômicas", href: "/app/modulos/empresas", icon: Briefcase, keywords: ["alvara", "empresa", "inscricao"] }),
+      withDefaultRoles({ label: "Licenciamento Ambiental", href: "/app/ambiental", icon: ShieldCheck, keywords: ["licenciamento", "poda", "app", "laudo"] }),
+    ],
+  },
+  {
+    title: "CONFIGURAÇÃO E INTEGRAÇÃO",
+    items: [
+      withDefaultRoles({ label: "Integrações ERP", href: "/app/integracoes", icon: Link2, keywords: ["tributario", "sync", "conector"] }),
       {
-        label: "PoC",
+        label: "Conformidade interna",
         href: "/app/poc",
         icon: ClipboardCheck,
-        keywords: ["score", "aderencia", "evidencia"],
-        roles: ROLE_GROUPS.all,
+        keywords: ["score", "aderencia", "evidencia", "conformidade"],
+        roles: ROLE_GROUPS.adminOnly,
       },
     ],
   },

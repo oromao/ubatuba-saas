@@ -1,0 +1,59 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e2]
+  - generic [ref=e335]:
+    - generic [ref=e336]:
+      - generic [ref=e337]:
+        - link "FlyDea Atlas SaaS geoespacial" [ref=e338] [cursor=pointer]:
+          - /url: /
+          - text: FlyDea Atlas
+          - generic [ref=e339]: SaaS geoespacial
+        - generic [ref=e340]: Acesso seguro ao painel operacional
+        - heading "Controle territorial em um painel moderno, auditavel e pronto para escala." [level=1] [ref=e341]
+        - paragraph [ref=e342]: Mapeamento, cadastro técnico, processos digitais e monitoramento integrados com governanca por perfil.
+      - generic [ref=e343]:
+        - generic [ref=e344]:
+          - paragraph [ref=e345]: Camadas ativas
+          - paragraph [ref=e346]: "64"
+        - generic [ref=e347]:
+          - paragraph [ref=e348]: Missoes semanais
+          - paragraph [ref=e349]: "12"
+        - generic [ref=e350]:
+          - paragraph [ref=e351]: Alertas monitorados
+          - paragraph [ref=e352]: "284"
+        - generic [ref=e353]:
+          - paragraph [ref=e354]: Aprovacoes digitais
+          - paragraph [ref=e355]: 1.4k
+      - generic [ref=e356]:
+        - generic [ref=e357]:
+          - img [ref=e358]
+          - generic [ref=e361]:
+            - paragraph [ref=e362]: Seguranca institucional
+            - paragraph [ref=e363]: Logs por usuario, trilha de auditoria e segregacao multi-tenant.
+        - generic [ref=e364]:
+          - generic [ref=e365]:
+            - img [ref=e366]
+            - text: Fluxo simplificado
+          - generic [ref=e368]:
+            - img [ref=e369]
+            - text: LGPD + RBAC
+    - generic [ref=e373]:
+      - generic [ref=e374]:
+        - heading "Entrar no painel" [level=3] [ref=e375]
+        - paragraph [ref=e376]: Informe credenciais de acesso para sua operação geoespacial.
+      - generic [ref=e377]:
+        - generic [ref=e378]:
+          - generic [ref=e379]:
+            - text: Email institucional
+            - textbox "nome@prefeitura.gov.br" [ref=e380]
+          - generic [ref=e381]:
+            - text: Senha
+            - textbox "********" [ref=e382]
+          - generic [ref=e383]:
+            - text: Tenant
+            - 'textbox "ex: prefeitura-ubatuba" [ref=e384]'
+          - button "Entrar" [ref=e385] [cursor=pointer]
+        - generic [ref=e386]:
+          - link "Esqueci minha senha" [ref=e387] [cursor=pointer]:
+            - /url: /forgot-password
+          - link "Voltar ao site" [ref=e388] [cursor=pointer]:
+            - /url: /

@@ -42,6 +42,14 @@ let ParcelsRepository = class ParcelsRepository {
             query.zoneId = (0, object_id_1.asObjectId)(filters.zoneId);
         if (filters.faceId)
             query.faceId = (0, object_id_1.asObjectId)(filters.faceId);
+        if (filters.sourceType)
+            query.sourceType = filters.sourceType;
+        if (filters.isOfficial !== undefined)
+            query.isOfficial = filters.isOfficial;
+        if (filters.zoneamento)
+            query.zoneamento = filters.zoneamento;
+        if (filters.statusIPTU)
+            query.statusIPTU = filters.statusIPTU;
         if (filters.q) {
             const term = filters.q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(term, 'i');
@@ -71,6 +79,23 @@ let ParcelsRepository = class ParcelsRepository {
     findById(tenantId, projectId, id) {
         return this.model
             .findOne({ _id: id, tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) })
+            .exec();
+    }
+    findBySqlu(tenantId, projectId, sqlu) {
+        return this.model
+            .findOne({ sqlu, tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) })
+            .exec();
+    }
+    findByInscription(tenantId, projectId, inscription) {
+        return this.model
+            .findOne({
+            $or: [
+                { inscricaoImobiliaria: inscription },
+                { inscription: inscription },
+            ],
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId)
+        })
             .exec();
     }
     create(data) {

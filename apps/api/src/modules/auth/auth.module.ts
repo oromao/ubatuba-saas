@@ -8,6 +8,7 @@ import { RefreshToken, RefreshTokenSchema } from './refresh-token.schema';
 import { PasswordResetToken, PasswordResetTokenSchema } from './password-reset.schema';
 import { EmailOutbox, EmailOutboxSchema } from './email-outbox.schema';
 import { AuthEvent, AuthEventSchema } from './auth-event.schema';
+import { PortalSession, PortalSessionSchema } from './portal-session.schema';
 import { UsersModule } from '../users/users.module';
 import { TenantsModule } from '../tenants/tenants.module';
 import { MembershipsModule } from '../memberships/memberships.module';
@@ -25,6 +26,7 @@ import { RedisService } from '../shared/redis.service';
       { name: PasswordResetToken.name, schema: PasswordResetTokenSchema },
       { name: EmailOutbox.name, schema: EmailOutboxSchema },
       { name: AuthEvent.name, schema: AuthEventSchema },
+      { name: PortalSession.name, schema: PortalSessionSchema },
     ]),
   ],
   controllers: [AuthController],

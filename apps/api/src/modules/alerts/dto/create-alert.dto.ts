@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateAlertDto {
   @IsString()
@@ -14,4 +14,13 @@ export class CreateAlertDto {
 
   @IsNumber()
   lng!: number;
+
+  @IsOptional()
+  @IsString()
+  assignedTo?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  evidenceKeys?: string[];
 }

@@ -20,12 +20,14 @@ const refresh_token_schema_1 = require("./refresh-token.schema");
 const password_reset_schema_1 = require("./password-reset.schema");
 const email_outbox_schema_1 = require("./email-outbox.schema");
 const auth_event_schema_1 = require("./auth-event.schema");
+const portal_session_schema_1 = require("./portal-session.schema");
 let AuthRepository = class AuthRepository {
-    constructor(refreshModel, resetModel, outboxModel, eventModel) {
+    constructor(refreshModel, resetModel, outboxModel, eventModel, portalSessionModel) {
         this.refreshModel = refreshModel;
         this.resetModel = resetModel;
         this.outboxModel = outboxModel;
         this.eventModel = eventModel;
+        this.portalSessionModel = portalSessionModel;
     }
     createRefreshToken(data) {
         return this.refreshModel.create(data);
@@ -54,6 +56,15 @@ let AuthRepository = class AuthRepository {
     createAuthEvent(data) {
         return this.eventModel.create(data);
     }
+    createPortalSession(data) {
+        return this.portalSessionModel.create(data);
+    }
+    findPortalSession(tokenHash) {
+        return this.portalSessionModel.findOne({ tokenHash }).exec();
+    }
+    deletePortalSession(tokenHash) {
+        return this.portalSessionModel.deleteOne({ tokenHash }).exec();
+    }
 };
 exports.AuthRepository = AuthRepository;
 exports.AuthRepository = AuthRepository = __decorate([
@@ -62,7 +73,9 @@ exports.AuthRepository = AuthRepository = __decorate([
     __param(1, (0, mongoose_1.InjectModel)(password_reset_schema_1.PasswordResetToken.name)),
     __param(2, (0, mongoose_1.InjectModel)(email_outbox_schema_1.EmailOutbox.name)),
     __param(3, (0, mongoose_1.InjectModel)(auth_event_schema_1.AuthEvent.name)),
+    __param(4, (0, mongoose_1.InjectModel)(portal_session_schema_1.PortalSession.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model])

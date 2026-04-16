@@ -7,11 +7,12 @@ import { CreateParcelDto } from './dto/create-parcel.dto';
 import { UpdateParcelDto } from './dto/update-parcel.dto';
 import { ParcelAuditRepository } from './parcel-audit.repository';
 import { ParcelsRepository } from './parcels.repository';
+import { ImportBatchRepository } from './import-batch.repository';
 type ParcelGeoJson = {
     type: 'FeatureCollection';
     features: Array<{
         type: 'Feature';
-        id: string;
+        id?: string;
         geometry: unknown;
         properties: Record<string, unknown>;
     }>;
@@ -24,7 +25,9 @@ export declare class ParcelsService {
     private readonly parcelInfrastructureService;
     private readonly logradourosService;
     private readonly parcelAuditRepository;
-    constructor(parcelsRepository: ParcelsRepository, projectsService: ProjectsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService, logradourosService: LogradourosService, parcelAuditRepository: ParcelAuditRepository);
+    private readonly importBatchRepository;
+    private readonly logger;
+    constructor(parcelsRepository: ParcelsRepository, projectsService: ProjectsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService, logradourosService: LogradourosService, parcelAuditRepository: ParcelAuditRepository, importBatchRepository: ImportBatchRepository);
     private computePendingIssues;
     private buildDiff;
     list(tenantId: string, projectId?: string, filters?: {
@@ -35,7 +38,26 @@ export declare class ParcelsService {
         workflowStatus?: string;
         bbox?: string;
         q?: string;
+        sourceType?: string;
+        isOfficial?: boolean;
+        zoneamento?: string;
+        statusIPTU?: string;
     }): Promise<import("./parcel.schema").ParcelDocument[]>;
+    getStatistics(tenantId: string, projectId?: string): Promise<{
+        total: number;
+        official: number;
+        demo: number;
+        withSqlu: number;
+        withIptu: number;
+        totalValorVenal: number;
+        totalIptuLancado: number;
+        totalIptuPago: number;
+        totalIptuEmAberto: number;
+        inadimplentes: number;
+        taxaAdimplencia: number;
+        byZone: Record<string, number>;
+        byStatus: Record<string, number>;
+    }>;
     listPendencias(tenantId: string, projectId?: string): Promise<{
         parcelId: any;
         sqlu: string;
@@ -62,7 +84,10 @@ export declare class ParcelsService {
         workflowStatus?: string;
         bbox?: string;
         q?: string;
+        sourceType?: string;
+        isOfficial?: boolean;
     }): Promise<ParcelGeoJson>;
+    vectorTiles(tenantId: string, projectId: string | undefined, z: number, x: number, y: number): Promise<Buffer>;
     getSummary(tenantId: string, projectId: string | undefined, id: string): Promise<{
         parcel: import("./parcel.schema").ParcelDocument;
         building: (import("mongoose").Document<unknown, {}, import("../parcel-buildings/parcel-building.schema").ParcelBuildingDocument, {}, {}> & import("../parcel-buildings/parcel-building.schema").ParcelBuilding & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
@@ -82,9 +107,30 @@ export declare class ParcelsService {
         }) | null;
         logradouro: import("../logradouros/logradouro.schema").LogradouroDocument | null;
     }>;
-    importGeojson(tenantId: string, projectId: string | undefined, featureCollection: ParcelGeoJson, userId?: string): Promise<{
+    importGeojson(tenantId: string, projectId: string | undefined, featureCollection: ParcelGeoJson, sourceType?: string, fileName?: string, upsert?: boolean, userId?: string, municipalityName?: string, municipalityCode?: string): Promise<{
+        batchId: any;
         inserted: number;
+        updated: number;
+        skipped: number;
         errors: number;
+        errorDetails: {
+            row: number;
+            featureId?: string;
+            message: string;
+            field?: string;
+        }[];
+    }>;
+    transicao(tenantId: string, projectId: string | undefined, id: string, newStatus: 'PENDENTE' | 'EM_VALIDACAO' | 'APROVADA' | 'REPROVADA', observacao: string, userId?: string, userRole?: string): Promise<import("./parcel.schema").ParcelDocument>;
+    importFromCsvEnrichment(tenantId: string, projectId: string | undefined, csvContent: string, sourceType?: string, fileName?: string, columnMapping?: Record<string, string>, userId?: string): Promise<{
+        batchId: string | null;
+        processed: number;
+        updated: number;
+        notFound: number;
+        errors: number;
+        errorDetails: Array<{
+            row: number;
+            message: string;
+        }>;
     }>;
 }
 export {};

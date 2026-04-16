@@ -20,7 +20,6 @@
 | admin | /app/processes | ok |
 | admin | /app/poc | ok |
 | admin | /mobile | ok |
-| admin | /app/reurb | ok |
 | gestor | /app/dashboard | ok |
 | gestor | /app/maps | ok |
 | gestor | /app/levantamentos | ok |
@@ -39,7 +38,6 @@
 | gestor | /app/processes | ok |
 | gestor | /app/poc | ok |
 | gestor | /mobile | ok |
-| gestor | /app/reurb | ok |
 | leitor | /app/dashboard | ok |
 | leitor | /app/maps | ok |
 | leitor | /app/levantamentos | ok |
@@ -76,4 +74,3 @@
 | operador | /app/processes | ok |
 | operador | /app/poc | ok |
 | operador | /mobile | ok |
-| operador | /app/reurb | ok |

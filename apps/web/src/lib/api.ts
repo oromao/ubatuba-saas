@@ -1,17 +1,18 @@
 import { appLogger } from "@/lib/logger";
 
 const rawApiUrl = process.env.NEXT_PUBLIC_API_URL;
-const fallbackFromWindow =
-  typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:4000`
-    : "http://localhost:4000";
+const isLocalBrowser = typeof window !== "undefined" && ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const browserFallback = typeof window !== "undefined" ? `${window.location.protocol}//${window.location.hostname}:4000` : "http://localhost:4000";
+
 export const API_URL =
-  rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().length > 0
-    ? rawApiUrl
-    : fallbackFromWindow;
+  isLocalBrowser
+    ? "/api"
+    : rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().length > 0
+      ? rawApiUrl
+      : browserFallback;
 
 export async function apiFetch<T>(path: string, options: RequestInit = {}) {
-  const storage = typeof window !== "undefined" ? window.localStorage : null;
+  const storage = typeof window !== "undefined" ? window.sessionStorage : null;
   const accessToken = storage?.getItem("accessToken") ?? null;
   const tenantId = storage?.getItem("tenantId") ?? null;
 
@@ -31,7 +32,7 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}) {
   let res = await doFetch();
 
   if (res.status === 401 && storage) {
-    const refreshToken = storage.getItem("refreshToken");
+    const refreshToken = storage.getItem("refreshToken") ?? window.localStorage.getItem("refreshToken");
     if (refreshToken) {
       const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
         method: "POST",

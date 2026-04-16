@@ -72,8 +72,8 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-teal/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-sun/20 blur-3xl" />
 
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1.08fr_0.92fr]">
-        <section className="relative space-y-8">
+      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 py-8 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:py-12">
+        <section className="relative hidden space-y-8 lg:block">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-on-surface">
               FlyDea Atlas

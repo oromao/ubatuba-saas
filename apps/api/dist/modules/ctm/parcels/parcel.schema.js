@@ -46,6 +46,138 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
+], Parcel.prototype, "codigoImovel", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "setor", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "quadra", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "lote", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "cep", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "zoneamento", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "areaTerreno", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "area", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "areaConstruida", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "areaCartografica", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "valorVenalTerreno", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "valorVenalConstrucao", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "valorVenalTotal", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "iptuLancado", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "iptuPago", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "iptuEmAberto", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "statusIPTU", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Parcel.prototype, "exercicioIPTU", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "proprietarioNome", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "proprietarioDocumento", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 'DEMO' }),
+    __metadata("design:type", String)
+], Parcel.prototype, "sourceType", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "municipalityName", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "municipalityCode", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "importBatchId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Parcel.prototype, "isOfficial", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: true }),
+    __metadata("design:type", Boolean)
+], Parcel.prototype, "active", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 'VALID' }),
+    __metadata("design:type", String)
+], Parcel.prototype, "validationStatus", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [String], default: [] }),
+    __metadata("design:type", Array)
+], Parcel.prototype, "validationErrors", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], Parcel.prototype, "centroid", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], Parcel.prototype, "bbox", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    __metadata("design:type", Object)
+], Parcel.prototype, "geometry", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Parcel.prototype, "createdBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Parcel.prototype, "updatedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
 ], Parcel.prototype, "statusCadastral", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
@@ -75,26 +207,6 @@ __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Parcel.prototype, "faceId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Number)
-], Parcel.prototype, "areaTerreno", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Number)
-], Parcel.prototype, "area", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: Object, required: true }),
-    __metadata("design:type", Object)
-], Parcel.prototype, "geometry", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Parcel.prototype, "createdBy", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Parcel.prototype, "updatedBy", void 0);
 exports.Parcel = Parcel = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true, collection: 'parcels' })
 ], Parcel);
@@ -104,4 +216,11 @@ exports.ParcelSchema.index({ tenantId: 1, projectId: 1, inscription: 1 });
 exports.ParcelSchema.index({ tenantId: 1, projectId: 1, inscricaoImobiliaria: 1 });
 exports.ParcelSchema.index({ tenantId: 1, projectId: 1, updatedAt: -1 });
 exports.ParcelSchema.index({ geometry: '2dsphere' });
+exports.ParcelSchema.index({ sourceType: 1 });
+exports.ParcelSchema.index({ isOfficial: 1 });
+exports.ParcelSchema.index({ importBatchId: 1 });
+exports.ParcelSchema.index({ statusIPTU: 1 });
+exports.ParcelSchema.index({ zoneamento: 1 });
+exports.ParcelSchema.index({ municipalityName: 1 });
+exports.ParcelSchema.index({ setor: 1, quadra: 1, lote: 1 });
 //# sourceMappingURL=parcel.schema.js.map

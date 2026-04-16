@@ -7,6 +7,7 @@ import { MapToolbar } from "../../../components/maps/MapToolbar";
 import { MapLayers } from "../../../components/maps/MapLayers";
 import { API_URL, apiFetch } from "../../../lib/api";
 import { useMapStore } from "../../../lib/stores/useMapStore";
+import { fetchMapFeaturesGeojson } from "../../../lib/map-features";
 
 type LayerItem = {
   id: string;
@@ -100,8 +101,8 @@ export default function DynamicMapViewer() {
     mapConfig.current = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-      center: [-45.0711, -23.4339],
-      zoom: 13,
+      center: [-46.6333, -23.5505], // São Paulo
+      zoom: 12,
       pitch: 0,
       bearing: 0,
     });
@@ -248,7 +249,12 @@ export default function DynamicMapViewer() {
 
       if (layer.type === "vector" && layer.dataUrl) {
         if (!map.getSource(sourceId)) {
-          apiFetch<unknown>(layer.dataUrl)
+          const isExternalUrl = layer.dataUrl.startsWith("http");
+          const fetchPromise = isExternalUrl
+            ? fetch(layer.dataUrl).then((res) => res.json())
+            : apiFetch<unknown>(layer.dataUrl);
+
+          fetchPromise
             .then((geojson) => {
               if (!map.getSource(sourceId)) {
                 map.addSource(sourceId, {
@@ -287,6 +293,151 @@ export default function DynamicMapViewer() {
 
     setGeoserverUnavailable(hasUnavailableGeoServer);
   }, [activeLayers, mapReady, orderedLayers]);
+
+  // Always load CTM parcels as a built-in layer from map-features API
+  useEffect(() => {
+    if (!mapReady || !mapConfig.current) return;
+    const map = mapConfig.current;
+    const SOURCE = "builtin-parcels";
+    const FILL_LAYER = "builtin-parcels-fill";
+    const LINE_LAYER = "builtin-parcels-line";
+    const LABEL_LAYER = "builtin-parcels-label";
+
+    if (map.getSource(SOURCE)) return; // already loaded
+
+    // Try CTM parcels first (primary source), fall back to map-features
+    const loadGeoJson = () =>
+      apiFetch<unknown>("/ctm/parcels/geojson").catch(() =>
+        fetchMapFeaturesGeojson("parcel", ""),
+      );
+
+    loadGeoJson()
+      .then((geojson) => {
+        if (!map.getSource(SOURCE)) {
+          map.addSource(SOURCE, {
+            type: "geojson",
+            data: geojson as maplibregl.GeoJSONSourceSpecification["data"],
+          });
+        }
+        if (!map.getLayer(FILL_LAYER)) {
+          map.addLayer({
+            id: FILL_LAYER,
+            type: "fill",
+            source: SOURCE,
+            paint: {
+              "fill-color": [
+                "match", ["get", "statusCadastral"],
+                "CONFLITO", "#f97316",
+                "INATIVO",  "#94a3b8",
+                /* default ATIVO */ "#2dd4bf",
+              ],
+              "fill-opacity": 0.22,
+            },
+          });
+        }
+        if (!map.getLayer(LINE_LAYER)) {
+          map.addLayer({
+            id: LINE_LAYER,
+            type: "line",
+            source: SOURCE,
+            paint: {
+              "line-color": "#0f766e",
+              "line-width": 1.2,
+            },
+          });
+        }
+        if (!map.getLayer(LABEL_LAYER)) {
+          map.addLayer({
+            id: LABEL_LAYER,
+            type: "symbol",
+            source: SOURCE,
+            minzoom: 15,
+            layout: {
+              "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""],
+              "text-size": 9,
+              "text-anchor": "center",
+              "text-allow-overlap": false,
+            },
+            paint: {
+              "text-color": "#0f766e",
+              "text-halo-color": "#fff",
+              "text-halo-width": 1,
+            },
+          });
+        }
+
+        // Cursor pointer ao passar sobre lote
+        map.on("mouseenter", FILL_LAYER, () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", FILL_LAYER, () => { map.getCanvas().style.cursor = ""; });
+
+        // Popup ao clicar no lote
+        map.on("click", FILL_LAYER, (e) => {
+          const feat = e.features?.[0];
+          if (!feat) return;
+          const p = feat.properties ?? {};
+          const html = `
+            <div style="font-family:sans-serif;line-height:1.5">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="font-size:13px">${p.sqlu ?? "—"}</strong>
+                <span style="font-size:10px;padding:2px 6px;border-radius:99px;background:${p.sourceType === 'OFFICIAL_IMPORT' ? '#dcfce7' : p.sourceType?.startsWith('DEMO') ? '#fee2e2' : '#f1f5f9'};color:${p.sourceType === 'OFFICIAL_IMPORT' ? '#166534' : p.sourceType?.startsWith('DEMO') ? '#991b1b' : '#475569'}">
+                  ${p.sourceType === 'OFFICIAL_IMPORT' ? 'OFICIAL' : p.sourceType === 'DEMO_EXTERNAL' ? 'DEMO EXT' : p.sourceType === 'DEMO' ? 'DEMO' : p.sourceType ?? 'OUTRO'}
+                </span>
+              </div>
+              <span style="color:#555;font-size:11px">${p.mainAddress ?? p.inscricaoImobiliaria ?? ""}</span><br/>
+              <hr style="margin:4px 0;border:none;border-top:1px solid #e5e7eb"/>
+              <div style="font-size:11px;display:grid;grid-template-cols:auto 1fr;gap:2px 8px">
+                <b>Inscrição:</b> <span>${p.inscricaoImobiliaria ?? "—"}</span>
+                <b>Status:</b> <span>${p.statusCadastral ?? "—"}</span>
+                <b>Área:</b> <span>${p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—"}</span>
+                <b>Zoneamento:</b> <span>${p.zoneamento ?? "—"}</span>
+              </div>
+            </div>`;
+          new maplibregl.Popup({ closeButton: true, maxWidth: "280px" })
+            .setLngLat(e.lngLat)
+            .setHTML(html)
+            .addTo(map);
+        });
+
+        // Fit map to parcels extent
+        const fc = geojson as { features?: Array<{ geometry?: { type: string; coordinates: any } }> };
+        if (fc.features && fc.features.length > 0) {
+          let minLng = 180, maxLng = -180, minLat = 90, maxLat = -90;
+          let hasValidCoords = false;
+
+          for (const feat of fc.features) {
+            const type = feat.geometry?.type;
+            const coords = feat.geometry?.coordinates;
+            if (!coords) continue;
+
+            const allPolygons = type === "Polygon" ? [coords] : type === "MultiPolygon" ? coords : [];
+            
+            for (const polygon of allPolygons) {
+              for (const ring of polygon) {
+                if (!Array.isArray(ring)) continue;
+                for (const coord of ring) {
+                  if (!Array.isArray(coord)) continue;
+                  const lng = coord[0];
+                  const lat = coord[1];
+                  if (typeof lng === "number" && typeof lat === "number") {
+                    if (lng < minLng) minLng = lng;
+                    if (lng > maxLng) maxLng = lng;
+                    if (lat < minLat) minLat = lat;
+                    if (lat > maxLat) maxLat = lat;
+                    hasValidCoords = true;
+                  }
+                }
+              }
+            }
+          }
+          if (hasValidCoords && minLng < 180) {
+            map.fitBounds([[minLng, minLat], [maxLng, maxLat]], { padding: 60, maxZoom: 18 });
+          }
+        }
+      })
+      .catch(() => {
+        // parcels not yet seeded — silent fail, map still usable
+      });
+  }, [mapReady]);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#e5e7eb] font-sans">

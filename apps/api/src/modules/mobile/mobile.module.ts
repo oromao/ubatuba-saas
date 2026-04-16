@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CtmModule } from '../ctm/ctm.module';
 import { ProjectsModule } from '../projects/projects.module';
 import { MobileController } from './mobile.controller';
 import { MobileFieldRecord, MobileFieldRecordSchema } from './mobile-field-record.schema';
@@ -9,10 +10,10 @@ import { MobileService } from './mobile.service';
 @Module({
   imports: [
     ProjectsModule,
+    CtmModule,
     MongooseModule.forFeature([{ name: MobileFieldRecord.name, schema: MobileFieldRecordSchema }]),
   ],
   controllers: [MobileController],
   providers: [MobileRepository, MobileService],
 })
 export class MobileModule {}
-

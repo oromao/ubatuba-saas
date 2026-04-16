@@ -15,6 +15,28 @@ export class EnvironmentalAlert {
   @Prop({ required: true })
   status!: string;
 
+  @Prop({ required: true, default: 'TRIAGEM' })
+  stage!: 'TRIAGEM' | 'FISCALIZACAO' | 'EVIDENCIA' | 'NOTIFICACAO' | 'DESFECHO';
+
+  @Prop({ type: [String], default: [] })
+  evidenceKeys!: string[];
+
+  @Prop()
+  assignedTo?: string;
+
+  @Prop()
+  resolvedAt?: string;
+
+  @Prop({ type: [Object], default: [] })
+  timeline!: Array<{
+    id: string;
+    stage: EnvironmentalAlert['stage'];
+    message: string;
+    createdAt: string;
+    actorId?: string;
+    evidenceKeys?: string[];
+  }>;
+
   @Prop({ type: Object, required: true })
   location!: {
     type: 'Point';

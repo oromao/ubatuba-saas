@@ -57,4 +57,15 @@ export class AlertsController {
   remove(@Req() req: { tenantId: string }, @Param('id') id: string) {
     return this.alertsService.remove(req.tenantId, id);
   }
+
+  @Post(':id/stage')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  advanceStage(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Param('id') id: string,
+    @Body() dto: { stage: 'TRIAGEM' | 'FISCALIZACAO' | 'EVIDENCIA' | 'NOTIFICACAO' | 'DESFECHO'; message: string; evidenceKeys?: string[] },
+  ) {
+    return this.alertsService.advanceStage(req.tenantId, id, dto.stage, dto.message, req.user?.sub, dto.evidenceKeys);
+  }
 }

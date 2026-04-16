@@ -21,6 +21,9 @@ const refresh_dto_1 = require("./dto/refresh.dto");
 const forgot_password_dto_1 = require("./dto/forgot-password.dto");
 const reset_password_dto_1 = require("./dto/reset-password.dto");
 const change_password_dto_1 = require("./dto/change-password.dto");
+const portal_exchange_dto_1 = require("./dto/portal-exchange.dto");
+const oidc_authorize_dto_1 = require("./dto/oidc-authorize.dto");
+const oidc_callback_dto_1 = require("./dto/oidc-callback.dto");
 const jwt_guard_1 = require("./guards/jwt.guard");
 let AuthController = class AuthController {
     constructor(authService) {
@@ -35,6 +38,18 @@ let AuthController = class AuthController {
     logout(dto) {
         return this.authService.logout(dto.refreshToken);
     }
+    portalExchange(dto) {
+        return this.authService.exchangePortalToken(dto.signedToken);
+    }
+    portalLogout(dto) {
+        return this.authService.logoutPortalToken(dto.signedToken);
+    }
+    oidcAuthorize(dto) {
+        return this.authService.createOidcAuthorizeUrl(dto);
+    }
+    oidcCallback(dto) {
+        return this.authService.exchangeOidcCode(dto.code);
+    }
     forgot(dto, req) {
         return this.authService.forgotPassword(dto.email, req.ip);
     }
@@ -46,6 +61,15 @@ let AuthController = class AuthController {
             throw new common_1.UnauthorizedException('Usuario nao autenticado');
         }
         return this.authService.changePassword(req.user.sub, dto.currentPassword, dto.newPassword);
+    }
+    session(req) {
+        if (!req.user?.sub) {
+            throw new common_1.UnauthorizedException('Usuario nao autenticado');
+        }
+        return this.authService.sessionContext(req.user.sub, req.user.tenantId, req.user.role, req.user.department);
+    }
+    institutionalReadiness() {
+        return this.authService.institutionalReadiness();
     }
 };
 exports.AuthController = AuthController;
@@ -74,6 +98,38 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "logout", null);
 __decorate([
+    (0, common_1.Post)('portal/exchange'),
+    (0, public_decorator_1.Public)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [portal_exchange_dto_1.PortalExchangeDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "portalExchange", null);
+__decorate([
+    (0, common_1.Post)('portal/logout'),
+    (0, public_decorator_1.Public)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [portal_exchange_dto_1.PortalExchangeDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "portalLogout", null);
+__decorate([
+    (0, common_1.Post)('oidc/authorize'),
+    (0, public_decorator_1.Public)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [oidc_authorize_dto_1.OidcAuthorizeDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "oidcAuthorize", null);
+__decorate([
+    (0, common_1.Post)('oidc/callback'),
+    (0, public_decorator_1.Public)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [oidc_callback_dto_1.OidcCallbackDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "oidcCallback", null);
+__decorate([
     (0, common_1.Post)('forgot-password'),
     (0, public_decorator_1.Public)(),
     __param(0, (0, common_1.Body)()),
@@ -99,6 +155,21 @@ __decorate([
     __metadata("design:paramtypes", [change_password_dto_1.ChangePasswordDto, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "change", null);
+__decorate([
+    (0, common_1.Get)('session'),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "session", null);
+__decorate([
+    (0, common_1.Get)('institutional-readiness'),
+    (0, public_decorator_1.Public)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "institutionalReadiness", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

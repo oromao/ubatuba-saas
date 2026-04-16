@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/paulo/ubatuba-saas/playwright.config.js",
-    "rootDir": "/Users/paulo/ubatuba-saas",
+    "configFile": "/Users/paulo/Documents/ubatuba-saas/playwright.config.js",
+    "rootDir": "/Users/paulo/Documents/ubatuba-saas",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -11,20 +11,20 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 4
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "default",
         "name": "default",
-        "testDir": "/Users/paulo/ubatuba-saas/poc/checks",
+        "testDir": "/Users/paulo/Documents/ubatuba-saas/poc/checks",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.js"
@@ -32,15 +32,15 @@
         "timeout": 90000
       },
       {
-        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "human",
         "name": "human",
-        "testDir": "/Users/paulo/ubatuba-saas/tests/e2e/fullscan",
+        "testDir": "/Users/paulo/Documents/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -48,15 +48,15 @@
         "timeout": 1200000
       },
       {
-        "outputDir": "/Users/paulo/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 1
         },
         "id": "scan",
         "name": "scan",
-        "testDir": "/Users/paulo/ubatuba-saas/tests/e2e/fullscan",
+        "testDir": "/Users/paulo/Documents/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -99,439 +99,267 @@
   },
   "suites": [
     {
-      "title": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
-      "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
+      "title": "poc/checks/roles-smoke.spec.js",
+      "file": "poc/checks/roles-smoke.spec.js",
       "column": 0,
       "line": 0,
-      "specs": [],
-      "suites": [
+      "specs": [
         {
-          "title": "reurb auditoria + lgpd + dossier",
-          "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
-          "line": 49,
-          "column": 6,
-          "specs": [
+          "title": "@smoke @roles admin navega modulos principais",
+          "ok": false,
+          "tags": [
+            "smoke",
+            "roles"
+          ],
+          "tests": [
             {
-              "title": "registro de acesso LGPD e checklist de dossier",
-              "ok": true,
-              "tags": [],
-              "tests": [
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "default",
+              "projectName": "default",
+              "results": [
                 {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 18625,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:97:52",
+                    "location": {
+                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 52,
+                      "line": 97
+                    },
+                    "snippet": "   95 |\n   96 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n>  97 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n      |                                                    ^\n   98 |\n   99 |   await page.goto(`${BASE_URL}/app/levantamentos`, { waitUntil: 'domcontentloaded' });\n  100 |   await page.waitForLoadState('networkidle');"
+                  },
+                  "errors": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 605,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:14.369Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-audit-lgpd-reurb-aud-b510c-LGPD-e-checklist-de-dossier-human/trace.zip"
-                        }
-                      ]
+                      "location": {
+                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 52,
+                        "line": 97
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n\n   95 |\n   96 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n>  97 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n      |                                                    ^\n   98 |\n   99 |   await page.goto(`${BASE_URL}/app/levantamentos`, { waitUntil: 'domcontentloaded' });\n  100 |   await page.waitForLoadState('networkidle');\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:97:52"
                     }
                   ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f84a1b627dbbcb27a90b-81613b06a11c0c4eed61",
-              "file": "tests/e2e/fullscan/reurb-audit-lgpd.spec.ts",
-              "line": 50,
-              "column": 7
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "tests/e2e/fullscan/reurb-flow.spec.ts",
-      "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "reurb flow",
-          "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
-          "line": 40,
-          "column": 6,
-          "specs": [
-            {
-              "title": "@reurb admin fluxo ponta a ponta",
-              "ok": true,
-              "tags": [
-                "reurb"
-              ],
-              "tests": [
-                {
-                  "timeout": 1200000,
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-03T02:22:32.414Z",
                   "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
+                  "attachments": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 25276,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:14.358Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/test-finished-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/video.webm"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-flow-reurb-admin-fluxo-ponta-a-ponta-human/trace.zip"
-                        }
-                      ]
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/trace.zip"
                     }
                   ],
-                  "status": "expected"
+                  "errorLocation": {
+                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 52,
+                    "line": 97
+                  }
                 }
               ],
-              "id": "d8d290173584d7d5d80c-b7824ce5ddff8bfba796",
-              "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
-              "line": 43,
-              "column": 7
+              "status": "unexpected"
             }
-          ]
+          ],
+          "id": "722a87574d97f7c3d32f-0be2678fbe26b3106453",
+          "file": "poc/checks/roles-smoke.spec.js",
+          "line": 93,
+          "column": 1
         },
         {
-          "title": "reurb rbac",
-          "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
-          "line": 205,
-          "column": 6,
-          "specs": [
+          "title": "@smoke @roles operador acessa mapas e mobile",
+          "ok": false,
+          "tags": [
+            "smoke",
+            "roles"
+          ],
+          "tests": [
             {
-              "title": "@reurb operador nao exporta pacote cartorio",
-              "ok": true,
-              "tags": [
-                "reurb"
-              ],
-              "tests": [
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "default",
+              "projectName": "default",
+              "results": [
                 {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19893,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('CTM - Parcelas').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('CTM - Parcelas').first() to be visible\u001b[22m\n\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:113:50",
+                    "location": {
+                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 50,
+                      "line": 113
+                    },
+                    "snippet": "  111 |   await page.goto(`${BASE_URL}/app/ctm/parcelas`, { waitUntil: 'domcontentloaded' });\n  112 |   await page.waitForLoadState('networkidle');\n> 113 |   await page.getByText('CTM - Parcelas').first().waitFor({ state: 'visible' });\n      |                                                  ^\n  114 |\n  115 |   await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded' });\n  116 |   await page.waitForLoadState('networkidle');"
+                  },
+                  "errors": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 5818,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:45.630Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/test-finished-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/video.webm"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-flow-reurb-rbac-reur-028b7-nao-exporta-pacote-cartorio-human/trace.zip"
-                        }
-                      ]
+                      "location": {
+                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 50,
+                        "line": 113
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('CTM - Parcelas').first() to be visible\u001b[22m\n\n\n  111 |   await page.goto(`${BASE_URL}/app/ctm/parcelas`, { waitUntil: 'domcontentloaded' });\n  112 |   await page.waitForLoadState('networkidle');\n> 113 |   await page.getByText('CTM - Parcelas').first().waitFor({ state: 'visible' });\n      |                                                  ^\n  114 |\n  115 |   await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded' });\n  116 |   await page.waitForLoadState('networkidle');\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:113:50"
                     }
                   ],
-                  "status": "expected"
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-03T02:22:56.624Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 50,
+                    "line": 113
+                  }
                 }
               ],
-              "id": "d8d290173584d7d5d80c-a8db1e0da869624f1866",
-              "file": "tests/e2e/fullscan/reurb-flow.spec.ts",
-              "line": 208,
-              "column": 7
+              "status": "unexpected"
             }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "tests/e2e/fullscan/reurb-guia.spec.ts",
-      "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
+          ],
+          "id": "722a87574d97f7c3d32f-f63172e9f41ab63b2a5c",
+          "file": "poc/checks/roles-smoke.spec.js",
+          "line": 108,
+          "column": 1
+        },
         {
-          "title": "reurb guia ponta a ponta",
-          "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
-          "line": 36,
-          "column": 6,
-          "specs": [
+          "title": "@smoke @roles leitor menu limitado e sem escrita mobile",
+          "ok": false,
+          "tags": [
+            "smoke",
+            "roles"
+          ],
+          "tests": [
             {
-              "title": "@reurb guia completo conforme edital",
-              "ok": true,
-              "tags": [
-                "reurb"
-              ],
-              "tests": [
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "default",
+              "projectName": "default",
+              "results": [
                 {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 17360,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:122:3",
+                    "location": {
+                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 52,
+                      "line": 54
+                    },
+                    "snippet": "  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {"
+                  },
+                  "errors": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 25277,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "steps": [
-                        {
-                          "title": "Login e ativacao REURB",
-                          "duration": 2097
-                        },
-                        {
-                          "title": "Criar projeto REURB-S",
-                          "duration": 2415
-                        },
-                        {
-                          "title": "Selecionar projeto",
-                          "duration": 1375
-                        },
-                        {
-                          "title": "Cadastrar familias + importar CSV",
-                          "duration": 2728
-                        },
-                        {
-                          "title": "Cadastrar unidades e vincular",
-                          "duration": 1494
-                        },
-                        {
-                          "title": "Upload de documentos (projeto/familia/unidade)",
-                          "duration": 3606
-                        },
-                        {
-                          "title": "Notificacao + evidencia",
-                          "duration": 3633
-                        },
-                        {
-                          "title": "Exportacoes obrigatorias + pacote cartorio",
-                          "duration": 3054
-                        }
-                      ],
-                      "startTime": "2026-02-24T18:03:14.359Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/test-finished-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/video.webm"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-guia-reurb-guia-pont-826e4-ia-completo-conforme-edital-human/trace.zip"
-                        }
-                      ]
+                      "location": {
+                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 52,
+                        "line": 54
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:122:3"
                     }
                   ],
-                  "status": "expected"
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-03T02:23:21.651Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 52,
+                    "line": 54
+                  }
                 }
               ],
-              "id": "f73cab1227140d66cb58-27893f375223902feedb",
-              "file": "tests/e2e/fullscan/reurb-guia.spec.ts",
-              "line": 39,
-              "column": 7
+              "status": "unexpected"
             }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-      "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "reurb rbac api",
-          "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-          "line": 49,
-          "column": 6,
-          "specs": [
-            {
-              "title": "admin e gestor podem criar e exportar",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1873,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:14.321Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--2cb19-stor-podem-criar-e-exportar-human/trace.zip"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0d3e7c031dbffa07627-7e306e903b3b364e4c0c",
-              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-              "line": 50,
-              "column": 7
-            },
-            {
-              "title": "operador nao gera pacote cartorio e leitor nao cria familia",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 162,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:16.222Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--9dda6-o-e-leitor-nao-cria-familia-human/trace.zip"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0d3e7c031dbffa07627-d428606751d128e8329a",
-              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-              "line": 101,
-              "column": 7
-            },
-            {
-              "title": "integracao http permitida somente admin/gestor",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 1200000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "human",
-                  "projectName": "human",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 2240,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-02-24T18:03:16.393Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/Users/paulo/ubatuba-saas/test-results/artifacts/reurb-rbac-reurb-rbac-api--01bcc-mitida-somente-admin-gestor-human/trace.zip"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d0d3e7c031dbffa07627-72ca4f5d5eb9ed036f0e",
-              "file": "tests/e2e/fullscan/reurb-rbac.spec.ts",
-              "line": 126,
-              "column": 7
-            }
-          ]
+          ],
+          "id": "722a87574d97f7c3d32f-b65ccc701f2ff643332d",
+          "file": "poc/checks/roles-smoke.spec.js",
+          "line": 121,
+          "column": 1
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-02-24T18:03:13.333Z",
-    "duration": 38377.072,
-    "expected": 7,
+    "startTime": "2026-04-03T02:22:27.938Z",
+    "duration": 72500.538,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 3,
     "flaky": 0
   }
 }

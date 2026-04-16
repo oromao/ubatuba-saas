@@ -17,6 +17,6 @@ import { ProcessesService } from './processes.service';
   ],
   controllers: [ProcessesController],
   providers: [ProcessesRepository, ProcessesService, CacheService, RedisService],
-  exports: [ProcessesService],
+  exports: [ProcessesService, ProcessesRepository],
 })
 export class ProcessesModule {}

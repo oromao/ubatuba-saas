@@ -13,4 +13,13 @@ export declare class MobileRepository {
     }> & {
         __v: number;
     })[]>;
+    summary(tenantId: string, projectId: string): Promise<{
+        total: number;
+        processado: number;
+        conflito: number;
+        recebido: number;
+        comEvidencias: number;
+        evidenciasTotal: number;
+        erros: number;
+    }>;
 }

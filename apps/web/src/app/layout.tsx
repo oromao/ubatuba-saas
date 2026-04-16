@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import { Providers } from "@/components/providers";
 import "@/styles/globals.css";
+import type { Viewport } from "next";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -20,6 +21,16 @@ export const metadata: Metadata = {
   description:
     "SaaS de geointeligencia para gestao territorial, monitoramento ambiental e aprovacao digital de processos.",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/favicon.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#135b66",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

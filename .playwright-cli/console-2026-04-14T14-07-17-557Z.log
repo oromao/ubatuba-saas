@@ -1,0 +1,17 @@
+[     922ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3002/api/tenants/me:0
+[     924ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3002/api/layers:0
+[     927ms] [ERROR] Falha ao carregar camadas do mapa Error: Nao autorizado
+    at h (http://localhost:3002/_next/static/chunks/app/app/layout-499502490c576224.js:1:20882) @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[    1052ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3002/favicon.ico:0
+[    1089ms] [ERROR] TypeError: Failed to fetch
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7394
+    at Generator.next (<anonymous>)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:770
+    at new Promise (<anonymous>)
+    at x (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:519)
+    at http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7108
+    at et (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:1:7708)
+    at e.h (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:207219)
+    at eQ.loadURL (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:2:352948)
+    at e.Map._updateStyle (http://localhost:3002/_next/static/chunks/4fa69f74-b5e4b7c9498a6235.js:51:202435) @ http://localhost:3002/_next/static/chunks/6842-f065267c5e507d9c.js:0
+[    1117ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3002/login:0

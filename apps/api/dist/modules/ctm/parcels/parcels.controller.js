@@ -22,17 +22,22 @@ const update_parcel_dto_1 = require("./dto/update-parcel.dto");
 const upsert_parcel_building_dto_1 = require("../parcel-buildings/dto/upsert-parcel-building.dto");
 const upsert_parcel_socioeconomic_dto_1 = require("../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto");
 const upsert_parcel_infrastructure_dto_1 = require("../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto");
+const geometry_service_1 = require("../geometry.service");
 const parcel_buildings_service_1 = require("../parcel-buildings/parcel-buildings.service");
 const parcel_socioeconomic_service_1 = require("../parcel-socioeconomic/parcel-socioeconomic.service");
 const parcel_infrastructure_service_1 = require("../parcel-infrastructure/parcel-infrastructure.service");
 let ParcelsController = class ParcelsController {
-    constructor(parcelsService, parcelBuildingsService, parcelSocioeconomicService, parcelInfrastructureService) {
+    constructor(parcelsService, parcelBuildingsService, parcelSocioeconomicService, parcelInfrastructureService, geometryService) {
         this.parcelsService = parcelsService;
         this.parcelBuildingsService = parcelBuildingsService;
         this.parcelSocioeconomicService = parcelSocioeconomicService;
         this.parcelInfrastructureService = parcelInfrastructureService;
+        this.geometryService = geometryService;
     }
-    list(req, projectId, sqlu, inscription, inscricaoImobiliaria, status, workflowStatus, bbox, q) {
+    validateGeometry(body) {
+        return this.geometryService.validateGeometry(body.geometry);
+    }
+    list(req, projectId, sqlu, inscription, inscricaoImobiliaria, status, workflowStatus, bbox, q, sourceType, isOfficial, zoneamento, statusIPTU) {
         return this.parcelsService.list(req.tenantId, projectId, {
             sqlu,
             inscription,
@@ -41,12 +46,19 @@ let ParcelsController = class ParcelsController {
             workflowStatus,
             bbox,
             q,
+            sourceType,
+            isOfficial: isOfficial === 'true' ? true : isOfficial === 'false' ? false : undefined,
+            zoneamento,
+            statusIPTU,
         });
+    }
+    statistics(req, projectId) {
+        return this.parcelsService.getStatistics(req.tenantId, projectId);
     }
     pending(req, projectId) {
         return this.parcelsService.listPendencias(req.tenantId, projectId);
     }
-    geojson(req, projectId, sqlu, inscription, inscricaoImobiliaria, status, workflowStatus, bbox, q) {
+    geojson(req, projectId, sqlu, inscription, inscricaoImobiliaria, status, workflowStatus, bbox, q, sourceType, isOfficial) {
         return this.parcelsService.geojson(req.tenantId, projectId, {
             sqlu,
             inscription,
@@ -55,7 +67,15 @@ let ParcelsController = class ParcelsController {
             workflowStatus,
             bbox,
             q,
+            sourceType,
+            isOfficial: isOfficial === 'true' ? true : isOfficial === 'false' ? false : undefined,
         });
+    }
+    async mvt(req, res, z, x, y, projectId) {
+        const buffer = await this.parcelsService.vectorTiles(req.tenantId, projectId, parseInt(z, 10), parseInt(x, 10), parseInt(y, 10));
+        res.setHeader('Content-Type', 'application/x-protobuf');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.send(buffer);
     }
     get(req, id, projectId) {
         return this.parcelsService.findById(req.tenantId, projectId, id);
@@ -84,11 +104,31 @@ let ParcelsController = class ParcelsController {
     upsertInfrastructure(req, id, projectId, dto) {
         return this.parcelInfrastructureService.upsert(req.tenantId, projectId, id, dto, req.user?.sub);
     }
-    importGeojson(req, projectId, featureCollection) {
-        return this.parcelsService.importGeojson(req.tenantId, projectId, featureCollection, req.user?.sub);
+    importGeojson(req, projectId, body) {
+        return this.parcelsService.importGeojson(req.tenantId, projectId, body.data, body.sourceType || 'GEOJSON', body.fileName, body.upsert || false, req.user?.sub, body.municipalityName, body.municipalityCode);
+    }
+    importEnrichment(req, projectId, body) {
+        return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, body.sourceType || 'CSV_ENRICHMENT', body.fileName, body.columnMapping, req.user?.sub);
+    }
+    importCsv(req, projectId, body) {
+        return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, 'CSV_ENRICHMENT', undefined, undefined, req.user?.sub);
+    }
+    transicao(req, id, projectId, body) {
+        const validStatuses = ['PENDENTE', 'EM_VALIDACAO', 'APROVADA', 'REPROVADA'];
+        if (!validStatuses.includes(body.status)) {
+            throw new Error('Status invalido');
+        }
+        return this.parcelsService.transicao(req.tenantId, projectId, id, body.status, body.observacao, req.user?.sub, req.user?.role);
     }
 };
 exports.ParcelsController = ParcelsController;
+__decorate([
+    (0, common_1.Post)('validate-geometry'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "validateGeometry", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Req)()),
@@ -100,10 +140,22 @@ __decorate([
     __param(6, (0, common_1.Query)('workflowStatus')),
     __param(7, (0, common_1.Query)('bbox')),
     __param(8, (0, common_1.Query)('q')),
+    __param(9, (0, common_1.Query)('sourceType')),
+    __param(10, (0, common_1.Query)('isOfficial')),
+    __param(11, (0, common_1.Query)('zoneamento')),
+    __param(12, (0, common_1.Query)('statusIPTU')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [Object, String, String, String, String, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "list", null);
+__decorate([
+    (0, common_1.Get)('statistics'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "statistics", null);
 __decorate([
     (0, common_1.Get)('pendencias'),
     __param(0, (0, common_1.Req)()),
@@ -123,10 +175,24 @@ __decorate([
     __param(6, (0, common_1.Query)('workflowStatus')),
     __param(7, (0, common_1.Query)('bbox')),
     __param(8, (0, common_1.Query)('q')),
+    __param(9, (0, common_1.Query)('sourceType')),
+    __param(10, (0, common_1.Query)('isOfficial')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [Object, String, String, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "geojson", null);
+__decorate([
+    (0, common_1.Get)('tiles/:z/:x/:y.pbf'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __param(2, (0, common_1.Param)('z')),
+    __param(3, (0, common_1.Param)('x')),
+    __param(4, (0, common_1.Param)('y')),
+    __param(5, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, String, String, String, String]),
+    __metadata("design:returntype", Promise)
+], ParcelsController.prototype, "mvt", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Req)()),
@@ -234,11 +300,46 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "importGeojson", null);
+__decorate([
+    (0, common_1.Post)('import-enrichment'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "importEnrichment", null);
+__decorate([
+    (0, common_1.Post)('import-csv'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "importCsv", null);
+__decorate([
+    (0, common_1.Post)(':id/transicao'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Query)('projectId')),
+    __param(3, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object, Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "transicao", null);
 exports.ParcelsController = ParcelsController = __decorate([
     (0, common_1.Controller)('ctm/parcels'),
     __metadata("design:paramtypes", [parcels_service_1.ParcelsService,
         parcel_buildings_service_1.ParcelBuildingsService,
         parcel_socioeconomic_service_1.ParcelSocioeconomicService,
-        parcel_infrastructure_service_1.ParcelInfrastructureService])
+        parcel_infrastructure_service_1.ParcelInfrastructureService,
+        geometry_service_1.GeometryService])
 ], ParcelsController);
 //# sourceMappingURL=parcels.controller.js.map

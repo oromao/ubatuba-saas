@@ -29,7 +29,7 @@ exports.ProcessesModule = ProcessesModule = __decorate([
         ],
         controllers: [processes_controller_1.ProcessesController],
         providers: [processes_repository_1.ProcessesRepository, processes_service_1.ProcessesService, cache_service_1.CacheService, redis_service_1.RedisService],
-        exports: [processes_service_1.ProcessesService],
+        exports: [processes_service_1.ProcessesService, processes_repository_1.ProcessesRepository],
     })
 ], ProcessesModule);
 //# sourceMappingURL=processes.module.js.map

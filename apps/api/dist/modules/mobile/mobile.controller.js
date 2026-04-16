@@ -29,6 +29,9 @@ let MobileController = class MobileController {
     list(req, projectId) {
         return this.mobileService.listRecords(req.tenantId, projectId);
     }
+    dashboard(req, projectId) {
+        return this.mobileService.summary(req.tenantId, projectId);
+    }
 };
 exports.MobileController = MobileController;
 __decorate([
@@ -49,6 +52,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], MobileController.prototype, "list", null);
+__decorate([
+    (0, common_1.Get)('dashboard'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], MobileController.prototype, "dashboard", null);
 exports.MobileController = MobileController = __decorate([
     (0, swagger_1.ApiTags)('mobile'),
     (0, swagger_1.ApiBearerAuth)(),

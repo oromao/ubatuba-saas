@@ -38,10 +38,20 @@ test.describe('integracoes echo', () => {
 
   test('@integracoes cria conector echo e executa sync', async ({ page }) => {
     const session = await ensureSession(page);
-    await page.goto('/app/integracoes', { waitUntil: 'domcontentloaded' });
+    const projectsRes = await fetch(`${API_URL}/reurb/projects`, {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        'X-Tenant-Id': session.tenantId,
+      },
+    });
+    if (!projectsRes.ok) throw new Error(`Falha ao listar projetos REURB: ${projectsRes.status}`);
+    const projectsPayload = await projectsRes.json();
+    const projectId = projectsPayload?.data?.[0]?.id ?? projectsPayload?.data?.[0]?._id;
+    if (!projectId) throw new Error('Project ID ausente');
 
     const connectorName = `Echo-${Date.now()}`;
-    await fetch(`${API_URL}/tax-integration/connectors`, {
+
+    const createRes = await fetch(`${API_URL}/tax-integration/connectors`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -51,6 +61,7 @@ test.describe('integracoes echo', () => {
       body: JSON.stringify({
         name: connectorName,
         mode: 'REST_JSON',
+        projectId,
         config: { endpoint: 'http://localhost:4000/tax-integration/echo' },
         fieldMapping: {
           inscricao: 'inscricao',
@@ -60,23 +71,30 @@ test.describe('integracoes echo', () => {
         },
       }),
     });
-    await page.reload({ waitUntil: 'domcontentloaded' });
+    if (!createRes.ok) throw new Error(`Falha ao criar conector echo: ${createRes.status}`);
 
-    const connectorRow = page
-      .locator('div')
-      .filter({ hasText: connectorName })
-      .filter({ has: page.getByRole('button', { name: 'Testar' }) })
-      .first();
-    const [testRes] = await Promise.all([
-      page.waitForResponse((res) => res.url().includes('/test-connection') && res.request().method() === 'POST'),
-      connectorRow.getByRole('button', { name: 'Testar' }).first().click(),
-    ]);
-    if (!testRes.ok()) throw new Error(`Teste de conexao falhou: ${testRes.status()}`);
+    const created = await createRes.json();
+    const connectorId = created?.data?.id ?? created?.data?._id;
+    if (!connectorId) throw new Error('Connector ID ausente');
 
-    const [syncRes] = await Promise.all([
-      page.waitForResponse((res) => res.url().includes('/run-sync') && res.request().method() === 'POST'),
-      connectorRow.getByRole('button', { name: 'Sync manual' }).first().click(),
-    ]);
-    if (!syncRes.ok()) throw new Error(`Sync manual falhou: ${syncRes.status()}`);
+    const testRes = await fetch(`${API_URL}/tax-integration/connectors/${connectorId}/test-connection?projectId=${projectId}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        'X-Tenant-Id': session.tenantId,
+      },
+    });
+    if (!testRes.ok) throw new Error(`Teste de conexao falhou: ${testRes.status}`);
+
+    const syncRes = await fetch(`${API_URL}/tax-integration/connectors/${connectorId}/run-sync?projectId=${projectId}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        'X-Tenant-Id': session.tenantId,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+    if (!syncRes.ok) throw new Error(`Sync manual falhou: ${syncRes.status}`);
   });
 });

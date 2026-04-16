@@ -11,14 +11,17 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const upload_schema_1 = require("./upload.schema");
 const uploads_repository_1 = require("./uploads.repository");
+const upload_service_1 = require("./upload.service");
+const upload_controller_1 = require("./upload.controller");
 let UploadsModule = class UploadsModule {
 };
 exports.UploadsModule = UploadsModule;
 exports.UploadsModule = UploadsModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: upload_schema_1.Upload.name, schema: upload_schema_1.UploadSchema }])],
-        providers: [uploads_repository_1.UploadsRepository],
-        exports: [uploads_repository_1.UploadsRepository],
+        controllers: [upload_controller_1.UploadController],
+        providers: [uploads_repository_1.UploadsRepository, upload_service_1.UploadService],
+        exports: [uploads_repository_1.UploadsRepository, upload_service_1.UploadService],
     })
 ], UploadsModule);
 //# sourceMappingURL=uploads.module.js.map

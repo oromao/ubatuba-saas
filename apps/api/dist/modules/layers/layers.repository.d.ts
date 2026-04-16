@@ -13,6 +13,7 @@ export declare class LayersRepository {
     }> & {
         __v: number;
     }) | null>;
+    create(data: Partial<Layer>): Promise<LayerDocument>;
     update(tenantId: string, id: string, data: Partial<Layer>): Promise<(import("mongoose").Document<unknown, {}, LayerDocument, {}, {}> & Layer & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

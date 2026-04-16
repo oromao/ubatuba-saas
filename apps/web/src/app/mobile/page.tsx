@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { LocateFixed, RefreshCcw, UploadCloud, Wifi, WifiOff } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Toaster, toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,9 @@ import {
   type MobileChecklist,
   type MobileLocation,
   type OfflineQueueRecord,
+  appendOfflineQueueHistory,
+  markOfflineEvidenceStatus,
+  markOfflineQueueStatus,
   listOfflineQueue,
   putOfflineQueueItem,
   removeOfflineQueueItem,
@@ -25,9 +29,20 @@ type Parcel = {
   id?: string;
   sqlu?: string;
   inscription?: string;
-  inscricaoImobiliaria?: string;
+  inscriçãoImobiliaria?: string;
   mainAddress?: string;
   workflowStatus?: string;
+  updatedAt?: string;
+};
+
+type MobileSummary = {
+  total: number;
+  processado: number;
+  conflito: number;
+  recebido: number;
+  comEvidências: number;
+  evidênciasTotal: number;
+  erros: number;
 };
 
 const fileToBase64 = (file: File): Promise<string> =>
@@ -41,6 +56,15 @@ const fileToBase64 = (file: File): Promise<string> =>
     reader.onerror = () => reject(reader.error ?? new Error("Falha ao converter foto"));
     reader.readAsDataURL(file);
   });
+
+const sha256Hex = async (payload: string) => {
+  if (typeof window === "undefined" || !window.crypto?.subtle) return undefined;
+  const bytes = new TextEncoder().encode(payload);
+  const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((value) => value.toString(16).padStart(2, "0"))
+    .join("");
+};
 
 const resolveParcelId = (parcel: Parcel) => parcel.id ?? parcel._id ?? "";
 
@@ -58,13 +82,51 @@ export default function MobilePage() {
   });
   const [location, setLocation] = useState<MobileLocation | undefined>(undefined);
   const [photoBase64, setPhotoBase64] = useState<string | undefined>(undefined);
+  const [evidenceFiles, setEvidenceFiles] = useState<
+    Array<{
+      clientId: string;
+      fileName: string;
+      base64: string;
+      mimeType?: string;
+      checksum?: string;
+      capturedAt?: string;
+      size?: number;
+      status: "PENDENTE" | "SINCRONIZADO" | "ERRO";
+      retries: number;
+      lastError?: string;
+      lastAttemptAt?: string;
+    }>
+  >([]);
   const [queue, setQueue] = useState<OfflineQueueRecord[]>([]);
+  const [summary, setSummary] = useState<MobileSummary | null>(null);
+  const [syncedRecords, setSyncedRecords] = useState<any[]>([]);
+  const [queueBusyId, setQueueBusyId] = useState<string | null>(null);
 
   const refreshQueue = useCallback(async () => {
     try {
       setQueue(await listOfflineQueue());
     } catch {
       setQueue([]);
+    }
+  }, []);
+
+  const refreshSyncedRecords = useCallback(async () => {
+    try {
+      const projectId = typeof window !== "undefined" ? window.localStorage.getItem("projectId") ?? undefined : undefined;
+      const suffix = projectId ? `?projectId=${encodeURIComponent(projectId)}` : "";
+      setSyncedRecords(await apiFetch<any[]>(`/mobile/ctm-sync${suffix}`));
+    } catch {
+      setSyncedRecords([]);
+    }
+  }, []);
+
+  const refreshSummary = useCallback(async () => {
+    try {
+      const projectId = typeof window !== "undefined" ? window.localStorage.getItem("projectId") ?? undefined : undefined;
+      const suffix = projectId ? `?projectId=${encodeURIComponent(projectId)}` : "";
+      setSummary(await apiFetch<MobileSummary>(`/mobile/dashboard${suffix}`));
+    } catch {
+      setSummary(null);
     }
   }, []);
 
@@ -75,11 +137,13 @@ export default function MobilePage() {
     window.addEventListener("online", online);
     window.addEventListener("offline", offline);
     void refreshQueue();
+    void refreshSyncedRecords();
+    void refreshSummary();
     return () => {
       window.removeEventListener("online", online);
       window.removeEventListener("offline", offline);
     };
-  }, [refreshQueue]);
+  }, [refreshQueue, refreshSyncedRecords, refreshSummary]);
 
   const searchParcels = useMutation({
     mutationFn: async () => {
@@ -100,24 +164,100 @@ export default function MobilePage() {
       const payload = {
         projectId,
         items: items.map((item) => ({
+          clientId: item.id,
           parcelId: item.parcelId,
+          parcelUpdatedAt: item.parcelUpdatedAt,
           checklist: item.checklist,
           location: item.location,
           photoBase64: item.photoBase64,
+          evidences: item.evidences?.map((evidence) => ({
+            clientId: evidence.clientId,
+            fileName: evidence.fileName,
+            mimeType: evidence.mimeType,
+            base64: evidence.base64,
+            checksum: evidence.checksum,
+            capturedAt: evidence.capturedAt,
+            size: evidence.size,
+          })),
         })),
       };
 
-      const result = await apiFetch<{ processed: number }>("/mobile/ctm-sync", {
+      const result = await apiFetch<{
+        processed: number;
+        failed?: Array<{
+          clientId?: string;
+          error?: string;
+          details?: { clientParcelUpdatedAt?: string; serverParcelUpdatedAt?: string };
+        }>;
+      }>("/mobile/ctm-sync", {
         method: "POST",
         body: JSON.stringify(payload),
       });
 
-      await Promise.all(items.map((item) => removeOfflineQueueItem(item.id)));
+      await Promise.all(
+        items.map(async (item) => {
+          const failedItem = (result.failed ?? []).find((entry) => entry.clientId === item.id);
+          const error = failedItem?.error;
+          if (error) {
+            const detailedError =
+              error === "CONFLITO_DE_VERSAO_CADASTRAL" && failedItem.details?.serverParcelUpdatedAt
+                ? `Conflito cadastral: servidor atualizado em ${new Date(failedItem.details.serverParcelUpdatedAt).toLocaleString("pt-BR")}`
+                : error;
+            if (item.evidences?.length) {
+              await Promise.all(
+                item.evidences.map((evidence) =>
+                  markOfflineEvidenceStatus(item.id, evidence.clientId, {
+                    status: "ERRO",
+                    retries: evidence.retries + 1,
+                    lastError: detailedError,
+                    lastAttemptAt: new Date().toISOString(),
+                  }),
+                ),
+              );
+            }
+            await markOfflineQueueStatus(item.id, {
+              status: "ERRO",
+              retries: item.retries + 1,
+              lastError: detailedError,
+              lastAttemptAt: new Date().toISOString(),
+              parcelUpdatedAt: failedItem?.details?.serverParcelUpdatedAt ?? item.parcelUpdatedAt,
+            });
+            await appendOfflineQueueHistory(item.id, {
+              at: new Date().toISOString(),
+              status: error === "CONFLITO_DE_VERSAO_CADASTRAL" ? "CONFLITO" : "ERRO",
+              message: detailedError,
+              source: "sync",
+            });
+            return;
+          }
+          if (item.evidences?.length) {
+            await Promise.all(
+              item.evidences.map((evidence) =>
+                markOfflineEvidenceStatus(item.id, evidence.clientId, {
+                  status: "SINCRONIZADO",
+                  retries: evidence.retries,
+                  lastAttemptAt: new Date().toISOString(),
+                }),
+              ),
+            );
+          }
+          await appendOfflineQueueHistory(item.id, {
+            at: new Date().toISOString(),
+            status: "SINCRONIZADO",
+            message: "Registro e evidências sincronizados com sucesso",
+            source: "sync",
+          });
+          await removeOfflineQueueItem(item.id);
+        }),
+      );
       await refreshQueue();
+      await refreshSyncedRecords();
+      await refreshSummary();
       return result;
     },
     onSuccess: (result) => {
-      toast.success(`${result.processed} registro(s) enviados para sincronizacao.`);
+      const failed = result.failed?.length ?? 0;
+      toast.success(`${result.processed} registro(s) enviados${failed > 0 ? `, ${failed} com erro.` : "."}`);
     },
     onError: (error) => {
       if (error instanceof Error && error.message === "offline") {
@@ -136,20 +276,20 @@ export default function MobilePage() {
 
   const selectedParcelLabel = useMemo(() => {
     if (!selectedParcel) return "";
-    return selectedParcel.mainAddress ?? selectedParcel.inscricaoImobiliaria ?? selectedParcel.inscription ?? selectedParcel.sqlu ?? resolveParcelId(selectedParcel);
+    return selectedParcel.mainAddress ?? selectedParcel.inscriçãoImobiliaria ?? selectedParcel.inscription ?? selectedParcel.sqlu ?? resolveParcelId(selectedParcel);
   }, [selectedParcel]);
 
   const handleCaptureLocation = () => {
     if (!("geolocation" in navigator)) {
-      toast.error("Geolocalizacao nao suportada no dispositivo.");
+      toast.error("Geolocalização não suportada no dispositivo.");
       return;
     }
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
-        toast.success("Localizacao capturada.");
+        toast.success("Localização capturada.");
       },
-      () => toast.error("Nao foi possivel obter geolocalizacao."),
+      () => toast.error("Não foi possível obter geolocalização."),
       { enableHighAccuracy: true, timeout: 8000 },
     );
   };
@@ -170,18 +310,34 @@ export default function MobilePage() {
     await putOfflineQueueItem({
       id: crypto.randomUUID(),
       projectId,
+      clientId: crypto.randomUUID(),
       parcelId,
       parcelLabel: selectedParcelLabel,
+      parcelUpdatedAt: selectedParcel.updatedAt,
       checklist,
       location,
       photoBase64,
+      evidences: evidenceFiles,
       createdAt: nowIso,
+      status: "PENDENTE",
+      retries: 0,
+      syncHistory: [
+        {
+          at: nowIso,
+          status: "PENDENTE",
+          message: "Registro salvo offline no dispositivo",
+          source: "device",
+        },
+      ],
     });
 
     setChecklist({ occupancyChecked: false, addressChecked: false, infrastructureChecked: false, notes: "" });
     setLocation(undefined);
     setPhotoBase64(undefined);
+    setEvidenceFiles([]);
     await refreshQueue();
+    await refreshSyncedRecords();
+    await refreshSummary();
     toast.success("Registro salvo offline.");
   };
 
@@ -193,7 +349,7 @@ export default function MobilePage() {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Modo Mobile (PWA)</CardTitle>
-            <CardDescription>Voce precisa estar autenticado para coletar dados de campo.</CardDescription>
+            <CardDescription>Você precisa estar autenticado para coletar dados de campo.</CardDescription>
           </CardHeader>
           <CardContent>
             <Link href="/login" className="inline-flex h-11 items-center justify-center rounded-sm bg-primary px-5 text-sm font-semibold text-white">
@@ -212,7 +368,7 @@ export default function MobilePage() {
           <CardHeader>
             <CardTitle>Acesso restrito</CardTitle>
             <CardDescription>
-              Este modulo e exclusivo para perfis operacionais (Admin, Gestor e Operador/Campo).
+              Este módulo é exclusivo para perfis operacionais (Admin, Gestor e Operador/Campo).
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -242,14 +398,43 @@ export default function MobilePage() {
               </span>
             </div>
             <CardDescription>
-              Coleta CTM offline-first com fila local (IndexedDB) e sincronizacao automatica.
+              Coleta CTM offline-first com fila local (IndexedDB) e sincronização automática.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="grid gap-2 sm:grid-cols-3">
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Registros</p>
+                <p className="mt-1 text-2xl font-semibold">{summary?.total ?? 0}</p>
+              </div>
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Processados</p>
+                <p className="mt-1 text-2xl font-semibold text-emerald-600">{summary?.processado ?? 0}</p>
+              </div>
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Conflitos</p>
+                <p className="mt-1 text-2xl font-semibold text-rose-600">{summary?.conflito ?? 0}</p>
+              </div>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Com evidências</p>
+                <p className="mt-1 text-2xl font-semibold">{summary?.comEvidências ?? 0}</p>
+              </div>
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Evidências</p>
+                <p className="mt-1 text-2xl font-semibold">{summary?.evidênciasTotal ?? 0}</p>
+              </div>
+              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
+                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Erros</p>
+                <p className="mt-1 text-2xl font-semibold text-rose-600">{summary?.erros ?? 0}</p>
+              </div>
+            </div>
+
             <div className="flex gap-2">
               <Input
                 data-testid="mobile-search-input"
-                placeholder="Buscar parcela por SQLU, inscricao ou endereco"
+                placeholder="Buscar parcela por SQLU, inscrição ou endereço"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
@@ -266,7 +451,7 @@ export default function MobilePage() {
                   const parcelId = resolveParcelId(parcel);
                   const label =
                     parcel.mainAddress ??
-                    parcel.inscricaoImobiliaria ??
+                    parcel.inscriçãoImobiliaria ??
                     parcel.inscription ??
                     parcel.sqlu ??
                     parcelId;
@@ -299,7 +484,7 @@ export default function MobilePage() {
                     setChecklist((prev) => ({ ...prev, occupancyChecked: event.target.checked }))
                   }
                 />
-                Ocupacao confirmada
+                Ocupação confirmada
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input
@@ -310,7 +495,7 @@ export default function MobilePage() {
                     setChecklist((prev) => ({ ...prev, addressChecked: event.target.checked }))
                   }
                 />
-                Endereco validado
+                Endereço validado
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <input
@@ -326,7 +511,7 @@ export default function MobilePage() {
               <textarea
                 data-testid="mobile-notes"
                 className="min-h-20 w-full rounded-sm border border-outline bg-surface-elevated px-3 py-2 text-sm"
-                placeholder="Observacoes de campo"
+                placeholder="Observações de campo"
                 value={checklist.notes ?? ""}
                 onChange={(event) => setChecklist((prev) => ({ ...prev, notes: event.target.value }))}
               />
@@ -338,18 +523,34 @@ export default function MobilePage() {
                 </Button>
                 <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-sm border border-outline bg-surface-elevated px-4 text-sm font-semibold">
                   <UploadCloud className="h-4 w-4" />
-                  Anexar foto
+                  Anexar evidência
                   <input
                     data-testid="mobile-photo-input"
                     type="file"
-                    accept="image/*"
+                    accept="image/*,.pdf"
                     className="hidden"
                     onChange={async (event) => {
                       const file = event.target.files?.[0];
                       if (!file) return;
                       try {
                         const encoded = await fileToBase64(file);
+                        const checksum = await sha256Hex(encoded);
+                        const capturedAt = new Date().toISOString();
                         setPhotoBase64(encoded);
+                        setEvidenceFiles((prev) => [
+                          ...prev,
+                          {
+                            clientId: crypto.randomUUID(),
+                            fileName: file.name,
+                            base64: encoded,
+                            mimeType: file.type || undefined,
+                            checksum,
+                            capturedAt,
+                            size: file.size,
+                            status: "PENDENTE",
+                            retries: 0,
+                          },
+                        ]);
                         toast.success("Foto anexada para envio.");
                       } catch {
                         toast.error("Falha ao ler foto.");
@@ -364,6 +565,56 @@ export default function MobilePage() {
                   GPS: {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
                 </p>
               )}
+              {evidenceFiles.length > 0 ? (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-on-surface-muted">Evidências locais</p>
+                  {evidenceFiles.map((evidence) => (
+                    <div key={evidence.clientId} className="rounded-sm border border-outline bg-cloud px-3 py-2 text-xs">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium">{evidence.fileName}</span>
+                        <Badge variant={evidence.status === "ERRO" ? "destructive" : evidence.status === "SINCRONIZADO" ? "info" : "outline"}>
+                          {evidence.status}
+                        </Badge>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Badge variant="outline">Tentativas {evidence.retries}</Badge>
+                        {evidence.size ? <Badge variant="outline">{Math.round(evidence.size / 1024)} KB</Badge> : null}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setEvidenceFiles((prev) => prev.filter((current) => current.clientId !== evidence.clientId))}
+                        >
+                          Remover
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() =>
+                            setEvidenceFiles((prev) =>
+                              prev.map((current) =>
+                                current.clientId === evidence.clientId
+                                  ? {
+                                      ...current,
+                                      status: "PENDENTE",
+                                      retries: current.retries + 1,
+                                      lastError: undefined,
+                                      lastAttemptAt: new Date().toISOString(),
+                                    }
+                                  : current,
+                              ),
+                            )
+                          }
+                        >
+                          Reenviar
+                        </Button>
+                      </div>
+                      {evidence.checksum ? <p className="mt-1 text-[11px] text-on-surface-muted">SHA-256 {evidence.checksum.slice(0, 12)}...</p> : null}
+                      {evidence.capturedAt ? <p className="mt-1 text-[11px] text-on-surface-muted">Capturada em {new Date(evidence.capturedAt).toLocaleString("pt-BR")}</p> : null}
+                      {evidence.lastError ? <p className="mt-1 text-rose-700">{evidence.lastError}</p> : null}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2">
@@ -379,7 +630,7 @@ export default function MobilePage() {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle>Fila offline</CardTitle>
-            <CardDescription>{queue.length} registro(s) aguardando sincronizacao.</CardDescription>
+            <CardDescription>{queue.length} registro(s) aguardando sincronização.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             {queue.length === 0 ? (
@@ -387,8 +638,171 @@ export default function MobilePage() {
             ) : (
               queue.map((item) => (
                 <div key={item.id} className="rounded-sm border border-outline bg-surface p-3 text-sm">
-                  <p className="font-medium">{item.parcelLabel}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-medium">{item.parcelLabel}</p>
+                    <Badge variant={item.status === "ERRO" ? "destructive" : item.status === "SINCRONIZADO" ? "info" : "outline"}>
+                      {item.status}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-on-surface-muted">
+                    {item.checklist.occupancyChecked ? "Ocupação" : "Sem ocupação"} ·{" "}
+                    {item.checklist.addressChecked ? "Endereço ok" : "Endereço pendente"} ·{" "}
+                    {item.checklist.infrastructureChecked ? "Infra ok" : "Infra pendente"}
+                  </p>
+                  {item.location && (
+                    <p className="text-xs text-on-surface-muted">
+                      GPS {item.location.lat.toFixed(5)}, {item.location.lng.toFixed(5)}
+                    </p>
+                  )}
                   <p className="text-xs text-on-surface-muted">{new Date(item.createdAt).toLocaleString("pt-BR")}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <Badge variant="outline">Tentativas {item.retries}</Badge>
+                    {item.lastError ? <Badge variant="outline">{item.lastError}</Badge> : null}
+                    {item.status === "ERRO" && item.lastError?.includes("CONFLITO") ? (
+                      <Badge variant="outline">Conflito de cadastro</Badge>
+                    ) : null}
+                    {item.lastAttemptAt ? <Badge variant="outline">Última tentativa {new Date(item.lastAttemptAt).toLocaleTimeString("pt-BR")}</Badge> : null}
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={queueBusyId === item.id}
+                      onClick={async () => {
+                        setQueueBusyId(item.id);
+                        try {
+                          await markOfflineQueueStatus(item.id, {
+                            status: "PENDENTE",
+                            retries: item.retries + 1,
+                            lastError: undefined,
+                            lastAttemptAt: new Date().toISOString(),
+                          });
+                          await appendOfflineQueueHistory(item.id, {
+                            at: new Date().toISOString(),
+                            status: "PENDENTE",
+                            message: "Registro marcado manualmente para novo envio",
+                            source: "device",
+                          });
+                          await refreshQueue();
+                          toast.success("Registro marcado para novo envio.");
+                        } finally {
+                          setQueueBusyId(null);
+                        }
+                      }}
+                      >
+                      Reenviar registro
+                    </Button>
+                  </div>
+                  {item.evidences?.length ? (
+                    <div className="mt-3 space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-on-surface-muted">Evidências da fila</p>
+                      {item.evidences.map((evidence) => (
+                        <div key={evidence.clientId} className="rounded-sm border border-outline bg-cloud px-3 py-2 text-xs">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-medium">{evidence.fileName ?? evidence.clientId}</span>
+                            <Badge variant={evidence.status === "ERRO" ? "destructive" : evidence.status === "SINCRONIZADO" ? "info" : "outline"}>
+                              {evidence.status}
+                            </Badge>
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <Badge variant="outline">Tentativas {evidence.retries}</Badge>
+                            {evidence.size ? <Badge variant="outline">{Math.round(evidence.size / 1024)} KB</Badge> : null}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              disabled={queueBusyId === item.id}
+                              onClick={async () => {
+                                setQueueBusyId(item.id);
+                                try {
+                                  await markOfflineEvidenceStatus(item.id, evidence.clientId, {
+                                    status: "PENDENTE",
+                                    retries: evidence.retries + 1,
+                                    lastError: undefined,
+                                    lastAttemptAt: new Date().toISOString(),
+                                  });
+                                  await appendOfflineQueueHistory(item.id, {
+                                    at: new Date().toISOString(),
+                                    status: "PENDENTE",
+                                    message: `Evidência ${evidence.fileName ?? evidence.clientId} marcada para novo envio`,
+                                    source: "device",
+                                  });
+                                  await refreshQueue();
+                                  toast.success("Evidência marcada para novo envio.");
+                                } finally {
+                                  setQueueBusyId(null);
+                                }
+                              }}
+                            >
+                              Reenviar evidência
+                            </Button>
+                          </div>
+                          {evidence.checksum ? <p className="mt-1 text-[11px] text-on-surface-muted">SHA-256 {evidence.checksum.slice(0, 12)}...</p> : null}
+                          {evidence.capturedAt ? <p className="mt-1 text-[11px] text-on-surface-muted">Capturada em {new Date(evidence.capturedAt).toLocaleString("pt-BR")}</p> : null}
+                          {evidence.lastError ? <p className="mt-1 text-rose-700">{evidence.lastError}</p> : null}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                  {item.syncHistory?.length ? (
+                    <div className="mt-3 space-y-1 rounded-sm border border-outline bg-cloud px-3 py-2">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-on-surface-muted">Histórico de sync</p>
+                      {item.syncHistory.map((entry, index) => (
+                        <p key={`${entry.at}-${index}`} className="text-[11px] text-on-surface-muted">
+                          {new Date(entry.at).toLocaleString("pt-BR")} · {entry.status} · {entry.message}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle>Registros sincronizados</CardTitle>
+            <CardDescription>{syncedRecords.length} registro(s) persistidos no backend.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {syncedRecords.length === 0 ? (
+              <p className="text-sm text-on-surface-muted">Nenhum registro sincronizado ainda.</p>
+            ) : (
+              syncedRecords.map((record) => (
+                <div key={record._id ?? record.id} className="rounded-sm border border-outline bg-surface p-3 text-sm">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-medium">{record.parcelId ?? "Parcela"}</p>
+                    <Badge variant="info">{record.syncStatus ?? "PROCESSADO"}</Badge>
+                  </div>
+                  <p className="text-xs text-on-surface-muted">
+                    Evidências: {record.evidences?.length ?? 0} · Tentativas: {record.syncAttempts ?? 0}
+                  </p>
+                  {record.syncedAt ? (
+                    <p className="text-xs text-on-surface-muted">Sincronizado em {new Date(record.syncedAt).toLocaleString("pt-BR")}</p>
+                  ) : null}
+                  {record.syncContext?.serverParcelUpdatedAt ? (
+                    <p className="text-xs text-rose-700">
+                      Cadastro remoto em {new Date(record.syncContext.serverParcelUpdatedAt).toLocaleString("pt-BR")}
+                    </p>
+                  ) : null}
+                  {record.evidences?.length ? (
+                    <div className="mt-2 space-y-1">
+                      {record.evidences.map((evidence: any) => (
+                        <p key={evidence.clientId} className="text-xs text-on-surface-muted">
+                          {evidence.fileName ?? evidence.clientId} · {evidence.status ?? "SINCRONIZADO"} · {evidence.checksum ? `SHA ${String(evidence.checksum).slice(0, 12)}...` : "sem hash"}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
+                  {record.syncTimeline?.length ? (
+                    <div className="mt-2 space-y-1">
+                      {record.syncTimeline.map((entry: any, index: number) => (
+                        <p key={`${entry.at}-${index}`} className="text-xs text-on-surface-muted">
+                          {new Date(entry.at).toLocaleString("pt-BR")} · {entry.status} · {entry.message}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ))
             )}

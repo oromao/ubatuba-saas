@@ -1,0 +1,187 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e2]
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - paragraph [ref=e8]: FlyDea
+          - paragraph [ref=e9]: GeoInteligencia Municipal
+      - navigation [ref=e11]:
+        - generic [ref=e12]:
+          - paragraph [ref=e13]: INTELIGÊNCIA EXECUTIVA
+          - generic [ref=e14]:
+            - link "Painel de Gestão" [ref=e15] [cursor=pointer]:
+              - /url: /app/dashboard
+              - img [ref=e16]
+              - generic [ref=e21]: Painel de Gestão
+            - link "Observatório Urbano" [ref=e22] [cursor=pointer]:
+              - /url: /app/observatorio
+              - img [ref=e23]
+              - generic [ref=e26]: Observatório Urbano
+            - link "Mapa Interativo" [ref=e27] [cursor=pointer]:
+              - /url: /app/maps
+              - img [ref=e28]
+              - generic [ref=e32]: Mapa Interativo
+        - generic [ref=e33]:
+          - paragraph [ref=e34]: CADASTRO TERRITORIAL (CTM)
+          - generic [ref=e35]:
+            - link "Lotes e Imóveis" [ref=e36] [cursor=pointer]:
+              - /url: /app/ctm/parcelas
+              - img [ref=e37]
+              - generic [ref=e39]: Lotes e Imóveis
+            - link "Malha Viária" [ref=e40] [cursor=pointer]:
+              - /url: /app/ctm/logradouros
+              - img [ref=e41]
+              - generic [ref=e45]: Malha Viária
+            - link "Equipamentos Urbanos" [ref=e46] [cursor=pointer]:
+              - /url: /app/ctm/mobiliario
+              - img [ref=e47]
+              - generic [ref=e50]: Equipamentos Urbanos
+            - link "Planta Genérica (PGV)" [ref=e51] [cursor=pointer]:
+              - /url: /app/pgv/zonas
+              - img [ref=e52]
+              - generic [ref=e56]: Planta Genérica (PGV)
+            - link "Regularização (REURB)" [ref=e57] [cursor=pointer]:
+              - /url: /app/reurb
+              - img [ref=e58]
+              - generic [ref=e61]: Regularização (REURB)
+            - link "Vistorias" [ref=e62] [cursor=pointer]:
+              - /url: /app/ctm/vistorias
+              - img [ref=e63]
+              - generic [ref=e67]: Vistorias
+        - generic [ref=e68]:
+          - paragraph [ref=e69]: FISCALIZAÇÃO E PROCESSOS
+          - generic [ref=e70]:
+            - link "Processos Digitais" [ref=e71] [cursor=pointer]:
+              - /url: /app/processes
+              - img [ref=e72]
+              - generic [ref=e76]: Processos Digitais
+            - link "Monitoramento e Alertas" [ref=e77] [cursor=pointer]:
+              - /url: /app/monitoramento
+              - img [ref=e78]
+              - generic [ref=e81]: Monitoramento e Alertas
+            - link "Atendimento 156" [ref=e82] [cursor=pointer]:
+              - /url: /app/156
+              - img [ref=e83]
+              - generic [ref=e88]: Atendimento 156
+            - link "Notificações Oficiais" [ref=e89] [cursor=pointer]:
+              - /url: /app/cartas
+              - img [ref=e90]
+              - generic [ref=e93]: Notificações Oficiais
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: MÓDULOS DE NEGÓCIO
+          - generic [ref=e96]:
+            - link "Obras Particulares" [ref=e97] [cursor=pointer]:
+              - /url: /app/modulos/obras
+              - img [ref=e99]
+              - generic [ref=e104]: Obras Particulares
+            - link "Atividades Econômicas" [ref=e105] [cursor=pointer]:
+              - /url: /app/modulos/empresas
+              - img [ref=e106]
+              - generic [ref=e109]: Atividades Econômicas
+            - link "Licenciamento Ambiental" [ref=e110] [cursor=pointer]:
+              - /url: /app/ambiental
+              - img [ref=e111]
+              - generic [ref=e114]: Licenciamento Ambiental
+        - generic [ref=e115]:
+          - paragraph [ref=e116]: CONFIGURAÇÃO E INTEGRAÇÃO
+          - generic [ref=e117]:
+            - link "Integrações ERP" [ref=e118] [cursor=pointer]:
+              - /url: /app/integracoes
+              - img [ref=e119]
+              - generic [ref=e122]: Integrações ERP
+            - link "Documentação PoC" [ref=e123] [cursor=pointer]:
+              - /url: /app/poc
+              - img [ref=e124]
+              - generic [ref=e128]: Documentação PoC
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - generic [ref=e132]: A
+          - generic [ref=e133]:
+            - paragraph [ref=e134]: Usuario
+            - paragraph [ref=e135]: "Tenant: 69de380ebc43fc5166d3b3c0"
+        - button "Sair" [ref=e136] [cursor=pointer]:
+          - img [ref=e137]
+          - generic [ref=e140]: Sair
+      - button "Recolher" [ref=e141] [cursor=pointer]:
+        - img [ref=e142]
+        - generic [ref=e144]: Recolher
+    - generic [ref=e145]:
+      - banner [ref=e146]:
+        - button "Recolher menu" [ref=e147] [cursor=pointer]:
+          - img [ref=e148]
+        - button "Abrir busca global" [ref=e151] [cursor=pointer]:
+          - img [ref=e152]
+          - generic [ref=e155]: Buscar parcelas, telas e modulos...
+          - generic [ref=e156]: Ctrl + K
+        - generic [ref=e157]:
+          - generic [ref=e158]: 69de380ebc43fc5166d3b3c0
+          - button "Notificacoes" [ref=e159] [cursor=pointer]:
+            - img [ref=e160]
+          - button "A Usuario" [ref=e164] [cursor=pointer]:
+            - generic [ref=e165]: A
+            - generic [ref=e166]: Usuario
+      - main [ref=e167]:
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - heading "Alvará de Obras" [level=1] [ref=e171]
+              - paragraph [ref=e172]: Fluxo com etapas, exigências, parecer, decisão e histórico auditável.
+            - generic [ref=e173]: P1
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - generic [ref=e176]:
+                - heading "Abrir solicitação" [level=3] [ref=e177]
+                - paragraph [ref=e178]: Reaproveita o núcleo de processos e armazenamento.
+              - generic [ref=e179]:
+                - textbox "Requerente" [ref=e180]: Construtora Demo
+                - textbox "Endereço da obra" [ref=e181]: Rua da Praia, 100
+                - textbox "Exigências separadas por vírgula" [ref=e182]: Projeto arquitetonico, ART/RRT, taxas
+                - button "Abrir solicitação" [ref=e183] [cursor=pointer]
+                - generic [ref=e184]:
+                  - button "Responder exigência" [disabled]
+                  - button "Anexar evidência" [disabled]
+                  - button "Deferir" [disabled]
+            - generic [ref=e185]:
+              - generic [ref=e186]:
+                - heading "Solicitações" [level=3] [ref=e187]
+                - paragraph [ref=e188]: Status, emissão e rastreabilidade do alvará.
+              - table [ref=e193]:
+                - rowgroup [ref=e194]:
+                  - row "Protocolo Requerente Endereço Status Etapa Responsavel PDF" [ref=e195]:
+                    - columnheader "Protocolo" [ref=e196] [cursor=pointer]:
+                      - generic [ref=e197]:
+                        - text: Protocolo
+                        - img [ref=e198]
+                    - columnheader "Requerente" [ref=e201] [cursor=pointer]:
+                      - generic [ref=e202]:
+                        - text: Requerente
+                        - img [ref=e203]
+                    - columnheader "Endereço" [ref=e206] [cursor=pointer]:
+                      - generic [ref=e207]:
+                        - text: Endereço
+                        - img [ref=e208]
+                    - columnheader "Status" [ref=e211] [cursor=pointer]:
+                      - generic [ref=e212]:
+                        - text: Status
+                        - img [ref=e213]
+                    - columnheader "Etapa" [ref=e216] [cursor=pointer]:
+                      - generic [ref=e217]:
+                        - text: Etapa
+                        - img [ref=e218]
+                    - columnheader "Responsavel" [ref=e221] [cursor=pointer]:
+                      - generic [ref=e222]:
+                        - text: Responsavel
+                        - img [ref=e223]
+                    - columnheader "PDF" [ref=e226] [cursor=pointer]:
+                      - generic [ref=e227]:
+                        - text: PDF
+                        - img [ref=e228]
+                - rowgroup [ref=e231]:
+                  - row "Nenhum registro encontrado. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e232]:
+                    - cell "Nenhum registro encontrado. Ajuste filtros ou verifique se existem dados cadastrados." [ref=e233]:
+                      - generic [ref=e234]:
+                        - paragraph [ref=e235]: Nenhum registro encontrado.
+                        - paragraph [ref=e236]: Ajuste filtros ou verifique se existem dados cadastrados.
+  - region "Notifications alt+T"

@@ -1,0 +1,52 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "FlyDea Atlas SaaS geoespacial" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - text: FlyDea Atlas
+          - generic [ref=e7]: SaaS geoespacial
+        - generic [ref=e8]: Acesso seguro ao painel operacional
+        - heading "Controle territorial em um painel moderno, auditavel e pronto para escala." [level=1] [ref=e9]
+        - paragraph [ref=e10]: Mapeamento, cadastro técnico, processos digitais e monitoramento integrados com governanca por perfil.
+      - generic [ref=e11]:
+        - paragraph [ref=e13]: Tenant assistido para reduzir friccao
+        - paragraph [ref=e15]: Sessao persistida no navegador
+        - paragraph [ref=e17]: RBAC e trilha de auditoria ativos
+        - paragraph [ref=e19]: Portal e painel prontos para demo e operacao
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - img [ref=e22]
+          - generic [ref=e25]:
+            - paragraph [ref=e26]: Seguranca institucional
+            - paragraph [ref=e27]: Logs por usuario, trilha de auditoria e segregacao multi-tenant.
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - img [ref=e30]
+            - text: Fluxo simplificado
+          - generic [ref=e32]:
+            - img [ref=e33]
+            - text: LGPD + RBAC
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - heading "Entrar no painel" [level=3] [ref=e39]
+        - paragraph [ref=e40]: Informe credenciais de acesso para sua operação geoespacial.
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - text: Email institucional
+            - textbox "nome@prefeitura.gov.br" [ref=e44]
+          - generic [ref=e45]:
+            - text: Senha
+            - textbox "********" [ref=e46]
+          - generic [ref=e47]:
+            - text: Tenant
+            - textbox "demo" [ref=e48]
+            - paragraph [ref=e49]: Se nao informar, usamos o tenant padrao de demo.
+          - button "Entrar" [ref=e50] [cursor=pointer]
+        - generic [ref=e51]:
+          - link "Esqueci minha senha" [ref=e52] [cursor=pointer]:
+            - /url: /forgot-password
+          - link "Voltar ao site" [ref=e53] [cursor=pointer]:
+            - /url: /
+  - alert [ref=e54]

@@ -3,11 +3,12 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ParcelsService } from '../src/modules/ctm/parcels/parcels.service';
 import { ParcelsRepository } from '../src/modules/ctm/parcels/parcels.repository';
 import { ParcelAuditRepository } from '../src/modules/ctm/parcels/parcel-audit.repository';
-import { ProjectsService } from '../src/modules/ctm/parcels/projects.service';
+import { ProjectsService } from '../src/modules/projects/projects.service';
 import { ParcelBuildingsService } from '../src/modules/ctm/parcel-buildings/parcel-buildings.service';
 import { ParcelInfrastructureService } from '../src/modules/ctm/parcel-infrastructure/parcel-infrastructure.service';
 import { ParcelSocioeconomicService } from '../src/modules/ctm/parcel-socioeconomic/parcel-socioeconomic.service';
 import { LogradourosService } from '../src/modules/ctm/logradouros/logradouros.service';
+import { Types } from 'mongoose';
 
 describe('CTM Parcels Service', () => {
   let service: ParcelsService;
@@ -15,13 +16,13 @@ describe('CTM Parcels Service', () => {
   let projectsService: ProjectsService;
   let auditRepository: ParcelAuditRepository;
 
-  const mockTenantId = 'tenant-001';
-  const mockProjectId = 'project-001';
-  const mockUserId = 'user-001';
+  const mockTenantId = new Types.ObjectId().toHexString();
+  const mockProjectId = new Types.ObjectId().toHexString();
+  const mockUserId = new Types.ObjectId().toHexString();
 
   // Sample valid polygon geometry (WGS84 coordinates)
   const validPolygon = {
-    type: 'Polygon',
+    type: 'Polygon' as const,
     coordinates: [
       [
         [-46.305, -23.55],
@@ -35,14 +36,14 @@ describe('CTM Parcels Service', () => {
 
   // Invalid geometry (missing coordinates)
   const invalidGeometry = {
-    type: 'Polygon',
+    type: 'Polygon' as const,
     coordinates: [],
   };
 
   const mockParcel = {
     id: 'parcel-001',
-    tenantId: mockTenantId,
-    projectId: mockProjectId,
+    tenantId: mockTenantId as any,
+    projectId: mockProjectId as any,
     sqlu: '123.45.67.890',
     inscription: '0001.001.0001-01',
     inscricaoImobiliaria: '0001.001.0001-01',
@@ -51,7 +52,7 @@ describe('CTM Parcels Service', () => {
     areaTerreno: 250.5,
     status: 'ATIVO',
     statusCadastral: 'ATIVO',
-    workflowStatus: 'PENDENTE',
+    workflowStatus: 'PENDENTE' as any,
     createdAt: new Date('2026-01-01'),
     updatedAt: new Date('2026-01-01'),
   };
@@ -127,7 +128,7 @@ describe('CTM Parcels Service', () => {
 
   describe('list', () => {
     it('should return list of parcels for tenant and project', async () => {
-      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel]);
+      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel as any]);
 
       const result = await service.list(mockTenantId, mockProjectId);
 
@@ -141,7 +142,7 @@ describe('CTM Parcels Service', () => {
     });
 
     it('should filter parcels by inscription', async () => {
-      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel]);
+      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel as any]);
 
       await service.list(mockTenantId, mockProjectId, {
         inscricaoImobiliaria: '0001.001.0001-01',
@@ -156,7 +157,7 @@ describe('CTM Parcels Service', () => {
     });
 
     it('should filter parcels by bbox', async () => {
-      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel]);
+      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel as any]);
 
       await service.list(mockTenantId, mockProjectId, {
         bbox: '-46.31,-23.56,-46.30,-23.55',
@@ -171,7 +172,7 @@ describe('CTM Parcels Service', () => {
     });
 
     it('should filter parcels by workflow status', async () => {
-      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel]);
+      jest.spyOn(repository, 'list').mockResolvedValue([mockParcel as any]);
 
       await service.list(mockTenantId, mockProjectId, {
         workflowStatus: 'PENDENTE',
@@ -190,7 +191,7 @@ describe('CTM Parcels Service', () => {
     it('should return parcels with pending issues', async () => {
       jest
         .spyOn(repository, 'list')
-        .mockResolvedValue([mockParcelWithIssues]);
+        .mockResolvedValue([mockParcelWithIssues as any]);
 
       const result = await service.listPendencias(mockTenantId, mockProjectId);
 
@@ -215,7 +216,7 @@ describe('CTM Parcels Service', () => {
       };
       jest
         .spyOn(repository, 'list')
-        .mockResolvedValue([parcelWithoutPrecomputed]);
+        .mockResolvedValue([parcelWithoutPrecomputed as any]);
 
       const result = await service.listPendencias(mockTenantId, mockProjectId);
 
@@ -230,7 +231,7 @@ describe('CTM Parcels Service', () => {
         workflowStatus: 'APROVADA',
         pendingIssues: [],
       };
-      jest.spyOn(repository, 'list').mockResolvedValue([completeParcel]);
+      jest.spyOn(repository, 'list').mockResolvedValue([completeParcel as any]);
 
       const result = await service.listPendencias(mockTenantId, mockProjectId);
 
@@ -240,7 +241,7 @@ describe('CTM Parcels Service', () => {
 
   describe('findById', () => {
     it('should return a parcel by id', async () => {
-      jest.spyOn(repository, 'findById').mockResolvedValue(mockParcel);
+      jest.spyOn(repository, 'findById').mockResolvedValue(mockParcel as any);
 
       const result = await service.findById(
         mockTenantId,
@@ -289,7 +290,7 @@ describe('CTM Parcels Service', () => {
           diff: { status: { before: 'ATIVO', after: 'INATIVO' } },
         },
       ];
-      jest.spyOn(auditRepository, 'listByParcel').mockResolvedValue(auditLog);
+      jest.spyOn(auditRepository, 'listByParcel').mockResolvedValue(auditLog as any);
 
       const result = await service.getHistory(
         mockTenantId,
@@ -326,9 +327,9 @@ describe('CTM Parcels Service', () => {
         status: 'ATIVO',
       };
 
-      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel);
+      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel as any);
 
-      const result = await service.create(mockTenantId, createDto, mockUserId);
+      const result = await service.create(mockTenantId, createDto as any, mockUserId);
 
       expect(result).toEqual(mockParcel);
       expect(repository.create).toHaveBeenCalled();
@@ -344,7 +345,7 @@ describe('CTM Parcels Service', () => {
       };
 
       await expect(
-        service.create(mockTenantId, createDto, mockUserId),
+        service.create(mockTenantId, createDto as any, mockUserId),
       ).rejects.toThrow(BadRequestException);
     });
 
@@ -357,7 +358,7 @@ describe('CTM Parcels Service', () => {
       };
 
       await expect(
-        service.create(mockTenantId, createDto, mockUserId),
+        service.create(mockTenantId, createDto as any, mockUserId),
       ).rejects.toThrow();
     });
 
@@ -370,9 +371,9 @@ describe('CTM Parcels Service', () => {
         status: 'ATIVO',
       };
 
-      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel);
+      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel as any);
 
-      const result = await service.create(mockTenantId, createDto, mockUserId);
+      const result = await service.create(mockTenantId, createDto as any, mockUserId);
 
       expect(result).toEqual(mockParcel);
     });
@@ -410,7 +411,7 @@ describe('CTM Parcels Service', () => {
       ];
 
       for (const geometry of validPolygons) {
-        jest.spyOn(repository, 'create').mockResolvedValue(mockParcel);
+        jest.spyOn(repository, 'create').mockResolvedValue(mockParcel as any);
 
         const createDto = {
           inscription: '0001.001.0001-01',
@@ -418,7 +419,7 @@ describe('CTM Parcels Service', () => {
           status: 'ATIVO',
         };
 
-        const result = await service.create(mockTenantId, createDto);
+        const result = await service.create(mockTenantId, createDto as any);
         expect(result).toBeDefined();
       }
     });
@@ -436,7 +437,7 @@ describe('CTM Parcels Service', () => {
         service.create(mockTenantId, {
           inscription: '0001.001.0001-01',
           geometry: lineGeometry,
-        }),
+        } as any),
       ).rejects.toThrow(BadRequestException);
     });
   });
@@ -449,7 +450,7 @@ describe('CTM Parcels Service', () => {
         jest.spyOn(repository, 'create').mockResolvedValue({
           ...mockParcel,
           status,
-        });
+        } as any);
 
         const result = await service.create(
           mockTenantId,
@@ -457,7 +458,7 @@ describe('CTM Parcels Service', () => {
             inscription: '0001.001.0001-01',
             geometry: validPolygon,
             status,
-          },
+          } as any,
           mockUserId,
         );
 
@@ -469,13 +470,13 @@ describe('CTM Parcels Service', () => {
       jest.spyOn(repository, 'create').mockResolvedValue({
         ...mockParcel,
         status: 'ATIVO',
-      });
+      } as any);
 
       const result = await service.create(mockTenantId, {
         inscription: '0001.001.0001-01',
         geometry: validPolygon,
         status: 'INVALID_STATUS',
-      });
+      } as any);
 
       expect(result.status).toBe('ATIVO');
     });
@@ -494,7 +495,7 @@ describe('CTM Parcels Service', () => {
         jest.spyOn(repository, 'create').mockResolvedValue({
           ...mockParcel,
           workflowStatus: status,
-        });
+        } as any);
 
         const result = await service.create(
           mockTenantId,
@@ -502,7 +503,7 @@ describe('CTM Parcels Service', () => {
             inscription: '0001.001.0001-01',
             geometry: validPolygon,
             workflowStatus: status,
-          },
+          } as any,
           mockUserId,
         );
 

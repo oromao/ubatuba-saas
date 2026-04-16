@@ -37,6 +37,7 @@ const apiFetch = async (token: string, tenantId: string, path: string, init: Req
     ...init,
     headers: {
       ...(init.body ? { 'content-type': 'application/json' } : {}),
+      ...(path.includes('/reurb/') ? { 'x-lgpd-purpose': 'REURB - validacao de acesso e exportacao' } : {}),
       Authorization: `Bearer ${token}`,
       'X-Tenant-Id': tenantId,
       ...(init.headers ?? {}),

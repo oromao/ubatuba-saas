@@ -1,0 +1,257 @@
+
+> @flydea/api@0.1.0 dev /Users/paulo/Documents/ubatuba-saas/apps/api
+> nest start --watch
+
+[2J[3J[H[[90m3:19:01 PM[0m] Starting compilation in watch mode...
+
+[[90m3:19:09 PM[0m] Found 0 errors. Watching for file changes.
+
+(node:55713) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:55746) [MONGOOSE] Warning: `errors` is a reserved schema pathname and may break some functionality. You are allowed to use it, but use at your own risk. To disable this warning pass `suppressReservedKeysWarning` as a schema option.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[2J[3J[H[[90m3:21:46 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__core'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__generator'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__generator'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__template'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__template'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__traverse'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__traverse'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint-scope'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint-scope'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'express-serve-static-core'.
+  The file is in the program because:
+    Entry point for implicit type library 'express-serve-static-core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'graceful-fs'.
+  The file is in the program because:
+    Entry point for implicit type library 'graceful-fs'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json-schema'.
+  The file is in the program because:
+    Entry point for implicit type library 'json-schema'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json5'.
+  The file is in the program because:
+    Entry point for implicit type library 'json5'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'jsonwebtoken'.
+  The file is in the program because:
+    Entry point for implicit type library 'jsonwebtoken'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'mime'.
+  The file is in the program because:
+    Entry point for implicit type library 'mime'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'qs'.
+  The file is in the program because:
+    Entry point for implicit type library 'qs'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'serve-static'.
+  The file is in the program because:
+    Entry point for implicit type library 'serve-static'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'validator'.
+  The file is in the program because:
+    Entry point for implicit type library 'validator'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'webidl-conversions'.
+  The file is in the program because:
+    Entry point for implicit type library 'webidl-conversions'
+
+[[90m3:21:49 PM[0m] Found 17 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:21:50 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__core'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__generator'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__generator'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__template'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__template'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__traverse'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__traverse'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint-scope'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint-scope'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'express-serve-static-core'.
+  The file is in the program because:
+    Entry point for implicit type library 'express-serve-static-core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'graceful-fs'.
+  The file is in the program because:
+    Entry point for implicit type library 'graceful-fs'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json-schema'.
+  The file is in the program because:
+    Entry point for implicit type library 'json-schema'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json5'.
+  The file is in the program because:
+    Entry point for implicit type library 'json5'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'jsonwebtoken'.
+  The file is in the program because:
+    Entry point for implicit type library 'jsonwebtoken'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'mime'.
+  The file is in the program because:
+    Entry point for implicit type library 'mime'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'qs'.
+  The file is in the program because:
+    Entry point for implicit type library 'qs'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'serve-static'.
+  The file is in the program because:
+    Entry point for implicit type library 'serve-static'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'validator'.
+  The file is in the program because:
+    Entry point for implicit type library 'validator'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'webidl-conversions'.
+  The file is in the program because:
+    Entry point for implicit type library 'webidl-conversions'
+
+[[90m3:21:50 PM[0m] Found 17 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:21:53 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__core'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__generator'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__generator'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__template'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__template'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'babel__traverse'.
+  The file is in the program because:
+    Entry point for implicit type library 'babel__traverse'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'eslint-scope'.
+  The file is in the program because:
+    Entry point for implicit type library 'eslint-scope'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'express-serve-static-core'.
+  The file is in the program because:
+    Entry point for implicit type library 'express-serve-static-core'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'graceful-fs'.
+  The file is in the program because:
+    Entry point for implicit type library 'graceful-fs'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json-schema'.
+  The file is in the program because:
+    Entry point for implicit type library 'json-schema'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json5'.
+  The file is in the program because:
+    Entry point for implicit type library 'json5'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'jsonwebtoken'.
+  The file is in the program because:
+    Entry point for implicit type library 'jsonwebtoken'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'mime'.
+  The file is in the program because:
+    Entry point for implicit type library 'mime'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'serve-static'.
+  The file is in the program because:
+    Entry point for implicit type library 'serve-static'
+
+[[90m3:21:54 PM[0m] Found 14 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:21:56 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json5'.
+  The file is in the program because:
+    Entry point for implicit type library 'json5'
+
+[[90m3:21:59 PM[0m] Found 2 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:22:21 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'json5'.
+  The file is in the program because:
+    Entry point for implicit type library 'json5'
+
+[[90m3:22:28 PM[0m] Found 2 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:22:35 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[[90m3:22:38 PM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m3:22:42 PM[0m] File change detected. Starting incremental compilation...
+
+[91merror[0m[90m TS2688: [0mCannot find type definition file for 'estree'.
+  The file is in the program because:
+    Entry point for implicit type library 'estree'
+
+[[90m3:22:42 PM[0m] Found 1 error. Watching for file changes.
+
+ ELIFECYCLE  Command failed.
