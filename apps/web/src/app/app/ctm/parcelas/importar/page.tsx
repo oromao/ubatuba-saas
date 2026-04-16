@@ -18,6 +18,7 @@ type ImportResult = {
   updated: number;
   skipped: number;
   errors: number;
+  status?: string;
   errorDetails: Array<{ row: number; featureId?: string; message: string; field?: string }>;
 };
 
@@ -446,12 +447,12 @@ export default function ImportarParcelasPage() {
               <CardTitle className="text-sm">Modelos</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button variant="ghost" size="sm" className="w-full justify-start" asChild>
-                <a href="/templates/parcelas-modelo.csv" download>Baixar Modelo CSV</a>
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start" asChild>
-                <a href="/templates/parcelas-modelo.geojson" download>Baixar Modelo GeoJSON</a>
-              </Button>
+              <a href="/templates/parcelas-modelo.csv" download className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 p-2 rounded hover:bg-slate-100">
+                Baixar Modelo CSV
+              </a>
+              <a href="/templates/parcelas-modelo.geojson" download className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 p-2 rounded hover:bg-slate-100">
+                Baixar Modelo GeoJSON
+              </a>
             </CardContent>
           </Card>
         </div>
