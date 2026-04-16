@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { calculateGeometryArea, isPolygonGeometry, PolygonGeometry } from '../../../common/utils/geo';
 import { asObjectId } from '../../../common/utils/object-id';
 import { createVectorTile } from '../../../common/utils/mvt.util';
@@ -1018,5 +1018,90 @@ export class ParcelsService {
     });
 
     return { batchId, processed, updated, notFound, errors, errorDetails };
+  }
+
+  async generatePdf(tenantId: string, parcelId: string): Promise<Buffer> {
+    const parcel = await this.findById(tenantId, undefined, parcelId);
+    if (!parcel) throw new NotFoundException('Lote não encontrado');
+
+    return new Promise((resolve, reject) => {
+      const PDFDocument = require('pdfkit') as typeof import('pdfkit');
+      const doc = new PDFDocument({ margin: 50, size: 'A4' });
+      const chunks: Buffer[] = [];
+      doc.on('data', (c: Buffer) => chunks.push(c));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+      doc.on('error', reject);
+
+      const address = parcel.mainAddress || [
+        (parcel.enderecoPrincipal as any)?.logradouro,
+        (parcel.enderecoPrincipal as any)?.numero,
+        (parcel.enderecoPrincipal as any)?.bairro,
+      ].filter(Boolean).join(', ') || 'Não informado';
+
+      // Header
+      doc.fontSize(9).fillColor('#666').text('PREFEITURA MUNICIPAL', { align: 'center' });
+      doc.fontSize(14).fillColor('#000').font('Helvetica-Bold')
+        .text('FICHA DE IMÓVEL — CADASTRO TÉCNICO MUNICIPAL', { align: 'center' });
+      doc.moveDown(0.5);
+      doc.fontSize(9).font('Helvetica').fillColor('#666')
+        .text(`Emitido em: ${new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`, { align: 'right' });
+
+      // Separator
+      doc.moveDown(0.3);
+      doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+      doc.moveDown(0.5);
+
+      // Section: Identificação
+      doc.fontSize(11).font('Helvetica-Bold').fillColor('#1a1a1a').text('IDENTIFICAÇÃO DO IMÓVEL');
+      doc.moveDown(0.3);
+      const fields = [
+        ['SQLU', parcel.sqlu || '—'],
+        ['Inscrição Imobiliária', (parcel as any).inscricaoImobiliaria || '—'],
+        ['Endereço', address],
+        ['Bairro', (parcel.enderecoPrincipal as any)?.bairro || '—'],
+        ['Área Terreno', parcel.areaTerreno ? `${Number(parcel.areaTerreno).toFixed(2)} m²` : '—'],
+        ['Área Construída', (parcel as any).areaConstruida ? `${Number((parcel as any).areaConstruida).toFixed(2)} m²` : '—'],
+        ['Status Cadastral', (parcel as any).statusCadastral || '—'],
+        ['Status Workflow', (parcel as any).workflowStatus || '—'],
+        ['Origem do Dado', (parcel as any).sourceType || '—'],
+        ['Zoneamento', (parcel as any).zoneamento || '—'],
+      ];
+      doc.fontSize(10).font('Helvetica');
+      fields.forEach(([label, value]) => {
+        doc.fillColor('#666').text(`${label}: `, { continued: true })
+          .fillColor('#000').text(value);
+      });
+
+      // Section: Tributação
+      const hasIptu = (parcel as any).statusIPTU && (parcel as any).statusIPTU !== 'NAO_CADASTRADO';
+      if (hasIptu) {
+        doc.moveDown(0.5);
+        doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+        doc.moveDown(0.3);
+        doc.fontSize(11).font('Helvetica-Bold').fillColor('#1a1a1a').text('TRIBUTAÇÃO');
+        doc.moveDown(0.3);
+        doc.fontSize(10).font('Helvetica');
+        const fmt = (v: number) => v ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—';
+        [
+          ['Status IPTU', (parcel as any).statusIPTU || '—'],
+          ['Valor Venal', fmt((parcel as any).valorVenalTotal)],
+          ['IPTU Lançado', fmt((parcel as any).iptuLancado)],
+          ['IPTU Pago', fmt((parcel as any).iptuPago)],
+          ['IPTU Em Aberto', fmt((parcel as any).iptuEmAberto)],
+        ].forEach(([label, value]) => {
+          doc.fillColor('#666').text(`${label}: `, { continued: true })
+            .fillColor('#000').text(value);
+        });
+      }
+
+      // Footer
+      doc.moveDown(2);
+      doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+      doc.moveDown(0.3);
+      doc.fontSize(8).fillColor('#999')
+        .text('Este documento é gerado automaticamente pelo sistema FlyDea — Cadastro Técnico Municipal. Não substitui certidão oficial.', { align: 'center' });
+
+      doc.end();
+    });
   }
 }

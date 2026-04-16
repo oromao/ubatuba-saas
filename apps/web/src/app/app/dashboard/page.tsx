@@ -16,6 +16,7 @@ const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false 
 type WidgetConfig = { id: string; visible: boolean; order: number };
 
 const WIDGET_LABELS: Record<string, { title: string; description: string }> = {
+  ctm: { title: "Cadastro Territorial (CTM)", description: "Parcelas, IPTU e status cadastral" },
   summary: { title: "Resumo executivo", description: "Indicadores principais do painel" },
   secretarias: { title: "Visão por secretaria", description: "Operação consolidada por área" },
   priorities: { title: "Prioridades de hoje", description: "Fila resumida para leitura executiva" },
@@ -30,14 +31,15 @@ export default function DashboardPage() {
   const queryClient = useQueryClient();
   const defaultWidgets = useMemo<WidgetConfig[]>(
     () => [
-      { id: "summary", visible: true, order: 0 },
-      { id: "secretarias", visible: true, order: 1 },
-      { id: "priorities", visible: true, order: 2 },
-      { id: "satelliteHealth", visible: true, order: 3 },
-      { id: "readinessSignals", visible: true, order: 4 },
-      { id: "map", visible: true, order: 5 },
-      { id: "operations", visible: true, order: 6 },
-      { id: "integrations", visible: true, order: 7 },
+      { id: "ctm", visible: true, order: 0 },
+      { id: "summary", visible: true, order: 1 },
+      { id: "secretarias", visible: true, order: 2 },
+      { id: "priorities", visible: true, order: 3 },
+      { id: "satelliteHealth", visible: true, order: 4 },
+      { id: "readinessSignals", visible: true, order: 5 },
+      { id: "map", visible: true, order: 6 },
+      { id: "operations", visible: true, order: 7 },
+      { id: "integrations", visible: true, order: 8 },
     ],
     [],
   );
@@ -51,6 +53,18 @@ export default function DashboardPage() {
     queryKey: ["dashboard-executive"],
     queryFn: () =>
       apiFetch<{
+        ctm?: {
+          totalParcelas: number;
+          oficiais: number;
+          demo: number;
+          comSqlu: number;
+          taxaAdimplencia: number;
+          totalValorVenal: number;
+          totalIptuLancado: number;
+          totalIptuPago: number;
+          totalIptuEmAberto: number;
+          porStatus: Record<string, number>;
+        } | null;
         summary: Record<string, number>;
         secretarias: Array<{ name: string; total: number; status: string }>;
         priorities: Array<{ label: string; value: number }>;
@@ -188,6 +202,74 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+
+        {hasWidget("ctm") && executiveQuery.data?.ctm && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Cadastro Territorial — CTM</CardTitle>
+              <CardDescription>Dados reais de parcelas e tributação</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+                <div className="rounded-md border p-3">
+                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Total Parcelas</p>
+                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.totalParcelas}</p>
+                  <p className="text-xs text-on-surface-muted">{executiveQuery.data.ctm.oficiais} oficiais</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Com SQLU</p>
+                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.comSqlu}</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Adimplência IPTU</p>
+                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.taxaAdimplencia.toFixed(1)}%</p>
+                </div>
+                <div className="rounded-md border p-3">
+                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Valor Venal Total</p>
+                  <p className="mt-1 text-xl font-semibold">
+                    {executiveQuery.data.ctm.totalValorVenal > 0
+                      ? executiveQuery.data.ctm.totalValorVenal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                      : '—'}
+                  </p>
+                </div>
+              </div>
+              {executiveQuery.data.ctm.totalIptuLancado > 0 && (
+                <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-md border p-3">
+                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Lançado</p>
+                    <p className="mt-1 text-lg font-semibold">
+                      {executiveQuery.data.ctm.totalIptuLancado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </p>
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Pago</p>
+                    <p className="mt-1 text-lg font-semibold text-green-600">
+                      {executiveQuery.data.ctm.totalIptuPago.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </p>
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">Em Aberto</p>
+                    <p className="mt-1 text-lg font-semibold text-amber-600">
+                      {executiveQuery.data.ctm.totalIptuEmAberto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
+                <div className="mt-3">
+                  <p className="text-xs uppercase tracking-wide text-on-surface-muted mb-2">Status IPTU</p>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(executiveQuery.data.ctm.porStatus).map(([status, count]) => (
+                      <span key={status} className="rounded-full border px-3 py-1 text-xs">
+                        {status}: <strong>{count as number}</strong>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {hasWidget("summary") ? (
           <section className="grid gap-4 md:grid-cols-3">

@@ -14,6 +14,7 @@ import { PublicWorksModule } from '../public-works/public-works.module';
 import { CemeteryModule } from '../cemetery/cemetery.module';
 import { CacheService } from '../shared/cache.service';
 import { RedisService } from '../shared/redis.service';
+import { CtmModule } from '../ctm/ctm.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { RedisService } from '../shared/redis.service';
     EnvironmentModule,
     PublicWorksModule,
     CemeteryModule,
+    CtmModule,
   ],
   controllers: [DashboardController],
   providers: [DashboardService, CacheService, RedisService],

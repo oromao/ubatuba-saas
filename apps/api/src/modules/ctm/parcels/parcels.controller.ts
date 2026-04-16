@@ -117,6 +117,21 @@ export class ParcelsController {
     res.send(buffer);
   }
 
+  @Get(':id/pdf')
+  async getPdf(
+    @Param('id') id: string,
+    @Req() req: { tenantId: string },
+    @Res() res: Response,
+  ) {
+    const buffer = await this.parcelsService.generatePdf(req.tenantId, id);
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="lote-${id}.pdf"`,
+      'Content-Length': buffer.length,
+    });
+    res.end(buffer);
+  }
+
   @Get(':id')
   get(@Req() req: { tenantId: string }, @Param('id') id: string, @Query('projectId') projectId?: string) {
     return this.parcelsService.findById(req.tenantId, projectId, id);
