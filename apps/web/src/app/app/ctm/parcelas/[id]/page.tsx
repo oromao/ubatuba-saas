@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiFetch, API_URL } from "@/lib/api";
-import { ChevronLeft, ClipboardCheck, Edit2, Save, X, CheckCircle2, XCircle } from "lucide-react";
+import { ChevronLeft, ClipboardCheck, Edit2, FileDown, Save, X, CheckCircle2, XCircle } from "lucide-react";
 
 const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false });
 
@@ -281,6 +281,32 @@ export default function ParcelDetailsPage() {
             >
               <ClipboardCheck className="h-4 w-4 mr-2" />
               Nova Vistoria
+            </Button>
+          )}
+          {!isEditing && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const token = typeof window !== 'undefined'
+                  ? (localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken'))
+                  : null;
+                fetch(`${API_URL}/ctm/parcels/${parcelId}/pdf`, {
+                  headers: token ? { Authorization: `Bearer ${token}` } : {},
+                })
+                  .then(r => r.blob())
+                  .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `lote-${parcel.sqlu ?? parcelId}.pdf`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  });
+              }}
+            >
+              <FileDown className="h-4 w-4 mr-2" />
+              PDF
             </Button>
           )}
           {!isEditing && (
