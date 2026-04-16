@@ -1104,4 +1104,13 @@ export class ParcelsService {
       doc.end();
     });
   }
+
+  async getAuditLog(
+    tenantId: string,
+    filters: { parcelId?: string; actorId?: string; action?: string; limit?: number; offset?: number },
+  ) {
+    const entries = await this.parcelAuditRepository.listAll(tenantId, filters);
+    const total = await this.parcelAuditRepository.countAll(tenantId, filters);
+    return { entries, total, limit: filters.limit ?? 50, offset: filters.offset ?? 0 };
+  }
 }

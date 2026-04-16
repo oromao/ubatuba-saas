@@ -69,6 +69,22 @@ export class ParcelsController {
     return this.parcelsService.listPendencias(req.tenantId, projectId);
   }
 
+  @Get('audit')
+  getAuditLog(
+    @Req() req: { tenantId: string },
+    @Query('parcelId') parcelId?: string,
+    @Query('action') action?: string,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.parcelsService.getAuditLog(req.tenantId, {
+      parcelId,
+      action,
+      limit: limit ? parseInt(limit, 10) : 50,
+      offset: offset ? parseInt(offset, 10) : 0,
+    });
+  }
+
   @Get('geojson')
   geojson(
     @Req() req: { tenantId: string },

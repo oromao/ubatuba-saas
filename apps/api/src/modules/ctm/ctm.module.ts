@@ -94,6 +94,7 @@ import { GeometryService } from './geometry.service';
     ImportBatchRepository,
     ParcelsService,
     GeometryService,
+    ParcelAuditRepository,
   ],
 })
 export class CtmModule {}
