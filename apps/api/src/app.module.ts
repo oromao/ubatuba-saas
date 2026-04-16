@@ -42,6 +42,7 @@ import { PublicWorksModule } from './modules/public-works/public-works.module';
 import { CemeteryModule } from './modules/cemetery/cemetery.module';
 import { ObservatoryModule } from './modules/observatory/observatory.module';
 import { IntegrationHubModule } from './modules/integration-hub/integration-hub.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -84,6 +85,7 @@ import { IntegrationHubModule } from './modules/integration-hub/integration-hub.
     MonitoringModule,
     EnvironmentModule,
     Citizen156Module,
+    ReportsModule,
     PublicWorksModule,
     CemeteryModule,
     ObservatoryModule,

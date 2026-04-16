@@ -71,6 +71,7 @@ export const navGroups: NavGroup[] = [
         icon: LineChart,
         keywords: ["mercado", "pgv", "arrecadacao", "bi"],
       }),
+      withDefaultRoles({ label: "Relatórios", href: "/app/relatorios", icon: FileSpreadsheet, keywords: ["relatorio", "exportar", "csv"] }),
     ],
   },
   {
@@ -106,6 +107,7 @@ export const navGroups: NavGroup[] = [
         keywords: ["score", "aderencia", "evidencia", "conformidade"],
         roles: ROLE_GROUPS.adminOnly,
       },
+      withDefaultRoles({ label: "Auditoria", href: "/app/auditoria", icon: ClipboardCheck, keywords: ["auditoria", "historico", "log"] }),
     ],
   },
 ];
