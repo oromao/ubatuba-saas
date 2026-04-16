@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { DataTable } from "@/components/app/data-table";
 import { apiFetch, API_URL } from "@/lib/api";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false });
 
@@ -68,15 +69,34 @@ export default function CtmParcelsPage() {
   const router = useRouter();
   const [sourceTypeFilter, setSourceTypeFilter] = useState<string>("");
   const [showOnlyOfficial, setShowOnlyOfficial] = useState<boolean>(false);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>("");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => setSearchText(searchInput), 300);
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+  }, [searchInput]);
 
   const queryParams = new URLSearchParams();
   if (sourceTypeFilter) queryParams.set("sourceType", sourceTypeFilter);
   if (showOnlyOfficial) queryParams.set("isOfficial", "true");
+  if (searchText) queryParams.set("q", searchText);
 
   const { data, isLoading, refetch } = useQuery<Parcel[]>({
-    queryKey: ["ctm-parcels", sourceTypeFilter, showOnlyOfficial],
+    queryKey: ["ctm-parcels", sourceTypeFilter, showOnlyOfficial, searchText],
     queryFn: () => apiFetch<Parcel[]>(`/ctm/parcels?${queryParams.toString()}`),
   });
+
+  useEffect(() => {
+    if (searchText.startsWith("SQLU-") && data?.length === 1) {
+      const timer = setTimeout(() => {
+        router.push(`/app/ctm/parcelas/${data[0]._id}`);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [searchText, data, router]);
 
   const { data: statsData, isLoading: loadingStats } = useQuery<Statistics>({
     queryKey: ["ctm-parcels-statistics"],
@@ -184,7 +204,30 @@ export default function CtmParcelsPage() {
         </Card>
       </div>
 
-      <div className="mt-4 flex gap-2 flex-wrap">
+      <div className="mt-4 relative">
+        <Input
+          placeholder="Buscar por SQLU, inscrição ou endereço..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="pr-10"
+        />
+        {searchInput && (
+          <button
+            onClick={() => { setSearchInput(""); setSearchText(""); }}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-muted hover:text-on-surface"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {searchText && (
+        <p className="mt-1 text-xs text-on-surface-muted">
+          {(data?.length ?? 0)} lote(s) encontrado(s)
+        </p>
+      )}
+
+      <div className="mt-3 flex gap-2 flex-wrap">
         <Button
           variant={sourceTypeFilter === "" ? "primary" : "outline"}
           size="sm"
@@ -283,7 +326,10 @@ export default function CtmParcelsPage() {
             <DataTable
               data={data ?? []}
               loading={isLoading}
-              onRowClick={(row: any) => router.push(`/app/ctm/parcelas/${row._id}`)}
+              onRowClick={(row: any) => {
+                setSelectedParcel(row);
+                router.push(`/app/ctm/parcelas/${row._id}`);
+              }}
               columns={[
                 { key: "sqlu", label: "SQLU" },
                 {
@@ -319,7 +365,7 @@ export default function CtmParcelsPage() {
                   render: (_, row) => <Badge variant={row.statusCadastral === "ATIVO" || row.status === "ATIVO" ? "success" : "outline"}>{row.statusCadastral ?? row.status ?? "INATIVO"}</Badge>,
                 },
               ]}
-              emptyMessage="Nenhuma parcela encontrada no cadastro."
+              emptyMessage={searchText ? `Nenhum lote encontrado para '${searchText}'. Tente outro SQLU, inscrição ou endereço.` : "Nenhuma parcela encontrada no cadastro."}
             />
           </CardContent>
         </Card>
