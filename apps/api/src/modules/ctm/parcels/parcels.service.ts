@@ -668,9 +668,10 @@ export class ParcelsService {
         // Validação de coordenadas (WGS84 / EPSG:4326)
         const firstPolygon = geo.type === 'Polygon' ? geo.coordinates : (geo.coordinates[0] as number[][][]);
         const firstCoord = firstPolygon?.[0]?.[0];
-        if (firstCoord) {
-          const [lng, lat] = firstCoord;
-          if (Math.abs(lng) > 180 || Math.abs(lat) > 90) {
+        if (firstCoord && Array.isArray(firstCoord) && firstCoord.length >= 2) {
+          const lng = firstCoord[0];
+          const lat = firstCoord[1];
+          if (typeof lng === 'number' && typeof lat === 'number' && (Math.abs(lng) > 180 || Math.abs(lat) > 90)) {
             throw new Error(`Coordenadas inválidas para WGS84 (Lng: ${lng}, Lat: ${lat}). O GeoJSON deve estar em EPSG:4326. Dados do GeoSampa/SIRGAS 2000 UTM devem ser convertidos antes da importação.`);
           }
         }
