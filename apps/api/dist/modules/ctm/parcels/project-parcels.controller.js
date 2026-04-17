@@ -84,8 +84,12 @@ let ProjectParcelsController = class ProjectParcelsController {
     upsertInfrastructure(req, projectId, id, dto) {
         return this.parcelInfrastructureService.upsert(req.tenantId, projectId, id, dto, req.user?.sub);
     }
-    importGeojson(req, projectId, featureCollection) {
-        return this.parcelsService.importGeojson(req.tenantId, projectId, featureCollection, req.user?.sub);
+    importGeojson(req, projectId, body) {
+        const featureCollection = body.data ??
+            (body.type === 'FeatureCollection'
+                ? { type: 'FeatureCollection', features: body.features ?? [] }
+                : { type: 'FeatureCollection', features: [] });
+        return this.parcelsService.importGeojson(req.tenantId, projectId, featureCollection, body.sourceType || 'GEOJSON', body.fileName, body.upsert || false, req.user?.sub);
     }
 };
 exports.ProjectParcelsController = ProjectParcelsController;

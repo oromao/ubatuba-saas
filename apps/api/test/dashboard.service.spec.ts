@@ -10,6 +10,7 @@ describe('DashboardService', () => {
   const environmentService: any = { list: jest.fn().mockResolvedValue([{ status: 'ABERTO' }]) };
   const publicWorksService: any = { list: jest.fn().mockResolvedValue([{ status: 'EM_EXECUCAO' }]) };
   const cemeteryService: any = { list: jest.fn().mockResolvedValue([{ status: 'LIVRE' }, { status: 'OCUPADO' }]) };
+  const parcelsService: any = { getStatistics: jest.fn().mockResolvedValue({ total: 100, official: 5, demo: 0, withSqlu: 80, taxaAdimplencia: 90, totalValorVenal: 1000000, totalIptuLancado: 10000, totalIptuPago: 9000, totalIptuEmAberto: 1000, byStatus: { 'PAGO': 90, 'ABERTO': 10 } }) };
   const cacheService: any = { get: jest.fn().mockResolvedValue(null), set: jest.fn() };
   const layoutModel: any = {
     findOne: jest.fn().mockReturnValue({ lean: jest.fn().mockResolvedValue(null) }),
@@ -25,6 +26,7 @@ describe('DashboardService', () => {
     environmentService,
     publicWorksService,
     cemeteryService,
+    parcelsService,
     cacheService,
     layoutModel,
   );

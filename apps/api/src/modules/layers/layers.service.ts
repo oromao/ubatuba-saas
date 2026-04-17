@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CacheService } from '../shared/cache.service';
-import { Layer, LayerDocument, LayerGeometryType } from './layer.schema';
+import { Layer, LayerDocument, LayerGeometryType, LayerSource } from './layer.schema';
 import { LayersRepository } from './layers.repository';
 import { UpdateLayerDto } from './dto/update-layer.dto';
 import { ImportLayerDto, BulkImportLayersDto } from './dto/import-layer.dto';
@@ -83,12 +83,13 @@ export class LayersService {
   }
 
   async importLayer(tenantId: string, dto: ImportLayerDto) {
+    const source: LayerSource = 'external';
     const layer = await this.layersRepository.create({
       tenantId: asObjectId(tenantId),
       name: dto.name,
       group: dto.group,
       type: 'vector',
-      source: dto.sourceType === 'geojson_url' ? 'external' : 'external',
+      source,
       tileUrl: dto.sourceUrl,
       dataUrl: dto.sourceUrl,
       geometryType: dto.geometryType as LayerGeometryType || 'polygon',

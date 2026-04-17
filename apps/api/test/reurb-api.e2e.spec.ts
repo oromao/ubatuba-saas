@@ -8,6 +8,7 @@ import { RolesGuard } from '../src/common/guards/roles.guard';
 
 describe('ReurbController (api e2e)', () => {
   let app: INestApplication;
+  const lgpdPurposeHeader = { 'x-lgpd-purpose': 'auditoria-reurb' };
 
   const reurbServiceMock = {
     getTenantConfig: jest.fn().mockResolvedValue({ reurbEnabled: true }),
@@ -78,6 +79,7 @@ describe('ReurbController (api e2e)', () => {
 
     const blocked = await request(app.getHttpServer())
       .post('/reurb/planilha-sintese/generate')
+      .set(lgpdPurposeHeader)
       .send({})
       .expect(422);
 
@@ -90,6 +92,7 @@ describe('ReurbController (api e2e)', () => {
 
     const generated = await request(app.getHttpServer())
       .post('/reurb/planilha-sintese/generate')
+      .set(lgpdPurposeHeader)
       .send({})
       .expect(201);
 

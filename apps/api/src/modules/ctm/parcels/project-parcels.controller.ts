@@ -182,8 +182,20 @@ export class ProjectParcelsController {
   importGeojson(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Param('projectId') projectId: string,
-    @Body() featureCollection: { type: 'FeatureCollection'; features: unknown[] },
+    @Body() body: {
+      data?: { type: 'FeatureCollection'; features: unknown[] };
+      sourceType?: string;
+      fileName?: string;
+      upsert?: boolean;
+      type?: string;
+      features?: unknown[];
+    },
   ) {
+    const featureCollection = body.data ??
+      (body.type === 'FeatureCollection'
+        ? { type: 'FeatureCollection' as const, features: body.features ?? [] }
+        : { type: 'FeatureCollection' as const, features: [] });
+
     return this.parcelsService.importGeojson(
       req.tenantId,
       projectId,
@@ -191,6 +203,9 @@ export class ProjectParcelsController {
         type: 'FeatureCollection';
         features: Array<{ type: 'Feature'; id: string; geometry: unknown; properties: Record<string, unknown> }>;
       },
+      body.sourceType || 'GEOJSON',
+      body.fileName,
+      body.upsert || false,
       req.user?.sub,
     );
   }

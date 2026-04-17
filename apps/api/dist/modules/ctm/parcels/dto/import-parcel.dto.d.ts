@@ -7,30 +7,24 @@ export declare class EnderecoDto {
     cidade?: string;
     uf?: string;
 }
-export declare class ImportGeojsonDto {
-    sourceType: 'GEOJSON' | 'SHAPEFILE' | 'OFFICIAL_IMPORT';
-    fileName?: string;
-    upsert?: boolean;
-    data: FeatureCollectionDto;
-}
 export declare class FeatureCollectionDto {
     type: 'FeatureCollection';
     features: FeatureDto[];
+}
+export declare class GeometryDto {
+    type?: 'Polygon' | 'MultiPolygon';
+    coordinates?: unknown;
 }
 export declare class FeatureDto {
     id?: string;
     geometry?: GeometryDto;
     properties?: Record<string, unknown>;
 }
-export declare class GeometryDto {
-    type?: 'Polygon' | 'MultiPolygon';
-    coordinates?: unknown;
-}
-export declare class ImportEnrichmentCsvDto {
-    sourceType: 'CSV_ENRICHMENT' | 'IPTU_IMPORT';
+export declare class ImportGeojsonDto {
+    sourceType: 'GEOJSON' | 'SHAPEFILE' | 'OFFICIAL_IMPORT';
     fileName?: string;
-    csv: string;
-    columnMapping?: ColumnMappingDto;
+    upsert?: boolean;
+    data: FeatureCollectionDto;
 }
 export declare class ColumnMappingDto {
     sqlu?: string;
@@ -48,4 +42,10 @@ export declare class ColumnMappingDto {
     iptuEmAberto?: string;
     statusIPTU?: string;
     exercicioIPTU?: string;
+}
+export declare class ImportEnrichmentCsvDto {
+    sourceType: 'CSV_ENRICHMENT' | 'IPTU_IMPORT';
+    fileName?: string;
+    csv: string;
+    columnMapping?: ColumnMappingDto;
 }

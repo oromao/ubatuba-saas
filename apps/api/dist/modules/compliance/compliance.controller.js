@@ -26,6 +26,12 @@ let ComplianceController = class ComplianceController {
     getProfile(req, projectId) {
         return this.service.getProfile(req.tenantId, projectId);
     }
+    getAuditLogs(req, projectId) {
+        return this.service.getAuditLogs(req.tenantId, projectId);
+    }
+    getChecklist(req, projectId) {
+        return this.service.getChecklist(req.tenantId, projectId);
+    }
     upsertCompany(req, projectId, dto) {
         return this.service.upsertCompany(req.tenantId, projectId, dto, req.user?.sub);
     }
@@ -72,6 +78,7 @@ let ComplianceController = class ComplianceController {
 exports.ComplianceController = ComplianceController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Obter perfil completo de conformidade' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __metadata("design:type", Function),
@@ -79,9 +86,28 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ComplianceController.prototype, "getProfile", null);
 __decorate([
+    (0, common_1.Get)('audit'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obter logs de auditoria de conformidade' }),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], ComplianceController.prototype, "getAuditLogs", null);
+__decorate([
+    (0, common_1.Get)('checklist'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obter checklist de conformidade' }),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], ComplianceController.prototype, "getChecklist", null);
+__decorate([
     (0, common_1.Put)('company'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar dados da empresa responsável' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
@@ -93,6 +119,7 @@ __decorate([
     (0, common_1.Post)('responsibles'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Adicionar responsável técnico' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
@@ -104,6 +131,7 @@ __decorate([
     (0, common_1.Patch)('responsibles/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar responsável técnico' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -116,6 +144,7 @@ __decorate([
     (0, common_1.Delete)('responsibles/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Remover responsável técnico' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -127,6 +156,7 @@ __decorate([
     (0, common_1.Post)('art-rrt'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Adicionar ART/RRT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
@@ -138,6 +168,7 @@ __decorate([
     (0, common_1.Patch)('art-rrt/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar ART/RRT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -150,6 +181,7 @@ __decorate([
     (0, common_1.Delete)('art-rrt/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Remover ART/RRT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -161,6 +193,7 @@ __decorate([
     (0, common_1.Post)('cats'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Adicionar CAT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
@@ -172,6 +205,7 @@ __decorate([
     (0, common_1.Patch)('cats/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar CAT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -184,6 +218,7 @@ __decorate([
     (0, common_1.Delete)('cats/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Remover CAT' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -195,6 +230,7 @@ __decorate([
     (0, common_1.Post)('team'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Adicionar membro à equipe' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
@@ -206,6 +242,7 @@ __decorate([
     (0, common_1.Patch)('team/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar membro da equipe' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -218,6 +255,7 @@ __decorate([
     (0, common_1.Delete)('team/:id'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Remover membro da equipe' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Param)('id')),
@@ -229,6 +267,7 @@ __decorate([
     (0, common_1.Put)('checklist'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar item de checklist de conformidade' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),

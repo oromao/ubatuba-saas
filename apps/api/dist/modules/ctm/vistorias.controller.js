@@ -15,12 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VistoriasController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const swagger_1 = require("@nestjs/swagger");
 const multer_1 = require("multer");
 const vistorias_service_1 = require("./vistorias.service");
 const create_vistoria_dto_1 = require("./dto/create-vistoria.dto");
 const update_vistoria_dto_1 = require("./dto/update-vistoria.dto");
 const transicao_vistoria_dto_1 = require("./dto/transicao-vistoria.dto");
 const upload_service_1 = require("../uploads/upload.service");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
+const roles_guard_1 = require("../../common/guards/roles.guard");
+const roles_decorator_1 = require("../../common/guards/roles.decorator");
 let VistoriasController = class VistoriasController {
     constructor(service, uploadService) {
         this.service = service;
@@ -42,7 +46,7 @@ let VistoriasController = class VistoriasController {
         return this.service.transicao(id, dto.status, dto.observacao ?? '', req.user?.sub ?? '', req.tenantId ?? '');
     }
     async addFotos(id, files, req) {
-        const urls = await this.uploadService.saveFiles(files ?? []);
+        const urls = await this.uploadService.saveFiles(files ?? [], req.tenantId ?? '');
         return this.service.addFotos(id, urls, req.tenantId ?? '');
     }
     remove(id, req) {
@@ -52,6 +56,8 @@ let VistoriasController = class VistoriasController {
 exports.VistoriasController = VistoriasController;
 __decorate([
     (0, common_1.Post)(),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Criar nova vistoria para uma parcela' }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -60,6 +66,8 @@ __decorate([
 ], VistoriasController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR', 'LEITOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar vistorias filtradas por parcela' }),
     __param(0, (0, common_1.Query)('parcelId')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -68,6 +76,8 @@ __decorate([
 ], VistoriasController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR', 'LEITOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obter detalhes de uma vistoria' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -76,6 +86,8 @@ __decorate([
 ], VistoriasController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Atualizar dados de uma vistoria' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
@@ -85,6 +97,8 @@ __decorate([
 ], VistoriasController.prototype, "update", null);
 __decorate([
     (0, common_1.Post)(':id/transicao'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Mudar status da vistoria (Workflow)' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
@@ -94,6 +108,8 @@ __decorate([
 ], VistoriasController.prototype, "transicao", null);
 __decorate([
     (0, common_1.Post)(':id/fotos'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Upload de fotos para uma vistoria' }),
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files', 10, { storage: (0, multer_1.memoryStorage)() })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.UploadedFiles)()),
@@ -104,6 +120,8 @@ __decorate([
 ], VistoriasController.prototype, "addFotos", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'Remover vistoria' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -111,6 +129,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], VistoriasController.prototype, "remove", null);
 exports.VistoriasController = VistoriasController = __decorate([
+    (0, swagger_1.ApiTags)('ctm-vistorias'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('ctm/vistorias'),
     __metadata("design:paramtypes", [vistorias_service_1.VistoriasService,
         upload_service_1.UploadService])

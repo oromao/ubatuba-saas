@@ -132,5 +132,6 @@ export declare class ParcelsService {
             message: string;
         }>;
     }>;
+    generatePdf(tenantId: string, parcelId: string): Promise<Buffer>;
 }
 export {};

@@ -26,4 +26,23 @@ export declare class ComplianceService {
     updateTeamMember(tenantId: string, projectId: string | undefined, itemId: string, dto: UpsertTeamMemberDto, actorId?: string): Promise<import("./compliance.schema").ComplianceProfileDocument>;
     deleteTeamMember(tenantId: string, projectId: string | undefined, itemId: string, actorId?: string): Promise<import("./compliance.schema").ComplianceProfileDocument>;
     upsertChecklistItem(tenantId: string, projectId: string | undefined, dto: UpsertChecklistItemDto, actorId?: string): Promise<import("./compliance.schema").ComplianceProfileDocument>;
+    getAuditLogs(tenantId: string, projectId?: string): Promise<{
+        id: string;
+        actorId?: string;
+        action: string;
+        section: string;
+        referenceId?: string;
+        timestamp: string;
+        details?: Record<string, unknown>;
+    }[]>;
+    getChecklist(tenantId: string, projectId?: string): Promise<{
+        id: string;
+        requirementCode: string;
+        title: string;
+        status: import("./compliance.schema").ComplianceChecklistStatus;
+        notes?: string;
+        evidenceKeys?: string[];
+        updatedAt: string;
+        updatedBy?: string;
+    }[]>;
 }

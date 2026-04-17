@@ -5,6 +5,7 @@ import { RolesGuard } from '../../../common/guards/roles.guard';
 import { ParcelsService } from './parcels.service';
 import { CreateParcelDto } from './dto/create-parcel.dto';
 import { UpdateParcelDto } from './dto/update-parcel.dto';
+import { ImportGeojsonDto, ImportEnrichmentCsvDto } from './dto/import-parcel.dto';
 import { UpsertParcelBuildingDto } from '../parcel-buildings/dto/upsert-parcel-building.dto';
 import { UpsertParcelSocioeconomicDto } from '../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto';
 import { UpsertParcelInfrastructureDto } from '../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto';
@@ -239,11 +240,7 @@ export class ParcelsController {
   importGeojson(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
-    @Body() body: {
-      sourceType?: string;
-      fileName?: string;
-      upsert?: boolean;
-      data: { type: 'FeatureCollection'; features: unknown[] };
+    @Body() body: ImportGeojsonDto & {
       municipalityName?: string;
       municipalityCode?: string;
     },
@@ -270,12 +267,7 @@ export class ParcelsController {
   importEnrichment(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
-    @Body() body: {
-      sourceType?: string;
-      fileName?: string;
-      csv: string;
-      columnMapping?: Record<string, string>;
-    },
+    @Body() body: ImportEnrichmentCsvDto,
   ) {
     return this.parcelsService.importFromCsvEnrichment(
       req.tenantId,
@@ -283,7 +275,7 @@ export class ParcelsController {
       body.csv,
       body.sourceType || 'CSV_ENRICHMENT',
       body.fileName,
-      body.columnMapping,
+      body.columnMapping ? (body.columnMapping as Record<string, string>) : undefined,
       req.user?.sub,
     );
   }

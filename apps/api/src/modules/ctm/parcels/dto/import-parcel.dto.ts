@@ -31,23 +31,6 @@ export class EnderecoDto {
   uf?: string;
 }
 
-export class ImportGeojsonDto {
-  @IsString()
-  sourceType!: 'GEOJSON' | 'SHAPEFILE' | 'OFFICIAL_IMPORT';
-
-  @IsOptional()
-  @IsString()
-  fileName?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  upsert?: boolean;
-
-  @ValidateNested()
-  @Type(() => FeatureCollectionDto)
-  data!: FeatureCollectionDto;
-}
-
 export class FeatureCollectionDto {
   @IsString()
   type!: 'FeatureCollection';
@@ -55,6 +38,16 @@ export class FeatureCollectionDto {
   @ValidateNested({ each: true })
   @Type(() => FeatureDto)
   features!: FeatureDto[];
+}
+
+export class GeometryDto {
+  @IsOptional()
+  @IsString()
+  type?: 'Polygon' | 'MultiPolygon';
+
+  @IsOptional()
+  @IsArray()
+  coordinates?: unknown;
 }
 
 export class FeatureDto {
@@ -72,31 +65,21 @@ export class FeatureDto {
   properties?: Record<string, unknown>;
 }
 
-export class GeometryDto {
-  @IsOptional()
+export class ImportGeojsonDto {
   @IsString()
-  type?: 'Polygon' | 'MultiPolygon';
-
-  @IsOptional()
-  @IsArray()
-  coordinates?: unknown;
-}
-
-export class ImportEnrichmentCsvDto {
-  @IsString()
-  sourceType!: 'CSV_ENRICHMENT' | 'IPTU_IMPORT';
+  sourceType!: 'GEOJSON' | 'SHAPEFILE' | 'OFFICIAL_IMPORT';
 
   @IsOptional()
   @IsString()
   fileName?: string;
 
-  @IsString()
-  csv!: string;
-
   @IsOptional()
+  @IsBoolean()
+  upsert?: boolean;
+
   @ValidateNested()
-  @Type(() => ColumnMappingDto)
-  columnMapping?: ColumnMappingDto;
+  @Type(() => FeatureCollectionDto)
+  data!: FeatureCollectionDto;
 }
 
 export class ColumnMappingDto {
@@ -159,4 +142,21 @@ export class ColumnMappingDto {
   @IsOptional()
   @IsString()
   exercicioIPTU?: string;
+}
+
+export class ImportEnrichmentCsvDto {
+  @IsString()
+  sourceType!: 'CSV_ENRICHMENT' | 'IPTU_IMPORT';
+
+  @IsOptional()
+  @IsString()
+  fileName?: string;
+
+  @IsString()
+  csv!: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ColumnMappingDto)
+  columnMapping?: ColumnMappingDto;
 }

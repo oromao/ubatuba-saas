@@ -23,6 +23,7 @@ const public_works_module_1 = require("../public-works/public-works.module");
 const cemetery_module_1 = require("../cemetery/cemetery.module");
 const cache_service_1 = require("../shared/cache.service");
 const redis_service_1 = require("../shared/redis.service");
+const ctm_module_1 = require("../ctm/ctm.module");
 let DashboardModule = class DashboardModule {
 };
 exports.DashboardModule = DashboardModule;
@@ -39,6 +40,7 @@ exports.DashboardModule = DashboardModule = __decorate([
             environment_module_1.EnvironmentModule,
             public_works_module_1.PublicWorksModule,
             cemetery_module_1.CemeteryModule,
+            ctm_module_1.CtmModule,
         ],
         controllers: [dashboard_controller_1.DashboardController],
         providers: [dashboard_service_1.DashboardService, cache_service_1.CacheService, redis_service_1.RedisService],

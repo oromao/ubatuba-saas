@@ -20,13 +20,12 @@ let ExportsService = ExportsService_1 = class ExportsService {
         const zip = new JSZip();
         const csvContent = "NOME,CPF,QUADRA,LOTE,RENDA\nJoão da Silva,111.222.333-44,A,01,1500.00\nMaria Souza,222.333.444-55,A,02,0.00";
         zip.file("Lista_Ocupantes_Selada.csv", csvContent);
-        const mockGeoJSON = JSON.stringify({
-            type: "FeatureCollection",
-            features: [
-                { type: "Feature", properties: { lote: "01", quadra: "A" }, geometry: { type: "Polygon", coordinates: [[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]] } }
-            ]
-        }, null, 2);
-        zip.file("Planta_Georreferenciada_SIRGAS2000.geojson", mockGeoJSON);
+        zip.file("Planta_Georreferenciada_NAO_IMPLEMENTADA.txt", [
+            'PLANTA GEORREFERENCIADA NAO IMPLEMENTADA',
+            `nucleo_id=${nucleoId}`,
+            `tenant=${metadata.reqTenant}`,
+            'Este pacote nao contem geometria real. A origem geoespacial precisa ser integrada antes do uso operacional.',
+        ].join('\n'));
         const pdfBuffer = await this.generateCertificatePdf(nucleoId, metadata);
         zip.file("CRF_Emissao_Automatica_Assinada.pdf", pdfBuffer);
         this.logger.log(`[ZIP BUILD] Concluído para Núcleo ${nucleoId}. Redirecionando payload para S3/MinIO ou Client.`);

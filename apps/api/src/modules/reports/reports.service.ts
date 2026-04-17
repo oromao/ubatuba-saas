@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Parcel, ParcelDocument } from '../ctm/parcels/parcel.schema';
+import { Vistoria, VistoriaDocument } from '../ctm/vistoria.schema';
 
 @Injectable()
 export class ReportsService {
   constructor(
-    @InjectModel('Parcel') private parcelModel: Model<any>,
-    @InjectModel('Vistoria') private vistoriaModel: Model<any>,
+    @InjectModel(Parcel.name) private parcelModel: Model<ParcelDocument>,
+    @InjectModel(Vistoria.name) private vistoriaModel: Model<VistoriaDocument>,
   ) {}
 
   async fiscalizacaoReport(

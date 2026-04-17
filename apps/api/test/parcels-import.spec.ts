@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { BadRequestException } from '@nestjs/common';
 import { ParcelsService } from '../src/modules/ctm/parcels/parcels.service';
 import { ParcelsRepository } from '../src/modules/ctm/parcels/parcels.repository';
 import { ImportBatchRepository } from '../src/modules/ctm/parcels/import-batch.repository';
@@ -25,15 +26,16 @@ describe('ParcelsService Import Tests', () => {
   };
 
   const mockImportBatchRepository = {
-    create: jest.fn().mockResolvedValue({ id: 'batch-123', status: 'PROCESSING' }),
-    update: jest.fn().mockResolvedValue({ id: 'batch-123', status: 'COMPLETED' }),
+    create: jest.fn().mockResolvedValue({ id: '66f1f77a67e30f9f62000004', status: 'PROCESSING' }),
+    update: jest.fn().mockResolvedValue({ id: '66f1f77a67e30f9f62000004', status: 'COMPLETED' }),
   };
 
   const mockProjectsService = {
-    resolveProjectId: jest.fn().mockResolvedValue('project-123'),
+    resolveProjectId: jest.fn().mockResolvedValue('66f1f77a67e30f9f62000002'),
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ParcelsService,
@@ -88,13 +90,13 @@ describe('ParcelsService Import Tests', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'GEOJSON',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.inserted).toBe(1);
@@ -119,13 +121,13 @@ describe('ParcelsService Import Tests', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'GEOJSON',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.inserted).toBe(0);
@@ -157,13 +159,13 @@ describe('ParcelsService Import Tests', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'GEOJSON',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.inserted).toBe(0);
@@ -199,13 +201,13 @@ describe('ParcelsService Import Tests', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'GEOJSON',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.inserted).toBe(1);
@@ -239,17 +241,31 @@ describe('ParcelsService Import Tests', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'GEOJSON',
         'test.geojson',
         true,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.inserted).toBe(1);
       expect(mockRepository.update).toHaveBeenCalled();
+    });
+
+    it('should reject malformed GeoJSON payloads before import processing', async () => {
+      await expect(
+        service.importGeojson(
+          '66f1f77a67e30f9f62000001',
+          '66f1f77a67e30f9f62000002',
+          { type: 'FeatureCollection', features: [{ type: 'Feature', properties: null }] } as any,
+          'GEOJSON',
+          'test.geojson',
+          false,
+          '66f1f77a67e30f9f62000003',
+        ),
+      ).rejects.toBeInstanceOf(BadRequestException);
     });
   });
 
@@ -266,13 +282,13 @@ describe('ParcelsService Import Tests', () => {
 001-001-001-001,354400010001,300,150000,500,450,QUITADO`;
 
       const result = await service.importFromCsvEnrichment(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         csv,
         'CSV_ENRICHMENT',
         'test.csv',
         undefined,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.updated).toBe(1);
@@ -286,13 +302,13 @@ describe('ParcelsService Import Tests', () => {
 999-999-999-999,999999999999,300`;
 
       const result = await service.importFromCsvEnrichment(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         csv,
         'CSV_ENRICHMENT',
         'test.csv',
         undefined,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.updated).toBe(0);
@@ -304,16 +320,89 @@ describe('ParcelsService Import Tests', () => {
 300`;
 
       const result = await service.importFromCsvEnrichment(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         csv,
         'CSV_ENRICHMENT',
         'test.csv',
         undefined,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
       );
 
       expect(result.errors).toBe(1);
+    });
+  });
+
+  describe('payload contract – wrapped envelope vs raw FeatureCollection', () => {
+    const validFeature = {
+      type: 'Feature' as const,
+      id: 'contract-1',
+      geometry: {
+        type: 'Polygon' as const,
+        coordinates: [[
+          [-45.0, -23.0],
+          [-45.0, -23.01],
+          [-45.01, -23.01],
+          [-45.01, -23.0],
+          [-45.0, -23.0],
+        ]],
+      },
+      properties: { sqlu: 'CONTRACT-001', inscricaoImobiliaria: '354400010001' },
+    };
+
+    it('accepts featureCollection extracted from wrapped envelope { data: FC, sourceType, fileName, upsert }', async () => {
+      const wrappedBody = {
+        data: { type: 'FeatureCollection' as const, features: [validFeature] },
+        sourceType: 'OFFICIAL_IMPORT',
+        fileName: 'contract-test.geojson',
+        upsert: false,
+      };
+
+      const result = await service.importGeojson(
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
+        wrappedBody.data as any,
+        wrappedBody.sourceType,
+        wrappedBody.fileName,
+        wrappedBody.upsert,
+        '66f1f77a67e30f9f62000003',
+      );
+
+      expect(result.inserted).toBe(1);
+      expect(result.errors).toBe(0);
+      expect(mockImportBatchRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({ sourceType: 'OFFICIAL_IMPORT', fileName: 'contract-test.geojson' }),
+      );
+    });
+
+    it('accepts raw FeatureCollection directly (fallback path used by project-scoped controller)', async () => {
+      const rawFc = { type: 'FeatureCollection' as const, features: [validFeature] };
+
+      const result = await service.importGeojson(
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
+        rawFc as any,
+        'GEOJSON',
+        undefined,
+        false,
+        '66f1f77a67e30f9f62000003',
+      );
+
+      expect(result.inserted).toBe(1);
+      expect(result.errors).toBe(0);
+    });
+
+    it('rejects when body.data is missing and type is not FeatureCollection (simulates malformed request)', async () => {
+      const emptyFc = { type: 'FeatureCollection' as const, features: [] };
+
+      const result = await service.importGeojson(
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
+        emptyFc as any,
+      );
+
+      expect(result.inserted).toBe(0);
+      expect(result.batchId).toBeNull();
     });
   });
 
@@ -325,7 +414,7 @@ describe('ParcelsService Import Tests', () => {
         { sqlu: '003', isOfficial: false, sourceType: 'DEMO', statusIPTU: undefined, valorVenalTotal: 0, iptuLancado: 0, iptuPago: 0, iptuEmAberto: 0 },
       ]);
 
-      const result = await service.getStatistics('tenant-123', 'project-123');
+      const result = await service.getStatistics('66f1f77a67e30f9f62000001', '66f1f77a67e30f9f62000002');
 
       expect(result.total).toBe(3);
       expect(result.official).toBe(2);

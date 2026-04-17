@@ -59,6 +59,7 @@ export declare class Parcel {
         maxY: number;
     };
     geometry: PolygonGeometry;
+    rawProperties?: Record<string, any>;
     createdBy?: Types.ObjectId;
     updatedBy?: Types.ObjectId;
     statusCadastral?: 'ATIVO' | 'INATIVO' | 'CONFLITO';

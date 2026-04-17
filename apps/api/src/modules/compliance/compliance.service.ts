@@ -358,4 +358,14 @@ export class ComplianceService {
     });
     return this.repository.save(profile);
   }
+
+  async getAuditLogs(tenantId: string, projectId?: string) {
+    const profile = await this.resolve(tenantId, projectId);
+    return profile.auditLog || [];
+  }
+
+  async getChecklist(tenantId: string, projectId?: string) {
+    const profile = await this.resolve(tenantId, projectId);
+    return profile.checklist || [];
+  }
 }

@@ -87,7 +87,7 @@ export default function CertidoesPage() {
               <div className="rounded-lg border border-outline bg-cloud/40 p-3 text-sm text-on-surface-muted">
                 <p className="font-medium text-on-surface">Código validador: {issueMutation.data.validationCode}</p>
                 <p className="mt-1 break-all">
-                  Validação pública: {`${API_URL}/certificates/validate/${issueMutation.data.validationCode}?tenantId=${localStorage.getItem("tenantId") ?? ""}`}
+                  Validação pública: {`${API_URL}/certificates/validate/${issueMutation.data.validationCode}?tenantId=${sessionStorage.getItem("tenantId") ?? ""}`}
                 </p>
                 <p className="mt-1 break-all">Arquivo PDF: {issueMutation.data.pdfKey}</p>
               </div>

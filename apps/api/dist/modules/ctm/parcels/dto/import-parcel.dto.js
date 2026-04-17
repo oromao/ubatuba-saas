@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ColumnMappingDto = exports.ImportEnrichmentCsvDto = exports.GeometryDto = exports.FeatureDto = exports.FeatureCollectionDto = exports.ImportGeojsonDto = exports.EnderecoDto = void 0;
+exports.ImportEnrichmentCsvDto = exports.ColumnMappingDto = exports.ImportGeojsonDto = exports.FeatureDto = exports.GeometryDto = exports.FeatureCollectionDto = exports.EnderecoDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
 class EnderecoDto {
@@ -50,6 +50,50 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], EnderecoDto.prototype, "uf", void 0);
+class FeatureCollectionDto {
+}
+exports.FeatureCollectionDto = FeatureCollectionDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], FeatureCollectionDto.prototype, "type", void 0);
+__decorate([
+    (0, class_validator_1.ValidateNested)({ each: true }),
+    (0, class_transformer_1.Type)(() => FeatureDto),
+    __metadata("design:type", Array)
+], FeatureCollectionDto.prototype, "features", void 0);
+class GeometryDto {
+}
+exports.GeometryDto = GeometryDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GeometryDto.prototype, "type", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Object)
+], GeometryDto.prototype, "coordinates", void 0);
+class FeatureDto {
+}
+exports.FeatureDto = FeatureDto;
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], FeatureDto.prototype, "id", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => GeometryDto),
+    __metadata("design:type", GeometryDto)
+], FeatureDto.prototype, "geometry", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Object)
+], FeatureDto.prototype, "properties", void 0);
 class ImportGeojsonDto {
 }
 exports.ImportGeojsonDto = ImportGeojsonDto;
@@ -72,72 +116,6 @@ __decorate([
     (0, class_transformer_1.Type)(() => FeatureCollectionDto),
     __metadata("design:type", FeatureCollectionDto)
 ], ImportGeojsonDto.prototype, "data", void 0);
-class FeatureCollectionDto {
-}
-exports.FeatureCollectionDto = FeatureCollectionDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], FeatureCollectionDto.prototype, "type", void 0);
-__decorate([
-    (0, class_validator_1.ValidateNested)({ each: true }),
-    (0, class_transformer_1.Type)(() => FeatureDto),
-    __metadata("design:type", Array)
-], FeatureCollectionDto.prototype, "features", void 0);
-class FeatureDto {
-}
-exports.FeatureDto = FeatureDto;
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], FeatureDto.prototype, "id", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => GeometryDto),
-    __metadata("design:type", GeometryDto)
-], FeatureDto.prototype, "geometry", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Object)
-], FeatureDto.prototype, "properties", void 0);
-class GeometryDto {
-}
-exports.GeometryDto = GeometryDto;
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], GeometryDto.prototype, "type", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Object)
-], GeometryDto.prototype, "coordinates", void 0);
-class ImportEnrichmentCsvDto {
-}
-exports.ImportEnrichmentCsvDto = ImportEnrichmentCsvDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], ImportEnrichmentCsvDto.prototype, "sourceType", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], ImportEnrichmentCsvDto.prototype, "fileName", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], ImportEnrichmentCsvDto.prototype, "csv", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => ColumnMappingDto),
-    __metadata("design:type", ColumnMappingDto)
-], ImportEnrichmentCsvDto.prototype, "columnMapping", void 0);
 class ColumnMappingDto {
 }
 exports.ColumnMappingDto = ColumnMappingDto;
@@ -216,4 +194,26 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], ColumnMappingDto.prototype, "exercicioIPTU", void 0);
+class ImportEnrichmentCsvDto {
+}
+exports.ImportEnrichmentCsvDto = ImportEnrichmentCsvDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ImportEnrichmentCsvDto.prototype, "sourceType", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ImportEnrichmentCsvDto.prototype, "fileName", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ImportEnrichmentCsvDto.prototype, "csv", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => ColumnMappingDto),
+    __metadata("design:type", ColumnMappingDto)
+], ImportEnrichmentCsvDto.prototype, "columnMapping", void 0);
 //# sourceMappingURL=import-parcel.dto.js.map

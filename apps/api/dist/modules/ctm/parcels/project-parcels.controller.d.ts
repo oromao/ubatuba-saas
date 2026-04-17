@@ -119,9 +119,16 @@ export declare class ProjectParcelsController {
         user?: {
             sub?: string;
         };
-    }, projectId: string, featureCollection: {
-        type: 'FeatureCollection';
-        features: unknown[];
+    }, projectId: string, body: {
+        data?: {
+            type: 'FeatureCollection';
+            features: unknown[];
+        };
+        sourceType?: string;
+        fileName?: string;
+        upsert?: boolean;
+        type?: string;
+        features?: unknown[];
     }): Promise<{
         batchId: any;
         inserted: number;

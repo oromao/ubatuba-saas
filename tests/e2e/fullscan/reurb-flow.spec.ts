@@ -29,9 +29,9 @@ const ensureSession = async (page: any, roleKey: string) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
   await page.evaluate(
     (tokens) => {
-      localStorage.setItem('accessToken', tokens.accessToken);
-      localStorage.setItem('refreshToken', tokens.refreshToken);
-      localStorage.setItem('tenantId', tokens.tenantId);
+      sessionStorage.setItem('accessToken', tokens.accessToken);
+      sessionStorage.setItem('refreshToken', tokens.refreshToken);
+      sessionStorage.setItem('tenantId', tokens.tenantId);
     },
     { accessToken, refreshToken, tenantId },
   );

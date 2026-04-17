@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -27,20 +27,26 @@ export default function MiniMap({
 }: MiniMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapConfig = useRef<maplibregl.Map | null>(null);
+  const [mapUnavailable, setMapUnavailable] = useState(false);
 
   useEffect(() => {
     if (!mapContainer.current || mapConfig.current) return;
 
-    mapConfig.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-      center,
-      zoom,
-      pitch,
-      bearing,
-      interactive,
-      attributionControl: false,
-    });
+    try {
+      mapConfig.current = new maplibregl.Map({
+        container: mapContainer.current,
+        style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+        center,
+        zoom,
+        pitch,
+        bearing,
+        interactive,
+        attributionControl: false,
+      });
+    } catch {
+      setMapUnavailable(true);
+      return;
+    }
 
     if (interactive) {
       mapConfig.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
@@ -97,6 +103,16 @@ export default function MiniMap({
       mapConfig.current = null;
     };
   }, [bearing, center, interactive, pitch, zoom, geojsonUrl, onFeatureClick]);
+
+  if (mapUnavailable) {
+    return (
+      <div className={className} role="status" aria-live="polite">
+        <div className="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 text-center text-xs text-slate-600">
+          Mapa indisponivel neste ambiente.
+        </div>
+      </div>
+    );
+  }
 
   return <div ref={mapContainer} className={className} />;
 }

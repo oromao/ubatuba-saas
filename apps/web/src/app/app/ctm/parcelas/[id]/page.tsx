@@ -77,6 +77,13 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "iptu", label: "IPTU" },
 ];
 
+const ACTION_LABELS: Record<string, string> = {
+  UPDATE: "Atualização de dados",
+  TRANSICAO: "Mudança de status",
+  CREATE: "Criação do registro",
+  IMPORT: "Importação de dados",
+};
+
 function formatBRL(value: number | null | undefined): string {
   if (value == null) return "-";
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -289,7 +296,7 @@ export default function ParcelDetailsPage() {
               size="sm"
               onClick={() => {
                 const token = typeof window !== 'undefined'
-                  ? (localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken'))
+                  ? sessionStorage.getItem('accessToken')
                   : null;
                 fetch(`${API_URL}/ctm/parcels/${parcelId}/pdf`, {
                   headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -524,25 +531,31 @@ export default function ParcelDetailsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Histórico de Alterações</CardTitle>
-            <CardDescription>{history.length} alterações registradas</CardDescription>
+            <CardDescription>{history.length} alterações registradas no log de auditoria</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {history.slice(0, 5).map((item, idx) => (
-                <div key={idx} className="border-l-2 border-primary pl-3 py-2">
+            <div className="space-y-4">
+              {history.slice(0, 10).map((item, idx) => (
+                <div key={idx} className="relative border-l-2 border-primary/30 pl-4 py-1">
+                  <div className="absolute -left-[5px] top-2 h-2 w-2 rounded-full bg-primary" />
                   <p className="text-sm font-semibold text-on-surface">
-                    {item.action || "Alteração"}
+                    {item.action ? (ACTION_LABELS[item.action] || item.action) : "Alteração no cadastro"}
                   </p>
                   <p className="text-xs text-on-surface-muted">
                     {new Date(item.createdAt).toLocaleString("pt-BR")}
                   </p>
                   {item.diff?.observacao && (
-                    <p className="text-xs text-on-surface-muted mt-1">
-                      Obs: {item.diff.observacao}
+                    <p className="mt-1.5 rounded bg-cloud px-2 py-1 text-xs text-on-surface italic">
+                      &quot;{item.diff.observacao}&quot;
                     </p>
                   )}
                 </div>
               ))}
+              {history.length > 10 && (
+                <p className="text-center text-xs text-on-surface-muted pt-2 border-t border-outline">
+                  Exibindo as últimas 10 alterações. Para o log completo, consulte a auditoria central.
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>

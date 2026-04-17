@@ -17,7 +17,10 @@ export class ExportsService {
    * @param metadata Informações adicionais injetadas por Audit API.
    * @returns Retorna o Buffer Compactado (ZIP) do laudo final para anexos do SEI/Cartório.
    */
-  async generateReurbS_Dossier(nucleoId: string, metadata: { reqTenant: string, actor: string }): Promise<Buffer> {
+  async generateReurbS_Dossier(
+    nucleoId: string,
+    metadata: { reqTenant: string; actor: string },
+  ): Promise<Buffer> {
     this.logger.log(`[EXPORT: ${metadata.reqTenant}] - Iniciando Geração do Dossiê ZIP do Núcleo: ${nucleoId}`);
     
     const zip = new JSZip();
@@ -26,14 +29,17 @@ export class ExportsService {
     const csvContent = "NOME,CPF,QUADRA,LOTE,RENDA\nJoão da Silva,111.222.333-44,A,01,1500.00\nMaria Souza,222.333.444-55,A,02,0.00";
     zip.file("Lista_Ocupantes_Selada.csv", csvContent);
     
-    // 2. Simula Planta Topográfica do GeoServer BBOX Export (GeoJSON Dummy)
-    const mockGeoJSON = JSON.stringify({
-      type: "FeatureCollection",
-      features: [
-        { type: "Feature", properties: { lote: "01", quadra: "A" }, geometry: { type: "Polygon", coordinates: [[[0,0], [0,1], [1,1], [1,0], [0,0]]]}}
-      ]
-    }, null, 2);
-    zip.file("Planta_Georreferenciada_SIRGAS2000.geojson", mockGeoJSON);
+    // 2. Não fingimos geodado real aqui. O artefato deixa explícito que a planta georreferenciada
+    // ainda precisa ser fornecida por uma origem territorial real.
+    zip.file(
+      "Planta_Georreferenciada_NAO_IMPLEMENTADA.txt",
+      [
+        'PLANTA GEORREFERENCIADA NAO IMPLEMENTADA',
+        `nucleo_id=${nucleoId}`,
+        `tenant=${metadata.reqTenant}`,
+        'Este pacote nao contem geometria real. A origem geoespacial precisa ser integrada antes do uso operacional.',
+      ].join('\n'),
+    );
     
     // 3. Simulação de um Laudo Assistencial PDF Genérico (Automated) PDFKit
     const pdfBuffer = await this.generateCertificatePdf(nucleoId, metadata);
@@ -43,7 +49,10 @@ export class ExportsService {
     return zip.generateAsync({ type: 'nodebuffer', compression: "DEFLATE", compressionOptions: { level: 9 } });
   }
 
-  private generateCertificatePdf(nucleoId: string, metadata: any): Promise<Buffer> {
+  private generateCertificatePdf(
+    nucleoId: string,
+    metadata: { reqTenant: string; actor: string },
+  ): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       try {
         const doc = new PDFDocument({ margin: 50 });

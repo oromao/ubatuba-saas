@@ -24,12 +24,13 @@ const citizen_156_service_1 = require("../citizen-156/citizen-156.service");
 const environment_service_1 = require("../environment/environment.service");
 const public_works_service_1 = require("../public-works/public-works.service");
 const cemetery_service_1 = require("../cemetery/cemetery.service");
+const parcels_service_1 = require("../ctm/parcels/parcels.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const dashboard_layout_schema_1 = require("./dashboard-layout.schema");
 const object_id_1 = require("../../common/utils/object-id");
 let DashboardService = class DashboardService {
-    constructor(processesService, alertsService, assetsService, permitsWorksService, permitsBusinessService, citizen156Service, environmentService, publicWorksService, cemeteryService, cacheService, layoutModel) {
+    constructor(processesService, alertsService, assetsService, permitsWorksService, permitsBusinessService, citizen156Service, environmentService, publicWorksService, cemeteryService, parcelsService, cacheService, layoutModel) {
         this.processesService = processesService;
         this.alertsService = alertsService;
         this.assetsService = assetsService;
@@ -39,6 +40,7 @@ let DashboardService = class DashboardService {
         this.environmentService = environmentService;
         this.publicWorksService = publicWorksService;
         this.cemeteryService = cemeteryService;
+        this.parcelsService = parcelsService;
         this.cacheService = cacheService;
         this.layoutModel = layoutModel;
     }
@@ -76,7 +78,20 @@ let DashboardService = class DashboardService {
             this.publicWorksService.list(tenantId),
             this.cemeteryService.list(tenantId),
         ]);
+        const parcelStats = await this.parcelsService.getStatistics(tenantId).catch(() => null);
         const result = {
+            ctm: parcelStats ? {
+                totalParcelas: parcelStats.total,
+                oficiais: parcelStats.official,
+                demo: parcelStats.demo,
+                comSqlu: parcelStats.withSqlu,
+                taxaAdimplencia: parcelStats.taxaAdimplencia,
+                totalValorVenal: parcelStats.totalValorVenal,
+                totalIptuLancado: parcelStats.totalIptuLancado,
+                totalIptuPago: parcelStats.totalIptuPago,
+                totalIptuEmAberto: parcelStats.totalIptuEmAberto,
+                porStatus: parcelStats.byStatus,
+            } : null,
             summary: {
                 processos: processes.length,
                 alertas: alerts.length,
@@ -173,7 +188,7 @@ let DashboardService = class DashboardService {
 exports.DashboardService = DashboardService;
 exports.DashboardService = DashboardService = __decorate([
     (0, common_1.Injectable)(),
-    __param(10, (0, mongoose_1.InjectModel)(dashboard_layout_schema_1.DashboardLayout.name)),
+    __param(11, (0, mongoose_1.InjectModel)(dashboard_layout_schema_1.DashboardLayout.name)),
     __metadata("design:paramtypes", [processes_service_1.ProcessesService,
         alerts_service_1.AlertsService,
         assets_service_1.AssetsService,
@@ -183,6 +198,7 @@ exports.DashboardService = DashboardService = __decorate([
         environment_service_1.EnvironmentService,
         public_works_service_1.PublicWorksService,
         cemetery_service_1.CemeteryService,
+        parcels_service_1.ParcelsService,
         cache_service_1.CacheService,
         mongoose_2.Model])
 ], DashboardService);

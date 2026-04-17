@@ -5,8 +5,8 @@ export type GeometryValidationResult = {
     calculatedArea?: number;
 };
 export declare class GeometryService {
-    validateGeometry(geometry: any): GeometryValidationResult;
+    validateGeometry(geometry: unknown): GeometryValidationResult;
     private calculatePolygonArea;
-    checkSimpleOverlap(geom1: any, geom2: any): boolean;
+    checkSimpleOverlap(geom1: unknown, geom2: unknown): boolean;
     private getBoundingBox;
 }

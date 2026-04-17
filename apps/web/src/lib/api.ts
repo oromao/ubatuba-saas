@@ -32,7 +32,7 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}) {
   let res = await doFetch();
 
   if (res.status === 401 && storage) {
-    const refreshToken = storage.getItem("refreshToken") ?? window.localStorage.getItem("refreshToken");
+    const refreshToken = storage.getItem("refreshToken");
     if (refreshToken) {
       const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
         method: "POST",

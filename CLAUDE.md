@@ -1,17 +1,15 @@
-# Claude Assistant Configuration (FlyDea)
-Bem-vindo, Claude. Você está no contexto do Monorepo FlyDea.
+# CLAUDE.md — FlyDea
 
-Para garantir consistência neste repo:
-1. **O Mestre** é o arquivo `AGENTS.md` na raiz do repositório. Nunca o contradiga.
-2. **Subagentes:** Você pode assumir múltiplas personas, mapeadas detalhadamente na pasta `.claude/agents/`.
-3. **Skills:** Sempre acione as skills locais antes de adivinhar como proceder. Refira-se à pasta `.agents/skills/`.
+This repository uses a **unified agent briefing system**.
 
-## Delegações e Subagentes
-- Se o usuário pedir algo sobre NestJS, atue sob a capa do `nestjs-backend-engineer.md`.
-- Se o usuário pedir validações, atue como `security-lgpd-reviewer.md` ou `rbac-audit-guardian.md`.
+**Read `AGENTS.md` first.** It is authoritative for Claude Code, Codex CLI, and Gemini CLI alike.
 
-## Operações Longas
-Se estiver em uma tarefa complexa que pode estourar seu contexto, grave o estado num arquivo temporário `docs/agents/handoff.md` usando o template associado. Interaja com o "Obsidian Brain" do usuário somente nos diretórios mapeados da máquina dele, se houver instrução direta.
+Planning documents live in `docs/planning/`. Do not invent new planning conventions — update the existing ones.
 
-## Importante: Não Adivinhe Contracts
-A segurança geográfica, REURB e LGPD do FlyDea são o produto vital. Modifique tudo com extrema restrição. Use a pasta `.agents/skills` repetitivamente para lembrar check-lists.\n
+## Short rules (enforced regardless)
+
+1. Existence ≠ working. Prove with automated tests.
+2. Update `docs/planning/02-BACKLOG.md` and append to `docs/planning/04-PROGRESS-LOG.md` at end of every session (see `AGENTS.md` §14).
+3. Never delete. Archive to `.archive/YYYY-MM-DD/` and log in `docs/planning/05-CLEANUP-INVENTORY.md`.
+4. Final decision owner: **Paulo**. When in doubt, ask.
+5. Single Writer active at a time. Reviewer blocks merge if §14 skipped.

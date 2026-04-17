@@ -1,8 +1,13 @@
 import geojsonvt from 'geojson-vt';
 import * as vtpbf from 'vt-pbf';
 
-export function createVectorTile(geojson: any, z: number, x: number, y: number): Buffer {
-  const tileIndex = geojsonvt(geojson, {
+type GeoJsonFeatureCollection = {
+  type: 'FeatureCollection';
+  features: Array<Record<string, unknown>>;
+};
+
+export function createVectorTile(geojson: GeoJsonFeatureCollection, z: number, x: number, y: number): Buffer {
+  const tileIndex = geojsonvt(geojson as unknown as Parameters<typeof geojsonvt>[0], {
     maxZoom: 24,
     tolerance: 3,
     extent: 4096,
@@ -22,9 +27,6 @@ export function createVectorTile(geojson: any, z: number, x: number, y: number):
     return Buffer.from('');
   }
 
-  // Convert to MVT protobuf
-  // 'layer' is the name of the layer inside the vector tile
-  // @ts-ignore - mismatch between geojson-vt Tile and vt-pbf types in DefinitelyTyped
-  const buff = vtpbf.fromGeojsonVt({ layer: tile });
+  const buff = vtpbf.fromGeojsonVt({ layer: tile as unknown as ReturnType<typeof geojsonvt> });
   return Buffer.from(buff);
 }

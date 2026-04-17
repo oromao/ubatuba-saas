@@ -174,6 +174,7 @@ ParcelSchema.index({ tenantId: 1, projectId: 1, inscription: 1 });
 ParcelSchema.index({ tenantId: 1, projectId: 1, inscricaoImobiliaria: 1 });
 ParcelSchema.index({ tenantId: 1, projectId: 1, updatedAt: -1 });
 ParcelSchema.index({ geometry: '2dsphere' });
+ParcelSchema.index({ centroid: '2dsphere' });
 ParcelSchema.index({ sourceType: 1 });
 ParcelSchema.index({ isOfficial: 1 });
 ParcelSchema.index({ importBatchId: 1 });

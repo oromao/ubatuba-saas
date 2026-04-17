@@ -13,6 +13,7 @@ const upload_schema_1 = require("./upload.schema");
 const uploads_repository_1 = require("./uploads.repository");
 const upload_service_1 = require("./upload.service");
 const upload_controller_1 = require("./upload.controller");
+const object_storage_service_1 = require("../shared/object-storage.service");
 let UploadsModule = class UploadsModule {
 };
 exports.UploadsModule = UploadsModule;
@@ -20,7 +21,7 @@ exports.UploadsModule = UploadsModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: upload_schema_1.Upload.name, schema: upload_schema_1.UploadSchema }])],
         controllers: [upload_controller_1.UploadController],
-        providers: [uploads_repository_1.UploadsRepository, upload_service_1.UploadService],
+        providers: [uploads_repository_1.UploadsRepository, upload_service_1.UploadService, object_storage_service_1.ObjectStorageService],
         exports: [uploads_repository_1.UploadsRepository, upload_service_1.UploadService],
     })
 ], UploadsModule);

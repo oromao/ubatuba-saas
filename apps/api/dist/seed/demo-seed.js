@@ -134,6 +134,8 @@ async function seed() {
             areaTerreno: parseFloat(area.toFixed(2)),
             area: parseFloat(area.toFixed(2)),
             geometry: makeBbox(-23.4 + i * 0.0005, -45.08 + i * 0.0004),
+            sourceType: 'DEMO',
+            isOfficial: false,
         });
     }
     await ParcelModel.insertMany(parcels);

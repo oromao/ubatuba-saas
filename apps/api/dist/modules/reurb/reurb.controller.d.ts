@@ -6,6 +6,7 @@ import { ReurbService } from './reurb.service';
 export declare class ReurbController {
     private readonly service;
     constructor(service: ReurbService);
+    private requireLgpdPurpose;
     getTenantConfig(req: {
         tenantId: string;
     }): Promise<import("mongoose").Document<unknown, {}, import("./reurb.schema").TenantConfigDocument, {}, {}> & import("./reurb.schema").TenantConfig & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{

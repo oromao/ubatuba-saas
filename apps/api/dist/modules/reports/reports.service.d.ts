@@ -1,8 +1,10 @@
 import { Model } from 'mongoose';
+import { ParcelDocument } from '../ctm/parcels/parcel.schema';
+import { Vistoria, VistoriaDocument } from '../ctm/vistoria.schema';
 export declare class ReportsService {
     private parcelModel;
     private vistoriaModel;
-    constructor(parcelModel: Model<any>, vistoriaModel: Model<any>);
+    constructor(parcelModel: Model<ParcelDocument>, vistoriaModel: Model<VistoriaDocument>);
     fiscalizacaoReport(tenantId: string, filters: {
         dataInicio?: string;
         dataFim?: string;
@@ -16,7 +18,11 @@ export declare class ReportsService {
         };
         porStatus: any[];
         porTipo: any[];
-        recentes: any[];
+        recentes: (import("mongoose").Document<unknown, {}, VistoriaDocument, {}, {}> & Vistoria & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }> & {
+            __v: number;
+        })[];
         periodo: {
             inicio: string;
             fim: string;
@@ -50,7 +56,11 @@ export declare class ReportsService {
             };
             porStatus: any[];
             porTipo: any[];
-            recentes: any[];
+            recentes: (import("mongoose").Document<unknown, {}, VistoriaDocument, {}, {}> & Vistoria & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+                _id: import("mongoose").Types.ObjectId;
+            }> & {
+                __v: number;
+            })[];
             periodo: {
                 inicio: string;
                 fim: string;

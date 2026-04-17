@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { ParcelsService } from './parcels.service';
 import { CreateParcelDto } from './dto/create-parcel.dto';
 import { UpdateParcelDto } from './dto/update-parcel.dto';
+import { ImportGeojsonDto, ImportEnrichmentCsvDto } from './dto/import-parcel.dto';
 import { UpsertParcelBuildingDto } from '../parcel-buildings/dto/upsert-parcel-building.dto';
 import { UpsertParcelSocioeconomicDto } from '../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto';
 import { UpsertParcelInfrastructureDto } from '../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto';
@@ -62,6 +63,9 @@ export declare class ParcelsController {
     mvt(req: {
         tenantId: string;
     }, res: Response, z: string, x: string, y: string, projectId?: string): Promise<void>;
+    getPdf(id: string, req: {
+        tenantId: string;
+    }, res: Response): Promise<void>;
     get(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<import("./parcel.schema").ParcelDocument | null>;
@@ -145,14 +149,7 @@ export declare class ParcelsController {
         user?: {
             sub?: string;
         };
-    }, projectId: string | undefined, body: {
-        sourceType?: string;
-        fileName?: string;
-        upsert?: boolean;
-        data: {
-            type: 'FeatureCollection';
-            features: unknown[];
-        };
+    }, projectId: string | undefined, body: ImportGeojsonDto & {
         municipalityName?: string;
         municipalityCode?: string;
     }): Promise<{
@@ -173,12 +170,7 @@ export declare class ParcelsController {
         user?: {
             sub?: string;
         };
-    }, projectId: string | undefined, body: {
-        sourceType?: string;
-        fileName?: string;
-        csv: string;
-        columnMapping?: Record<string, string>;
-    }): Promise<{
+    }, projectId: string | undefined, body: ImportEnrichmentCsvDto): Promise<{
         batchId: string | null;
         processed: number;
         updated: number;

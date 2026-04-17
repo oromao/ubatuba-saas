@@ -24,6 +24,11 @@ let ReurbController = class ReurbController {
     constructor(service) {
         this.service = service;
     }
+    requireLgpdPurpose(purpose) {
+        if (!purpose?.trim())
+            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        return purpose.trim();
+    }
     getTenantConfig(req) {
         return this.service.getTenantConfig(req.tenantId);
     }
@@ -46,31 +51,26 @@ let ReurbController = class ReurbController {
         return this.service.importFamiliesCsv(req.tenantId, dto, req.user?.sub);
     }
     listFamilies(req, purpose, projectId, status, nucleus, q) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.listFamilies(req.tenantId, projectId, { status, nucleus, q }, { actorId: req.user?.sub, purpose });
     }
     updateFamily(req, id, projectId, dto) {
         return this.service.updateFamily(req.tenantId, id, dto, projectId, req.user?.sub);
     }
     exportFamiliesCsv(req, purpose, dto) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.exportFamiliesCsv(req.tenantId, dto.projectId, req.user?.sub, purpose);
     }
     exportFamiliesXlsx(req, purpose, dto) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.exportFamiliesXlsx(req.tenantId, dto.projectId, req.user?.sub, purpose);
     }
     exportFamiliesJson(req, purpose, dto) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.exportFamiliesJson(req.tenantId, dto.projectId, req.user?.sub, purpose);
     }
     generatePlanilha(req, purpose, dto) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.generatePlanilhaSintese(req.tenantId, dto.projectId, req.user?.sub, purpose);
     }
     createPendency(req, dto) {
@@ -157,21 +157,18 @@ let ReurbController = class ReurbController {
         return this.service.pingIntegration(req.tenantId, dto.projectId, dto.payload ?? {}, req.user?.sub);
     }
     generateCartorioPackage(req, purpose, dto) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.generateCartorioPackage(req.tenantId, dto.projectId, req.user?.sub, purpose);
     }
     listDeliverables(req, purpose, projectId, kind) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.listDeliverables(req.tenantId, projectId, kind, {
             actorId: req.user?.sub,
             purpose,
         });
     }
     getDeliverableDownload(req, purpose, id, projectId) {
-        if (!purpose?.trim())
-            throw new common_1.ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+        purpose = this.requireLgpdPurpose(purpose);
         return this.service.getDeliverableDownload(req.tenantId, id, projectId, {
             actorId: req.user?.sub,
             purpose,

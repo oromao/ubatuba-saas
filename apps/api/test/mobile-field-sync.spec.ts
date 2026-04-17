@@ -94,7 +94,7 @@ describe('Mobile Field Record Sync', () => {
       const queue = [mockFieldRecord];
 
       const synced = queue.find((r) => r.id === 'record-offline-001');
-      const updatedQueue = queue.filter((r) => r.id !== synced.id);
+      const updatedQueue = queue.filter((r) => r.id !== synced?.id);
 
       expect(updatedQueue).toHaveLength(0);
     });

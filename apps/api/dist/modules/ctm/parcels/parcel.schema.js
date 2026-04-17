@@ -164,9 +164,13 @@ __decorate([
     __metadata("design:type", Object)
 ], Parcel.prototype, "bbox", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: Object, required: true }),
+    (0, mongoose_1.Prop)({ type: Object }),
     __metadata("design:type", Object)
 ], Parcel.prototype, "geometry", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], Parcel.prototype, "rawProperties", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
@@ -216,6 +220,7 @@ exports.ParcelSchema.index({ tenantId: 1, projectId: 1, inscription: 1 });
 exports.ParcelSchema.index({ tenantId: 1, projectId: 1, inscricaoImobiliaria: 1 });
 exports.ParcelSchema.index({ tenantId: 1, projectId: 1, updatedAt: -1 });
 exports.ParcelSchema.index({ geometry: '2dsphere' });
+exports.ParcelSchema.index({ centroid: '2dsphere' });
 exports.ParcelSchema.index({ sourceType: 1 });
 exports.ParcelSchema.index({ isOfficial: 1 });
 exports.ParcelSchema.index({ importBatchId: 1 });

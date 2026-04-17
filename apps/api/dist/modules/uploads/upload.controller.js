@@ -22,8 +22,8 @@ let UploadController = class UploadController {
     constructor(uploadService) {
         this.uploadService = uploadService;
     }
-    async uploadFiles(files, _req) {
-        const urls = await this.uploadService.saveFiles(files ?? []);
+    async uploadFiles(files, req) {
+        const urls = await this.uploadService.saveFiles(files ?? [], req.tenantId);
         return { urls };
     }
 };

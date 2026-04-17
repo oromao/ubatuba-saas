@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import type { FeatureCollection, Geometry, Feature } from "geojson";
 import { MapToolbar } from "../../../components/maps/MapToolbar";
 import { MapLayers } from "../../../components/maps/MapLayers";
 import { API_URL, apiFetch } from "../../../lib/api";
@@ -26,6 +27,15 @@ type LayerItem = {
     lineWidth?: number;
     labelField?: string;
   };
+};
+
+type DrawControlHandle = {
+  onAdd: (map: maplibregl.Map) => HTMLElement;
+  onRemove: () => void;
+  on: (event: "mode-changed" | "feature-deleted", cb: (payload: { feature?: Array<{ geometry?: Geometry; properties?: Record<string, unknown> | null; id?: string }> }) => void) => void;
+  getFeatures: () => FeatureCollection;
+  activate: () => void;
+  deactivate: () => void;
 };
 
 const isUnavailableTileUrl = (url?: string) =>
@@ -58,12 +68,13 @@ const buildPaint = (layer: LayerItem, type: "circle" | "line" | "fill") => {
 export default function DynamicMapViewer() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapConfig = useRef<maplibregl.Map | null>(null);
+  const drawControl = useRef<DrawControlHandle | null>(null);
   const [layers, setLayers] = useState<LayerItem[]>([]);
   const [mapReady, setMapReady] = useState(false);
   const [geoserverUnavailable, setGeoserverUnavailable] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  const { activeLayers, drawMode, setActiveLayers } = useMapStore();
+  const { activeLayers, drawMode, setActiveLayers, addFeature, clearFeatures, features } = useMapStore();
 
   const orderedLayers = useMemo(
     () => [...layers].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
@@ -98,14 +109,22 @@ export default function DynamicMapViewer() {
   useEffect(() => {
     if (!mapContainer.current || mapConfig.current) return;
 
-    mapConfig.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
-      center: [-46.6333, -23.5505], // São Paulo
-      zoom: 12,
-      pitch: 0,
-      bearing: 0,
-    });
+    try {
+      mapConfig.current = new maplibregl.Map({
+        container: mapContainer.current,
+        style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+        center: [-46.6333, -23.5505], // São Paulo
+        zoom: 12,
+        pitch: 0,
+        bearing: 0,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Falha ao inicializar o mapa";
+      setMapError(message);
+      // eslint-disable-next-line no-console
+      console.error("[MapLibre]", message);
+      return;
+    }
 
     mapConfig.current.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
     mapConfig.current.on("load", () => setMapReady(true));
@@ -125,6 +144,48 @@ export default function DynamicMapViewer() {
       setGeoserverUnavailable(false);
     };
   }, []);
+
+  useEffect(() => {
+    if (!mapReady || !mapConfig.current || drawControl.current) return;
+
+    let active = true;
+    import("@watergis/maplibre-gl-terradraw").then(({ MaplibreTerradrawControl }) => {
+      if (!active || !mapConfig.current || drawControl.current) return;
+      const control = new MaplibreTerradrawControl({
+        modes: ["polygon"],
+        open: false,
+      }) as unknown as DrawControlHandle;
+      mapConfig.current.addControl(control, "top-left");
+      drawControl.current = control;
+
+      const syncFeatures = () => {
+        const drawn = control.getFeatures().features ?? [];
+        clearFeatures();
+        drawn.forEach((feature) => addFeature({
+          type: "Feature",
+          id: String(feature.id ?? ""),
+          geometry: feature.geometry ? (feature.geometry as Geometry) : null,
+          properties: feature.properties ?? {},
+        }));
+      };
+
+      control.on("mode-changed", syncFeatures);
+      control.on("feature-deleted", syncFeatures);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [addFeature, clearFeatures, mapReady]);
+
+  useEffect(() => {
+    if (!drawControl.current || !mapConfig.current) return;
+    if (drawMode === "polygon") {
+      drawControl.current.activate();
+      return;
+    }
+    drawControl.current.deactivate();
+  }, [drawMode]);
 
   useEffect(() => {
     if (!mapReady || !mapConfig.current) return;
@@ -445,6 +506,15 @@ export default function DynamicMapViewer() {
 
       <div ref={mapContainer} className="absolute inset-0 h-full w-full" />
 
+      {mapError && (
+        <div className="pointer-events-none absolute inset-0 z-[20] flex items-center justify-center bg-slate-950/40 px-6">
+          <div className="max-w-lg rounded-2xl border border-slate-200 bg-white px-5 py-4 text-center shadow-2xl">
+            <div className="text-sm font-semibold text-slate-900">Mapa indisponivel neste ambiente</div>
+            <div className="mt-1 text-xs leading-5 text-slate-600">{mapError}</div>
+          </div>
+        </div>
+      )}
+
       {visibleLayers.length === 0 && (
         <div className="pointer-events-none absolute left-1/2 top-6 z-[10] -translate-x-1/2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs text-slate-700 shadow-lg backdrop-blur">
           Carregando camadas do tenant...
@@ -461,6 +531,11 @@ export default function DynamicMapViewer() {
       {drawMode && (
         <div className="pointer-events-none absolute right-4 top-20 z-[10] rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-medium text-orange-800 shadow">
           Modo desenho ativo: {drawMode}
+        </div>
+      )}
+      {features.length > 0 && (
+        <div className="pointer-events-none absolute right-4 bottom-4 z-[10] rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] font-medium text-emerald-800 shadow">
+          {features.length} geometria(s) desenhada(s)
         </div>
       )}
     </div>

@@ -48,4 +48,36 @@ describe('tax integration adapters', () => {
     expect(repository.createLog).toHaveBeenCalledTimes(1);
     expect(repository.updateConnector).toHaveBeenCalled();
   });
+
+  it('bloqueia SFTP sem fingir sucesso', async () => {
+    const repository = {
+      findConnectorById: jest.fn().mockResolvedValue({
+        id: connectorId,
+        mode: 'SFTP',
+        config: { host: 'sftp.prefeitura.local' },
+      }),
+      createLog: jest.fn().mockResolvedValue({}),
+      updateConnector: jest.fn().mockResolvedValue({}),
+      listConnectors: jest.fn(),
+      createConnector: jest.fn(),
+      updateConnectorConfig: jest.fn(),
+      listLogs: jest.fn(),
+    };
+
+    const projectsService = {
+      resolveProjectId: jest.fn().mockResolvedValue(projectId),
+    };
+
+    const service = new TaxIntegrationService(
+      repository as unknown as TaxIntegrationRepository,
+      projectsService as unknown as ProjectsService,
+    );
+
+    const result = await service.runSync(tenantId, undefined, connectorId, {}, userId);
+
+    expect(result.status).toBe('ERRO');
+    expect(result.message).toContain('ainda nao implementado');
+    expect(repository.createLog).toHaveBeenCalledTimes(1);
+    expect(repository.updateConnector).not.toHaveBeenCalled();
+  });
 });

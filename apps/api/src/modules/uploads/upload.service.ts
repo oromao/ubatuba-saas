@@ -1,28 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { join } from 'path';
-import * as fs from 'fs';
 import * as path from 'path';
 import { randomUUID } from 'crypto';
+import { UploadsRepository } from './uploads.repository';
+import { asObjectId } from '../../common/utils/object-id';
+import { ObjectStorageService } from '../shared/object-storage.service';
 
 @Injectable()
 export class UploadService {
-  private readonly uploadDir = join(process.cwd(), 'uploads');
+  constructor(
+    private readonly uploadsRepository: UploadsRepository,
+    private readonly storage: ObjectStorageService,
+  ) {}
 
-  constructor() {
-    if (!fs.existsSync(this.uploadDir)) {
-      fs.mkdirSync(this.uploadDir, { recursive: true });
-    }
-  }
-
-  async saveFile(file: Express.Multer.File): Promise<string> {
+  async saveFile(file: Express.Multer.File, tenantId?: string): Promise<string> {
     const ext = path.extname(file.originalname) || '.bin';
     const filename = `${randomUUID()}${ext}`;
-    const filePath = join(this.uploadDir, filename);
-    fs.writeFileSync(filePath, file.buffer);
-    return `/uploads/${filename}`;
+    
+    // Nomenclatura organizada por tenant para evitar colisoes e facilitar auditoria
+    const key = tenantId 
+      ? `tenants/${tenantId}/uploads/${filename}` 
+      : `global/uploads/${filename}`;
+
+    if (!file.buffer) {
+      throw new Error('Arquivo sem buffer. Certifique-se de usar memoryStorage no Multer.');
+    }
+
+    const uploadResult = await this.storage.putObject({
+      key,
+      content: file.buffer,
+      contentType: file.mimetype,
+    });
+
+    if (tenantId) {
+      await this.uploadsRepository.create({
+        tenantId: asObjectId(tenantId),
+        key: uploadResult.key,
+        filename: file.originalname,
+        status: 'UPLOADED',
+        size: file.size,
+        mimeType: file.mimetype,
+      });
+    }
+
+    return uploadResult.url;
   }
 
-  async saveFiles(files: Express.Multer.File[]): Promise<string[]> {
-    return Promise.all(files.map((f) => this.saveFile(f)));
+  async saveFiles(files: Express.Multer.File[], tenantId?: string): Promise<string[]> {
+    return Promise.all(files.map((f) => this.saveFile(f, tenantId)));
   }
 }

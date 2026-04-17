@@ -10,6 +10,29 @@ export declare class ComplianceController {
     }> & {
         __v: number;
     }>;
+    getAuditLogs(req: {
+        tenantId: string;
+    }, projectId?: string): Promise<{
+        id: string;
+        actorId?: string;
+        action: string;
+        section: string;
+        referenceId?: string;
+        timestamp: string;
+        details?: Record<string, unknown>;
+    }[]>;
+    getChecklist(req: {
+        tenantId: string;
+    }, projectId?: string): Promise<{
+        id: string;
+        requirementCode: string;
+        title: string;
+        status: import("./compliance.schema").ComplianceChecklistStatus;
+        notes?: string;
+        evidenceKeys?: string[];
+        updatedAt: string;
+        updatedBy?: string;
+    }[]>;
     upsertCompany(req: {
         tenantId: string;
         user?: {

@@ -12,6 +12,29 @@ import { apiFetch } from "@/lib/api";
 import { toast } from "sonner";
 import { Loader2, Upload, Link as LinkIcon, Database, Info, AlertTriangle, CheckCircle2 } from "lucide-react";
 
+type GeoJsonFeatureCollection = { type: 'FeatureCollection'; features: unknown[] };
+
+type GeoJsonImportPayload = {
+  data: GeoJsonFeatureCollection;
+  sourceType: string;
+  fileName: string;
+  upsert: boolean;
+};
+
+type CsvImportPayload = {
+  csv: string;
+  fileName: string;
+  sourceType: string;
+};
+
+function buildGeoJsonImportPayload(
+  featureCollection: GeoJsonFeatureCollection,
+  fileName: string,
+  upsert: boolean,
+): GeoJsonImportPayload {
+  return { data: featureCollection, sourceType: 'OFFICIAL_IMPORT', fileName, upsert };
+}
+
 type ImportResult = {
   batchId: string | null;
   imported: number;
@@ -54,7 +77,7 @@ export default function ImportarParcelasPage() {
   });
 
   const importMutation = useMutation({
-    mutationFn: (payload: any) => {
+    mutationFn: (payload: GeoJsonImportPayload | CsvImportPayload) => {
       const endpoint = importType === "GEOJSON" ? "/ctm/parcels/import" : "/ctm/parcels/import-csv";
       return apiFetch<ImportResult>(endpoint, {
         method: "POST",
@@ -155,9 +178,9 @@ export default function ImportarParcelasPage() {
       return;
     }
     
-    const payload = importType === "GEOJSON" 
-      ? { data: fileContent, fileName, upsert, sourceType: "OFFICIAL_IMPORT" }
-      : { csv: fileContent, fileName, sourceType: "CSV_ENRICHMENT" };
+    const payload: GeoJsonImportPayload | CsvImportPayload = importType === "GEOJSON"
+      ? buildGeoJsonImportPayload(fileContent as GeoJsonFeatureCollection, fileName, upsert)
+      : { csv: fileContent as string, fileName, sourceType: "CSV_ENRICHMENT" };
       
     importMutation.mutate(payload);
   }

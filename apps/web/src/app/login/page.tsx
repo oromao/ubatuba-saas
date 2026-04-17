@@ -23,10 +23,10 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const loginSignals = [
-  "Tenant assistido para reduzir friccao",
+  "Ambiente seguro com isolamento de dados",
   "Sessao persistida no navegador",
   "RBAC e trilha de auditoria ativos",
-  "Portal e painel prontos para demo e operacao",
+  "Interface operacional homologada",
 ];
 
 export default function LoginPage() {

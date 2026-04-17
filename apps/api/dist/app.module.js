@@ -51,6 +51,7 @@ const public_works_module_1 = require("./modules/public-works/public-works.modul
 const cemetery_module_1 = require("./modules/cemetery/cemetery.module");
 const observatory_module_1 = require("./modules/observatory/observatory.module");
 const integration_hub_module_1 = require("./modules/integration-hub/integration-hub.module");
+const reports_module_1 = require("./modules/reports/reports.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -59,10 +60,16 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
+                validate: (env) => {
+                    if (!env.MONGO_URL?.trim()) {
+                        throw new Error('MONGO_URL obrigatorio para inicializar a API');
+                    }
+                    return env;
+                },
             }),
             logger_module_1.LoggerModule,
             shared_module_1.SharedModule,
-            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL ?? '', {
+            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL, {
                 autoIndex: false,
             }),
             auth_module_1.AuthModule,
@@ -100,6 +107,7 @@ exports.AppModule = AppModule = __decorate([
             cemetery_module_1.CemeteryModule,
             observatory_module_1.ObservatoryModule,
             integration_hub_module_1.IntegrationHubModule,
+            reports_module_1.ReportsModule,
         ],
         providers: [
             {

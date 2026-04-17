@@ -42,15 +42,22 @@ import { PublicWorksModule } from './modules/public-works/public-works.module';
 import { CemeteryModule } from './modules/cemetery/cemetery.module';
 import { ObservatoryModule } from './modules/observatory/observatory.module';
 import { IntegrationHubModule } from './modules/integration-hub/integration-hub.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate: (env: Record<string, string | undefined>) => {
+        if (!env.MONGO_URL?.trim()) {
+          throw new Error('MONGO_URL obrigatorio para inicializar a API');
+        }
+        return env;
+      },
     }),
     LoggerModule,
     SharedModule,
-    MongooseModule.forRoot(process.env.MONGO_URL ?? '', {
+    MongooseModule.forRoot(process.env.MONGO_URL as string, {
       autoIndex: false,
     }),
     AuthModule,
@@ -88,6 +95,7 @@ import { IntegrationHubModule } from './modules/integration-hub/integration-hub.
     CemeteryModule,
     ObservatoryModule,
     IntegrationHubModule,
+    ReportsModule,
   ],
   providers: [
     {

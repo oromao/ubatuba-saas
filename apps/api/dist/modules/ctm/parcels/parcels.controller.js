@@ -19,6 +19,7 @@ const roles_guard_1 = require("../../../common/guards/roles.guard");
 const parcels_service_1 = require("./parcels.service");
 const create_parcel_dto_1 = require("./dto/create-parcel.dto");
 const update_parcel_dto_1 = require("./dto/update-parcel.dto");
+const import_parcel_dto_1 = require("./dto/import-parcel.dto");
 const upsert_parcel_building_dto_1 = require("../parcel-buildings/dto/upsert-parcel-building.dto");
 const upsert_parcel_socioeconomic_dto_1 = require("../parcel-socioeconomic/dto/upsert-parcel-socioeconomic.dto");
 const upsert_parcel_infrastructure_dto_1 = require("../parcel-infrastructure/dto/upsert-parcel-infrastructure.dto");
@@ -77,6 +78,15 @@ let ParcelsController = class ParcelsController {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.send(buffer);
     }
+    async getPdf(id, req, res) {
+        const buffer = await this.parcelsService.generatePdf(req.tenantId, id);
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `attachment; filename="lote-${id}.pdf"`,
+            'Content-Length': buffer.length,
+        });
+        res.end(buffer);
+    }
     get(req, id, projectId) {
         return this.parcelsService.findById(req.tenantId, projectId, id);
     }
@@ -108,7 +118,7 @@ let ParcelsController = class ParcelsController {
         return this.parcelsService.importGeojson(req.tenantId, projectId, body.data, body.sourceType || 'GEOJSON', body.fileName, body.upsert || false, req.user?.sub, body.municipalityName, body.municipalityCode);
     }
     importEnrichment(req, projectId, body) {
-        return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, body.sourceType || 'CSV_ENRICHMENT', body.fileName, body.columnMapping, req.user?.sub);
+        return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, body.sourceType || 'CSV_ENRICHMENT', body.fileName, body.columnMapping ? body.columnMapping : undefined, req.user?.sub);
     }
     importCsv(req, projectId, body) {
         return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, 'CSV_ENRICHMENT', undefined, undefined, req.user?.sub);
@@ -193,6 +203,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], ParcelsController.prototype, "mvt", null);
+__decorate([
+    (0, common_1.Get)(':id/pdf'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ParcelsController.prototype, "getPdf", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Req)()),
@@ -308,7 +327,7 @@ __decorate([
     __param(1, (0, common_1.Query)('projectId')),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, import_parcel_dto_1.ImportEnrichmentCsvDto]),
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "importEnrichment", null);
 __decorate([

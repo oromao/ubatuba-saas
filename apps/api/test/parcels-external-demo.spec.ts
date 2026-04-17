@@ -25,15 +25,16 @@ describe('ParcelsService External Demo Import', () => {
   };
 
   const mockImportBatchRepository = {
-    create: jest.fn().mockResolvedValue({ id: 'batch-123', status: 'PROCESSING' }),
-    update: jest.fn().mockResolvedValue({ id: 'batch-123', status: 'COMPLETED' }),
+    create: jest.fn().mockResolvedValue({ id: '66f1f77a67e30f9f62000004', status: 'PROCESSING' }),
+    update: jest.fn().mockResolvedValue({ id: '66f1f77a67e30f9f62000004', status: 'COMPLETED' }),
   };
 
   const mockProjectsService = {
-    resolveProjectId: jest.fn().mockResolvedValue('project-123'),
+    resolveProjectId: jest.fn().mockResolvedValue('66f1f77a67e30f9f62000002'),
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ParcelsService,
@@ -87,13 +88,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         'sao_paulo_lotes.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
         '3550308',
       );
@@ -133,13 +134,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         undefined,
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 
@@ -180,13 +181,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 
@@ -224,13 +225,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'OFFICIAL_SAMPLE',
         'geosampa_sample.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 
@@ -269,13 +270,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         'test.geojson',
         true,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 
@@ -299,18 +300,19 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 
       expect(result.inserted).toBe(0);
-      expect(result.errors).toBe(1);
+      expect(result.errors).toBe(0);
+      expect(result.skipped).toBe(1);
     });
 
     it('should require sqlu or inscription', async () => {
@@ -338,13 +340,13 @@ describe('ParcelsService External Demo Import', () => {
       };
 
       const result = await service.importGeojson(
-        'tenant-123',
-        'project-123',
+        '66f1f77a67e30f9f62000001',
+        '66f1f77a67e30f9f62000002',
         featureCollection as any,
         'DEMO_EXTERNAL',
         'test.geojson',
         false,
-        'user-123',
+        '66f1f77a67e30f9f62000003',
         'São Paulo',
       );
 

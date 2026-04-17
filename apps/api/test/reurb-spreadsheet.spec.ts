@@ -15,7 +15,7 @@ describe('reurb spreadsheet generation', () => {
     const buffer = await toXlsx(DEFAULT_SPREADSHEET_COLUMNS, rows);
 
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(buffer);
+    await workbook.xlsx.load(buffer as any);
     const sheet = workbook.getWorksheet('Planilha Sintese');
 
     expect(sheet).toBeDefined();

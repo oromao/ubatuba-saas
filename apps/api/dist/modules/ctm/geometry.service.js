@@ -8,12 +8,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GeometryService = void 0;
 const common_1 = require("@nestjs/common");
+function isSupportedGeometry(geometry) {
+    if (!geometry || typeof geometry !== 'object') {
+        return false;
+    }
+    const candidate = geometry;
+    if (!['Polygon', 'MultiPolygon', 'Point'].includes(String(candidate.type))) {
+        return false;
+    }
+    return Array.isArray(candidate.coordinates) || candidate.type === 'Point';
+}
+function hasCoordinates(geometry) {
+    return Boolean(geometry && typeof geometry === 'object' && 'coordinates' in geometry);
+}
 let GeometryService = class GeometryService {
     validateGeometry(geometry) {
         const errors = [];
         const warnings = [];
-        if (!geometry) {
-            return { valid: false, errors: ['Geometria ausente'], warnings: [] };
+        if (!isSupportedGeometry(geometry)) {
+            if (!geometry) {
+                return { valid: false, errors: ['Geometria ausente'], warnings: [] };
+            }
+            errors.push('Tipo de geometria não definido');
+            return { valid: false, errors, warnings };
         }
         if (!geometry.type) {
             errors.push('Tipo de geometria não definido');
@@ -21,9 +38,9 @@ let GeometryService = class GeometryService {
         if (!['Polygon', 'MultiPolygon', 'Point'].includes(geometry.type)) {
             errors.push(`Tipo inválido: ${geometry.type}. Use Polygon, MultiPolygon ou Point`);
         }
-        if (!geometry.coordinates || !Array.isArray(geometry.coordinates)) {
+        if (!Array.isArray(geometry.coordinates)) {
             errors.push('Coordenadas ausentes ou inválidas');
-            return { valid: errors.length === 0, errors, warnings };
+            return { valid: false, errors, warnings };
         }
         if (geometry.type === 'Polygon') {
             const ring = geometry.coordinates[0];
@@ -66,10 +83,10 @@ let GeometryService = class GeometryService {
         return Math.abs(area * EARTH_RADIUS * EARTH_RADIUS / 2);
     }
     checkSimpleOverlap(geom1, geom2) {
-        if (!geom1?.coordinates || !geom2?.coordinates)
+        if (!hasCoordinates(geom1) || !hasCoordinates(geom2))
             return false;
-        const bbox1 = this.getBoundingBox(geom1.coordinates[0] || []);
-        const bbox2 = this.getBoundingBox(geom2.coordinates[0] || []);
+        const bbox1 = this.getBoundingBox((geom1.coordinates[0] ?? []));
+        const bbox2 = this.getBoundingBox((geom2.coordinates[0] ?? []));
         if (!bbox1 || !bbox2)
             return false;
         return !(bbox1.maxLng < bbox2.minLng ||

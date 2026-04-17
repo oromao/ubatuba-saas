@@ -1,0 +1,58 @@
+# 01 — Maturity Matrix
+
+> Scorecard de maturidade por domínio. Escala 0-5.
+> Atualize ao final de cada sprint ou quando houver mudança material.
+> Última atualização: `2026-04-17` por `Claude (bootstrap inicial, baseline da auditoria)`
+
+---
+
+## Escala
+
+| Score | Significado |
+|---|---|
+| **0** | Não existe |
+| **1** | Página/endpoint existe mas não funciona |
+| **2** | Funciona em caminho feliz, sem teste, sem persistência garantida |
+| **3** | Funciona, tem persistência, mas cobertura de teste é parcial |
+| **4** | Funciona, persistido, testado, resiliente a falhas previsíveis |
+| **5** | Municipal-grade: auditável, performático em escala, multi-tenant-seguro, com E2E estável |
+
+## Matriz atual vs alvo
+
+| # | Domínio | Agora | Alvo Q2/2026 | Alvo Q4/2026 | Próxima ação (ref T) |
+|---|---|:-:|:-:|:-:|---|
+| 1 | GIS / WebGIS | 3 | 4 | 5 | T3-GIS-SCALE |
+| 2 | CTM / lifecycle de parcela | 3 | 4 | 5 | T2-PARCEL-E2E |
+| 3 | Parcel search/detail UX | 3 | 4 | 5 | T2-PARCEL-E2E |
+| 4 | Imports (GeoJSON / CSV / externos) | 3 | 4 | 4 | T3-IMPORT-PROOF |
+| 5 | Tributação / IPTU / PGV / valor venal | 3 | 4 | 5 | T2-TAX-INTEG |
+| 6 | Vistorias / workflows de campo | 3 | 4 | 4 | T2-INSPECT-E2E |
+| 7 | Mobile / uso em campo | 2 | 3 | 4 | T4-MOBILE |
+| 8 | Portal cidadão / serviço público | 2 | 3 | 4 | T3-CITIZEN |
+| 9 | Dashboards / observatório | 3 | 4 | 4 | T3-DASH-PROOF |
+| 10 | Relatórios / exportações / PDFs | 3 | 4 | 4 | T2-REPORTS |
+| 11 | Notificações / cartas / comunicação | 2 | 3 | 4 | — |
+| 12 | Aprovações / compliance / workflows | 2 | 3 | 4 | — |
+| 13 | Segurança / RBAC / multi-tenant / auditoria | 3 | 4 | 5 | T4-AUDIT |
+| 14 | UX / navegação / usabilidade operador | 2 | 4 | 5 | T1-ROUTE-PROOF, T3-EMPTY-STATES |
+| 15 | Testes / qualidade / release readiness | 2 | 4 | 5 | T1 inteiro |
+
+## Heatmap resumo
+
+```
+MADURO (≥3):      GIS, CTM, parcel search, imports, tributação, vistorias,
+                  dashboards, relatórios, RBAC
+IMATURO (2):      Mobile, portal cidadão, notificações, aprovações, UX, testes
+AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
+```
+
+## Histórico de mudanças
+
+| Data | Agente | Domínio | De → Para | Motivo |
+|---|---|---|---|---|
+| 2026-04-17 | Claude (bootstrap) | — | — | Baseline inicial a partir da auditoria em `docs/planning/reference/` |
+
+<!--
+Exemplo de entrada futura:
+| 2026-05-03 | Codex | GIS | 3 → 4 | E2E de fitBounds + overlay validado em 3 navegadores, ref T3-GIS-SCALE |
+-->

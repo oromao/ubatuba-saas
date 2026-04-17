@@ -295,6 +295,14 @@ let ComplianceService = class ComplianceService {
         });
         return this.repository.save(profile);
     }
+    async getAuditLogs(tenantId, projectId) {
+        const profile = await this.resolve(tenantId, projectId);
+        return profile.auditLog || [];
+    }
+    async getChecklist(tenantId, projectId) {
+        const profile = await this.resolve(tenantId, projectId);
+        return profile.checklist || [];
+    }
 };
 exports.ComplianceService = ComplianceService;
 exports.ComplianceService = ComplianceService = __decorate([

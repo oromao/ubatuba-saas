@@ -7,14 +7,57 @@ export type GeometryValidationResult = {
   calculatedArea?: number;
 };
 
+type CoordinatePair = [number, number];
+
+type PolygonGeometry = {
+  type: 'Polygon';
+  coordinates: CoordinatePair[][];
+};
+
+type MultiPolygonGeometry = {
+  type: 'MultiPolygon';
+  coordinates: CoordinatePair[][][];
+};
+
+type PointGeometry = {
+  type: 'Point';
+  coordinates: CoordinatePair;
+};
+
+type SupportedGeometry = PolygonGeometry | MultiPolygonGeometry | PointGeometry;
+
+function isSupportedGeometry(geometry: unknown): geometry is SupportedGeometry {
+  if (!geometry || typeof geometry !== 'object') {
+    return false;
+  }
+
+  const candidate = geometry as { type?: unknown; coordinates?: unknown };
+  if (!['Polygon', 'MultiPolygon', 'Point'].includes(String(candidate.type))) {
+    return false;
+  }
+
+  return Array.isArray(candidate.coordinates) || candidate.type === 'Point';
+}
+
+function hasCoordinates(
+  geometry: unknown,
+): geometry is { coordinates: CoordinatePair[] | CoordinatePair[][] | CoordinatePair[][][] } {
+  return Boolean(geometry && typeof geometry === 'object' && 'coordinates' in geometry);
+}
+
 @Injectable()
 export class GeometryService {
-  validateGeometry(geometry: any): GeometryValidationResult {
+  validateGeometry(geometry: unknown): GeometryValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    if (!geometry) {
-      return { valid: false, errors: ['Geometria ausente'], warnings: [] };
+    if (!isSupportedGeometry(geometry)) {
+      if (!geometry) {
+        return { valid: false, errors: ['Geometria ausente'], warnings: [] };
+      }
+
+      errors.push('Tipo de geometria não definido');
+      return { valid: false, errors, warnings };
     }
 
     if (!geometry.type) {
@@ -25,9 +68,9 @@ export class GeometryService {
       errors.push(`Tipo inválido: ${geometry.type}. Use Polygon, MultiPolygon ou Point`);
     }
 
-    if (!geometry.coordinates || !Array.isArray(geometry.coordinates)) {
+    if (!Array.isArray(geometry.coordinates)) {
       errors.push('Coordenadas ausentes ou inválidas');
-      return { valid: errors.length === 0, errors, warnings };
+      return { valid: false, errors, warnings };
     }
 
     if (geometry.type === 'Polygon') {
@@ -61,22 +104,22 @@ export class GeometryService {
     return { valid: errors.length === 0, errors, warnings, calculatedArea };
   }
 
-  private calculatePolygonArea(coordinates: number[][]): number {
+  private calculatePolygonArea(coordinates: CoordinatePair[]): number {
     const EARTH_RADIUS = 6371000;
     let area = 0;
     const n = coordinates.length;
     for (let i = 0; i < n - 1; i++) {
-      const [lon1, lat1] = coordinates[i].map((d: number) => d * Math.PI / 180);
-      const [lon2, lat2] = coordinates[i + 1].map((d: number) => d * Math.PI / 180);
+      const [lon1, lat1] = coordinates[i].map((d: number) => d * Math.PI / 180) as CoordinatePair;
+      const [lon2, lat2] = coordinates[i + 1].map((d: number) => d * Math.PI / 180) as CoordinatePair;
       area += (lon2 - lon1) * (2 + Math.sin(lat1) + Math.sin(lat2));
     }
     return Math.abs(area * EARTH_RADIUS * EARTH_RADIUS / 2);
   }
 
-  checkSimpleOverlap(geom1: any, geom2: any): boolean {
-    if (!geom1?.coordinates || !geom2?.coordinates) return false;
-    const bbox1 = this.getBoundingBox(geom1.coordinates[0] || []);
-    const bbox2 = this.getBoundingBox(geom2.coordinates[0] || []);
+  checkSimpleOverlap(geom1: unknown, geom2: unknown): boolean {
+    if (!hasCoordinates(geom1) || !hasCoordinates(geom2)) return false;
+    const bbox1 = this.getBoundingBox((geom1.coordinates[0] ?? []) as CoordinatePair[]);
+    const bbox2 = this.getBoundingBox((geom2.coordinates[0] ?? []) as CoordinatePair[]);
     if (!bbox1 || !bbox2) return false;
     return !(
       bbox1.maxLng < bbox2.minLng ||
@@ -86,7 +129,7 @@ export class GeometryService {
     );
   }
 
-  private getBoundingBox(coords: number[][]) {
+  private getBoundingBox(coords: CoordinatePair[]) {
     if (!coords || coords.length === 0) return null;
     return {
       minLng: Math.min(...coords.map((c) => c[0])),

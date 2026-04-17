@@ -16,6 +16,8 @@ exports.ReportsService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const parcel_schema_1 = require("../ctm/parcels/parcel.schema");
+const vistoria_schema_1 = require("../ctm/vistoria.schema");
 let ReportsService = class ReportsService {
     constructor(parcelModel, vistoriaModel) {
         this.parcelModel = parcelModel;
@@ -99,8 +101,8 @@ let ReportsService = class ReportsService {
 exports.ReportsService = ReportsService;
 exports.ReportsService = ReportsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('Parcel')),
-    __param(1, (0, mongoose_1.InjectModel)('Vistoria')),
+    __param(0, (0, mongoose_1.InjectModel)(parcel_schema_1.Parcel.name)),
+    __param(1, (0, mongoose_1.InjectModel)(vistoria_schema_1.Vistoria.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model])
 ], ReportsService);

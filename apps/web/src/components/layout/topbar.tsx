@@ -77,7 +77,7 @@ export function Topbar() {
   useEffect(() => {
     setLastTenantSlug(window.localStorage.getItem("lastTenantSlug"));
   }, []);
-  const tenantLabel = tenant?.name ?? lastTenantSlug ?? "Tenant demo";
+  const tenantLabel = tenant?.name ?? lastTenantSlug ?? "Prefeitura";
 
   return (
     <header className="shrink-0 border-b border-outline bg-surface-elevated">

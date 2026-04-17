@@ -23,6 +23,19 @@ const logradouros_service_1 = require("../logradouros/logradouros.service");
 const parcel_audit_repository_1 = require("./parcel-audit.repository");
 const parcels_repository_1 = require("./parcels.repository");
 const import_batch_repository_1 = require("./import-batch.repository");
+function isParcelGeoJson(value) {
+    if (!value || typeof value !== 'object')
+        return false;
+    const candidate = value;
+    if (candidate.type !== 'FeatureCollection' || !Array.isArray(candidate.features))
+        return false;
+    return candidate.features.every((feature) => {
+        if (!feature || typeof feature !== 'object')
+            return false;
+        const item = feature;
+        return item.type === 'Feature' && typeof item.properties === 'object' && item.properties !== null;
+    });
+}
 const STATUS_VALUES = new Set(['ATIVO', 'INATIVO', 'CONFLITO']);
 const IPTUSTATUS_VALUES = new Set(['QUITADO', 'PARCELADO', 'INADIMPLENTE', 'ISENTO', 'EXIGIVEL', 'NAO_CADASTRADO']);
 const parseStatus = (value) => value && STATUS_VALUES.has(value) ? value : undefined;
@@ -33,18 +46,18 @@ const normalizeWorkflowStatus = (value) => (value && WORKFLOW_VALUES.has(value)
     ? value
     : 'PENDENTE');
 const PROPERTY_ALIASES = {
-    sqlu: ['sqlu', 'sql_u', 'codigo_sql', 'codigosqlu', 'lote_codigo', 'sql', 'sql_code', 'cod_sql', 'codigosql'],
-    inscricaoImobiliaria: ['inscricaoimobiliaria', 'inscricao', 'inscricao_imob', 'inscricao_imobiliaria', 'codigo_inscricao', 'codigoimovel', 'cadastro', 'cod_cad', 'codcadastro'],
-    codigoImovel: ['codigoimovel', 'codigo_imovel', 'cod_imov', 'codigo'],
+    sqlu: ['sqlu', 'sql_u', 'codigo_sql', 'codigosqlu', 'lote_codigo', 'sql', 'sql_code', 'cod_sql', 'codigosql', 'id'],
+    inscricaoImobiliaria: ['inscricaoimobiliaria', 'inscricao', 'inscricao_imob', 'inscricao_imobiliaria', 'codigo_inscricao', 'codigoimovel', 'cadastro', 'cod_cad', 'codcadastro', 'inscricao_imobiliaria'],
+    codigoImovel: ['codigoimovel', 'codigo_imovel', 'cod_imov', 'codigo', 'codigo_sql'],
     setor: ['setor', 'cd_setor', 'setor_codigo', 'setor_cod', 'num_setor'],
     quadra: ['quadra', 'cd_quadra', 'quadra_codigo', 'quadras', 'quadra_cod', 'num_quadra'],
     lote: ['lote', 'cd_lote', 'lote_codigo', 'numero_lote', 'lote_cod', 'num_lote'],
-    endereco: ['endereco', 'logradouro', 'rua', 'nome_logradouro', 'nome', 'mainaddress', 'nome_logr'],
+    endereco: ['endereco', 'logradouro', 'rua', 'nome_logradouro', 'nome', 'mainaddress', 'nome_logr', 'logradouro_nome'],
     numero: ['numero', 'num', 'numero_endereco', 'nr', 'num_end'],
     complemento: ['complemento', 'comp', 'complemento_endereco'],
     bairro: ['bairro', 'bairro_nome', 'nome_bairro', 'distrito', 'bairro_cod'],
     cep: ['cep', 'cep_endereco', 'codigo_cep'],
-    zoneamento: ['zoneamento', 'zona', 'zona_uso', 'zone', 'zona_zoneamento', 'uso'],
+    zoneamento: ['zoneamento', 'zona', 'zona_uso', 'zone', 'zona_zoneamento', 'uso', 'categoria', 'tipo'],
     areaTerreno: ['areaterreno', 'area_terreno', 'area_terr', 'area_m2', 'area', 'area_parcela', 'area_lote'],
     areaConstruida: ['areaconstruida', 'area_construida', 'area_const', 'area_edificada', 'area_edif'],
     areaCartografica: ['areacartografica', 'area_carto', 'area_cartografica'],
@@ -75,32 +88,51 @@ function parseNumber(value) {
     return isNaN(num) ? undefined : num;
 }
 function calculateCentroid(geometry) {
-    if (geometry.type === 'Polygon' && geometry.coordinates.length > 0) {
-        const ring = geometry.coordinates[0];
-        if (ring.length >= 4) {
-            let sumX = 0, sumY = 0;
-            for (const coord of ring) {
-                sumX += coord[0];
-                sumY += coord[1];
+    if (!geometry || !geometry.coordinates || geometry.coordinates.length === 0) {
+        return { type: 'Point', coordinates: [0, 0] };
+    }
+    let allCoords = [];
+    if (geometry.type === 'Polygon') {
+        allCoords = geometry.coordinates[0];
+    }
+    else if (geometry.type === 'MultiPolygon') {
+        for (const polygon of geometry.coordinates) {
+            if (polygon[0]) {
+                allCoords.push(...polygon[0]);
             }
-            return { type: 'Point', coordinates: [sumX / ring.length, sumY / ring.length] };
         }
+    }
+    if (allCoords.length > 0) {
+        let sumX = 0, sumY = 0;
+        for (const coord of allCoords) {
+            sumX += coord[0];
+            sumY += coord[1];
+        }
+        return { type: 'Point', coordinates: [sumX / allCoords.length, sumY / allCoords.length] };
     }
     return { type: 'Point', coordinates: [0, 0] };
 }
 function calculateBbox(geometry) {
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    const coords = geometry.type === 'Polygon' ? geometry.coordinates[0] : geometry.coordinates[0]?.[0] || [];
-    for (const coord of coords) {
-        if (coord[0] < minX)
-            minX = coord[0];
-        if (coord[0] > maxX)
-            maxX = coord[0];
-        if (coord[1] < minY)
-            minY = coord[1];
-        if (coord[1] > maxY)
-            maxY = coord[1];
+    const polygons = geometry.type === 'Polygon'
+        ? [geometry.coordinates]
+        : geometry.coordinates;
+    for (const polygon of polygons) {
+        for (const ring of polygon) {
+            for (const coord of ring) {
+                if (coord[0] < minX)
+                    minX = coord[0];
+                if (coord[0] > maxX)
+                    maxX = coord[0];
+                if (coord[1] < minY)
+                    minY = coord[1];
+                if (coord[1] > maxY)
+                    maxY = coord[1];
+            }
+        }
     }
+    if (minX === Infinity)
+        return { minX: 0, minY: 0, maxX: 0, maxY: 0 };
     return { minX, minY, maxX, maxY };
 }
 let ParcelsService = ParcelsService_1 = class ParcelsService {
@@ -465,6 +497,9 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         };
     }
     async importGeojson(tenantId, projectId, featureCollection, sourceType = 'GEOJSON', fileName, upsert = false, userId, municipalityName, municipalityCode) {
+        if (!isParcelGeoJson(featureCollection)) {
+            throw new common_1.BadRequestException('GeoJSON de parcelas invalido');
+        }
         if (!featureCollection?.features?.length) {
             return { batchId: null, inserted: 0, updated: 0, skipped: 0, errors: 0, errorDetails: [] };
         }
@@ -516,6 +551,15 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
                     continue;
                 }
                 const geo = geometry;
+                const firstPolygon = geo.type === 'Polygon' ? geo.coordinates : geo.coordinates[0];
+                const firstCoord = firstPolygon?.[0]?.[0];
+                if (firstCoord && Array.isArray(firstCoord) && firstCoord.length >= 2) {
+                    const lng = firstCoord[0];
+                    const lat = firstCoord[1];
+                    if (typeof lng === 'number' && typeof lat === 'number' && (Math.abs(lng) > 180 || Math.abs(lat) > 90)) {
+                        throw new Error(`Coordenadas inválidas para WGS84 (Lng: ${lng}, Lat: ${lat}). O GeoJSON deve estar em EPSG:4326. Dados do GeoSampa/SIRGAS 2000 UTM devem ser convertidos antes da importação.`);
+                    }
+                }
                 const areaCartografica = (0, geo_1.calculateGeometryArea)(geo);
                 const centroid = calculateCentroid(geo);
                 const bbox = calculateBbox(geo);
@@ -829,6 +873,78 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
             completedAt: new Date(),
         });
         return { batchId, processed, updated, notFound, errors, errorDetails };
+    }
+    async generatePdf(tenantId, parcelId) {
+        const parcel = await this.findById(tenantId, undefined, parcelId);
+        if (!parcel)
+            throw new common_1.NotFoundException('Lote não encontrado');
+        return new Promise((resolve, reject) => {
+            const PDFDocument = require('pdfkit');
+            const doc = new PDFDocument({ margin: 50, size: 'A4' });
+            const chunks = [];
+            doc.on('data', (c) => chunks.push(c));
+            doc.on('end', () => resolve(Buffer.concat(chunks)));
+            doc.on('error', reject);
+            const address = parcel.mainAddress || [
+                parcel.enderecoPrincipal?.logradouro,
+                parcel.enderecoPrincipal?.numero,
+                parcel.enderecoPrincipal?.bairro,
+            ].filter(Boolean).join(', ') || 'Não informado';
+            doc.fontSize(9).fillColor('#666').text('PREFEITURA MUNICIPAL', { align: 'center' });
+            doc.fontSize(14).fillColor('#000').font('Helvetica-Bold')
+                .text('FICHA DE IMÓVEL — CADASTRO TÉCNICO MUNICIPAL', { align: 'center' });
+            doc.moveDown(0.5);
+            doc.fontSize(9).font('Helvetica').fillColor('#666')
+                .text(`Emitido em: ${new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}`, { align: 'right' });
+            doc.moveDown(0.3);
+            doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+            doc.moveDown(0.5);
+            doc.fontSize(11).font('Helvetica-Bold').fillColor('#1a1a1a').text('IDENTIFICAÇÃO DO IMÓVEL');
+            doc.moveDown(0.3);
+            const fields = [
+                ['SQLU', parcel.sqlu || '—'],
+                ['Inscrição Imobiliária', parcel.inscricaoImobiliaria || '—'],
+                ['Endereço', address],
+                ['Bairro', parcel.enderecoPrincipal?.bairro || '—'],
+                ['Área Terreno', parcel.areaTerreno ? `${Number(parcel.areaTerreno).toFixed(2)} m²` : '—'],
+                ['Área Construída', parcel.areaConstruida ? `${Number(parcel.areaConstruida).toFixed(2)} m²` : '—'],
+                ['Status Cadastral', parcel.statusCadastral || '—'],
+                ['Status Workflow', parcel.workflowStatus || '—'],
+                ['Origem do Dado', parcel.sourceType || '—'],
+                ['Zoneamento', parcel.zoneamento || '—'],
+            ];
+            doc.fontSize(10).font('Helvetica');
+            fields.forEach(([label, value]) => {
+                doc.fillColor('#666').text(`${label}: `, { continued: true })
+                    .fillColor('#000').text(value);
+            });
+            const hasIptu = parcel.statusIPTU && parcel.statusIPTU !== 'NAO_CADASTRADO';
+            if (hasIptu) {
+                doc.moveDown(0.5);
+                doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+                doc.moveDown(0.3);
+                doc.fontSize(11).font('Helvetica-Bold').fillColor('#1a1a1a').text('TRIBUTAÇÃO');
+                doc.moveDown(0.3);
+                doc.fontSize(10).font('Helvetica');
+                const fmt = (v) => v ? v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—';
+                [
+                    ['Status IPTU', parcel.statusIPTU || '—'],
+                    ['Valor Venal', fmt(parcel.valorVenalTotal)],
+                    ['IPTU Lançado', fmt(parcel.iptuLancado)],
+                    ['IPTU Pago', fmt(parcel.iptuPago)],
+                    ['IPTU Em Aberto', fmt(parcel.iptuEmAberto)],
+                ].forEach(([label, value]) => {
+                    doc.fillColor('#666').text(`${label}: `, { continued: true })
+                        .fillColor('#000').text(value);
+                });
+            }
+            doc.moveDown(2);
+            doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+            doc.moveDown(0.3);
+            doc.fontSize(8).fillColor('#999')
+                .text('Este documento é gerado automaticamente pelo sistema FlyDea — Cadastro Técnico Municipal. Não substitui certidão oficial.', { align: 'center' });
+            doc.end();
+        });
     }
 };
 exports.ParcelsService = ParcelsService;

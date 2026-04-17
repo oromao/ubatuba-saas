@@ -52,6 +52,11 @@ import { ReurbService } from './reurb.service';
 export class ReurbController {
   constructor(private readonly service: ReurbService) {}
 
+  private requireLgpdPurpose(purpose: string | undefined) {
+    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    return purpose.trim();
+  }
+
   @Get('tenant-config')
   getTenantConfig(@Req() req: { tenantId: string }) {
     return this.service.getTenantConfig(req.tenantId);
@@ -124,7 +129,7 @@ export class ReurbController {
     @Query('nucleus') nucleus?: string,
     @Query('q') q?: string,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.listFamilies(
       req.tenantId,
       projectId,
@@ -153,7 +158,7 @@ export class ReurbController {
     @Headers('x-lgpd-purpose') purpose: string | undefined,
     @Body() dto: DeliverableCommandDto,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.exportFamiliesCsv(req.tenantId, dto.projectId, req.user?.sub, purpose);
   }
 
@@ -165,7 +170,7 @@ export class ReurbController {
     @Headers('x-lgpd-purpose') purpose: string | undefined,
     @Body() dto: DeliverableCommandDto,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.exportFamiliesXlsx(req.tenantId, dto.projectId, req.user?.sub, purpose);
   }
 
@@ -177,7 +182,7 @@ export class ReurbController {
     @Headers('x-lgpd-purpose') purpose: string | undefined,
     @Body() dto: DeliverableCommandDto,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.exportFamiliesJson(req.tenantId, dto.projectId, req.user?.sub, purpose);
   }
 
@@ -189,7 +194,7 @@ export class ReurbController {
     @Headers('x-lgpd-purpose') purpose: string | undefined,
     @Body() dto: DeliverableCommandDto,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.generatePlanilhaSintese(req.tenantId, dto.projectId, req.user?.sub, purpose);
   }
 
@@ -445,7 +450,7 @@ export class ReurbController {
     @Headers('x-lgpd-purpose') purpose: string | undefined,
     @Body() dto: DeliverableCommandDto,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.generateCartorioPackage(req.tenantId, dto.projectId, req.user?.sub, purpose);
   }
 
@@ -456,7 +461,7 @@ export class ReurbController {
     @Query('projectId') projectId?: string,
     @Query('kind') kind?: ReurbDeliverableKind,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.listDeliverables(req.tenantId, projectId, kind, {
       actorId: req.user?.sub,
       purpose,
@@ -470,7 +475,7 @@ export class ReurbController {
     @Param('id') id: string,
     @Query('projectId') projectId?: string,
   ) {
-    if (!purpose?.trim()) throw new ForbiddenException('Acesso recusado: x-lgpd-purpose obrigatorio');
+    purpose = this.requireLgpdPurpose(purpose);
     return this.service.getDeliverableDownload(req.tenantId, id, projectId, {
       actorId: req.user?.sub,
       purpose,

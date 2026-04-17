@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Roles } from '../../common/guards/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { ComplianceService } from './compliance.service';
@@ -19,13 +19,27 @@ export class ComplianceController {
   constructor(private readonly service: ComplianceService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Obter perfil completo de conformidade' })
   getProfile(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
     return this.service.getProfile(req.tenantId, projectId);
+  }
+
+  @Get('audit')
+  @ApiOperation({ summary: 'Obter logs de auditoria de conformidade' })
+  getAuditLogs(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
+    return this.service.getAuditLogs(req.tenantId, projectId);
+  }
+
+  @Get('checklist')
+  @ApiOperation({ summary: 'Obter checklist de conformidade' })
+  getChecklist(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
+    return this.service.getChecklist(req.tenantId, projectId);
   }
 
   @Put('company')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar dados da empresa responsável' })
   upsertCompany(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -37,6 +51,7 @@ export class ComplianceController {
   @Post('responsibles')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Adicionar responsável técnico' })
   addResponsible(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -48,6 +63,7 @@ export class ComplianceController {
   @Patch('responsibles/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar responsável técnico' })
   updateResponsible(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -60,6 +76,7 @@ export class ComplianceController {
   @Delete('responsibles/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR')
+  @ApiOperation({ summary: 'Remover responsável técnico' })
   deleteResponsible(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -71,6 +88,7 @@ export class ComplianceController {
   @Post('art-rrt')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Adicionar ART/RRT' })
   addArtRrt(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -82,6 +100,7 @@ export class ComplianceController {
   @Patch('art-rrt/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar ART/RRT' })
   updateArtRrt(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -94,6 +113,7 @@ export class ComplianceController {
   @Delete('art-rrt/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR')
+  @ApiOperation({ summary: 'Remover ART/RRT' })
   deleteArtRrt(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -105,6 +125,7 @@ export class ComplianceController {
   @Post('cats')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Adicionar CAT' })
   addCat(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -116,6 +137,7 @@ export class ComplianceController {
   @Patch('cats/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar CAT' })
   updateCat(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -128,6 +150,7 @@ export class ComplianceController {
   @Delete('cats/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR')
+  @ApiOperation({ summary: 'Remover CAT' })
   deleteCat(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -139,6 +162,7 @@ export class ComplianceController {
   @Post('team')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Adicionar membro à equipe' })
   addTeamMember(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -150,6 +174,7 @@ export class ComplianceController {
   @Patch('team/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar membro da equipe' })
   updateTeamMember(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -162,6 +187,7 @@ export class ComplianceController {
   @Delete('team/:id')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR')
+  @ApiOperation({ summary: 'Remover membro da equipe' })
   deleteTeamMember(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,
@@ -173,6 +199,7 @@ export class ComplianceController {
   @Put('checklist')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  @ApiOperation({ summary: 'Atualizar item de checklist de conformidade' })
   upsertChecklist(
     @Req() req: { tenantId: string; user?: { sub?: string } },
     @Query('projectId') projectId: string | undefined,

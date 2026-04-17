@@ -104,12 +104,12 @@ export class TaxIntegrationService {
       return { status: 'ERRO', processed: 0, errors: 1, message: 'Host SFTP nao configurado.' };
     }
     return {
-      status: 'SUCESSO',
+      status: 'ERRO',
       processed: 0,
       inserted: 0,
       updated: 0,
-      errors: 0,
-      message: 'Conector SFTP em modo stub validado.',
+      errors: 1,
+      message: 'Conector SFTP ainda nao implementado; execucao bloqueada para evitar falso positivo.',
     };
   }
 
@@ -230,4 +230,3 @@ export class TaxIntegrationService {
     return this.repository.listLogs(tenantId, String(resolvedProject), connectorId);
   }
 }
-

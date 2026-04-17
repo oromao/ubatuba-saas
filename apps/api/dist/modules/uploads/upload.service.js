@@ -11,31 +11,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadService = void 0;
 const common_1 = require("@nestjs/common");
-const path_1 = require("path");
-const fs = require("fs");
 const path = require("path");
 const crypto_1 = require("crypto");
+const uploads_repository_1 = require("./uploads.repository");
+const object_id_1 = require("../../common/utils/object-id");
+const object_storage_service_1 = require("../shared/object-storage.service");
 let UploadService = class UploadService {
-    constructor() {
-        this.uploadDir = (0, path_1.join)(process.cwd(), 'uploads');
-        if (!fs.existsSync(this.uploadDir)) {
-            fs.mkdirSync(this.uploadDir, { recursive: true });
-        }
+    constructor(uploadsRepository, storage) {
+        this.uploadsRepository = uploadsRepository;
+        this.storage = storage;
     }
-    async saveFile(file) {
+    async saveFile(file, tenantId) {
         const ext = path.extname(file.originalname) || '.bin';
         const filename = `${(0, crypto_1.randomUUID)()}${ext}`;
-        const filePath = (0, path_1.join)(this.uploadDir, filename);
-        fs.writeFileSync(filePath, file.buffer);
-        return `/uploads/${filename}`;
+        const key = tenantId
+            ? `tenants/${tenantId}/uploads/${filename}`
+            : `global/uploads/${filename}`;
+        if (!file.buffer) {
+            throw new Error('Arquivo sem buffer. Certifique-se de usar memoryStorage no Multer.');
+        }
+        const uploadResult = await this.storage.putObject({
+            key,
+            content: file.buffer,
+            contentType: file.mimetype,
+        });
+        if (tenantId) {
+            await this.uploadsRepository.create({
+                tenantId: (0, object_id_1.asObjectId)(tenantId),
+                key: uploadResult.key,
+                filename: file.originalname,
+                status: 'UPLOADED',
+                size: file.size,
+                mimeType: file.mimetype,
+            });
+        }
+        return uploadResult.url;
     }
-    async saveFiles(files) {
-        return Promise.all(files.map((f) => this.saveFile(f)));
+    async saveFiles(files, tenantId) {
+        return Promise.all(files.map((f) => this.saveFile(f, tenantId)));
     }
 };
 exports.UploadService = UploadService;
 exports.UploadService = UploadService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [uploads_repository_1.UploadsRepository,
+        object_storage_service_1.ObjectStorageService])
 ], UploadService);
 //# sourceMappingURL=upload.service.js.map

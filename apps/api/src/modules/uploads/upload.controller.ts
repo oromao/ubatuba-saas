@@ -1,14 +1,15 @@
 import {
   Controller,
+  Req,
   Post,
   UploadedFiles,
   UseInterceptors,
-  Req,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UploadService } from './upload.service';
+import { TenantRequest } from '../../common/guards/tenant.guard';
 
 @ApiTags('uploads')
 @Controller('upload')
@@ -25,9 +26,9 @@ export class UploadController {
   )
   async uploadFiles(
     @UploadedFiles() files: Express.Multer.File[],
-    @Req() _req: unknown,
+    @Req() req: TenantRequest,
   ) {
-    const urls = await this.uploadService.saveFiles(files ?? []);
+    const urls = await this.uploadService.saveFiles(files ?? [], req.tenantId);
     return { urls };
   }
 }

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CtmModule = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const mongoose_1 = require("@nestjs/mongoose");
 const parcels_controller_1 = require("./parcels/parcels.controller");
 const project_parcels_controller_1 = require("./parcels/project-parcels.controller");
@@ -47,6 +48,7 @@ exports.CtmModule = CtmModule;
 exports.CtmModule = CtmModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            jwt_1.JwtModule.register({}),
             projects_module_1.ProjectsModule,
             uploads_module_1.UploadsModule,
             mongoose_1.MongooseModule.forFeature([

@@ -23,6 +23,17 @@ type ParcelGeoJson = {
   }>;
 };
 
+function isParcelGeoJson(value: unknown): value is ParcelGeoJson {
+  if (!value || typeof value !== 'object') return false;
+  const candidate = value as Partial<ParcelGeoJson>;
+  if (candidate.type !== 'FeatureCollection' || !Array.isArray(candidate.features)) return false;
+  return candidate.features.every((feature) => {
+    if (!feature || typeof feature !== 'object') return false;
+    const item = feature as { type?: unknown; geometry?: unknown; properties?: unknown };
+    return item.type === 'Feature' && typeof item.properties === 'object' && item.properties !== null;
+  });
+}
+
 const STATUS_VALUES = new Set(['ATIVO', 'INATIVO', 'CONFLITO']);
 const IPTUSTATUS_VALUES = new Set(['QUITADO', 'PARCELADO', 'INADIMPLENTE', 'ISENTO', 'EXIGIVEL', 'NAO_CADASTRADO']);
 
@@ -604,6 +615,9 @@ export class ParcelsService {
     municipalityName?: string,
     municipalityCode?: string,
   ) {
+    if (!isParcelGeoJson(featureCollection)) {
+      throw new BadRequestException('GeoJSON de parcelas invalido');
+    }
     if (!featureCollection?.features?.length) {
       return { batchId: null, inserted: 0, updated: 0, skipped: 0, errors: 0, errorDetails: [] };
     }

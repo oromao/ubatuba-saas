@@ -142,7 +142,7 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-xl">Widgets configuráveis</CardTitle>
-            <CardDescription>Layout persistido por usuário para demo executiva e operação. O painel usa nomes de negócio em vez de IDs técnicos.</CardDescription>
+            <CardDescription>Layout persistido por usuário para gestão estratégica e operação. O painel usa nomes de negócio em vez de IDs técnicos.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-3 md:grid-cols-[220px_1fr_auto] md:items-end">
             <div>
@@ -325,7 +325,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="font-display text-xl">Prioridades de hoje</CardTitle>
-                  <CardDescription>Fila resumida para leitura executiva.</CardDescription>
+                  <CardDescription>Fila resumida para leitura estratégica.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {executiveQuery.isLoading
@@ -374,7 +374,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="font-display text-xl">Sinais de prontidão</CardTitle>
-                  <CardDescription>Resume o estado institucional para banca e demo.</CardDescription>
+                  <CardDescription>Resume o estado institucional para auditoria e governança.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {executiveQuery.isLoading
@@ -481,7 +481,7 @@ export default function DashboardPage() {
                 <div className="rounded-md border border-outline bg-surface-elevated p-4">
                   <p className="text-xs uppercase tracking-[0.12em] text-on-surface-muted">Estado institucional</p>
                   <p className="mt-2 text-sm text-on-surface">
-                    Portal coexistente, handoff institucional e layout por usuário já estão operacionais para demo e homologação.
+                    Portal coexistente, handoff institucional e layout por usuário já estão operacionais plena.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <Badge variant="info">Portal ready</Badge>

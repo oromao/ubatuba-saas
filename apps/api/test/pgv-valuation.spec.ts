@@ -327,7 +327,7 @@ describe('PGV Valuation', () => {
 
       expect(auditLog).toHaveLength(3);
       expect(auditLog[0].action).toBe('VALUATION_CREATED');
-      expect(auditLog[2].details.baseValueChange.new).toBe(5200);
+      expect(auditLog[2].details?.baseValueChange?.new).toBe(5200);
     });
   });
 
@@ -368,7 +368,7 @@ describe('PGV Valuation', () => {
      * Missing required fields
      */
     it('should reject valuation without required fields', () => {
-      const incompleteValuation = {
+      const incompleteValuation: any = {
         // Missing: parcelArea, zoneId
         zoneId: 'zone-001',
         // Missing: parcelArea

@@ -24,9 +24,9 @@ const ensureSession = async (page: any) => {
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
   await page.evaluate(
     (tokens) => {
-      localStorage.setItem('accessToken', tokens.accessToken);
-      localStorage.setItem('refreshToken', tokens.refreshToken);
-      localStorage.setItem('tenantId', tokens.tenantId);
+      sessionStorage.setItem('accessToken', tokens.accessToken);
+      sessionStorage.setItem('refreshToken', tokens.refreshToken);
+      sessionStorage.setItem('tenantId', tokens.tenantId);
     },
     { accessToken: payload.data.accessToken, refreshToken: payload.data.refreshToken, tenantId: payload.data.tenantId },
   );

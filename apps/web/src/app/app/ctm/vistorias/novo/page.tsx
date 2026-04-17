@@ -39,7 +39,7 @@ async function uploadFiles(files: File[]): Promise<string[]> {
 
   const token =
     typeof window !== "undefined"
-      ? (localStorage.getItem("accessToken") ?? sessionStorage.getItem("accessToken"))
+      ? sessionStorage.getItem("accessToken")
       : null;
 
   const res = await fetch(`${API_URL}/upload/files`, {

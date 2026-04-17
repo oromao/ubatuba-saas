@@ -1,8 +1,13 @@
+jest.mock('../src/common/utils/mvt.util', () => ({
+  createVectorTile: jest.fn(() => Buffer.from('mock-tile')),
+}));
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ParcelsService } from '../src/modules/ctm/parcels/parcels.service';
 import { ParcelsRepository } from '../src/modules/ctm/parcels/parcels.repository';
 import { ParcelAuditRepository } from '../src/modules/ctm/parcels/parcel-audit.repository';
+import { ImportBatchRepository } from '../src/modules/ctm/parcels/import-batch.repository';
 import { ProjectsService } from '../src/modules/projects/projects.service';
 import { ParcelBuildingsService } from '../src/modules/ctm/parcel-buildings/parcel-buildings.service';
 import { ParcelInfrastructureService } from '../src/modules/ctm/parcel-infrastructure/parcel-infrastructure.service';
@@ -36,8 +41,11 @@ describe('CTM Parcels Service', () => {
 
   // Invalid geometry (missing coordinates)
   const invalidGeometry = {
-    type: 'Polygon' as const,
-    coordinates: [],
+    type: 'LineString' as const,
+    coordinates: [
+      [-46.305, -23.55],
+      [-46.304, -23.55],
+    ],
   };
 
   const mockParcel = {
@@ -93,6 +101,13 @@ describe('CTM Parcels Service', () => {
           useValue: {
             listByParcel: jest.fn(),
             create: jest.fn(),
+          },
+        },
+        {
+          provide: ImportBatchRepository,
+          useValue: {
+            create: jest.fn(),
+            update: jest.fn(),
           },
         },
         {
@@ -249,7 +264,10 @@ describe('CTM Parcels Service', () => {
         'parcel-001',
       );
 
-      expect(result).toEqual(mockParcel);
+      expect(result).toEqual(expect.objectContaining({
+        ...mockParcel,
+        id: expect.any(String),
+      }));
       expect(repository.findById).toHaveBeenCalledWith(
         mockTenantId,
         mockProjectId,
@@ -327,11 +345,17 @@ describe('CTM Parcels Service', () => {
         status: 'ATIVO',
       };
 
-      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel as any);
+      jest.spyOn(repository, 'create').mockResolvedValue({
+        ...mockParcel,
+        id: '507f1f77bcf86cd799439012',
+      } as any);
 
       const result = await service.create(mockTenantId, createDto as any, mockUserId);
 
-      expect(result).toEqual(mockParcel);
+      expect(result).toEqual(expect.objectContaining({
+        ...mockParcel,
+        id: expect.any(String),
+      }));
       expect(repository.create).toHaveBeenCalled();
     });
 
@@ -371,11 +395,17 @@ describe('CTM Parcels Service', () => {
         status: 'ATIVO',
       };
 
-      jest.spyOn(repository, 'create').mockResolvedValue(mockParcel as any);
+      jest.spyOn(repository, 'create').mockResolvedValue({
+        ...mockParcel,
+        id: '507f1f77bcf86cd799439013',
+      } as any);
 
       const result = await service.create(mockTenantId, createDto as any, mockUserId);
 
-      expect(result).toEqual(mockParcel);
+      expect(result).toEqual(expect.objectContaining({
+        ...mockParcel,
+        id: expect.any(String),
+      }));
     });
   });
 
@@ -415,11 +445,17 @@ describe('CTM Parcels Service', () => {
 
         const createDto = {
           inscription: '0001.001.0001-01',
+          mainAddress: 'Rua A, 123',
           geometry,
           status: 'ATIVO',
         };
 
-        const result = await service.create(mockTenantId, createDto as any);
+        jest.spyOn(repository, 'create').mockResolvedValue({
+          ...mockParcel,
+          id: '507f1f77bcf86cd799439014',
+        } as any);
+
+        const result = await service.create(mockTenantId, createDto as any, mockUserId);
         expect(result).toBeDefined();
       }
     });
@@ -450,12 +486,14 @@ describe('CTM Parcels Service', () => {
         jest.spyOn(repository, 'create').mockResolvedValue({
           ...mockParcel,
           status,
+          id: '507f1f77bcf86cd799439015',
         } as any);
 
         const result = await service.create(
           mockTenantId,
           {
             inscription: '0001.001.0001-01',
+            mainAddress: 'Rua A, 123',
             geometry: validPolygon,
             status,
           } as any,
@@ -470,10 +508,12 @@ describe('CTM Parcels Service', () => {
       jest.spyOn(repository, 'create').mockResolvedValue({
         ...mockParcel,
         status: 'ATIVO',
+        id: '507f1f77bcf86cd799439016',
       } as any);
 
       const result = await service.create(mockTenantId, {
         inscription: '0001.001.0001-01',
+        mainAddress: 'Rua A, 123',
         geometry: validPolygon,
         status: 'INVALID_STATUS',
       } as any);
@@ -495,12 +535,14 @@ describe('CTM Parcels Service', () => {
         jest.spyOn(repository, 'create').mockResolvedValue({
           ...mockParcel,
           workflowStatus: status,
+          id: '507f1f77bcf86cd799439017',
         } as any);
 
         const result = await service.create(
           mockTenantId,
           {
             inscription: '0001.001.0001-01',
+            mainAddress: 'Rua A, 123',
             geometry: validPolygon,
             workflowStatus: status,
           } as any,

@@ -33,9 +33,9 @@ function PortalExchangeContent() {
           throw new Error(payload?.message ?? "Falha na troca de sessao");
         }
         const data = payload.data ?? payload;
-        window.localStorage.setItem("accessToken", data.accessToken);
-        window.localStorage.setItem("refreshToken", data.refreshToken);
-        window.localStorage.setItem("tenantId", data.tenantId);
+        window.sessionStorage.setItem("accessToken", data.accessToken);
+        window.sessionStorage.setItem("refreshToken", data.refreshToken);
+        window.sessionStorage.setItem("tenantId", data.tenantId);
         window.location.replace(nextPath);
         setTimeout(() => {
           window.location.href = nextPath;

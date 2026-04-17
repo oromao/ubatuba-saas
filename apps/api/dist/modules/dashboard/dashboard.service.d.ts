@@ -8,6 +8,7 @@ import { Citizen156Service } from '../citizen-156/citizen-156.service';
 import { EnvironmentService } from '../environment/environment.service';
 import { PublicWorksService } from '../public-works/public-works.service';
 import { CemeteryService } from '../cemetery/cemetery.service';
+import { ParcelsService } from '../ctm/parcels/parcels.service';
 import { Model } from 'mongoose';
 import { DashboardLayoutDocument } from './dashboard-layout.schema';
 export declare class DashboardService {
@@ -20,9 +21,10 @@ export declare class DashboardService {
     private readonly environmentService;
     private readonly publicWorksService;
     private readonly cemeteryService;
+    private readonly parcelsService;
     private readonly cacheService;
     private readonly layoutModel;
-    constructor(processesService: ProcessesService, alertsService: AlertsService, assetsService: AssetsService, permitsWorksService: PermitsWorksService, permitsBusinessService: PermitsBusinessService, citizen156Service: Citizen156Service, environmentService: EnvironmentService, publicWorksService: PublicWorksService, cemeteryService: CemeteryService, cacheService: CacheService, layoutModel: Model<DashboardLayoutDocument>);
+    constructor(processesService: ProcessesService, alertsService: AlertsService, assetsService: AssetsService, permitsWorksService: PermitsWorksService, permitsBusinessService: PermitsBusinessService, citizen156Service: Citizen156Service, environmentService: EnvironmentService, publicWorksService: PublicWorksService, cemeteryService: CemeteryService, parcelsService: ParcelsService, cacheService: CacheService, layoutModel: Model<DashboardLayoutDocument>);
     getKpis(tenantId: string): Promise<{}>;
     getExecutive(tenantId: string, userId: string): Promise<{}>;
     getLayout(tenantId: string, userId: string): Promise<{

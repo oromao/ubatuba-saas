@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ParcelsController } from './parcels/parcels.controller';
 import { ProjectParcelsController } from './parcels/project-parcels.controller';
@@ -47,6 +48,7 @@ import { GeometryService } from './geometry.service';
 
 @Module({
   imports: [
+    JwtModule.register({}),
     ProjectsModule,
     UploadsModule,
     MongooseModule.forFeature([

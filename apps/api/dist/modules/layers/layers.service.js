@@ -66,12 +66,13 @@ let LayersService = LayersService_1 = class LayersService {
         return updated;
     }
     async importLayer(tenantId, dto) {
+        const source = 'external';
         const layer = await this.layersRepository.create({
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             name: dto.name,
             group: dto.group,
             type: 'vector',
-            source: dto.sourceType === 'geojson_url' ? 'external' : 'external',
+            source,
             tileUrl: dto.sourceUrl,
             dataUrl: dto.sourceUrl,
             geometryType: dto.geometryType || 'polygon',

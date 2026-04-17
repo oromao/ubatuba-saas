@@ -63,7 +63,7 @@ export default function PocPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Matriz de checks</CardTitle>
+          <CardTitle>Matriz de Requisitos</CardTitle>
           <CardDescription>Evidencias por requisito implementado no repositorio.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
@@ -84,17 +84,17 @@ export default function PocPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Evidencias rapidas</CardTitle>
+          <CardTitle>Links de Validação Técnica</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2 text-sm">
           <a href={`${API_URL}/docs`} target="_blank" className="rounded-sm border border-outline bg-surface px-3 py-2">
             Swagger API
           </a>
           <a href={`${API_URL}/poc/health`} target="_blank" className="rounded-sm border border-outline bg-surface px-3 py-2">
-            GET /poc/health
+            Status de Saúde da API
           </a>
           <a href={`${API_URL}/poc/score`} target="_blank" className="rounded-sm border border-outline bg-surface px-3 py-2">
-            GET /poc/score
+            Score Consolidado
           </a>
         </CardContent>
       </Card>

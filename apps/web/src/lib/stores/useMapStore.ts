@@ -1,15 +1,16 @@
 import { create } from 'zustand';
+import type { Feature, Geometry } from 'geojson';
 
 interface MapState {
   activeLayers: string[];
   drawMode: string | null;
-  features: any[]; // Coleção de features GeoJSON desenhadas pelo usuário (Mapbox Draw)
+  features: Feature<Geometry | null>[];
   
   // Ações
   toggleLayer: (layerId: string) => void;
   setActiveLayers: (layerIds: string[]) => void;
   setDrawMode: (mode: string | null) => void;
-  addFeature: (feature: any) => void;
+  addFeature: (feature: Feature<Geometry | null>) => void;
   clearFeatures: () => void;
 }
 
