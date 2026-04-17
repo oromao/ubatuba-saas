@@ -9,6 +9,7 @@
     "build": "npm run build -w apps/api && npm run build -w apps/web",
     "test": "npm run test -w apps/api",
     "lint": "npm run lint -w apps/api && npm run lint -w apps/web",
+    "verify:clean": "node scripts/verify-clean.mjs",
     "poc:checks": "node poc/checks/run-checks.mjs",
     "e2e:smoke": "playwright test poc/checks/roles-smoke.spec.js",
     "e2e:requirements": "node poc/checks/run-full-qa-licitacao.mjs",

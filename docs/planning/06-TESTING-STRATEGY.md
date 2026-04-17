@@ -93,3 +93,15 @@ Um release só vai para staging/prod se:
 - ❌ Mock de backend em teste marcado como "E2E".
 - ❌ `sleep(5000)` para contornar race condition — corrige a condição.
 - ❌ Smoke que só verifica status 200 — precisa verificar conteúdo real.
+
+---
+
+## Mesclado de `docs/executable-roadmap-checklist.md` em 2026-04-17
+
+- Gates institucionais: identidade, tenant isolation, audit traceability.
+- Reforço para não tratar demo/localStorage como prova.
+
+## Mesclado de `docs/requirements-matrix.md` em 2026-04-17
+
+- Requisitos com testes associados para CTM, PGV, mobile, cartas, compliance, RBAC e navegação.
+- A matriz de requisitos serve como insumo para smoke, integração e E2E críticos.

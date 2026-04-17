@@ -15,7 +15,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T2-PARCEL-E2E | Codex | 2026-04-17 | Próximo após fechar T1; busca, detalhe e update da parcela. |
+| T2-PARCEL-E2E | Claude | 2026-04-17 | Test written; awaiting infra validation. If DEVSERVER stays blocked, move to T2-INSPECT-E2E. |
 
 ## Próximos na fila (ordem de ataque)
 

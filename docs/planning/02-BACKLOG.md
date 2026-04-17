@@ -62,11 +62,12 @@
 ## 🟧 T2 — Robustness / municipal operation
 
 ### T2-PARCEL-E2E — Provar parcel search/detail/update ponta a ponta
-- **Status:** `TODO`
+- **Status:** `IN_PROGRESS`
 - **Severidade:** CRITICAL · **Esforço:** M-L · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Usuário busca parcela → abre detalhe → edita campo → persiste → recarrega → valor persistido.
 - **Validação:** E2E Playwright + integração API.
 - **Depende de:** T1 inteiro.
+- **Agente:** Claude (2026-04-17) — test file written, awaiting infrastructure validation.
 
 ### T2-INSPECT-E2E — Provar ciclo de vistoria ponta a ponta
 - **Status:** `TODO`

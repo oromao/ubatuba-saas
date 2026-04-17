@@ -5,3 +5,17 @@ npm-debug.log
 apps/web/.next
 apps/api/dist
 .git
+.claude
+.worktrees
+.agents
+.archive
+.playwright-cli
+playwright-report
+test-results
+poc
+tests
+docs
+storage
+web.log
+api.log
+.DS_Store

@@ -34,6 +34,12 @@ jobs:
       - name: Type check Web
         run: npx tsc --noEmit --project apps/web/tsconfig.json
 
+      - name: Verify clean start
+        run: npm run verify:clean
+        env:
+          BASE_URL: http://localhost:3000
+          API_URL: http://localhost:4000
+
   test:
     name: Unit Tests
     runs-on: ubuntu-latest

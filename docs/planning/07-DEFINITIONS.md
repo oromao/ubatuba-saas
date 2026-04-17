@@ -111,3 +111,15 @@ Maturidade suficiente para uma prefeitura real usar sem supervisão técnica di�
 | "a rota existe" | "a rota existe, status `ZOMBIE`" |
 | "tem um mock por enquanto" | "`FAKE`, item `<ID>` no backlog" |
 | "vou testar depois" | "`PARTIAL` até teste existir" |
+
+---
+
+## Mesclado de `docs/CTM_IMPORT_DOCUMENTATION.md` em 2026-04-17
+
+- Separação entre base `DEMO` e base `OFICIAL` deve ser explícita.
+- `DEMO` pode existir para testes/apresentação, mas não como comportamento primário.
+
+## Mesclado de `docs/EXTERNAL_DEMO_IMPORT.md` em 2026-04-17
+
+- Importação externa precisa sinalizar origem e badge com clareza.
+- Regras de origem ajudam a classificar `FAKE` versus caminho real.

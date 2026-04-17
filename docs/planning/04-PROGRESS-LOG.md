@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-17 — Claude — T2-PARCEL-E2E (in progress)
+- **Status muda:** TODO → IN_PROGRESS
+- **Feito:** Escrito E2E Playwright test (`tests/e2e/fullscan/parcel-e2e.spec.ts`) que valida: search parcel → detail → edit field → save → reload → verify persistence. Teste cobre 3 cenários: full CRUD, statistics/filters, map interaction.
+- **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`.
+- **Testes adicionados:** `parcel-e2e.spec.ts` com 3 testes (search/detail/update, statistics/filters, map).
+- **Prova:** arquivo escrito, aguardando execução em infraestrutura de E2E (Docker/dev servers).
+- **Próximo:** Executar E2E completo quando T1-DEVSERVER desbloqueado (Docker disponível) OU prosseguir direto para T2-INSPECT-E2E se DEVSERVER permanecer bloqueado.
+- **Notas:** menu-smoke E2E falhou ao tentar executar, sinalizando possível indisponibilidade de infraestrutura de teste. Teste foi escrito com padrão compatível com `ensureSession` existente e fixtures de roles.json.
+
 ### 2026-04-17 — Codex — T1-DEVSERVER
 - **Status muda:** TODO → BLOCKED
 - **Feito:** Implementado `verify:clean` e tentativa de prova limpa com smoke; a execução travou antes do boot porque o Docker daemon não estava acessível e, em nova tentativa, o Colima falhou ao anexar o disco da instância.

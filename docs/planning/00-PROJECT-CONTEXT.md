@@ -85,3 +85,10 @@ Ver `07-DEFINITIONS.md`. Nunca use "pronto", "completo" ou "funcionando" sem enq
 ## 9. Perfil do decisor
 
 **Paulo** — engenharia/DevOps, Catanduva-SP. Decisões arquiteturais, remoções de módulo, mudanças de prioridade e aprovação de "DONE" passam por ele.
+
+---
+
+## Mesclado de `README.md` em 2026-04-17
+
+- Sistema de planejamento com `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` e `docs/planning/00-07`.
+- Bootstrap do repo deve servir para instalar o sistema uma vez e depois seguir o fluxo vivo de backlog.
