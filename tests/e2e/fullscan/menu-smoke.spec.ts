@@ -4,6 +4,7 @@ import { expect, test } from '@playwright/test';
 
 const storageDir = path.resolve(process.cwd(), 'storage');
 const rolesPath = path.resolve(storageDir, 'roles.json');
+const adminStatePath = path.resolve(storageDir, 'admin.json');
 const API_URL = process.env.API_URL || 'http://localhost:4000';
 
 async function ensureSession(page: any, roleKey = 'admin') {
@@ -11,41 +12,19 @@ async function ensureSession(page: any, roleKey = 'admin') {
   try {
     roles = JSON.parse(await fs.readFile(rolesPath, 'utf8'));
   } catch {
-    const email = process.env.DEMO_EMAIL || 'demo@flydea.com.br';
-    const password = process.env.DEMO_PASSWORD || 'demo123456';
-    const tenantSlug = process.env.DEMO_TENANT || 'ubatuba';
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ email, password, tenantSlug }),
-    });
-    if (!response.ok) throw new Error(`Login failed: ${response.status}`);
-    const payload = await response.json();
-    const { accessToken, refreshToken, tenantId } = payload.data;
-    await page.goto('/login', { waitUntil: 'domcontentloaded' });
-    await page.evaluate((tokens: any) => {
-      sessionStorage.setItem('accessToken', tokens.accessToken);
-      sessionStorage.setItem('refreshToken', tokens.refreshToken);
-      sessionStorage.setItem('tenantId', tokens.tenantId);
-    }, { accessToken, refreshToken, tenantId });
-    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
-    return;
+    roles = { profiles: [{ key: 'admin' }], tenant: 'demo' };
   }
 
   const profile = roles.profiles.find((item: any) => item.key === roleKey);
   if (!profile) throw new Error(`Perfil ${roleKey} nao encontrado`);
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      email: profile.email,
-      password: profile.password,
-      tenantSlug: roles.tenant,
-    }),
-  });
-  const payload = await response.json();
-  if (!response.ok) throw new Error(`Falha login ${roleKey}: ${response.status}`);
-  const { accessToken, refreshToken, tenantId } = payload.data;
+  const adminState = JSON.parse(await fs.readFile(adminStatePath, 'utf8'));
+  const origin = adminState.origins?.find((item: any) => item.origin === 'http://localhost:3000');
+  const accessToken = origin?.localStorage?.find((item: any) => item.name === 'accessToken')?.value;
+  const refreshToken = origin?.localStorage?.find((item: any) => item.name === 'refreshToken')?.value;
+  const tenantId = origin?.localStorage?.find((item: any) => item.name === 'tenantId')?.value;
+  if (!accessToken || !refreshToken || !tenantId) {
+    throw new Error(`Seed localStorage ausente para ${roleKey}`);
+  }
   await page.goto('/login', { waitUntil: 'domcontentloaded' });
   await page.evaluate((tokens: any) => {
     sessionStorage.setItem('accessToken', tokens.accessToken);

@@ -38,32 +38,32 @@
 | `/app/maps` | `KEEP?` | Core do produto | T3-GIS-SCALE | — |
 | `/app/ctm/parcelas` | `KEEP?` | Entidade central | T2-PARCEL-E2E | — |
 | `/app/ctm/logradouros` | `KEEP` | Provado na auditoria | — | — |
-| `/app/ctm/mobiliario` | `TBD` | Não provado | validar ou HIDE | — |
+| `/app/ctm/mobiliario` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
 | `/app/ctm/vistorias` | `KEEP?` | T2-INSPECT-E2E | provar ou HIDE | — |
 | `/app/observatorio` | `FIX` | Usa persistência local demo | trocar para real ou marcar PARTIAL | — |
-| `/app/processes` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/cartas` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/integracoes` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/modulos/obras` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/modulos/empresas` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/ambiental` | `TBD` | Não provado | validar ou HIDE | — |
-| `/app/pgv/zonas` | `TBD` | Provado parcialmente em backend | validar UI | — |
-| `/app/pgv/faces` | `TBD` | idem | validar | — |
-| `/app/pgv/fatores` | `TBD` | idem | validar | — |
-| `/app/pgv/relatorio` | `TBD` | idem | validar | — |
-| `/app/reurb` | `TBD` | Backend existe | validar UI | — |
+| `/app/processes` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/cartas` | `FIX` | Smoke passou, mas geração/fluxo real não foi provado | validar backend/persistência ou HIDE | — |
+| `/app/integracoes` | `FIX` | Smoke passou, mas integração real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/modulos/obras` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/modulos/empresas` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/ambiental` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/pgv/zonas` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
+| `/app/pgv/faces` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
+| `/app/pgv/fatores` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
+| `/app/pgv/relatorio` | `FIX` | Smoke passou, mas simulação/prova ainda falta | validar UI + backend | — |
+| `/app/reurb` | `FIX` | Smoke passou, mas backend/persistência ainda precisa de prova completa | validar UI + backend | — |
 | `/app/poc` | `ARCHIVE?` | "poc" é prova de conceito, não produto | archive a menos que justificado | — |
-| `/app/certidoes` | `TBD` | T2-REPORTS toca aqui | validar | — |
-| `/app/levantamentos` | `TBD` | — | validar | — |
-| `/app/notifications` | `TBD` | — | validar | — |
-| `/app/alerts` | `TBD` | — | validar | — |
-| `/app/assets` | `TBD` | — | validar | — |
+| `/app/certidoes` | `FIX` | Smoke passou, mas prova de PDF ainda falta | validar PDF real | — |
+| `/app/levantamentos` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
+| `/app/notifications` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
+| `/app/alerts` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
+| `/app/assets` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
 | `/app/profile` | `KEEP?` | Básico | validar | — |
-| `/app/modulos/compliance` | `TBD` | — | validar | — |
-| `/app/modulos/obras-publicas` | `TBD` | — | validar | — |
-| `/app/modulos/cemiterio` | `TBD` | — | validar | — |
+| `/app/modulos/compliance` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
+| `/app/modulos/obras-publicas` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
+| `/app/modulos/cemiterio` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
 | `/app/mobile/*` | `FIX` | T4-MOBILE | provar ou HIDE | — |
-| `/app/portal/*` | `TBD` | T3-CITIZEN | validar | — |
+| `/app/portal/*` | `FIX` | T3-CITIZEN | validar ou HIDE | — |
 
 ## Arquivos/pastas suspeitos de serem lixo de planejamento
 
@@ -71,7 +71,23 @@
 
 | Caminho | Motivo | Ação | Executado em |
 |---|---|---|---|
-| *(a preencher pelo agente de bootstrap)* | — | — | — |
+| `README.md` | Duplicava a função dos docs de planejamento e bootstrap | `MERGE` | 2026-04-17 |
+| `CODEX-PROMPT-AUTONOMOUS.md` | Prompt operacional antigo, redundante com `AGENTS.md` | `ARCHIVE` | 2026-04-17 |
+| `CODEX-PROMPT-BOOTSTRAP.md` | Prompt de bootstrap agora institucionalizado | `ARCHIVE` | 2026-04-17 |
+| `CODEX-PROMPT-CONTINUE.md` | Continuação duplicada pelo sistema de sessão | `ARCHIVE` | 2026-04-17 |
+| `AGENT.md` | Arquivo solto fora da convenção oficial | `ARCHIVE` | 2026-04-17 |
+| `docs/edital-roadmap.md` | Roadmap paralelo ao backlog vivo | `MERGE` | 2026-04-17 |
+| `docs/executable-roadmap-checklist.md` | Checklist útil, mas paralelo ao sistema oficial | `MERGE` | 2026-04-17 |
+| `docs/executable-roadmap-sprints.md` | Plano por sprint duplicado | `MERGE` | 2026-04-17 |
+| `docs/requirements-matrix.md` | Requisitos/evidências úteis para maturidade | `MERGE` | 2026-04-17 |
+| `docs/edital-gap-analysis.md` | Gap analysis útil, mas paralelo ao backlog | `MERGE` | 2026-04-17 |
+| `docs/edital-response-pack.md` | Material comercial útil, não plano primário | `MERGE` | 2026-04-17 |
+| `docs/CTM_IMPORT_DOCUMENTATION.md` | Conteúdo útil de DEMO vs OFICIAL | `MERGE` | 2026-04-17 |
+| `docs/EXTERNAL_DEMO_IMPORT.md` | Conteúdo útil sobre origem demo/importada | `MERGE` | 2026-04-17 |
+| `GAP_ANALYSIS_EXECUTIVO.md` | Gap analysis útil para priorização | `MERGE` | 2026-04-17 |
+| `BRAINSTORM_MATURIDADE.md` | Veredito antigo conflita com scorecard vivo | `ARCHIVE` | 2026-04-17 |
+| `PROJECT_READY.md` | Status declaratório conflita com vocabulário obrigatório | `ARCHIVE` | 2026-04-17 |
+| `STARTUP_STATUS.md` | Status antigo obsoleto | `ARCHIVE` | 2026-04-17 |
 
 ## Código marcado como PARTIAL/demo
 
@@ -85,4 +101,29 @@
 
 | Data | Agente | Item arquivado | Motivo | Destino em `.archive/` |
 |---|---|---|---|---|
-| — | — | — | — | — |
+| 2026-04-17 | Codex | `CODEX-PROMPT-AUTONOMOUS.md` | Prompt operacional redundante | `.archive/2026-04-17/CODEX-PROMPT-AUTONOMOUS.md` |
+| 2026-04-17 | Codex | `CODEX-PROMPT-BOOTSTRAP.md` | Bootstrap duplicado | `.archive/2026-04-17/CODEX-PROMPT-BOOTSTRAP.md` |
+| 2026-04-17 | Codex | `CODEX-PROMPT-CONTINUE.md` | Continuação duplicada | `.archive/2026-04-17/CODEX-PROMPT-CONTINUE.md` |
+| 2026-04-17 | Codex | `AGENT.md` | Arquivo solto fora do sistema oficial | `.archive/2026-04-17/AGENT.md` |
+| 2026-04-17 | Codex | `README.md` | Duplicava o sistema de planejamento | `.archive/2026-04-17/README.md` |
+| 2026-04-17 | Codex | `BRAINSTORM_MATURIDADE.md` | Veredito antigo conflitante | `.archive/2026-04-17/BRAINSTORM_MATURIDADE.md` |
+| 2026-04-17 | Codex | `PROJECT_READY.md` | Status declaratório conflitante | `.archive/2026-04-17/PROJECT_READY.md` |
+| 2026-04-17 | Codex | `STARTUP_STATUS.md` | Status antigo obsoleto | `.archive/2026-04-17/STARTUP_STATUS.md` |
+| 2026-04-17 | Codex | `docs/edital-roadmap.md` | Roadmap paralelo | `.archive/2026-04-17/docs/edital-roadmap.md` |
+| 2026-04-17 | Codex | `docs/executable-roadmap-checklist.md` | Checklist paralelo | `.archive/2026-04-17/docs/executable-roadmap-checklist.md` |
+| 2026-04-17 | Codex | `docs/executable-roadmap-sprints.md` | Sprint plan paralelo | `.archive/2026-04-17/docs/executable-roadmap-sprints.md` |
+| 2026-04-17 | Codex | `docs/requirements-matrix.md` | Matriz paralela de requisitos | `.archive/2026-04-17/docs/requirements-matrix.md` |
+| 2026-04-17 | Codex | `docs/edital-gap-analysis.md` | Gap analysis paralelo | `.archive/2026-04-17/docs/edital-gap-analysis.md` |
+| 2026-04-17 | Codex | `docs/edital-response-pack.md` | Material comercial paralelo | `.archive/2026-04-17/docs/edital-response-pack.md` |
+| 2026-04-17 | Codex | `docs/CTM_IMPORT_DOCUMENTATION.md` | Conteúdo demo/oficial consolidado | `.archive/2026-04-17/docs/CTM_IMPORT_DOCUMENTATION.md` |
+| 2026-04-17 | Codex | `docs/EXTERNAL_DEMO_IMPORT.md` | Conteúdo demo/import consolidado | `.archive/2026-04-17/docs/EXTERNAL_DEMO_IMPORT.md` |
+| 2026-04-17 | Codex | `GAP_ANALYSIS_EXECUTIVO.md` | Gap analysis útil mas paralelo | `.archive/2026-04-17/GAP_ANALYSIS_EXECUTIVO.md` |
+
+## Mesclado de `docs/CTM_IMPORT_DOCUMENTATION.md` em 2026-04-17
+
+- Regras de separação entre DEMO e OFICIAL.
+- Badges e classificação de origem para ajudar a detectar FAKE/REAL.
+
+## Mesclado de `docs/EXTERNAL_DEMO_IMPORT.md` em 2026-04-17
+
+- Catálogo de origem demo/importada e comportamento de badge.

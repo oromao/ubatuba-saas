@@ -31,7 +31,7 @@
 *Enquanto T1 não estiver DONE, nada novo entra. Ponto.*
 
 ### T1-ROUTE-PROOF — Provar toda rota de menu ou escondê-la
-- **Status:** `TODO`
+- **Status:** `DONE`
 - **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Product / QA / UX
 - **Problema:** Rotas visíveis no menu não são uniformemente provadas.
 - **DoD:** Todo item do menu passa smoke/E2E OU é removido do nav primário (movido para `.archive/nav/`).

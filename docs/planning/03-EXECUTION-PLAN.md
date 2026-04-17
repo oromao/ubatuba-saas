@@ -15,14 +15,14 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T1-ROUTE-PROOF | Codex | 2026-04-17 | Próximo após fechar a hidratação; menu smoke e prova de rotas reais. |
+| T2-PARCEL-E2E | Codex | 2026-04-17 | Próximo após fechar T1; busca, detalhe e update da parcela. |
 
 ## Próximos na fila (ordem de ataque)
 
 1. **T1-DEVSERVER** — destravar a base antes de tudo.
 2. **T1-HYDRATION** — fechado nesta sessão.
-3. **T1-ROUTE-PROOF** — próximo, validar ou esconder rotas sem prova.
-4. **T2-PARCEL-E2E** — entra quando T1 fechar.
+3. **T1-ROUTE-PROOF** — fechado nesta sessão.
+4. **T2-PARCEL-E2E** — próximo.
 5. **T2-INSPECT-E2E** — paralelo a T2-TAX-INTEG após PARCEL-E2E.
 
 ## Bloqueios atuais

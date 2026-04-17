@@ -52,6 +52,15 @@
 <!--
 Exemplo de entrada futura:
 
+### 2026-04-17 — Codex — T1-ROUTE-PROOF
+- **Status muda:** TODO → DONE
+- **Feito:** O menu principal foi provado por smoke E2E sem tela vazia/persistente nas rotas visíveis. O smoke passou usando seed local de sessão, sem depender do login ao vivo que está 500 neste ambiente.
+- **Arquivos alterados:** `tests/e2e/fullscan/menu-smoke.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/01-MATURITY-MATRIX.md`, `docs/planning/05-CLEANUP-INVENTORY.md`.
+- **Testes adicionados:** reutilização do smoke `tests/e2e/fullscan/menu-smoke.spec.ts` com seed local.
+- **Prova:** `npx playwright test --project=scan tests/e2e/fullscan/menu-smoke.spec.ts --workers=1`
+- **Próximo:** T2-PARCEL-E2E.
+- **Notas:** `T1-DEVSERVER` continua como bloqueio ambiental documentado no backlog.
+
 ### 2026-04-17 — Codex — T1-HYDRATION
 - **Status muda:** TODO → DONE
 - **Feito:** O layout autenticado deixou de renderizar tela em branco quando a sessão ainda não existe. Agora mostra estado explícito de redirecionamento e o fluxo de hidratação foi provado em E2E.
