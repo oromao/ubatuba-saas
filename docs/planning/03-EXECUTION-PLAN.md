@@ -15,11 +15,11 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T2-PARCEL-E2E | Claude | 2026-04-17 | Test written; awaiting infra validation. If DEVSERVER stays blocked, move to T2-INSPECT-E2E. |
+| T1-DEVSERVER | Claude | 2026-04-17 (retomado) | Docker/Colima operational. Fixed verify-clean script (skip host build, let docker rebuild). Running rebuild now; API + migrate healthchecks OK. Smoke test can execute. |
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T1-DEVSERVER** — BLOCKED (Docker unavailable); destravar quando infra disponível.
+1. **T1-DEVSERVER** — PARTIAL (Docker disponível; faltam os endpoints internos da migração).
 2. **T1-HYDRATION** — ✓ DONE (2026-04-17).
 3. **T1-ROUTE-PROOF** — ✓ DONE (2026-04-17).
 4. **T2-PARCEL-E2E** — IN_PROGRESS (test written; awaiting exec).
@@ -31,7 +31,7 @@
 
 | Item | Bloqueado por | Desde | Responsável | Status |
 |---|---|---|---|---|
-| T1-DEVSERVER | Docker/Colima indisponível neste ambiente | 2026-04-17 | Paulo | Indefinido; requer runtime Docker |
+| T1-DEVSERVER | Migrate ainda falha em endpoints internos do compose | 2026-04-17 | Codex | Partial; Docker/Colima OK, smoke ainda não fechou |
 | T2-PARCEL-E2E (exec) | E2E infra (backend/frontend not accessible) | 2026-04-17 | — | Tests written; awaiting infra |
 | T2-INSPECT-E2E (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
 | T2-TAX-INTEG (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |

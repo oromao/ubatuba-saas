@@ -27,14 +27,16 @@ async function run(cmd, args, opts = {}) {
   });
 }
 
-for (const dir of ['apps/web/.next', 'apps/api/dist']) {
+// Clean build artifacts aggressively
+for (const dir of ['apps/web/.next', 'apps/web/node_modules/.cache', 'apps/api/dist', 'apps/api/.swc']) {
   if (await exists(path.join(root, dir))) {
     await rm(path.join(root, dir), { recursive: true, force: true });
   }
 }
 
-await run('npm', ['run', 'build']);
-await run('npm', ['run', 'docker:dev:up']);
+// Docker compose handles building; skip host build to avoid cache corruption
+// Just bring up services and let docker build in isolation
+await run('npm', ['run', 'docker:dev:rebuild']);
 
 for (let attempt = 1; attempt <= 60; attempt += 1) {
   try {

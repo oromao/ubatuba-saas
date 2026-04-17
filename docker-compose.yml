@@ -70,11 +70,11 @@ services:
       geoserver:
         condition: service_started
     environment:
-      MONGO_URL: ${MONGO_URL}
-      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME:-root}:${MONGO_INITDB_ROOT_PASSWORD:-rootpass}@mongodb:27017/flydea?authSource=admin
+      GEOSERVER_URL: http://geoserver:8080/geoserver
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
@@ -130,17 +130,17 @@ services:
       start_period: 30s
     environment:
       NODE_ENV: production
-      MONGO_URL: ${MONGO_URL}
+      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME:-root}:${MONGO_INITDB_ROOT_PASSWORD:-rootpass}@mongodb:27017/flydea?authSource=admin
       JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGIN: ${CORS_ORIGIN}
-      REDIS_URL: ${REDIS_URL}
+      REDIS_URL: redis://redis:6379
       WEB_URL: ${WEB_URL}
       POC_REPO_ROOT: /workspace
-      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      GEOSERVER_URL: http://geoserver:8080/geoserver
       GEOSERVER_PUBLIC_URL: ${GEOSERVER_PUBLIC_URL:-http://localhost:8080/geoserver}
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
@@ -187,17 +187,17 @@ services:
     command: ["npm", "run", "dev"]
     environment:
       NODE_ENV: development
-      MONGO_URL: ${MONGO_URL}
+      MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME:-root}:${MONGO_INITDB_ROOT_PASSWORD:-rootpass}@mongodb:27017/flydea?authSource=admin
       JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGIN: ${CORS_ORIGIN}
-      REDIS_URL: ${REDIS_URL}
+      REDIS_URL: redis://redis:6379
       WEB_URL: ${WEB_URL}
       POC_REPO_ROOT: /workspace
-      GEOSERVER_URL: ${GEOSERVER_URL:-http://geoserver:8080/geoserver}
+      GEOSERVER_URL: http://geoserver:8080/geoserver
       GEOSERVER_PUBLIC_URL: ${GEOSERVER_PUBLIC_URL:-http://localhost:8080/geoserver}
       GEOSERVER_USER: ${GEOSERVER_USER:-admin}
       GEOSERVER_PASSWORD: ${GEOSERVER_PASSWORD:-geoserver}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-http://minio:9000}
+      MINIO_ENDPOINT: http://minio:9000
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-http://localhost:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}

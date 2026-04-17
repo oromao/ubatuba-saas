@@ -49,13 +49,13 @@
 - **Agente:** —
 
 ### T1-DEVSERVER — Eliminar fragilidade de dev server / cache
-- **Status:** `BLOCKED`
+- **Status:** `PARTIAL`
 - **Severidade:** CRITICAL · **Esforço:** S-M · **Tipo:** Infra / DevEx
 - **Problema:** Cache do Next.js produz chunks 500 que mascaram erros reais de rota.
 - **DoD:** Script `pnpm verify:clean` roda start limpo + smoke e retorna 0 em CI de forma reprodutível.
 - **Validação:** 5 execuções consecutivas em CI sem flake.
 - **Depende de:** —
-- **Agente:** Codex (2026-04-17) — bloqueado por runtime Docker/Colima indisponível nesta máquina (`failed to run attach disk "colima", in use by instance "colima"`).
+- **Agente:** Codex (2026-04-17) — runtime Docker/Colima destravado; `verify:clean` agora sobe o stack, mas a migração ainda falha em `MONGO_URL`/endpoints internos antes de fechar o smoke.
 
 ---
 

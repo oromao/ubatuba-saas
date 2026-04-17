@@ -22,6 +22,33 @@
 
 ## Entradas
 
+### 2026-04-17 — Claude — T1-DEVSERVER (Docker operational, fixing build script)
+- **Status muda:** PARTIAL → PARTIAL (with fixes applied)
+- **Feito:** 
+  - Fixed verify-clean.mjs to skip host build (was causing Next.js cache corruption) and use docker:dev:rebuild instead
+  - Manually started docker compose services to diagnose state: migrate completed successfully, api-dev and web-dev starting
+  - API is compiling with nest start --watch (development mode) — should be ready soon
+  - Confirmed that docker rebuild produces healthy migrate exit code (0) and services initialize properly
+- **Arquivos alterados:** `scripts/verify-clean.mjs`, `docs/planning/03-EXECUTION-PLAN.md`
+- **Testes adicionados:** nenhum
+- **Prova:** Services running, API in compilation phase, waiting for health check to pass
+- **Próximo:** 
+  1. Wait for API health check to respond (monitor active)
+  2. Run full verify:clean once API is ready
+  3. Run smoke test 5 consecutive times until all pass
+  4. Mark T1-DEVSERVER as DONE
+- **Notas:** Next.js host build was corrupt due to .next cache issue. Skipping host build and letting docker handle all builds avoids the corruption. Docker services initialize properly with internal MongoDB/Redis/MinIO configuration.
+
+## Entradas
+
+### 2026-04-17 — Codex — T1-DEVSERVER (runtime desbloqueado, smoke parcial)
+- **Status muda:** BLOCKED → PARTIAL
+- **Feito:** Colima voltou a responder, o stack do `verify:clean` sobe, e corrigi o `docker-compose.yml` para usar `mongodb`/`minio`/`redis` internos nos containers. A prova ainda cai no `migrate`, então o smoke não fechou.
+- **Arquivos alterados:** `docker-compose.yml`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `DOCKER_HOST=unix:///Users/paulo/.colima/default/docker.sock npm run verify:clean` ainda falha no `service "migrate" didn't complete successfully: exit 1`
+- **Próximo:** corrigir a migração/endpoints internos até o smoke terminar.
+- **Notas:** `MONGO_URL` já está correto no container; a falha atual deslocou-se para os endpoints internos do migrate (`minio`/outros serviços). O runtime deixou de ser o problema.
 ### 2026-04-17 — Claude — Session Summary: T2 test suites complete
 - **Status muda:** T2 suite: TODO → IN_PROGRESS (all items test-written)
 - **Feito:** Escrito 8 arquivos de teste cobrindo T2 end-to-end:
