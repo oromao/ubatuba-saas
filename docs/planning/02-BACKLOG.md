@@ -70,11 +70,12 @@
 - **Agente:** Claude (2026-04-17) — test file written, awaiting infrastructure validation.
 
 ### T2-INSPECT-E2E — Provar ciclo de vistoria ponta a ponta
-- **Status:** `TODO`
+- **Status:** `IN_PROGRESS`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Criar vistoria → transicionar status → vincular à parcela → persistir → visível no histórico.
 - **Validação:** E2E + integração.
 - **Depende de:** T2-PARCEL-E2E.
+- **Agente:** Claude (2026-04-17) — E2E test + backend integration tests written.
 
 ### T2-TAX-INTEG — Provar integração tributária e coerência do read model
 - **Status:** `TODO`

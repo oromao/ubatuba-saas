@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-17 — Claude — T2-INSPECT-E2E + backend integration tests
+- **Status muda:** TODO → IN_PROGRESS
+- **Feito:** Escrito E2E Playwright test (`tests/e2e/fullscan/inspection-e2e.spec.ts`) cobrindo: criar vistoria → transicionar status → histórico. Também escrito backend integration tests (`apps/api/test/ctm/vistorias.integration.spec.ts`) validando API endpoints de CRUD e filters.
+- **Arquivos alterados:** `tests/e2e/fullscan/inspection-e2e.spec.ts`, `apps/api/test/ctm/vistorias.integration.spec.ts`, `docs/planning/02-BACKLOG.md`.
+- **Testes adicionados:** 2 arquivos de teste (E2E + integração backend).
+- **Prova:** arquivos escritos, estrutura compatível com test suite existente.
+- **Próximo:** Executar ambos os testes quando infraestrutura disponível. Considerar T2-TAX-INTEG e T2-REPORTS E2E tests.
+- **Notas:** Padrão: test helper `ensureSession` reutilizado de existing tests. Integração tests usam padrão NestJS/supertest. Ambos awaiting infrastructure.
+
 ### 2026-04-17 — Claude — T2-PARCEL-E2E (in progress)
 - **Status muda:** TODO → IN_PROGRESS
 - **Feito:** Escrito E2E Playwright test (`tests/e2e/fullscan/parcel-e2e.spec.ts`) que valida: search parcel → detail → edit field → save → reload → verify persistence. Teste cobre 3 cenários: full CRUD, statistics/filters, map interaction.
