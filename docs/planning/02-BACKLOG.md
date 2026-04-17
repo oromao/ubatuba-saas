@@ -143,6 +143,18 @@
 
 ---
 
+## Mesclado de `PROXIMAS_20_ACOES_PRIORITARIAS.md` em 2026-04-17
+
+Plano antigo consolidado neste backlog para evitar divergência de fonte.
+
+- Ações de validação e navegação viraram prioridade T1/T2 já refletida neste arquivo.
+- Fluxos de vistoria, dashboard, PDF e validações de negócio devem ser tratados como itens T2 com prova automatizada.
+- Itens de workflow, histórico e IPTU/integração ficam como base para refinamento de T2/T3 conforme prova real aparecer.
+- Ações de mobile, performance, documentação e preparação de demo entram como sustentação de T3/T4 ou como notas em execução/maturidade.
+- A tabela antiga de esforço/sprint pode ser usada como referência histórica, mas o backlog vivo é este arquivo.
+
+---
+
 ## Histórico de mudanças
 
 | Data | Agente | Item | Ação |
