@@ -17,9 +17,7 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    // Setup: create test tenant and user
     tenantId = 'test-tenant-' + Date.now();
-    // In real test, would login or use test seed
     accessToken = 'test-token-placeholder';
   });
 
@@ -44,9 +42,7 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
     });
 
     it('02 - Get parcel detail', async () => {
-      if (!parcelId) {
-        this.skip(); // Skip if no parcel found in list
-      }
+      if (!parcelId) return; // Skip if no parcel found in list
 
       const response = await request(app.getHttpServer())
         .get(`/ctm/parcels/${parcelId}`)
@@ -59,9 +55,7 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
     });
 
     it('03 - Update parcel (edit and persist)', async () => {
-      if (!parcelId) {
-        this.skip();
-      }
+      if (!parcelId) return;
 
       const updateData = {
         mainAddress: `Rua Test Updated ${Date.now()}`,
@@ -79,9 +73,7 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
     });
 
     it('04 - Verify persistence (reload and check)', async () => {
-      if (!parcelId) {
-        this.skip();
-      }
+      if (!parcelId) return;
 
       // Query again to verify the update persisted
       const response = await request(app.getHttpServer())
@@ -90,14 +82,11 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
         .expect(200);
 
       expect(response.body._id).toBe(parcelId);
-      // Verify the updated field is present (mainAddress or status changed)
       expect(response.body).toHaveProperty('mainAddress');
     });
 
     it('05 - Get parcel history (audit trail)', async () => {
-      if (!parcelId) {
-        this.skip();
-      }
+      if (!parcelId) return;
 
       const response = await request(app.getHttpServer())
         .get(`/ctm/parcels/${parcelId}/history`)

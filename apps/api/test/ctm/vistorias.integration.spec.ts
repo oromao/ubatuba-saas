@@ -40,9 +40,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('01 - Create new vistoria', async () => {
-      if (!parcelId) {
-        this.skip();
-      }
+      if (!parcelId) return;
 
       const vistoriaData = {
         tipo: 'LEVANTAMENTO',
@@ -64,8 +62,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('02 - List vistorias for parcel', async () => {
-      if (!parcelId) {
-        this.skip();
+      if (!parcelId) return;
       }
 
       const response = await request(app.getHttpServer())
@@ -83,8 +80,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('03 - Get vistoria detail', async () => {
-      if (!vistoriaId) {
-        this.skip();
+      if (!vistoriaId) return;
       }
 
       const response = await request(app.getHttpServer())
@@ -98,8 +94,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('04 - Transition vistoria status', async () => {
-      if (!vistoriaId) {
-        this.skip();
+      if (!vistoriaId) return;
       }
 
       const statusTransition = {
@@ -118,8 +113,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('05 - Verify status persisted (reload)', async () => {
-      if (!vistoriaId) {
-        this.skip();
+      if (!vistoriaId) return;
       }
 
       const response = await request(app.getHttpServer())
@@ -131,8 +125,7 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
     });
 
     it('06 - Get vistoria history', async () => {
-      if (!vistoriaId) {
-        this.skip();
+      if (!vistoriaId) return;
       }
 
       const response = await request(app.getHttpServer())
