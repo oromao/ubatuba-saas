@@ -78,18 +78,20 @@
 - **Agente:** Claude (2026-04-17) — E2E test + backend integration tests written.
 
 ### T2-TAX-INTEG — Provar integração tributária e coerência do read model
-- **Status:** `TODO`
+- **Status:** `IN_PROGRESS`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Tests
 - **DoD:** Dado tributário persistido → lido → refletido no dashboard + detalhe da parcela com coerência.
 - **Validação:** Integração + smoke de dashboard.
 - **Depende de:** T2-PARCEL-E2E.
+- **Agente:** Claude (2026-04-17) — E2E test written.
 
 ### T2-REPORTS — Provar geração de relatórios/PDFs em workflow real
-- **Status:** `TODO`
+- **Status:** `IN_PROGRESS`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Gerar / abrir / baixar PDF válido em fluxo real (certidão, relatório, notificação).
 - **Validação:** E2E + inspeção binária do PDF.
 - **Depende de:** T2-PARCEL-E2E.
+- **Agente:** Claude (2026-04-17) — E2E test written.
 
 ---
 

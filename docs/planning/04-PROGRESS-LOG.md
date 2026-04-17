@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-17 — Claude — T2-TAX-INTEG and T2-REPORTS E2E tests
+- **Status muda:** TODO → IN_PROGRESS
+- **Feito:** Escrito 2 E2E Playwright tests: `tax-integ-e2e.spec.ts` (validando dashboard/IPTU/PGV coerência) e `reports-e2e.spec.ts` (validando PDF export, certidões, notificações).
+- **Arquivos alterados:** `tests/e2e/fullscan/tax-integ-e2e.spec.ts`, `tests/e2e/fullscan/reports-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`.
+- **Testes adicionados:** 2 E2E test files com 5 testes cada.
+- **Prova:** arquivos escritos, seguem padrão established.
+- **Próximo:** Executar suite completa T2 quando infraestrutura disponível.
+- **Notas:** T2-PARCEL-E2E + T2-INSPECT-E2E + T2-TAX-INTEG + T2-REPORTS agora todos com testes. Parcel integration test também escrito (`apps/api/test/ctm/parcels.integration.spec.ts`). Awaiting Docker/dev server para execução.
+
 ### 2026-04-17 — Claude — T2-INSPECT-E2E + backend integration tests
 - **Status muda:** TODO → IN_PROGRESS
 - **Feito:** Escrito E2E Playwright test (`tests/e2e/fullscan/inspection-e2e.spec.ts`) cobrindo: criar vistoria → transicionar status → histórico. Também escrito backend integration tests (`apps/api/test/ctm/vistorias.integration.spec.ts`) validando API endpoints de CRUD e filters.

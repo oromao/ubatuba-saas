@@ -19,11 +19,13 @@
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T1-DEVSERVER** — destravar a base antes de tudo.
-2. **T1-HYDRATION** — fechado nesta sessão.
-3. **T1-ROUTE-PROOF** — fechado nesta sessão.
-4. **T2-PARCEL-E2E** — próximo.
-5. **T2-INSPECT-E2E** — paralelo a T2-TAX-INTEG após PARCEL-E2E.
+1. **T1-DEVSERVER** — BLOCKED (Docker unavailable); destravar quando infra disponível.
+2. **T1-HYDRATION** — ✓ DONE (2026-04-17).
+3. **T1-ROUTE-PROOF** — ✓ DONE (2026-04-17).
+4. **T2-PARCEL-E2E** — IN_PROGRESS (test written; awaiting exec).
+5. **T2-INSPECT-E2E** — IN_PROGRESS (E2E + integration tests written).
+6. **T2-TAX-INTEG** — IN_PROGRESS (E2E test written).
+7. **T2-REPORTS** — IN_PROGRESS (E2E test written).
 
 ## Bloqueios atuais
 
