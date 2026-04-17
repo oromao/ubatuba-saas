@@ -29,10 +29,13 @@
 
 ## Bloqueios atuais
 
-| Item | Bloqueado por | Desde | Responsável |
-|---|---|---|---|
-| T1-DEVSERVER | Docker/Colima indisponível neste ambiente | 2026-04-17 | Codex / Paulo |
-| T1-ROUTE-PROOF | Conclusão do inventário de rotas e prova de hidratação | 2026-04-17 | Codex |
+| Item | Bloqueado por | Desde | Responsável | Status |
+|---|---|---|---|---|
+| T1-DEVSERVER | Docker/Colima indisponível neste ambiente | 2026-04-17 | Paulo | Indefinido; requer runtime Docker |
+| T2-PARCEL-E2E (exec) | E2E infra (backend/frontend not accessible) | 2026-04-17 | — | Tests written; awaiting infra |
+| T2-INSPECT-E2E (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
+| T2-TAX-INTEG (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
+| T2-REPORTS (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
 
 ## Decisões arquiteturais pendentes (precisam do Paulo)
 

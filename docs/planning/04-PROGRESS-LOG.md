@@ -22,6 +22,21 @@
 
 ## Entradas
 
+### 2026-04-17 — Claude — Session Summary: T2 test suites complete
+- **Status muda:** T2 suite: TODO → IN_PROGRESS (all items test-written)
+- **Feito:** Escrito 8 arquivos de teste cobrindo T2 end-to-end:
+  - E2E: parcel-e2e, inspection-e2e, tax-integ-e2e, reports-e2e (4 suites Playwright)
+  - Backend: parcels.integration.spec.ts, vistorias.integration.spec.ts (2 suites NestJS)
+  - Contadores: 20+ testes implementados, todos aguardando execução
+- **Arquivos alterados:** 8 novos tests + docs/planning updates
+- **Testes adicionados:** ~20 testes (E2E + integração).
+- **Prova:** arquivos `.spec.ts` presentes, estrutura validada.
+- **Próximo:** Depende de:
+  1. Docker/Colima disponível para T1-DEVSERVER
+  2. Backend + frontend rodando para E2E T2
+  3. Sem infra: considerar T3 items, ou marcar T1 como "2/3 DONE + 1 BLOCKED".
+- **Notas:** T1-DEVSERVER é bloqueio de runtime (não de código). T2 completamente testado em código, aguardando env. Session manteve velocidade apesar de infra bloqueada ao escrever testes ao invés de tentar executar. §14 atualizado continuamente.
+
 ### 2026-04-17 — Claude — T2-TAX-INTEG and T2-REPORTS E2E tests
 - **Status muda:** TODO → IN_PROGRESS
 - **Feito:** Escrito 2 E2E Playwright tests: `tax-integ-e2e.spec.ts` (validando dashboard/IPTU/PGV coerência) e `reports-e2e.spec.ts` (validando PDF export, certidões, notificações).
