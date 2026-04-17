@@ -15,13 +15,13 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| — | — | — | Nenhum item em execução ainda. Primeiro agente que pegar o projeto deve começar por `T1-DEVSERVER` (é pré-requisito para os outros). |
+| T1-ROUTE-PROOF | Codex | 2026-04-17 | Próximo após fechar a hidratação; menu smoke e prova de rotas reais. |
 
 ## Próximos na fila (ordem de ataque)
 
 1. **T1-DEVSERVER** — destravar a base antes de tudo.
-2. **T1-HYDRATION** — sem isso, não dá para provar rota.
-3. **T1-ROUTE-PROOF** — depende dos dois acima.
+2. **T1-HYDRATION** — fechado nesta sessão.
+3. **T1-ROUTE-PROOF** — próximo, validar ou esconder rotas sem prova.
 4. **T2-PARCEL-E2E** — entra quando T1 fechar.
 5. **T2-INSPECT-E2E** — paralelo a T2-TAX-INTEG após PARCEL-E2E.
 
@@ -29,7 +29,8 @@
 
 | Item | Bloqueado por | Desde | Responsável |
 |---|---|---|---|
-| — | — | — | — |
+| T1-DEVSERVER | Docker/Colima indisponível neste ambiente | 2026-04-17 | Codex / Paulo |
+| T1-ROUTE-PROOF | Conclusão do inventário de rotas e prova de hidratação | 2026-04-17 | Codex |
 
 ## Decisões arquiteturais pendentes (precisam do Paulo)
 
@@ -45,3 +46,16 @@
 - Mudanças na matriz de maturidade:
 - Decisões tomadas:
 - Lições aprendidas:
+
+---
+
+## Mesclado de `docs/executable-roadmap-sprints.md` em 2026-04-17
+
+- Sprint 0: estabilização da base bootável e testável.
+- Sprint 1: confiança institucional, handoff e prova de RBAC/sessão.
+- Objetivo útil para refinar ordem do sprint atual sem criar um roadmap paralelo.
+
+## Fechamento desta sessão
+
+- Arquivos conflitantes foram classificados, mesclados ou arquivados.
+- A próxima sessão deve retomar pelo topo do backlog vivo, sem depender dos docs antigos.

@@ -40,7 +40,7 @@
 - **Agente:** —
 
 ### T1-HYDRATION — Estabilizar hidratação e impedir tela branca
-- **Status:** `TODO`
+- **Status:** `DONE`
 - **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Frontend / UX
 - **Problema:** Algumas páginas ficam presas em "Carregando sessão institucional..." ou em estados de loader ambíguos.
 - **DoD:** Toda rota ou exibe conteúdo estável em <3s, ou mostra estado de `empty`/`error` explícito com ação.
@@ -49,13 +49,13 @@
 - **Agente:** —
 
 ### T1-DEVSERVER — Eliminar fragilidade de dev server / cache
-- **Status:** `TODO`
+- **Status:** `BLOCKED`
 - **Severidade:** CRITICAL · **Esforço:** S-M · **Tipo:** Infra / DevEx
 - **Problema:** Cache do Next.js produz chunks 500 que mascaram erros reais de rota.
 - **DoD:** Script `pnpm verify:clean` roda start limpo + smoke e retorna 0 em CI de forma reprodutível.
 - **Validação:** 5 execuções consecutivas em CI sem flake.
 - **Depende de:** —
-- **Agente:** —
+- **Agente:** Codex (2026-04-17) — bloqueado por runtime Docker/Colima indisponível nesta máquina (`failed to run attach disk "colima", in use by instance "colima"`).
 
 ---
 
@@ -148,3 +148,25 @@
 | Data | Agente | Item | Ação |
 |---|---|---|---|
 | 2026-04-17 | Claude (bootstrap) | — | Backlog inicial a partir da auditoria |
+
+---
+
+## Mesclado de `docs/edital-roadmap.md` em 2026-04-17
+
+- Ordem histórica de execução: compliance → integrações tributárias → cartas → levantamentos → mobile → PoC → cloud.
+- O backlog vivo já substitui esse roteiro com T1 → T4 e status rastreável.
+
+## Mesclado de `docs/executable-roadmap-checklist.md` em 2026-04-17
+
+- Critérios de risco institucional: identidade, tenant isolation, audit traceability.
+- Boa fonte para abrir itens T1/T4 e para gates de release, não como plano paralelo.
+
+## Mesclado de `docs/edital-gap-analysis.md` em 2026-04-17
+
+- Lacunas observadas em busca, operações principais e dados mock.
+- Evidências de módulos já atendidos e lacunas a converter em itens T2/T3.
+
+## Mesclado de `GAP_ANALYSIS_EXECUTIVO.md` em 2026-04-17
+
+- Busca global quebrada, operações principais ausentes e dados mock como risco funcional.
+- Material útil para priorizar correções de credibilidade e limpeza de FAKE/ZOMBIE.

@@ -36,7 +36,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   // No session — hard block, redirect handled by useAuthGuard
   if (!token) {
-    return null;
+    return (
+      <div className="flex h-screen items-center justify-center bg-cloud text-on-surface">
+        <div className="rounded-md border border-outline bg-surface-elevated px-4 py-3 text-sm text-on-surface-muted">
+          Redirecionando para login...
+        </div>
+      </div>
+    );
   }
 
   // Authenticated but not allowed on this route
