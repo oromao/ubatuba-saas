@@ -25,11 +25,6 @@
 4. **T2-PARCEL-E2E** — entra quando T1 fechar.
 5. **T2-INSPECT-E2E** — paralelo a T2-TAX-INTEG após PARCEL-E2E.
 
-## Consolidação de planos legados
-
-O arquivo `PROXIMAS_20_ACOES_PRIORITARIAS.md` foi consolidado neste sistema em 2026-04-17 e arquivado.
-O que era prioridade antiga agora deve ser rastreado apenas pelo backlog T1→T4 e pelos critérios de prova deste plano.
-
 ## Bloqueios atuais
 
 | Item | Bloqueado por | Desde | Responsável |

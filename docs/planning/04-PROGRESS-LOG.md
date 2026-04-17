@@ -22,15 +22,6 @@
 
 ## Entradas
 
-### 2026-04-17 — Codex — Bootstrap de planejamento + limpeza inicial
-- **Status muda:** — (criação inicial + consolidação)
-- **Feito:** Arquivo de bootstrap antigo foi arquivado em `.archive/2026-04-17/` e o plano `PROXIMAS_20_ACOES_PRIORITARIAS.md` foi consolidado nos docs de planejamento.
-- **Arquivos alterados:** `.archive/2026-04-17/CODEX-PROMPT-BOOTSTRAP.md`, `.archive/2026-04-17/PROXIMAS_20_ACOES_PRIORITARIAS.md`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/05-CLEANUP-INVENTORY.md`.
-- **Testes adicionados:** nenhum.
-- **Prova:** `git mv CODEX-PROMPT-BOOTSTRAP.md .archive/2026-04-17/CODEX-PROMPT-BOOTSTRAP.md`
-- **Próximo:** seguir com a primeira tarefa real do backlog T1, começando por `T1-DEVSERVER`.
-- **Notas:** `README.md`, docs de importação e módulos DEMO ficaram sinalizados em inventário para tratamento posterior.
-
 ### 2026-04-17 — Claude (bootstrap) — Sistema de planejamento
 - **Status muda:** — (criação inicial)
 - **Feito:** Instalado sistema de planejamento em `docs/planning/` com 8 arquivos (contexto, matriz, backlog, execução, log, limpeza, testes, definições) + `AGENTS.md` na raiz como entrada universal para agentes de IA.

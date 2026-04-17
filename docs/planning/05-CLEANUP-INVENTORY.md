@@ -71,18 +71,7 @@
 
 | Caminho | Motivo | Ação | Executado em |
 |---|---|---|---|
-| `PROXIMAS_20_ACOES_PRIORITARIAS.md` | Plano antigo sobreposto pelo backlog vivo | `ARCHIVE` | 2026-04-17 |
-| `CODEX-PROMPT-BOOTSTRAP.md` | Prompt pontual substituído pelo sistema persistente | `ARCHIVE` | 2026-04-17 |
-| `README.md` | Duplica regras e visão já cobertas por `AGENTS.md`/`docs/planning/` | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `docs/CTM_IMPORT_DOCUMENTATION.md` | Documento útil, mas reforça narrativa DEMO/OFICIAL que precisa de rastreio | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `docs/EXTERNAL_DEMO_IMPORT.md` | Documento útil, mas trata base DEMO externa e precisa de nota de limpeza | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/web/src/app/app/ctm/parcelas/page.tsx` | UI expõe badges/alertas DEMO que precisam permanecer sinalizados | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/web/src/app/app/ctm/parcelas/[id]/page.tsx` | Badge DEMO no detalhe da parcela precisa de rastreio | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/web/src/app/app/maps/map-view.tsx` | Popup do mapa marca DEMO/OFICIAL e é área sensível de classificação | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/api/src/modules/ctm/parcels/parcels.service.ts` | Lógica ainda contém caminhos DEMO/sample como primários em partes do fluxo | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/api/src/modules/ctm/parcels/parcel.schema.ts` | `sourceType` default DEMO requer nota de legado | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/api/src/seed/demo-seed.ts` | Seed demonstrativo necessário, mas é fonte de dados não-oficiais | `KEEP_BUT_FLAG` | 2026-04-17 |
-| `apps/api/test/parcels-import.spec.ts` | Teste usa fixtures DEMO como base e deve seguir marcado | `KEEP_BUT_FLAG` | 2026-04-17 |
+| *(a preencher pelo agente de bootstrap)* | — | — | — |
 
 ## Código marcado como PARTIAL/demo
 
@@ -90,17 +79,10 @@
 
 | Caminho | O que é | Item do backlog | Executado em |
 |---|---|---|---|
-| `apps/web/src/app/app/ctm/parcelas/page.tsx` | Badges e filtros de MODO DEMO / BASE DEMO | T2-PARCEL-E2E / T3-EMPTY-STATES | 2026-04-17 |
-| `apps/web/src/app/app/ctm/parcelas/[id]/page.tsx` | Badge DEMO no detalhe de parcela | T2-PARCEL-E2E | 2026-04-17 |
-| `apps/web/src/app/app/maps/map-view.tsx` | Popup e labels exibem DEMO/OFICIAL | T3-GIS-SCALE | 2026-04-17 |
-| `apps/api/src/modules/ctm/parcels/parcels.service.ts` | Serviços ainda consideram DEMO como caminho operacional | T2-TAX-INTEG / T3-IMPORT-PROOF | 2026-04-17 |
-| `apps/api/src/modules/ctm/parcels/parcel.schema.ts` | Default `sourceType = DEMO` | T3-IMPORT-PROOF | 2026-04-17 |
-| `apps/api/src/seed/demo-seed.ts` | Seed de demonstração | T1-DEVSERVER / T3-IMPORT-PROOF | 2026-04-17 |
-| `apps/api/test/parcels-import.spec.ts` | Fixtures com `sourceType: DEMO` | T3-IMPORT-PROOF | 2026-04-17 |
+| *(a preencher pelo agente de bootstrap)* | — | — | — |
 
 ## Histórico de arquivamento
 
 | Data | Agente | Item arquivado | Motivo | Destino em `.archive/` |
 |---|---|---|---|---|
-| 2026-04-17 | Codex | `PROXIMAS_20_ACOES_PRIORITARIAS.md` | Plano antigo consolidado no backlog e execução | `.archive/2026-04-17/PROXIMAS_20_ACOES_PRIORITARIAS.md` |
-| 2026-04-17 | Codex | `CODEX-PROMPT-BOOTSTRAP.md` | Substituído pelo sistema persistente de planejamento | `.archive/2026-04-17/CODEX-PROMPT-BOOTSTRAP.md` |
+| — | — | — | — | — |
