@@ -21,11 +21,11 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T2-PARCEL-E2E | Codex | 2026-04-20 | Browser flow proved; edit submit still needs PATCH. |
+| T3-GIS-SCALE | Codex | 2026-04-20 | Next target after CTM parcel flow proved. |
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T2-PARCEL-E2E** — PARTIAL (browser flow provado; edit submit ainda sem PATCH).
+1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified).
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).

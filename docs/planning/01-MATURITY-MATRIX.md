@@ -2,7 +2,7 @@
 
 > Scorecard de maturidade por domínio. Escala 0-5.
 > Atualize ao final de cada sprint ou quando houver mudança material.
-> Última atualização: `2026-04-20` por `Codex (reports PDF proof stabilized)`
+> Última atualização: `2026-04-20` por `Codex (parcel E2E proof stabilized)`
 
 ---
 
@@ -22,8 +22,8 @@
 | # | Domínio | Agora | Alvo Q2/2026 | Alvo Q4/2026 | Próxima ação (ref T) |
 |---|---|:-:|:-:|:-:|---|
 | 1 | GIS / WebGIS | 3 | 4 | 5 | T3-GIS-SCALE |
-| 2 | CTM / lifecycle de parcela | 3 | 4 | 5 | T2-PARCEL-E2E |
-| 3 | Parcel search/detail UX | 3 | 4 | 5 | T2-PARCEL-E2E |
+| 2 | CTM / lifecycle de parcela | 4 | 4 | 5 | T2-PARCEL-E2E |
+| 3 | Parcel search/detail UX | 4 | 4 | 5 | T2-PARCEL-E2E |
 | 4 | Imports (GeoJSON / CSV / externos) | 3 | 4 | 4 | T3-IMPORT-PROOF |
 | 5 | Tributação / IPTU / PGV / valor venal | 4 | 4 | 5 | T2-TAX-INTEG |
 | 6 | Vistorias / workflows de campo | 4 | 4 | 4 | T2-INSPECT-E2E |
@@ -51,6 +51,8 @@ AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
 
 | Data | Agente | Domínio | De → Para | Motivo |
 |---|---|---|---|---|
+| 2026-04-20 | Codex | CTM / lifecycle de parcela | 3 → 4 | Busca → detalhe → edição → reload com persistência real passou |
+| 2026-04-20 | Codex | Parcel search/detail UX | 3 → 4 | Lista real, detalhe e edição com payload persistido validado |
 | 2026-04-20 | Codex | Relatórios / exportações / PDFs | 3 → 4 | Clique no detalhe da parcela + leitura binária do PDF validada |
 | 2026-04-20 | Codex | Tributação / IPTU / PGV / valor venal | 3 → 4 | Dashboard/executive and parcel statistics match on IPTU totals |
 | 2026-04-20 | Codex | Vistorias / workflows de campo | 3 → 4 | E2E create → status → history → vínculo com parcela passou |

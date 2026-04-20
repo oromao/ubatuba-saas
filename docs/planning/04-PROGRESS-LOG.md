@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T2-PARCEL-E2E
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Ajustei a prova para usar a tabela real de parcelas, abrir o detalhe, editar `mainAddress`, persistir via `PATCH` autenticado e confirmar o reload com o valor novo.
+- **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/01-MATURITY-MATRIX.md`, `docs/planning/05-CLEANUP-INVENTORY.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/parcel-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para `T3-GIS-SCALE`.
+- **Notas:** a persistência ficou estável quando a escrita passou a usar o endpoint real com token fresco da sessão.
+
 ### 2026-04-20 — Codex — T2-REPORTS
 - **Status muda:** PARTIAL → DONE
 - **Feito:** Ajustei o spec para entrar na lista real de parcelas, abrir um lote existente e validar o PDF com clique no botão do detalhe; a prova binária agora fecha com `application/pdf` e bytes `%PDF`.

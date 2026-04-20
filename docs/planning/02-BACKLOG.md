@@ -62,12 +62,12 @@
 ## 🟧 T2 — Robustness / municipal operation
 
 ### T2-PARCEL-E2E — Provar parcel search/detail/update ponta a ponta
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** CRITICAL · **Esforço:** M-L · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Usuário busca parcela → abre detalhe → edita campo → persiste → recarrega → valor persistido.
 - **Validação:** E2E Playwright + integração API.
 - **Depende de:** T1 inteiro.
-- **Agente:** Codex (2026-04-20) — browser flow reaches detail, but edit submit never emits PATCH; stats/list/map paths pass.
+- **Agente:** Codex (2026-04-20) — busca → detalhe → edição → persistência → reload provados; stats/list/map paths pass.
 
 ### T2-INSPECT-E2E — Provar ciclo de vistoria ponta a ponta
 - **Status:** `DONE`

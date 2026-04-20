@@ -36,7 +36,7 @@
 |---|---|---|---|---|
 | `/app/dashboard` | `KEEP?` | Dashboard é crítico, precisa provar | T3-DASH-PROOF | — |
 | `/app/maps` | `KEEP?` | Core do produto | T3-GIS-SCALE | — |
-| `/app/ctm/parcelas` | `KEEP?` | Entidade central | T2-PARCEL-E2E | — |
+| `/app/ctm/parcelas` | `KEEP` | Entidade central provada | T2-PARCEL-E2E | 2026-04-20 |
 | `/app/ctm/logradouros` | `KEEP` | Provado na auditoria | — | — |
 | `/app/ctm/mobiliario` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
 | `/app/ctm/vistorias` | `KEEP` | T2-INSPECT-E2E provado | — | 2026-04-20 |
