@@ -39,7 +39,7 @@
 | `/app/ctm/parcelas` | `KEEP?` | Entidade central | T2-PARCEL-E2E | — |
 | `/app/ctm/logradouros` | `KEEP` | Provado na auditoria | — | — |
 | `/app/ctm/mobiliario` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/ctm/vistorias` | `KEEP?` | T2-INSPECT-E2E | provar ou HIDE | — |
+| `/app/ctm/vistorias` | `KEEP` | T2-INSPECT-E2E provado | — | 2026-04-20 |
 | `/app/observatorio` | `FIX` | Usa persistência local demo | trocar para real ou marcar PARTIAL | — |
 | `/app/processes` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
 | `/app/cartas` | `FIX` | Smoke passou, mas geração/fluxo real não foi provado | validar backend/persistência ou HIDE | — |

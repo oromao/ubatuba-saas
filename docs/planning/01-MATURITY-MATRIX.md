@@ -2,7 +2,7 @@
 
 > Scorecard de maturidade por domínio. Escala 0-5.
 > Atualize ao final de cada sprint ou quando houver mudança material.
-> Última atualização: `2026-04-17` por `Claude (bootstrap inicial, baseline da auditoria)`
+> Última atualização: `2026-04-20` por `Codex (hooks nativos + launcher fallback do brain OS)`
 
 ---
 
@@ -26,7 +26,7 @@
 | 3 | Parcel search/detail UX | 3 | 4 | 5 | T2-PARCEL-E2E |
 | 4 | Imports (GeoJSON / CSV / externos) | 3 | 4 | 4 | T3-IMPORT-PROOF |
 | 5 | Tributação / IPTU / PGV / valor venal | 3 | 4 | 5 | T2-TAX-INTEG |
-| 6 | Vistorias / workflows de campo | 3 | 4 | 4 | T2-INSPECT-E2E |
+| 6 | Vistorias / workflows de campo | 4 | 4 | 4 | T2-INSPECT-E2E |
 | 7 | Mobile / uso em campo | 2 | 3 | 4 | T4-MOBILE |
 | 8 | Portal cidadão / serviço público | 2 | 3 | 4 | T3-CITIZEN |
 | 9 | Dashboards / observatório | 3 | 4 | 4 | T3-DASH-PROOF |
@@ -36,6 +36,7 @@
 | 13 | Segurança / RBAC / multi-tenant / auditoria | 3 | 4 | 5 | T4-AUDIT |
 | 14 | UX / navegação / usabilidade operador | 4 | 4 | 5 | T1-ROUTE-PROOF, T3-EMPTY-STATES |
 | 15 | Testes / qualidade / release readiness | 4 | 4 | 5 | T1 inteiro |
+| 16 | Automation / memory / DevEx | 4 | 5 | 5 | T4-HOOKS-OS |
 
 ## Heatmap resumo
 
@@ -50,6 +51,8 @@ AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
 
 | Data | Agente | Domínio | De → Para | Motivo |
 |---|---|---|---|---|
+| 2026-04-20 | Codex | Vistorias / workflows de campo | 3 → 4 | E2E create → status → history → vínculo com parcela passou |
+| 2026-04-20 | Codex | Automation / memory / DevEx | 3 → 4 | Hooks nativas + launcher fallback passaram a acionar bootstrap/write-back automaticamente |
 | 2026-04-17 | Codex | UX / navegação / usabilidade operador | 3 → 4 | Smoke do menu provou navegação sem tela vazia nas rotas visíveis |
 | 2026-04-17 | Codex | Testes / qualidade / release readiness | 3 → 4 | Smoke do menu e da hidratação passaram com seed local reproduzível |
 | 2026-04-17 | Codex | UX / navegação / usabilidade operador | 2 → 3 | Estado explícito de redirecionamento + prova E2E de hidratação sem tela em branco |

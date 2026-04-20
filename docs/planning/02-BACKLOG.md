@@ -70,12 +70,12 @@
 - **Agente:** Codex (2026-04-20) — browser flow reaches detail, but edit submit never emits PATCH; stats/list/map paths pass.
 
 ### T2-INSPECT-E2E — Provar ciclo de vistoria ponta a ponta
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Criar vistoria → transicionar status → vincular à parcela → persistir → visível no histórico.
 - **Validação:** E2E + integração.
 - **Depende de:** T2-PARCEL-E2E.
-- **Agente:** Claude (2026-04-17) — E2E test + backend integration tests written.
+- **Agente:** Codex (2026-04-20) — E2E confirmado: create → status → history → vínculo com parcela passou.
 
 ### T2-TAX-INTEG — Provar integração tributária e coerência do read model
 - **Status:** `IN_PROGRESS`

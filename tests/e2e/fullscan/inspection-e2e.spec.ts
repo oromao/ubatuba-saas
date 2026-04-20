@@ -121,23 +121,36 @@ test.describe('T2-INSPECT-E2E: Inspection/Vistoria Workflow', () => {
       });
 
       // Fill in vistoria form (generic approach)
-      const inputs = page.locator('input[type="text"], textarea').all();
-      const inputsList = await inputs;
-      if (inputsList.length > 0) {
-        const firstInput = page.locator('input[type="text"]').first();
-        await firstInput.focus();
-        await firstInput.fill(`Vistoria Test ${Date.now()}`);
+      const tipoTrigger = page.locator('#tipo').first();
+      await expect(tipoTrigger).toBeVisible({ timeout: 10_000 });
+      await tipoTrigger.click();
+      await page.getByText('INICIAL').click();
+
+      const parcelIdInput = page.locator('#parcelId').first();
+      if (await parcelIdInput.isVisible().catch(() => false)) {
+        const parcelIdFallback =
+          (await page.locator('text=/^SQLU[:\\s]/i').first().textContent().catch(() => '')) ||
+          (await page.locator('text=/[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{3}/').first().textContent().catch(() => ''));
+        if (parcelIdFallback?.trim()) {
+          await parcelIdInput.fill(parcelIdFallback.trim().replace(/^SQLU[:\s]*/i, ''));
+        } else {
+          await parcelIdInput.fill('001-001-001-001');
+        }
       }
 
-      // Look for status select
-      const statusSelect = page.locator('select[name*="status"], select[placeholder*="status"]').first();
-      if (await statusSelect.isVisible().catch(() => false)) {
-        await statusSelect.selectOption('PENDENTE');
+      const dataInput = page.locator('#data').first();
+      await expect(dataInput).toBeVisible({ timeout: 10_000 });
+      await dataInput.fill(new Date().toISOString().slice(0, 10));
+
+      const observacoesInput = page.locator('#observacoes').first();
+      if (await observacoesInput.isVisible().catch(() => false)) {
+        await observacoesInput.fill(`Vistoria Test ${Date.now()}`);
       }
 
       // Submit form
       const submitBtn = page.locator('button:has-text("Salvar"), button:has-text("Criar"), button[type="submit"]').first();
       if (await submitBtn.isVisible().catch(() => false)) {
+        await expect(submitBtn).toBeEnabled({ timeout: 10_000 });
         await submitBtn.click();
         await page.waitForTimeout(1000); // Wait for submission
       }

@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T2-INSPECT-E2E
+- **Status muda:** IN_PROGRESS → DONE
+- **Feito:** Corrigido o spec para preencher o `parcelId` real quando o fluxo não o pré-carrega, selecionar tipo/data, submeter a vistoria e confirmar o ciclo completo com histórico e vínculo à parcela.
+- **Arquivos alterados:** `tests/e2e/fullscan/inspection-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/inspection-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para `T2-TAX-INTEG`.
+- **Notas:** o create page exige `parcelId` explícito quando não há query param; a falha era validação, não backend.
+
 ### 2026-04-20 — Codex — T4-HOOKS-OS
 - **Status muda:** TODO → DONE
 - **Feito:** Liguadas as hooks nativas de Claude Code e Codex ao brain, com write-back automático, fallback de launcher para Gemini/app flows e instruções duráveis no workspace.
