@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de error state explícito para `logradouros`, além de `assets`, validando o mesmo comportamento de fallback em outro módulo real baseado em tabela.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/empty-states.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** expandir o mesmo padrão para os demais módulos de lista/tabela que ainda não têm prova real de empty/error state.
+- **Notas:** o teste agora cobre `assets` e `logradouros`; o padrão de `DataTable` continua reutilizável.
+
 ### 2026-04-20 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Provei que o mapa carrega e permanece navegável com dataset grande (>10k geometrias) seedado no tenant real; o volume agora aparece no `ctm/parcels/geojson` e o canvas abre sem fallback.

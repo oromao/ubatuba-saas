@@ -42,4 +42,14 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nao foi possivel carregar os dados.')).toBeVisible();
     await expect(page.getByText(/Falha ao carregar ativos|Failed to fetch|TypeError|aborted/i)).toBeVisible();
   });
+
+  test('renders an explicit error state on logradouros too', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/logradouros**', (route) => route.abort());
+    await page.goto('/app/ctm/logradouros', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'CTM - Logradouros' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nao foi possivel carregar os dados.')).toBeVisible();
+    await expect(page.getByText(/Falha ao carregar logradouros|Failed to fetch|TypeError|aborted/i)).toBeVisible();
+  });
 });
