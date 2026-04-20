@@ -21,7 +21,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T3-EMPTY-STATES | Codex | 2026-04-20 | `assets` now shows an explicit error state and is E2E-proved; broader module coverage remains PARTIAL. |
+| T3-DASH-PROOF | Codex | 2026-04-20 | Dashboard layout persistence proved; broader KPI/observability coverage remains PARTIAL. |
 
 ## Próximos na fila (ordem de ataque)
 
@@ -31,7 +31,7 @@
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T3-GIS-SCALE** — PARTIAL (smoke + draw proved; scale/clustering still unproven).
 6. **T3-EMPTY-STATES** — PARTIAL (assets error state proved; broader module coverage still pending).
-7. **T3-DASH-PROOF** — TODO.
+7. **T3-DASH-PROOF** — PARTIAL (layout persistence proved; broader KPI/observability proof still pending).
 
 ## Bloqueios atuais
 

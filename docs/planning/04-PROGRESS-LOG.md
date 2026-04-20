@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-DASH-PROOF
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Provei a persistência do layout do dashboard no fluxo real: alterei a visão para `operational`, salvei, validei o `PATCH /dashboard/layout` e confirmei o estado após reload.
+- **Arquivos alterados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/dashboard-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** ampliar a prova para KPI/observatório mais completo, não só persistência do layout.
+- **Notas:** o dashboard ainda precisa de prova mais ampla de métricas e observabilidade; a persistência em reload já está coberta.
+
 ### 2026-04-20 — Codex — T3-EMPTY-STATES
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Padronizei um error state explícito no `DataTable` e provei em browser que `/app/assets` mostra mensagem de erro quando a requisição falha.

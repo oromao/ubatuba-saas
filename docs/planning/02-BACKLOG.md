@@ -112,10 +112,11 @@
 - **Agente:** Codex (2026-04-20) — `assets` agora mostra error state explícito com fallback testado; ainda faltam outros módulos do padrão.
 
 ### T3-DASH-PROOF — Expandir prova do dashboard/observatório
-- **Status:** `TODO`
+- **Status:** `PARTIAL`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend
 - **DoD:** KPIs estáveis, layout persistido, fonte de dados real e auditável.
 - **Validação:** Integração + smoke.
+- **Agente:** Codex (2026-04-20) — layout do dashboard agora persiste em reload via API + browser; ainda falta prova mais ampla de KPIs/observatório.
 
 ### T3-IMPORT-PROOF — Provar importações (GeoJSON / CSV / base externa)
 - **Status:** `TODO`
