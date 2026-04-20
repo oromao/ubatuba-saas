@@ -22,6 +22,24 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Provei que o mapa carrega e permanece navegável com dataset grande (>10k geometrias) seedado no tenant real; o volume agora aparece no `ctm/parcels/geojson` e o canvas abre sem fallback.
+- **Arquivos alterados:** `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/maps-scale.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** provar overlays em escala, fitBounds explícito e clustering funcional antes de tentar subir o item.
+- **Notas:** o ambiente real tinha só 31 parcelas; o teste seedou 10k docs com `ObjectId` correto para fechar a prova de volume.
+
+### 2026-04-20 — Codex — T3-CITIZEN
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Provei o `POST /public/calls` com protocolo real e validei o login/tenant autenticado, mas a mesma solicitação ainda não reapareceu na listagem administrativa do tenant.
+- **Arquivos alterados:** `tests/e2e/fullscan/citizen-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/citizen-proof.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** fechar a persistência/listagem do fluxo cidadão no mesmo tenant e só então tentar subir para `DONE`.
+- **Notas:** o login devolve tenant real (`tenantId`), o create público retorna 201 com protocolo, mas `GET /citizen-156/calls` volta vazio após a criação.
+
 ### 2026-04-20 — Codex — T3-IMPORT-PROOF
 - **Status muda:** TODO → DONE
 - **Feito:** Provei a importação GeoJSON real em `/ctm/parcels/import`, confirmei aumento de total via statistics e validei que um payload inválido não altera os totais.

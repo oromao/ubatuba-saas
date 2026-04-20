@@ -102,7 +102,7 @@
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** GIS / Frontend / Performance
 - **DoD:** Mapa estável com dataset real grande (>10k geometrias), overlays, fitBounds sem quebrar, clustering funcional.
 - **Validação:** E2E + smoke de performance.
-- **Agente:** Codex (2026-04-20) — smoke e interação básica do mapa passaram, mas ainda falta prova real de dataset >10k, overlays em escala e clustering.
+- **Agente:** Codex (2026-04-20) — smoke/interação básica do mapa passaram e agora há prova de dataset >10k carregando com o mapa navegável; overlays em escala, fitBounds explícito e clustering ainda não foram provados.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
 - **Status:** `PARTIAL`
@@ -125,9 +125,10 @@
 - **Agente:** Codex (2026-04-20) — importação GeoJSON validada com batch real de teste e payload inválido sem alterar totais.
 
 ### T3-CITIZEN — Provar fluxos de portal cidadão
-- **Status:** `TODO`
+- **Status:** `PARTIAL`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend / Tests
 - **DoD:** Cidadão abre solicitação → backend recebe → operador responde → cidadão vê status.
+- **Agente:** Codex (2026-04-20) — criação pública gera protocolo real, mas a listagem/retorno no fluxo administrativo ainda não reaparece no mesmo tenant.
 
 ---
 

@@ -22,6 +22,7 @@
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
 | T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
+| T3-CITIZEN | Codex | 2026-04-20 | Public request proof exists, but administrative reappearance/listing in the same tenant still needs closure. |
 
 ## Próximos na fila (ordem de ataque)
 
@@ -29,10 +30,11 @@
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
-5. **T3-GIS-SCALE** — PARTIAL (smoke + draw proved; scale/clustering still unproven).
+5. **T3-GIS-SCALE** — PARTIAL (dataset >10k and navigable map proved; fitBounds/clustering/overlays still incomplete).
 6. **T3-EMPTY-STATES** — PARTIAL (assets error state proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence proved; broader KPI/observability proof still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
+9. **T3-CITIZEN** — PARTIAL (public create proven; admin reappearance/listing still unproven).
 
 ## Bloqueios atuais
 
@@ -50,6 +52,7 @@
 - [ ] Definir stack oficial de E2E (Playwright é o implícito — confirmar).
 - [ ] Definir dataset real vs sintético para teste de GIS em escala (T3-GIS-SCALE).
 - [ ] Definir critério de "dataset de teste" para T3-IMPORT-PROOF.
+- [ ] Fechar persistência/listagem do fluxo público em `T3-CITIZEN`.
 
 ## Check-in de final de sprint (preencher em 2026-05-01)
 
