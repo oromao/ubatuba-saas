@@ -21,7 +21,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T3-DASH-PROOF | Codex | 2026-04-20 | Dashboard layout persistence proved; broader KPI/observability coverage remains PARTIAL. |
+| T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
 
 ## Próximos na fila (ordem de ataque)
 
@@ -32,6 +32,7 @@
 5. **T3-GIS-SCALE** — PARTIAL (smoke + draw proved; scale/clustering still unproven).
 6. **T3-EMPTY-STATES** — PARTIAL (assets error state proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence proved; broader KPI/observability proof still pending).
+8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
 
 ## Bloqueios atuais
 

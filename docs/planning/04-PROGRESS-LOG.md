@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-IMPORT-PROOF
+- **Status muda:** TODO → DONE
+- **Feito:** Provei a importação GeoJSON real em `/ctm/parcels/import`, confirmei aumento de total via statistics e validei que um payload inválido não altera os totais.
+- **Arquivos alterados:** `tests/e2e/fullscan/import-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/import-proof.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/import-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** expandir cobertura de importação para CSV/base externa e, se necessário, ligar isso ao fluxo de UI.
+- **Notas:** a prova ficou no backend real com token autenticado; o rollback foi validado como "sem alteração de total" após payload inválido.
+
 ### 2026-04-20 — Codex — T3-DASH-PROOF
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Provei a persistência do layout do dashboard no fluxo real: alterei a visão para `operational`, salvei, validei o `PATCH /dashboard/layout` e confirmei o estado após reload.

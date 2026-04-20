@@ -119,9 +119,10 @@
 - **Agente:** Codex (2026-04-20) — layout do dashboard agora persiste em reload via API + browser; ainda falta prova mais ampla de KPIs/observatório.
 
 ### T3-IMPORT-PROOF — Provar importações (GeoJSON / CSV / base externa)
-- **Status:** `TODO`
+- **Status:** `DONE`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Backend / Tests
 - **DoD:** Importação de base real validada com dataset de teste, rollback em caso de erro.
+- **Agente:** Codex (2026-04-20) — importação GeoJSON validada com batch real de teste e payload inválido sem alterar totais.
 
 ### T3-CITIZEN — Provar fluxos de portal cidadão
 - **Status:** `TODO`
