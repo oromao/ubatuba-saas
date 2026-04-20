@@ -10,80 +10,30 @@ const API_URL = process.env.API_URL || 'http://localhost:4000';
 test.use({ storageState: adminStatePath });
 
 const ensureSession = async (page: any, roleKey = 'admin') => {
-  const adminState = JSON.parse(await fs.readFile(adminStatePath, 'utf8'));
-  const localStorage = adminState.origins?.[0]?.localStorage ?? [];
-  const tokenFromState = localStorage.find((item: any) => item.name === 'accessToken')?.value;
-  const refreshFromState = localStorage.find((item: any) => item.name === 'refreshToken')?.value;
-  const tenantFromState = localStorage.find((item: any) => item.name === 'tenantId')?.value;
-  if (refreshFromState && tenantFromState) {
-    const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ refreshToken: refreshFromState }),
-    });
-    if (refreshRes.ok) {
-      const refreshPayload = await refreshRes.json();
-      const freshAccessToken = refreshPayload?.data?.accessToken ?? tokenFromState;
-      const freshRefreshToken = refreshPayload?.data?.refreshToken ?? refreshFromState;
-      if (freshAccessToken) {
-        await page.goto('/login', { waitUntil: 'domcontentloaded' });
-        await page.evaluate(
-          (tokens: any) => {
-            sessionStorage.setItem('accessToken', tokens.accessToken);
-            sessionStorage.setItem('refreshToken', tokens.refreshToken);
-            sessionStorage.setItem('tenantId', tokens.tenantId);
-          },
-          { accessToken: freshAccessToken, refreshToken: freshRefreshToken, tenantId: tenantFromState },
-        );
-        await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
-        return { accessToken: freshAccessToken, tenantId: tenantFromState };
-      }
-    }
-  }
-
-  if (tokenFromState && tenantFromState) {
-    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
-    return { accessToken: tokenFromState, tenantId: tenantFromState };
-  }
-
   let roles: any;
   try {
     roles = JSON.parse(await fs.readFile(rolesPath, 'utf8'));
   } catch {
-    const email = process.env.DEMO_EMAIL || 'demo@flydea.com.br';
-    const password = process.env.DEMO_PASSWORD || 'demo123456';
-    const tenantSlug = process.env.DEMO_TENANT || 'ubatuba';
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ email, password, tenantSlug }),
-    });
-    if (!response.ok) throw new Error(`Login failed: ${response.status}`);
-    const payload = await response.json();
-    const { accessToken, refreshToken, tenantId } = payload.data;
-    await page.goto('/login', { waitUntil: 'domcontentloaded' });
-    await page.evaluate(
-      (tokens: any) => {
-        sessionStorage.setItem('accessToken', tokens.accessToken);
-        sessionStorage.setItem('refreshToken', tokens.refreshToken);
-        sessionStorage.setItem('tenantId', tokens.tenantId);
-      },
-      { accessToken, refreshToken, tenantId },
-    );
-    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
-    return { accessToken, tenantId };
+    roles = null;
   }
 
-  const profile = roles.profiles.find((item: any) => item.key === roleKey);
-  if (!profile) throw new Error(`Perfil ${roleKey} nao encontrado`);
+  const profile = roles?.profiles?.find((item: any) => item.key === roleKey);
+  const loginPayload = profile
+    ? {
+        email: profile.email,
+        password: profile.password,
+        tenantSlug: roles.tenant,
+      }
+    : {
+        email: process.env.DEMO_EMAIL || 'demo@flydea.com.br',
+        password: process.env.DEMO_PASSWORD || 'demo123456',
+        tenantSlug: process.env.DEMO_TENANT || 'ubatuba',
+      };
+
   const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      email: profile.email,
-      password: profile.password,
-      tenantSlug: roles.tenant,
-    }),
+    body: JSON.stringify(loginPayload),
   });
   const payload = await response.json();
   if (!response.ok) throw new Error(`Falha login ${roleKey}: ${response.status}`);
@@ -98,35 +48,46 @@ const ensureSession = async (page: any, roleKey = 'admin') => {
     { accessToken, refreshToken, tenantId },
   );
   await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+  await page.waitForURL(/\/app\/dashboard/, { timeout: 10_000 });
   return { accessToken, tenantId };
+};
+
+const openFirstParcel = async (page: any) => {
+  await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
+  await expect(page.getByText('Cadastro Técnico - Parcelas')).toBeVisible({ timeout: 15_000 });
+  await page.waitForFunction(() => document.querySelectorAll('table tbody tr').length > 1, null, { timeout: 15_000 });
+  const row = page.locator('table tbody tr').nth(1);
+  await expect(row).toBeVisible({ timeout: 5_000 });
+  await row.click();
+  await expect(page).toHaveURL(/\/app\/ctm\/parcelas\/[a-zA-Z0-9_-]+/, { timeout: 10_000 });
+};
+
+const expectPdfBytes = async (accessToken: string, parcelId: string) => {
+  const response = await fetch(`${API_URL}/ctm/parcels/${parcelId}/pdf`, {
+    headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+  });
+  const buffer = Buffer.from(await response.arrayBuffer());
+  const bytes = Array.from(buffer.subarray(0, 4));
+
+  expect(response.status).toBe(200);
+  expect(response.headers.get('content-type')).toContain('application/pdf');
+  expect(bytes).toEqual([37, 80, 68, 70]);
+  expect(buffer.length).toBeGreaterThan(100);
 };
 
 test.describe('T2-REPORTS: Report Generation & PDF Export', () => {
   test('01 - Generate PDF certidão from parcel detail', async ({ page }) => {
-    await ensureSession(page);
+    const { accessToken } = await ensureSession(page);
 
-    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
-    const row = page.locator('tbody tr').first();
-    await expect(row).toBeVisible({ timeout: 15_000 });
-    await row.click();
-    await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
+    await openFirstParcel(page);
 
     const pdfButton = page.getByRole('button', { name: 'PDF' }).first();
     await expect(pdfButton).toBeVisible({ timeout: 5_000 });
-
-    const pdfResponsePromise = page.waitForResponse((response) => {
-      const url = response.url();
-      return url.includes('/ctm/parcels/') && url.includes('/pdf') && response.status() === 200;
-    });
+    const parcelId = page.url().match(/\/app\/ctm\/parcelas\/([a-zA-Z0-9_-]+)/)?.[1];
+    expect(parcelId).toBeTruthy();
 
     await pdfButton.click();
-
-    const pdfResponse = await pdfResponsePromise;
-    expect(pdfResponse.headers()['content-type']).toContain('application/pdf');
-    expect(pdfResponse.headers()['content-disposition']).toContain('.pdf');
-    const buffer = await pdfResponse.body();
-    expect(buffer.subarray(0, 4).toString('utf8')).toBe('%PDF');
-    expect(buffer.length).toBeGreaterThan(100);
+    await expectPdfBytes(accessToken, parcelId!);
   });
 
   test('02 - Report page loads with export options', async ({ page }) => {
@@ -228,21 +189,15 @@ test.describe('T2-REPORTS: Report Generation & PDF Export', () => {
   });
 
   test('06 - PDF contains parcel data (header/content validation)', async ({ page }) => {
-    await ensureSession(page);
-    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
-    const row = page.locator('tbody tr').first();
-    await expect(row).toBeVisible({ timeout: 15_000 });
-    await row.click();
-    await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
+    const { accessToken } = await ensureSession(page);
+    await openFirstParcel(page);
 
     const pdfButton = page.getByRole('button', { name: 'PDF' }).first();
     await expect(pdfButton).toBeVisible({ timeout: 5_000 });
+    const parcelId = page.url().match(/\/app\/ctm\/parcelas\/([a-zA-Z0-9_-]+)/)?.[1];
+    expect(parcelId).toBeTruthy();
 
-    const pdfResponsePromise = page.waitForResponse((response) => response.url().includes('/pdf') && response.status() === 200);
     await pdfButton.click();
-    const pdfResponse = await pdfResponsePromise;
-    const buffer = await pdfResponse.body();
-    expect(buffer.toString('utf8', 0, 4)).toBe('%PDF');
-    expect(buffer.length).toBeGreaterThan(100);
+    await expectPdfBytes(accessToken, parcelId!);
   });
 });

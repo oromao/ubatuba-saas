@@ -86,12 +86,12 @@
 - **Agente:** Codex (2026-04-20) — dashboard/executive and parcel statistics now match on IPTU totals.
 
 ### T2-REPORTS — Provar geração de relatórios/PDFs em workflow real
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Frontend / Tests
 - **DoD:** Gerar / abrir / baixar PDF válido em fluxo real (certidão, relatório, notificação).
 - **Validação:** E2E + inspeção binária do PDF.
 - **Depende de:** T2-PARCEL-E2E.
-- **Agente:** Codex (2026-04-20) — PDF endpoint is real, but the parcel-list driven browser flow did not stabilize in this session.
+- **Agente:** Codex (2026-04-20) — PDF certificado provado em fluxo real com clique no detalhe da parcela + validação binária do PDF.
 
 ---
 

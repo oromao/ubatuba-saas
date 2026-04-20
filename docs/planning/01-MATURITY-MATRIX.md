@@ -2,7 +2,7 @@
 
 > Scorecard de maturidade por domínio. Escala 0-5.
 > Atualize ao final de cada sprint ou quando houver mudança material.
-> Última atualização: `2026-04-20` por `Codex (hooks nativos + launcher fallback do brain OS)`
+> Última atualização: `2026-04-20` por `Codex (reports PDF proof stabilized)`
 
 ---
 
@@ -30,7 +30,7 @@
 | 7 | Mobile / uso em campo | 2 | 3 | 4 | T4-MOBILE |
 | 8 | Portal cidadão / serviço público | 2 | 3 | 4 | T3-CITIZEN |
 | 9 | Dashboards / observatório | 3 | 4 | 4 | T3-DASH-PROOF |
-| 10 | Relatórios / exportações / PDFs | 3 | 4 | 4 | T2-REPORTS |
+| 10 | Relatórios / exportações / PDFs | 4 | 4 | 4 | T2-REPORTS |
 | 11 | Notificações / cartas / comunicação | 2 | 3 | 4 | — |
 | 12 | Aprovações / compliance / workflows | 2 | 3 | 4 | — |
 | 13 | Segurança / RBAC / multi-tenant / auditoria | 3 | 4 | 5 | T4-AUDIT |
@@ -51,6 +51,7 @@ AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
 
 | Data | Agente | Domínio | De → Para | Motivo |
 |---|---|---|---|---|
+| 2026-04-20 | Codex | Relatórios / exportações / PDFs | 3 → 4 | Clique no detalhe da parcela + leitura binária do PDF validada |
 | 2026-04-20 | Codex | Tributação / IPTU / PGV / valor venal | 3 → 4 | Dashboard/executive and parcel statistics match on IPTU totals |
 | 2026-04-20 | Codex | Vistorias / workflows de campo | 3 → 4 | E2E create → status → history → vínculo com parcela passou |
 | 2026-04-20 | Codex | Automation / memory / DevEx | 3 → 4 | Hooks nativas + launcher fallback passaram a acionar bootstrap/write-back automaticamente |

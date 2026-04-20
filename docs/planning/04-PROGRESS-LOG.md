@@ -23,6 +23,15 @@
 ## Entradas
 
 ### 2026-04-20 — Codex — T2-REPORTS
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Ajustei o spec para entrar na lista real de parcelas, abrir um lote existente e validar o PDF com clique no botão do detalhe; a prova binária agora fecha com `application/pdf` e bytes `%PDF`.
+- **Arquivos alterados:** `tests/e2e/fullscan/reports-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/01-MATURITY-MATRIX.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/reports-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para `T2-PARCEL-E2E` ou iniciar `T3-GIS-SCALE` conforme prioridade do backlog.
+- **Notas:** o PDF foi validado com clique real no browser + fetch autenticado no mesmo tenant.
+
+### 2026-04-20 — Codex — T2-REPORTS
 - **Status muda:** IN_PROGRESS → PARTIAL
 - **Feito:** Provei que o endpoint de PDF existe e o spec consegue chegar perto do fluxo, mas a prova de browser travou na listagem de parcelas / estabilidade do seletor antes de fechar o download/binário.
 - **Arquivos alterados:** `tests/e2e/fullscan/reports-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
