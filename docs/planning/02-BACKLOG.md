@@ -105,10 +105,11 @@
 - **Agente:** Codex (2026-04-20) — smoke e interação básica do mapa passaram, mas ainda falta prova real de dataset >10k, overlays em escala e clustering.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
-- **Status:** `TODO`
+- **Status:** `PARTIAL`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** UX
 - **DoD:** Zero tela branca. Todo módulo tem empty state desenhado + error state com ação.
 - **Validação:** Testes de componente + smoke.
+- **Agente:** Codex (2026-04-20) — `assets` agora mostra error state explícito com fallback testado; ainda faltam outros módulos do padrão.
 
 ### T3-DASH-PROOF — Expandir prova do dashboard/observatório
 - **Status:** `TODO`

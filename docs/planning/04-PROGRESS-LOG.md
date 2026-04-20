@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-EMPTY-STATES
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Padronizei um error state explícito no `DataTable` e provei em browser que `/app/assets` mostra mensagem de erro quando a requisição falha.
+- **Arquivos alterados:** `apps/web/src/components/app/data-table.tsx`, `apps/web/src/app/app/assets/page.tsx`, `apps/web/src/app/app/ctm/logradouros/page.tsx`, `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/empty-states.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** expandir o mesmo padrão para os demais módulos de tabela/lista ainda sem empty/error state provado.
+- **Notas:** a prova cobre `assets`; `logradouros` já consome o novo prop, mas ainda falta validação E2E específica para ele e para os outros módulos do padrão.
+
 ### 2026-04-20 — Codex — T3-GIS-SCALE
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Provei o mapa com smoke e interação real: abriu sem tela branca, respondeu a pan/zoom/drag e habilitou desenho de polígono; ainda não há prova de dataset >10k, overlays em escala ou clustering.

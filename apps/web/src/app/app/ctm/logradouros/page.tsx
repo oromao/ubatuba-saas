@@ -17,7 +17,7 @@ type Logradouro = {
 };
 
 export default function CtmLogradourosPage() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["ctm-logradouros"],
     queryFn: () => apiFetch<Logradouro[]>("/ctm/logradouros"),
   });
@@ -42,6 +42,7 @@ export default function CtmLogradourosPage() {
             <DataTable
               data={data ?? []}
               loading={isLoading}
+              error={error instanceof Error ? error.message : error ? "Falha ao carregar logradouros." : null}
               columns={[
                 {
                   key: "code",

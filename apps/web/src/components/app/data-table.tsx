@@ -27,6 +27,7 @@ type DataTableProps<T> = {
   columns: Column<T>[];
   data: T[];
   loading?: boolean;
+  error?: string | null;
   pageSize?: number;
   emptyMessage?: string;
   emptyAction?: React.ReactNode;
@@ -39,6 +40,7 @@ export function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
   loading,
+  error,
   pageSize: initialPageSize = 10,
   emptyMessage = "Nenhum registro encontrado.",
   emptyAction,
@@ -84,6 +86,15 @@ export function DataTable<T extends Record<string, unknown>>({
         {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-12 w-full" />
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-5 text-rose-900">
+        <p className="text-sm font-semibold">Nao foi possivel carregar os dados.</p>
+        <p className="mt-1 text-xs text-rose-700">{error}</p>
       </div>
     );
   }

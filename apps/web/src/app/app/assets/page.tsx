@@ -13,7 +13,7 @@ type Asset = {
 };
 
 export default function AssetsPage() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["assets"],
     queryFn: () => apiFetch<Asset[]>("/assets"),
   });
@@ -25,6 +25,7 @@ export default function AssetsPage() {
         <DataTable
           data={data ?? []}
           loading={isLoading}
+          error={error instanceof Error ? error.message : error ? "Falha ao carregar ativos." : null}
           columns={[
             { key: "name", label: "Ativo" },
             { key: "category", label: "Categoria" },
