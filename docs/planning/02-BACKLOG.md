@@ -116,7 +116,7 @@
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend
 - **DoD:** KPIs estáveis, layout persistido, fonte de dados real e auditável.
 - **Validação:** Integração + smoke.
-- **Agente:** Codex (2026-04-20) — layout do dashboard agora persiste em reload via API + browser; ainda falta prova mais ampla de KPIs/observatório.
+- **Agente:** Codex (2026-04-20) — layout do dashboard agora persiste em reload via API + browser e a leitura executiva/sinais de prontidão estão provados contra o backend; ainda falta expandir a cobertura de observabilidade e KPIs satélite.
 
 ### T3-IMPORT-PROOF — Provar importações (GeoJSON / CSV / base externa)
 - **Status:** `DONE`

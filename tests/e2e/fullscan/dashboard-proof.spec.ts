@@ -58,4 +58,27 @@ test.describe('T3-DASH-PROOF: dashboard proof', () => {
     await expect(page.locator('select').first()).toHaveValue('operational');
     await expect(page.getByText('Widgets configuráveis')).toBeVisible();
   });
+
+  test('renders real KPI and observability data from the backend', async ({ page }) => {
+    const session = await ensureSession(page);
+
+    const executiveResponse = await page.request.get(`${API_URL}/dashboard/executive`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    expect(executiveResponse.ok()).toBeTruthy();
+    const executive = await executiveResponse.json();
+
+    await expect(page.getByRole('heading', { name: 'Painel Executivo' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Widgets configuráveis')).toBeVisible();
+
+    expect(executive?.data?.summary ?? executive?.summary).toBeTruthy();
+    expect(executive?.data?.readinessSignals ?? executive?.readinessSignals).toBeTruthy();
+
+    await expect(page.getByRole('heading', { name: 'Visão por secretaria' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Prioridades de hoje' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Saúde dos módulos satélite' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Sinais de prontidão' })).toBeVisible();
+    await expect(page.getByText('Portal institucional')).toBeVisible();
+    await expect(page.getByText('RBAC e tenant')).toBeVisible();
+  });
 });

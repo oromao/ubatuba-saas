@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova do dashboard para validar não só o layout persistido, mas também as seções executivas/sinais de prontidão alimentadas pelo backend real.
+- **Arquivos alterados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/dashboard-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** ampliar a cobertura para KPIs adicionais e observabilidade satélite se o backlog pedir mais prova.
+- **Notas:** o teste agora cobre layout + seções operacionais reais; summary cards continuam layout-dependentes.
+
 ### 2026-04-20 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de error state explícito para `logradouros`, além de `assets`, validando o mesmo comportamento de fallback em outro módulo real baseado em tabela.
