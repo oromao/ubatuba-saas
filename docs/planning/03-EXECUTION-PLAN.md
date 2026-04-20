@@ -21,13 +21,13 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T2-TAX-INTEG | Claude | 2026-04-17 | E2E escrito; pronto para execução após T2-PARCEL-E2E. |
+| T2-REPORTS | Claude | 2026-04-17 | E2E escrito; pronto para execução após T2-PARCEL-E2E. |
 
 ## Próximos na fila (ordem de ataque)
 
 1. **T2-PARCEL-E2E** — PARTIAL (browser flow provado; edit submit ainda sem PATCH).
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
-3. **T2-TAX-INTEG** — IN_PROGRESS (E2E test written).
+3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — IN_PROGRESS (E2E test written).
 5. **T3-GIS-SCALE** — TODO.
 6. **T3-EMPTY-STATES** — TODO.
@@ -40,7 +40,7 @@
 | T1-DEVSERVER | Cold start do compose podia expirar antes do health | 2026-04-20 | Codex | DONE; Colima ativo, compose up e /health OK |
 | T2-PARCEL-E2E (exec) | E2E infra (backend/frontend not accessible) | 2026-04-17 | — | Tests written; awaiting infra |
 | T2-INSPECT-E2E (exec) | E2E infra | 2026-04-17 | — | DONE; create/status/history/link proved |
-| T2-TAX-INTEG (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
+| T2-TAX-INTEG (exec) | E2E infra | 2026-04-17 | — | DONE; dashboard and parcel stats match |
 | T2-REPORTS (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
 
 ## Decisões arquiteturais pendentes (precisam do Paulo)

@@ -25,7 +25,7 @@
 | 2 | CTM / lifecycle de parcela | 3 | 4 | 5 | T2-PARCEL-E2E |
 | 3 | Parcel search/detail UX | 3 | 4 | 5 | T2-PARCEL-E2E |
 | 4 | Imports (GeoJSON / CSV / externos) | 3 | 4 | 4 | T3-IMPORT-PROOF |
-| 5 | Tributação / IPTU / PGV / valor venal | 3 | 4 | 5 | T2-TAX-INTEG |
+| 5 | Tributação / IPTU / PGV / valor venal | 4 | 4 | 5 | T2-TAX-INTEG |
 | 6 | Vistorias / workflows de campo | 4 | 4 | 4 | T2-INSPECT-E2E |
 | 7 | Mobile / uso em campo | 2 | 3 | 4 | T4-MOBILE |
 | 8 | Portal cidadão / serviço público | 2 | 3 | 4 | T3-CITIZEN |
@@ -51,6 +51,7 @@ AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
 
 | Data | Agente | Domínio | De → Para | Motivo |
 |---|---|---|---|---|
+| 2026-04-20 | Codex | Tributação / IPTU / PGV / valor venal | 3 → 4 | Dashboard/executive and parcel statistics match on IPTU totals |
 | 2026-04-20 | Codex | Vistorias / workflows de campo | 3 → 4 | E2E create → status → history → vínculo com parcela passou |
 | 2026-04-20 | Codex | Automation / memory / DevEx | 3 → 4 | Hooks nativas + launcher fallback passaram a acionar bootstrap/write-back automaticamente |
 | 2026-04-17 | Codex | UX / navegação / usabilidade operador | 3 → 4 | Smoke do menu provou navegação sem tela vazia nas rotas visíveis |

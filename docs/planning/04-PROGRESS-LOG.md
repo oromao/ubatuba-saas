@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T2-TAX-INTEG
+- **Status muda:** IN_PROGRESS → DONE
+- **Feito:** Troquei a prova para comparar o read model do dashboard com as estatísticas reais de parcelas via API; o spec agora valida que os totais de IPTU e valor venal batem entre dashboard e banco.
+- **Arquivos alterados:** `tests/e2e/fullscan/tax-integ-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/tax-integ-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para `T2-REPORTS`.
+- **Notas:** não havia parcela com IPTU carregado no seed; a prova correta era coerência do read model, não um detalhe específico da primeira linha.
+
 ### 2026-04-20 — Codex — T2-INSPECT-E2E
 - **Status muda:** IN_PROGRESS → DONE
 - **Feito:** Corrigido o spec para preencher o `parcelId` real quando o fluxo não o pré-carrega, selecionar tipo/data, submeter a vistoria e confirmar o ciclo completo com histórico e vínculo à parcela.

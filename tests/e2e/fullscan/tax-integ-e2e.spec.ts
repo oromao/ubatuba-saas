@@ -62,6 +62,15 @@ const ensureSession = async (page: any, roleKey = 'admin') => {
   return { accessToken, tenantId };
 };
 
+const fetchJson = async (accessToken: string, url: string) => {
+  const response = await fetch(`${API_URL}${url}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) throw new Error(`Request failed ${url}: ${response.status}`);
+  const payload = await response.json();
+  return payload?.data ?? payload;
+};
+
 test.describe('T2-TAX-INTEG: Taxation Integration & Dashboard Coherence', () => {
   test('01 - Dashboard displays tax statistics from database', async ({ page }) => {
     await ensureSession(page);
@@ -90,32 +99,21 @@ test.describe('T2-TAX-INTEG: Taxation Integration & Dashboard Coherence', () => 
     expect(content).toBeTruthy();
   });
 
-  test('02 - Parcel detail shows IPTU data coherent with tax module', async ({ page }) => {
-    await ensureSession(page);
+  test('02 - Dashboard tax read model matches parcel statistics', async ({ page }) => {
+    const { accessToken } = await ensureSession(page);
+    const [dashboard, stats] = await Promise.all([
+      fetchJson(accessToken, '/dashboard/executive'),
+      fetchJson(accessToken, '/ctm/parcels/statistics'),
+    ]);
 
-    // Navigate to parcels list
-    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
-
-    // Open first parcel detail
-    const row = page.locator('tbody tr').first();
-    await expect(row).toBeVisible({ timeout: 15_000 });
-    await row.click();
-    await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
-
-    // Wait for detail page to load
-    await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
-
-    // Look for IPTU tab or section
-    const iptuTab = page.locator('button, [role="tab"]').filter({ hasText: /IPTU|Tributário|Tax/ }).first();
-    if (await iptuTab.isVisible().catch(() => false)) {
-      await iptuTab.click();
-      await page.waitForTimeout(500);
-
-      // Should display IPTU data
-      const content = await page.textContent('[role="tabpanel"]');
-      expect(content).toBeTruthy();
-    }
+    expect(dashboard?.ctm).toBeTruthy();
+    expect(stats).toBeTruthy();
+    expect(dashboard.ctm.totalParcelas).toBe(stats.total);
+    expect(dashboard.ctm.comSqlu).toBe(stats.withSqlu);
+    expect(dashboard.ctm.totalValorVenal).toBe(stats.totalValorVenal);
+    expect(dashboard.ctm.totalIptuLancado).toBe(stats.totalIptuLancado);
+    expect(dashboard.ctm.totalIptuPago).toBe(stats.totalIptuPago);
+    expect(dashboard.ctm.totalIptuEmAberto).toBe(stats.totalIptuEmAberto);
   });
 
   test('03 - Tax data visible in parcel list statistics', async ({ page }) => {

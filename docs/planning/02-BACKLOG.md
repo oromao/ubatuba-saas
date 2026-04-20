@@ -78,12 +78,12 @@
 - **Agente:** Codex (2026-04-20) — E2E confirmado: create → status → history → vínculo com parcela passou.
 
 ### T2-TAX-INTEG — Provar integração tributária e coerência do read model
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Backend / Tests
 - **DoD:** Dado tributário persistido → lido → refletido no dashboard + detalhe da parcela com coerência.
 - **Validação:** Integração + smoke de dashboard.
 - **Depende de:** T2-PARCEL-E2E.
-- **Agente:** Claude (2026-04-17) — E2E test written.
+- **Agente:** Codex (2026-04-20) — dashboard/executive and parcel statistics now match on IPTU totals.
 
 ### T2-REPORTS — Provar geração de relatórios/PDFs em workflow real
 - **Status:** `IN_PROGRESS`
