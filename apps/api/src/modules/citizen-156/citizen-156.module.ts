@@ -8,6 +8,7 @@ import { Citizen156Controller } from './citizen-156.controller';
 import { Citizen156Repository } from './citizen-156.repository';
 import { Citizen156Service } from './citizen-156.service';
 import { CitizenCall, CitizenCallSchema } from './citizen-call.schema';
+import { PublicCallsController } from './public-calls.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { CitizenCall, CitizenCallSchema } from './citizen-call.schema';
     ProjectsModule,
     MongooseModule.forFeature([{ name: CitizenCall.name, schema: CitizenCallSchema }]),
   ],
-  controllers: [Citizen156Controller],
+  controllers: [Citizen156Controller, PublicCallsController],
   providers: [Citizen156Repository, Citizen156Service, CacheService, RedisService],
   exports: [Citizen156Service],
 })

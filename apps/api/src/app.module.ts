@@ -91,6 +91,7 @@ import { ReportsModule } from './modules/reports/reports.module';
     MonitoringModule,
     EnvironmentModule,
     Citizen156Module,
+    ReportsModule,
     PublicWorksModule,
     CemeteryModule,
     ObservatoryModule,

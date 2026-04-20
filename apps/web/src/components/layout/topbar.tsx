@@ -117,6 +117,15 @@ export function Topbar() {
         </button>
 
         <div className="ml-auto flex items-center gap-2">
+          <a
+            href="/cidadao"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden text-xs text-on-surface-muted hover:text-primary lg:inline"
+          >
+            Portal Cidadão ↗
+          </a>
+
           {tenantLabel && (
             <span className="hidden rounded-full border border-outline bg-cloud px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-on-surface-muted lg:inline">
               {tenantLabel}

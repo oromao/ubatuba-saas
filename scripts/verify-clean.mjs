@@ -38,12 +38,13 @@ for (const dir of ['apps/web/.next', 'apps/web/node_modules/.cache', 'apps/api/d
 // Just bring up services and let docker build in isolation
 await run('npm', ['run', 'docker:dev:rebuild']);
 
-for (let attempt = 1; attempt <= 60; attempt += 1) {
+// Cold start can take several minutes when Docker rebuilds both dev images.
+for (let attempt = 1; attempt <= 180; attempt += 1) {
   try {
     const response = await fetch('http://localhost:4000/health');
     if (response.ok) break;
   } catch {}
-  if (attempt === 60) {
+  if (attempt === 180) {
     throw new Error('API health did not become ready');
   }
   await new Promise((resolve) => setTimeout(resolve, 2000));

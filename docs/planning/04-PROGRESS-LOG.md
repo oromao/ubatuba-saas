@@ -22,6 +22,24 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T4-HOOKS-OS
+- **Status muda:** TODO → DONE
+- **Feito:** Liguadas as hooks nativas de Claude Code e Codex ao brain, com write-back automático, fallback de launcher para Gemini/app flows e instruções duráveis no workspace.
+- **Arquivos alterados:** `../.claude/settings.json`, `../.claude/hooks/load-brain.sh`, `../.claude/hooks/save-brain.sh`, `../.codex/config.toml`, `../.codex/hooks.json`, `../Obsidian Vault/brain/scripts/session_writeback.py`, `../ubatuba-saas/codex-start.md`, `../ubatuba-saas/claude-start.md`, `../ubatuba-saas/gemini-start.md`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `bash /Users/paulo/.claude/hooks/load-brain.sh`; `bash /Users/paulo/.claude/hooks/save-brain.sh`; `python3 -m py_compile /Users/paulo/Documents/Obsidian Vault/brain/scripts/session_writeback.py /Users/paulo/Documents/Obsidian Vault/brain/scripts/session_bootstrap.py /Users/paulo/Documents/Obsidian Vault/brain/scripts/start_agent.py /Users/paulo/Documents/Obsidian Vault/brain/daemon/context_generator.py /Users/paulo/Documents/Obsidian Vault/brain/daemon/project_detector.py`; `codex exec --full-auto --cd /Users/paulo/Documents/ubatuba-saas --json "Respond with the single word ok and do not modify files."`
+- **Próximo:** manter o brain como camada ativa por padrão e retomar o backlog do produto no topo do sprint.
+- **Notas:** Graphify ficou cacheado e foi reutilizado; write-back só adiciona memória de alto sinal.
+
+### 2026-04-20 — Codex — T4-BRAIN-OS
+- **Status muda:** TODO → DONE
+- **Feito:** Implementado bootstrap do Second Brain OS com auto-discovery do projeto via git/filesystem fallback, atualização de `CAG/current-project.md`, `CAG/current-context.md`, `CAG/current-goals.md`, write-back em `projects/ubatuba-saas.md`, log de sessão em `sessions/`, e launcher genérico para agentes.
+- **Arquivos alterados:** `../Obsidian Vault/brain/daemon/config.py`, `../Obsidian Vault/brain/daemon/project_detector.py`, `../Obsidian Vault/brain/daemon/context_generator.py`, `../Obsidian Vault/brain/scripts/build_cag.py`, `../Obsidian Vault/brain/scripts/session_bootstrap.py`, `../Obsidian Vault/brain/scripts/start_agent.py`, `../Obsidian Vault/brain/agents/codex-start.md`, `../Obsidian Vault/brain/agents/claude-start.md`, `../Obsidian Vault/brain/agents/gemini-start.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `python3 /Users/paulo/Documents/Obsidian Vault/brain/scripts/start_agent.py --agent codex --cwd /Users/paulo/Documents/ubatuba-saas --json`
+- **Próximo:** conectar este launcher aos hábitos de uso dos agentes e manter o write-back enxuto.
+- **Notas:** a escrita ficou vault-local e idempotente; o CAG atual agora aponta para o projeto ativo detectado automaticamente.
+
 ### 2026-04-17 — Claude — T1-DEVSERVER (Docker operational, fixing build script)
 - **Status muda:** PARTIAL → PARTIAL (with fixes applied)
 - **Feito:** 
@@ -138,6 +156,14 @@ Exemplo de entrada futura:
 - **Prova:** `npx playwright test --project=scan tests/e2e/fullscan/hydration.spec.ts --workers=1`
 - **Próximo:** T1-ROUTE-PROOF.
 - **Notas:** `T1-DEVSERVER` segue bloqueado por Colima/Docker neste ambiente; a prova de hidratação usou o stack local já disponível.
+
+### 2026-04-20 — Codex — T1-DEVSERVER
+- **Status muda:** DONE mantido; timeout do verifier ajustado para cold start real no Colima.
+- **Feito:** `scripts/verify-clean.mjs` passou a esperar mais tempo antes de falhar; stack dev confirmado no Colima com `api-dev`, `web-dev`, `mongodb`, `redis`, `minio` e `geoserver` up.
+- **Arquivos alterados:** `scripts/verify-clean.mjs`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`.
+- **Prova:** `docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'` + `curl -fsS http://localhost:4000/health`
+- **Próximo:** Iniciar `T1-HYDRATION`.
+- **Notas:** Evitei re-loop; usei Colima como daemon ativo e cancelei a rebuild longa quando o stack já estava saudável.
 
 ### 2026-04-20 — Codex — T1-DEVSERVER
 - **Status muda:** TODO → DONE

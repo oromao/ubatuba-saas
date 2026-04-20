@@ -11,27 +11,33 @@
 **Foco:** T1 completo (Survival / credibility blockers)
 **Objetivo de sprint:** Chegar ao final com `T1-ROUTE-PROOF`, `T1-HYDRATION`, `T1-DEVSERVER` em `DONE`.
 
+## Meta work completed
+
+- `T4-BRAIN-OS` entrou em `DONE`: o brain agora faz auto-discovery do projeto, bootstrap de sessão e write-back de memória sem setup manual.
+- `T4-HOOKS-OS` entrou em `DONE`: Claude Code e Codex passam a acionar bootstrap/write-back por hooks nativos; Gemini e app/workspace flows têm launcher/instruções de entrada apontando para o brain.
+- O fluxo de execução continua no sprint atual do produto; esta camada meta só torna o arranque e a persistência automáticos.
+
 ## Em execução agora
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T1-DEVSERVER | Claude | 2026-04-17 (retomado) | Docker/Colima operational. Fixed verify-clean script (skip host build, let docker rebuild). Running rebuild now; API + migrate healthchecks OK. Smoke test can execute. |
+| — | — | — | Nenhum item meta ativo; próximo foco de produto é T2-PARCEL-E2E. |
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T1-DEVSERVER** — PARTIAL (Docker disponível; faltam os endpoints internos da migração).
-2. **T1-HYDRATION** — ✓ DONE (2026-04-17).
-3. **T1-ROUTE-PROOF** — ✓ DONE (2026-04-17).
-4. **T2-PARCEL-E2E** — IN_PROGRESS (test written; awaiting exec).
-5. **T2-INSPECT-E2E** — IN_PROGRESS (E2E + integration tests written).
-6. **T2-TAX-INTEG** — IN_PROGRESS (E2E test written).
-7. **T2-REPORTS** — IN_PROGRESS (E2E test written).
+1. **T2-PARCEL-E2E** — IN_PROGRESS (test written; awaiting exec).
+2. **T2-INSPECT-E2E** — IN_PROGRESS (E2E + integration tests written).
+3. **T2-TAX-INTEG** — IN_PROGRESS (E2E test written).
+4. **T2-REPORTS** — IN_PROGRESS (E2E test written).
+5. **T3-GIS-SCALE** — TODO.
+6. **T3-EMPTY-STATES** — TODO.
+7. **T3-DASH-PROOF** — TODO.
 
 ## Bloqueios atuais
 
 | Item | Bloqueado por | Desde | Responsável | Status |
 |---|---|---|---|---|
-| T1-DEVSERVER | Migrate ainda falha em endpoints internos do compose | 2026-04-17 | Codex | Partial; Docker/Colima OK, smoke ainda não fechou |
+| T1-DEVSERVER | Cold start do compose podia expirar antes do health | 2026-04-20 | Codex | DONE; Colima ativo, compose up e /health OK |
 | T2-PARCEL-E2E (exec) | E2E infra (backend/frontend not accessible) | 2026-04-17 | — | Tests written; awaiting infra |
 | T2-INSPECT-E2E (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
 | T2-TAX-INTEG (exec) | E2E infra | 2026-04-17 | — | Tests written; awaiting infra |
@@ -63,4 +69,4 @@
 ## Fechamento desta sessão
 
 - Arquivos conflitantes foram classificados, mesclados ou arquivados.
-- A próxima sessão deve retomar pelo topo do backlog vivo, sem depender dos docs antigos.
+- A próxima sessão deve retomar pelo topo do backlog vivo, com o brain carregado automaticamente pelos hooks nativos sempre que a ferramenta permitir.

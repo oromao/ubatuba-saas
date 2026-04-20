@@ -70,6 +70,22 @@ export class ParcelsController {
     return this.parcelsService.listPendencias(req.tenantId, projectId);
   }
 
+  @Get('audit')
+  getAuditLog(
+    @Req() req: { tenantId: string },
+    @Query('parcelId') parcelId?: string,
+    @Query('action') action?: string,
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.parcelsService.getAuditLog(req.tenantId, {
+      parcelId,
+      action,
+      limit: limit ? parseInt(limit, 10) : 50,
+      offset: offset ? parseInt(offset, 10) : 0,
+    });
+  }
+
   @Get('geojson')
   geojson(
     @Req() req: { tenantId: string },
@@ -131,6 +147,23 @@ export class ParcelsController {
       'Content-Length': buffer.length,
     });
     res.end(buffer);
+  }
+
+  @Post('bulk-transicao')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  bulkTransicao(
+    @Req() req: { tenantId: string; user?: { sub?: string; role?: string } },
+    @Body() body: { ids: string[]; status: string; observacao: string },
+  ) {
+    return this.parcelsService.bulkTransicao(
+      req.tenantId,
+      body.ids,
+      body.status as any,
+      body.observacao,
+      req.user?.sub,
+      req.user?.role,
+    );
   }
 
   @Get(':id')

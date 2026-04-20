@@ -55,7 +55,7 @@
 - **DoD:** Script `pnpm verify:clean` roda start limpo + smoke e retorna 0 em CI de forma reprodutível.
 - **Validação:** 5 execuções consecutivas em CI sem flake.
 - **Depende de:** —
-- **Agente:** Claude (2026-04-17) — Fixed verify-clean to skip host build + use docker:dev:rebuild. All services (api-dev, web-dev, mongodb, redis, minio, geoserver, migrate) verified running and healthy. API responds to /health. Docker volumes and environment vars configured correctly.
+- **Agente:** Codex (2026-04-20) — Colima active; `docker compose --profile dev up -d --build --remove-orphans` leaves api-dev, web-dev, mongodb, redis, minio and geoserver up; `http://localhost:4000/health` returns `ok`. `scripts/verify-clean.mjs` now waits longer for cold starts.
 
 ---
 
@@ -145,6 +145,24 @@
 - **Severidade:** HIGH · **Esforço:** M-L · **Tipo:** Security / Backend / Tests
 - **DoD:** Trilha de auditoria clara + testes de isolamento de tenant passando.
 
+### T4-BRAIN-OS — Fechar auto-discovery, bootstrap e write-back do brain
+- **Status:** `DONE`
+- **Severidade:** LOW · **Esforço:** S · **Tipo:** Automation / Memory / DevEx
+- **Problema:** Sessões dependiam de setup manual e o brain não tinha auto-execução confiável no arranque.
+- **DoD:** Descoberta automática do projeto, bootstrap de sessão, write-back do estado e memória durável por projeto.
+- **Validação:** `python3 brain/scripts/start_agent.py --agent codex --cwd "$(pwd)" --json`
+- **Depende de:** —
+- **Agente:** Codex (2026-04-20)
+
+### T4-HOOKS-OS — Ligar hooks nativos e fallback de launcher ao brain
+- **Status:** `DONE`
+- **Severidade:** LOW · **Esforço:** S · **Tipo:** Automation / Memory / DevEx
+- **Problema:** O brain já existia, mas ainda dependia de acionamento manual ou wrappers fora do fluxo nativo dos agentes.
+- **DoD:** Claude Code e Codex usam hooks nativos para bootstrap/write-back; Gemini e flows de app usam o melhor fallback disponível sem setup manual por sessão.
+- **Validação:** hooks/configs carregam, bootstrap/write-back rodam, Graphify fica cacheado e reutilizado, e os arquivos de entrada do workspace apontam ao brain.
+- **Depende de:** T4-BRAIN-OS.
+- **Agente:** Codex (2026-04-20)
+
 ---
 
 ## Histórico de mudanças
@@ -152,6 +170,8 @@
 | Data | Agente | Item | Ação |
 |---|---|---|---|
 | 2026-04-17 | Claude (bootstrap) | — | Backlog inicial a partir da auditoria |
+| 2026-04-20 | Codex | T4-BRAIN-OS | Brain auto-discovery/bootstrap/write-back implemented |
+| 2026-04-20 | Codex | T4-HOOKS-OS | Native hooks + launcher fallback wired to the brain |
 
 ---
 
