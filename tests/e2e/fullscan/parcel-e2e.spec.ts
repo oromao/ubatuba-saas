@@ -65,7 +65,7 @@ const ensureSession = async (page: any, roleKey = 'admin') => {
 test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
   test('01 - Search for parcel, open detail, edit, save, reload, verify persistence', async ({ page }) => {
     // Setup: ensure session
-    await ensureSession(page);
+    const session = await ensureSession(page);
 
     // 1. Navigate to parcels list
     await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
@@ -92,70 +92,49 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
     await expect(editButton).toBeVisible({ timeout: 5_000 });
     await editButton.click();
 
-    // 7. Find an editable field (status, inscription, etc.) and change it
-    // Try to find and edit the mainAddress field if in edit mode
-    const addressInput = page.locator('input[placeholder*="Endereço"], input[placeholder*="endereço"]').first();
-    const statusSelect = page.locator('select[name="status"], select[placeholder*="status"]').first();
-
-    let editTarget = null;
-    let originalValue = '';
-    let newValue = '';
-
-    if (await addressInput.isVisible().catch(() => false)) {
-      editTarget = addressInput;
-      originalValue = await editTarget.inputValue().catch(() => '');
-      newValue = originalValue ? `${originalValue}_UPDATED` : 'Rua Test, 123';
-    } else if (await statusSelect.isVisible().catch(() => false)) {
-      editTarget = statusSelect;
-      originalValue = await editTarget.inputValue().catch(() => '');
-      newValue = originalValue === 'ATIVO' ? 'INATIVO' : 'ATIVO';
-    }
-
-    // If no explicit inputs, try generic inputs
-    if (!editTarget) {
-      const inputs = page.locator('input[type="text"], textarea').all();
-      const inputsList = await inputs;
-      if (inputsList.length > 0) {
-        editTarget = page.locator('input[type="text"]').first();
-        originalValue = await editTarget.inputValue().catch(() => '');
-        newValue = `${originalValue}_TEST${Date.now()}`;
-      }
-    }
-
-    if (editTarget) {
-      await editTarget.focus();
-      await editTarget.fill(newValue);
-    }
+    // 7. Edit the address field that the page actually exposes in edit mode.
+    const addressInput = page.locator('text=Endereço').locator('..').locator('input').first();
+    await expect(addressInput).toBeVisible({ timeout: 5_000 });
+    const originalValue = await addressInput.inputValue();
+    const newValue = originalValue ? `${originalValue} [E2E]` : `Rua Teste ${Date.now()}`;
+    await addressInput.fill(newValue);
 
     // 8. Click Save button
-    const saveButton = page.locator('button:has-text("Salvar"), button:has-text("Save")').first();
+    const saveButton = page.locator('button:has-text("Salvar Alterações")').first();
     await expect(saveButton).toBeVisible({ timeout: 5_000 });
-    await saveButton.click();
+    await Promise.all([
+      page.waitForResponse((response) =>
+        response.url().includes(`/ctm/parcels/${parcelId}`) &&
+        response.request().method() === 'PATCH' &&
+        response.ok(),
+      ),
+      saveButton.click({ force: true }),
+    ]);
 
-    // 9. Wait for save to complete (check that edit mode is closed)
-    await expect(editButton).toBeVisible({ timeout: 10_000 }); // Edit button reappears after save
-
-    // 10. Reload the page to verify persistence
+    // 9. Reload the page to verify persistence
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
 
-    // 11. Verify the updated value is still there (check in the detail view)
-    if (newValue) {
-      const contentText = await page.textContent('body');
-      expect(contentText).toContain(newValue.split('_')[0]); // At least partial match
-    }
+    // 10. Verify the updated value is still there (check in the detail view)
+    const contentText = await page.textContent('body');
+    expect(contentText).toContain(newValue);
 
     // Test passed: parcel search → detail → edit → save → reload → verify persistence is REAL
   });
 
   test('02 - Parcel list shows statistics and filters work', async ({ page }) => {
-    await ensureSession(page);
+    const session = await ensureSession(page);
+    const statsResponse = await fetch(`${API_URL}/ctm/parcels/statistics`, {
+      headers: { authorization: `Bearer ${session.accessToken}` },
+    });
+    expect(statsResponse.ok).toBeTruthy();
+    const statsPayload = await statsResponse.json();
+    expect(statsPayload.data.total).toBeGreaterThan(0);
     await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
 
     // Wait for stats to load
     await expect(page.locator('text=Total de Parcelas').first()).toBeVisible({ timeout: 10_000 });
-    const statsValue = await page.locator('text=Total de Parcelas').locator('..').locator('text=/[0-9]+/').innerText();
-    expect(parseInt(statsValue)).toBeGreaterThan(0);
+    await expect(page.locator(`text=${statsPayload.data.total}`).first()).toBeVisible({ timeout: 10_000 });
 
     // Try filtering by source type
     const demoButton = page.locator('button:has-text("Demo")').first();
@@ -169,7 +148,7 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
   });
 
   test('03 - Map on parcel detail loads and is interactive', async ({ page }) => {
-    await ensureSession(page);
+    const session = await ensureSession(page);
     await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
 
     // Get first parcel
@@ -179,15 +158,8 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
     await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
 
     // Check that map container is visible
-    const mapContainer = page.locator('div').filter({ has: page.locator('canvas') }).first();
-    if (await mapContainer.isVisible().catch(() => false)) {
-      // Map loaded successfully
-      expect(true).toBe(true);
-    } else {
-      // Check for fallback or error message
-      const content = await page.textContent('body');
-      // Either map canvas or some indication that map loading was attempted
-      expect(content).toBeTruthy();
-    }
+    await expect(page.locator('text=Localização').first()).toBeVisible({ timeout: 10_000 });
+    const mapContainer = page.locator('canvas').first();
+    await expect(mapContainer).toBeVisible({ timeout: 20_000 });
   });
 });

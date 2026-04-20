@@ -157,6 +157,15 @@ Exemplo de entrada futura:
 - **Próximo:** T1-ROUTE-PROOF.
 - **Notas:** `T1-DEVSERVER` segue bloqueado por Colima/Docker neste ambiente; a prova de hidratação usou o stack local já disponível.
 
+### 2026-04-20 — Codex — T2-PARCEL-E2E
+- **Status muda:** IN_PROGRESS → PARTIAL.
+- **Feito:** `tests/e2e/fullscan/parcel-e2e.spec.ts` foi alinhado ao estado real da UI; lista, mapa e stats passaram.
+- **Bloqueio:** a edição da parcela não emite `PATCH` no submit, então a persistência ainda não fecha.
+- **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`.
+- **Prova:** `npx playwright test tests/e2e/fullscan/parcel-e2e.spec.ts --project=scan --workers=1 --reporter=line` → 2/3 passing.
+- **Próximo:** isolar o submit de edição da parcela ou seguir para o próximo item após decisão do Paulo.
+- **Notas:** Usei Next local no Mac porque o `web-dev` do Docker quebrava com `middleware-manifest.json` ausente.
+
 ### 2026-04-20 — Codex — T1-DEVSERVER
 - **Status muda:** DONE mantido; timeout do verifier ajustado para cold start real no Colima.
 - **Feito:** `scripts/verify-clean.mjs` passou a esperar mais tempo antes de falhar; stack dev confirmado no Colima com `api-dev`, `web-dev`, `mongodb`, `redis`, `minio` e `geoserver` up.

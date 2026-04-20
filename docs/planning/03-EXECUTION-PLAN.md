@@ -21,7 +21,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| — | — | — | Nenhum item meta ativo; próximo foco de produto é T2-PARCEL-E2E. |
+| T2-PARCEL-E2E | Codex | 2026-04-20 | Parcela abre e lista/mapa passam; submit de edição não dispara PATCH e segue bloqueado. |
 
 ## Próximos na fila (ordem de ataque)
 
