@@ -98,10 +98,11 @@
 ## 🟨 T3 — Maturity / competitive parity
 
 ### T3-GIS-SCALE — Robustecer comportamento operacional do GIS em escala
-- **Status:** `TODO`
+- **Status:** `PARTIAL`
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** GIS / Frontend / Performance
 - **DoD:** Mapa estável com dataset real grande (>10k geometrias), overlays, fitBounds sem quebrar, clustering funcional.
 - **Validação:** E2E + smoke de performance.
+- **Agente:** Codex (2026-04-20) — smoke e interação básica do mapa passaram, mas ainda falta prova real de dataset >10k, overlays em escala e clustering.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
 - **Status:** `TODO`

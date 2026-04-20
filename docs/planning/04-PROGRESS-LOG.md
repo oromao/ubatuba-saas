@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-GIS-SCALE
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Provei o mapa com smoke e interação real: abriu sem tela branca, respondeu a pan/zoom/drag e habilitou desenho de polígono; ainda não há prova de dataset >10k, overlays em escala ou clustering.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-smoke.spec.ts --project=scan --workers=1 --reporter=line`; `npx playwright test tests/e2e/fullscan/maps-draw.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para `T3-EMPTY-STATES`.
+- **Notas:** o item ficou PARTIAL por falta de evidência de escala operacional, não por falha de UI básica.
+
 ### 2026-04-20 — Codex — T2-PARCEL-E2E
 - **Status muda:** PARTIAL → DONE
 - **Feito:** Ajustei a prova para usar a tabela real de parcelas, abrir o detalhe, editar `mainAddress`, persistir via `PATCH` autenticado e confirmar o reload com o valor novo.

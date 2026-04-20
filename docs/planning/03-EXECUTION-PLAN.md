@@ -21,7 +21,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T3-GIS-SCALE | Codex | 2026-04-20 | Next target after CTM parcel flow proved. |
+| T3-EMPTY-STATES | Codex | 2026-04-20 | Next target after GIS smoke/interactions proved; GIS scale remains PARTIAL. |
 
 ## Próximos na fila (ordem de ataque)
 
@@ -29,7 +29,7 @@
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
-5. **T3-GIS-SCALE** — TODO.
+5. **T3-GIS-SCALE** — PARTIAL (smoke + draw proved; scale/clustering still unproven).
 6. **T3-EMPTY-STATES** — TODO.
 7. **T3-DASH-PROOF** — TODO.
 
