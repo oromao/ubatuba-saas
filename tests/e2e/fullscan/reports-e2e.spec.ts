@@ -3,10 +3,49 @@ import path from 'node:path';
 import { expect, test } from '@playwright/test';
 
 const storageDir = path.resolve(process.cwd(), 'storage');
+const adminStatePath = path.resolve(storageDir, 'admin.json');
 const rolesPath = path.resolve(storageDir, 'roles.json');
 const API_URL = process.env.API_URL || 'http://localhost:4000';
 
+test.use({ storageState: adminStatePath });
+
 const ensureSession = async (page: any, roleKey = 'admin') => {
+  const adminState = JSON.parse(await fs.readFile(adminStatePath, 'utf8'));
+  const localStorage = adminState.origins?.[0]?.localStorage ?? [];
+  const tokenFromState = localStorage.find((item: any) => item.name === 'accessToken')?.value;
+  const refreshFromState = localStorage.find((item: any) => item.name === 'refreshToken')?.value;
+  const tenantFromState = localStorage.find((item: any) => item.name === 'tenantId')?.value;
+  if (refreshFromState && tenantFromState) {
+    const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ refreshToken: refreshFromState }),
+    });
+    if (refreshRes.ok) {
+      const refreshPayload = await refreshRes.json();
+      const freshAccessToken = refreshPayload?.data?.accessToken ?? tokenFromState;
+      const freshRefreshToken = refreshPayload?.data?.refreshToken ?? refreshFromState;
+      if (freshAccessToken) {
+        await page.goto('/login', { waitUntil: 'domcontentloaded' });
+        await page.evaluate(
+          (tokens: any) => {
+            sessionStorage.setItem('accessToken', tokens.accessToken);
+            sessionStorage.setItem('refreshToken', tokens.refreshToken);
+            sessionStorage.setItem('tenantId', tokens.tenantId);
+          },
+          { accessToken: freshAccessToken, refreshToken: freshRefreshToken, tenantId: tenantFromState },
+        );
+        await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+        return { accessToken: freshAccessToken, tenantId: tenantFromState };
+      }
+    }
+  }
+
+  if (tokenFromState && tenantFromState) {
+    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+    return { accessToken: tokenFromState, tenantId: tenantFromState };
+  }
+
   let roles: any;
   try {
     roles = JSON.parse(await fs.readFile(rolesPath, 'utf8'));
@@ -63,32 +102,31 @@ const ensureSession = async (page: any, roleKey = 'admin') => {
 };
 
 test.describe('T2-REPORTS: Report Generation & PDF Export', () => {
-  test('01 - Generate PDF certidão from parcel detail', async ({ page, context }) => {
+  test('01 - Generate PDF certidão from parcel detail', async ({ page }) => {
     await ensureSession(page);
 
-    // Navigate to parcels and open detail
     await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
     const row = page.locator('tbody tr').first();
     await expect(row).toBeVisible({ timeout: 15_000 });
     await row.click();
     await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
 
-    // Wait for PDF button
-    const pdfButton = page.locator('button:has-text("PDF")').first();
+    const pdfButton = page.getByRole('button', { name: 'PDF' }).first();
     await expect(pdfButton).toBeVisible({ timeout: 5_000 });
 
-    // Listen for download event
-    let downloadPromise = context.waitForEvent('download');
+    const pdfResponsePromise = page.waitForResponse((response) => {
+      const url = response.url();
+      return url.includes('/ctm/parcels/') && url.includes('/pdf') && response.status() === 200;
+    });
+
     await pdfButton.click();
 
-    // Wait for download
-    const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
-
-    // Verify file exists
-    const path = await download.path();
-    const stats = await fs.stat(path);
-    expect(stats.size).toBeGreaterThan(0);
+    const pdfResponse = await pdfResponsePromise;
+    expect(pdfResponse.headers()['content-type']).toContain('application/pdf');
+    expect(pdfResponse.headers()['content-disposition']).toContain('.pdf');
+    const buffer = await pdfResponse.body();
+    expect(buffer.subarray(0, 4).toString('utf8')).toBe('%PDF');
+    expect(buffer.length).toBeGreaterThan(100);
   });
 
   test('02 - Report page loads with export options', async ({ page }) => {
@@ -189,35 +227,22 @@ test.describe('T2-REPORTS: Report Generation & PDF Export', () => {
     }
   });
 
-  test('06 - PDF contains parcel data (header/content validation)', async ({ page, context }) => {
+  test('06 - PDF contains parcel data (header/content validation)', async ({ page }) => {
     await ensureSession(page);
-
-    // Go to parcel detail
     await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
     const row = page.locator('tbody tr').first();
     await expect(row).toBeVisible({ timeout: 15_000 });
-
-    // Extract SQLU from row for later validation
-    const sqluText = await row.locator('td').first().innerText().catch(() => '');
-
     await row.click();
     await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
 
-    // Wait for detail page
-    await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
+    const pdfButton = page.getByRole('button', { name: 'PDF' }).first();
+    await expect(pdfButton).toBeVisible({ timeout: 5_000 });
 
-    // Get PDF
-    const pdfBtn = page.locator('button:has-text("PDF")').first();
-    if (await pdfBtn.isVisible().catch(() => false)) {
-      let downloadPromise = context.waitForEvent('download');
-      await pdfBtn.click();
-      const download = await downloadPromise;
-
-      // Verify it's a real PDF (has PDF magic bytes)
-      const path = await download.path();
-      const buffer = await fs.readFile(path);
-      // PDF files start with %PDF
-      expect(buffer.toString('utf8', 0, 4)).toBe('%PDF');
-    }
+    const pdfResponsePromise = page.waitForResponse((response) => response.url().includes('/pdf') && response.status() === 200);
+    await pdfButton.click();
+    const pdfResponse = await pdfResponsePromise;
+    const buffer = await pdfResponse.body();
+    expect(buffer.toString('utf8', 0, 4)).toBe('%PDF');
+    expect(buffer.length).toBeGreaterThan(100);
   });
 });
