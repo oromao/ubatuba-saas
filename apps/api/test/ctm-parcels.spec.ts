@@ -104,6 +104,8 @@ describe('CTM Parcels Service', () => {
           provide: ParcelAuditRepository,
           useValue: {
             listByParcel: jest.fn(),
+            listAll: jest.fn(),
+            countAll: jest.fn(),
             create: jest.fn(),
           },
         },
@@ -336,6 +338,41 @@ describe('CTM Parcels Service', () => {
       );
 
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('getAuditLog', () => {
+    it('should aggregate tenant-scoped audit entries and total count', async () => {
+      const entries = [
+        { id: 'audit-001', action: 'UPDATE', parcelId: 'parcel-001' },
+        { id: 'audit-002', action: 'CREATE', parcelId: 'parcel-001' },
+      ];
+      jest.spyOn(auditRepository, 'listAll').mockResolvedValue(entries as any);
+      jest.spyOn(auditRepository, 'countAll').mockResolvedValue(2);
+
+      const result = await service.getAuditLog(mockTenantId, {
+        parcelId: 'parcel-001',
+        action: 'UPDATE',
+        limit: 10,
+        offset: 5,
+      });
+
+      expect(result.total).toBe(2);
+      expect(result.entries).toEqual(entries);
+      expect(result.limit).toBe(10);
+      expect(result.offset).toBe(5);
+      expect(auditRepository.listAll).toHaveBeenCalledWith(mockTenantId, {
+        parcelId: 'parcel-001',
+        action: 'UPDATE',
+        limit: 10,
+        offset: 5,
+      });
+      expect(auditRepository.countAll).toHaveBeenCalledWith(mockTenantId, {
+        parcelId: 'parcel-001',
+        action: 'UPDATE',
+        limit: 10,
+        offset: 5,
+      });
     });
   });
 

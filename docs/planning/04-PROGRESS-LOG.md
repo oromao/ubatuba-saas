@@ -23,6 +23,15 @@
 ## Entradas
 
 ### 2026-04-21 — Codex — T4-AUDIT
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova da auditoria da parcela para cobrir o agregador `getAuditLog` do serviço, com total e paginação por tenant.
+- **Arquivos alterados:** `apps/api/test/ctm/parcels.spec.ts`, `apps/api/test/ctm/parcel-audit.repository.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `apps/api/test/ctm/parcels.spec.ts`
+- **Prova:** `npm --prefix apps/api test -- ctm-parcels.spec.ts`
+- **Próximo:** cobrir a trilha de auditoria restante além do agregador do serviço.
+- **Notas:** ainda falta provar a trilha completa, mas o contrato público da leitura de auditoria ficou mais fechado.
+
+### 2026-04-21 — Codex — T4-AUDIT
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Adicionei prova unitária de tenant isolation no `ParcelAuditRepository` para listagem e contagem de auditoria.
 - **Arquivos alterados:** `apps/api/test/ctm/parcel-audit.repository.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
