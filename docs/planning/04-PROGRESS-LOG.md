@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Levei o contrato de erro explícito para `pgv/zonas` e confirmei o mesmo padrão no `DataTable` compartilhado.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `apps/web/src/app/app/pgv/zonas/page.tsx`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** ampliar o mesmo contrato para mais módulos tabela-based que ainda não têm fallback explícito.
+- **Notas:** o módulo `pgv/zonas` não mostrava erro explícito antes; agora segue o padrão dos demais módulos provados.
+
 ### 2026-04-20 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Revalidei o teste de escala do GIS com dataset grande e mantive a prova do mapa navegável no tenant real.

@@ -52,4 +52,14 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nao foi possivel carregar os dados.')).toBeVisible();
     await expect(page.getByText(/Falha ao carregar logradouros|Failed to fetch|TypeError|aborted/i)).toBeVisible();
   });
+
+  test('renders an explicit error state on PGV zones as well', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/pgv/zones**', (route) => route.abort());
+    await page.goto('/app/pgv/zonas', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'PGV - Zonas de Valor' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nao foi possivel carregar os dados.')).toBeVisible();
+    await expect(page.getByText(/Falha ao carregar zonas|Failed to fetch|TypeError|aborted/i)).toBeVisible();
+  });
 });

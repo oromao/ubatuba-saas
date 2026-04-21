@@ -16,7 +16,7 @@ type Zone = {
 };
 
 export default function PgvZonesPage() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["pgv-zones"],
     queryFn: () => apiFetch<Zone[]>("/pgv/zones"),
   });
@@ -28,6 +28,7 @@ export default function PgvZonesPage() {
         <DataTable
           data={data ?? []}
           loading={isLoading}
+          error={error instanceof Error ? error.message : error ? "Falha ao carregar zonas." : null}
           columns={[
             { key: "code", label: "Codigo", render: (_, row) => row.code ?? "-" },
             {

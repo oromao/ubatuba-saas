@@ -32,7 +32,7 @@
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T3-GIS-SCALE** — PARTIAL (dataset >10k and navigable map proved; explicit fitBounds/clustering/overlays still incomplete).
-6. **T3-EMPTY-STATES** — PARTIAL (assets and logradouros error states proved; broader module coverage still pending).
+6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, and pgv/zonas error states proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence and backend-backed observability sections proved; broader KPI coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
 9. **T3-CITIZEN** — PARTIAL (public create proven; admin reappearance/listing still unproven).
