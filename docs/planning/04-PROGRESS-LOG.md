@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Liguei os cards de KPI do dashboard ao payload real e refinei a prova para comparar o conteúdo visível com a resposta backend de `/dashboard/kpis` e `/dashboard/executive`.
+- **Arquivos alterados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/dashboard-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** ampliar a observabilidade satélite ou mover para o próximo item vivo do backlog.
+- **Notas:** o dashboard continua com layout persistido; agora a prova cobre também o conteúdo visível dos cards de KPI.
+
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty state para `CTM - Parcelas` usando o fluxo de busca real, o que confirma o contrato do `DataTable` em um módulo cadastral central.

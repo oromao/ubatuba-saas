@@ -81,10 +81,24 @@ test.describe('T3-DASH-PROOF: dashboard proof', () => {
     expect(kpis?.data?.alerts ?? kpis?.alerts).toBeGreaterThanOrEqual(0);
     expect(kpis?.data?.assets ?? kpis?.assets).toBeGreaterThanOrEqual(0);
 
-    expect(executive?.data?.summary ?? executive?.summary).toBeTruthy();
-    expect((executive?.data?.readinessSignals ?? executive?.readinessSignals)?.length).toBeGreaterThanOrEqual(4);
-    expect((executive?.data?.satelliteHealth ?? executive?.satelliteHealth)?.length).toBeGreaterThanOrEqual(4);
+    const summary = executive?.data?.summary ?? executive?.summary;
+    const readinessSignals = executive?.data?.readinessSignals ?? executive?.readinessSignals ?? [];
+    const satelliteHealth = executive?.data?.satelliteHealth ?? executive?.satelliteHealth ?? [];
+    const ctm = executive?.data?.ctm ?? executive?.ctm;
+    expect(summary).toBeTruthy();
+    expect(Array.isArray(readinessSignals) ? readinessSignals.length : 0).toBeGreaterThanOrEqual(4);
+    expect(Array.isArray(satelliteHealth) ? satelliteHealth.length : 0).toBeGreaterThanOrEqual(4);
+    expect(ctm).toBeTruthy();
+    expect(ctm.totalParcelas).toBeGreaterThanOrEqual(0);
+    expect(ctm.oficiais).toBeGreaterThanOrEqual(0);
+    expect(ctm.comSqlu).toBeGreaterThanOrEqual(0);
+    expect(ctm.taxaAdimplencia).toBeGreaterThanOrEqual(0);
 
+    const summarySection = page.locator('section').filter({ hasText: 'Processos digitais' }).first();
+    await expect(summarySection).toContainText('Processos digitais');
+    await expect(summarySection).toContainText(String(kpis?.data?.processes ?? kpis?.processes));
+    await expect(summarySection).toContainText('Alertas ambientais');
+    await expect(summarySection).toContainText('Ativos territoriais');
     await expect(page.getByRole('heading', { name: 'Visão por secretaria' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Prioridades de hoje' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Saúde dos módulos satélite' })).toBeVisible();
