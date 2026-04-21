@@ -38,13 +38,24 @@ const ensureSession = async (page: any, roleKey = 'admin') => {
 };
 
 test.describe('T4-AUDIT: Audit page and tenant-safe parcel log', () => {
-  test('01 - Audit page loads and filters parcel actions', async ({ page }) => {
+  test('01 - Sidebar exposes audit navigation and page loads', async ({ page }) => {
+    await ensureSession(page);
+    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+
+    const auditLink = page.getByRole('link', { name: 'Auditoria' });
+    await expect(auditLink).toBeVisible({ timeout: 10_000 });
+    await auditLink.click();
+
+    await expect(page).toHaveURL(/\/app\/auditoria/, { timeout: 10_000 });
+    await expect(page.getByRole('heading', { name: 'Auditoria de Dados' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('button', { name: 'Buscar' })).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('02 - Audit page filters parcel actions', async ({ page }) => {
     await ensureSession(page);
     await page.goto('/app/auditoria', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByRole('heading', { name: 'Auditoria de Dados' })).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByRole('button', { name: 'Buscar' })).toBeVisible({ timeout: 10_000 });
-
     await page.locator('select').first().selectOption('UPDATE');
     await page.getByRole('button', { name: 'Buscar' }).click();
 
