@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-CITIZEN
+- **Status muda:** BLOCKED → DONE
+- **Feito:** Confirmei o fluxo citizen no workspace `156` com servidor host `next dev`, protocolo visível no browser e status resolvido sem overlay de carregamento.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/01-MATURITY-MATRIX.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** voltar a atenção para o próximo item de T3/T4 no topo vivo do backlog.
+- **Notas:** a falha anterior era de entrega/hidratação do dev server, não do backend citizen; a prova válida saiu depois do restart limpo do host `next dev`.
+
 ### 2026-04-20 — Codex — T3-CITIZEN
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Corrigi o repositório de `citizen_calls` para ler/escrever tenantId de forma compatível com os documentos persistidos; o backend agora encontra os chamados públicos criados.

@@ -2,7 +2,7 @@
 
 > Scorecard de maturidade por domínio. Escala 0-5.
 > Atualize ao final de cada sprint ou quando houver mudança material.
-> Última atualização: `2026-04-20` por `Codex (parcel E2E proof stabilized)`
+> Última atualização: `2026-04-21` por `Codex (citizen browser proof completed)`
 
 ---
 
@@ -28,7 +28,7 @@
 | 5 | Tributação / IPTU / PGV / valor venal | 4 | 4 | 5 | T2-TAX-INTEG |
 | 6 | Vistorias / workflows de campo | 4 | 4 | 4 | T2-INSPECT-E2E |
 | 7 | Mobile / uso em campo | 2 | 3 | 4 | T4-MOBILE |
-| 8 | Portal cidadão / serviço público | 2 | 3 | 4 | T3-CITIZEN |
+| 8 | Portal cidadão / serviço público | 4 | 3 | 4 | T3-CITIZEN |
 | 9 | Dashboards / observatório | 3 | 4 | 4 | T3-DASH-PROOF |
 | 10 | Relatórios / exportações / PDFs | 4 | 4 | 4 | T2-REPORTS |
 | 11 | Notificações / cartas / comunicação | 2 | 3 | 4 | — |
@@ -57,6 +57,7 @@ AUSENTE (0-1):    — (nenhum módulo ausente no baseline)
 | 2026-04-20 | Codex | Tributação / IPTU / PGV / valor venal | 3 → 4 | Dashboard/executive and parcel statistics match on IPTU totals |
 | 2026-04-20 | Codex | Vistorias / workflows de campo | 3 → 4 | E2E create → status → history → vínculo com parcela passou |
 | 2026-04-20 | Codex | Automation / memory / DevEx | 3 → 4 | Hooks nativas + launcher fallback passaram a acionar bootstrap/write-back automaticamente |
+| 2026-04-21 | Codex | Portal cidadão / serviço público | 2 → 4 | Prova browser→API→DB do `T3-CITIZEN` completada no workspace 156 |
 | 2026-04-17 | Codex | UX / navegação / usabilidade operador | 3 → 4 | Smoke do menu provou navegação sem tela vazia nas rotas visíveis |
 | 2026-04-17 | Codex | Testes / qualidade / release readiness | 3 → 4 | Smoke do menu e da hidratação passaram com seed local reproduzível |
 | 2026-04-17 | Codex | UX / navegação / usabilidade operador | 2 → 3 | Estado explícito de redirecionamento + prova E2E de hidratação sem tela em branco |

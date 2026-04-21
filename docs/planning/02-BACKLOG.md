@@ -125,11 +125,11 @@
 - **Agente:** Codex (2026-04-20) — importação GeoJSON validada com batch real de teste e payload inválido sem alterar totais.
 
 ### T3-CITIZEN — Provar fluxos de portal cidadão
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend / Tests
 - **DoD:** Cidadão abre solicitação → backend recebe → operador responde → cidadão vê status.
 - **Agente:** Codex (2026-04-20) — criação pública gera protocolo real, mas a listagem/retorno no fluxo administrativo ainda não reaparece no mesmo tenant.
-- **Agente:** Codex (2026-04-21) — o read path de `citizen_calls` continua correto, mas o browser do workspace 156 segue sem hidratar porque os chunks do Next em `/_next/static/chunks/*` retornam 404; a prova E2E completa continua bloqueada.
+- **Agente:** Codex (2026-04-21) — o fluxo browser→API→DB foi provado no `156`; o protocolo novo aparece no workspace e o status resolve no mesmo tenant.
 
 ---
 
