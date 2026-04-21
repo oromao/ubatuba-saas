@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import mongoose from 'mongoose';
 import { expect, test } from '@playwright/test';
+import { computeGeometryBounds } from '../../../apps/web/src/lib/gis-bounds.js';
 
 const API_URL = process.env.API_URL || 'http://localhost:4000';
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://root:rootpass@localhost:27017/flydea?authSource=admin';
@@ -129,6 +130,10 @@ test.describe('T3-GIS-SCALE: mapa em escala', () => {
     const geojsonPayload = await geojsonResponse.json();
     const features = geojsonPayload?.data?.features ?? geojsonPayload?.features ?? [];
     expect(Array.isArray(features) ? features.length : 0).toBeGreaterThanOrEqual(10000);
+    const bounds = computeGeometryBounds(features);
+    expect(bounds).not.toBeNull();
+    expect(bounds?.[0]?.[0]).toBeLessThan(bounds?.[1]?.[0] ?? Infinity);
+    expect(bounds?.[0]?.[1]).toBeLessThan(bounds?.[1]?.[1] ?? Infinity);
 
     await page.goto('/app/maps', { waitUntil: 'domcontentloaded' });
     const mapCanvas = page.locator('canvas.maplibregl-canvas').first();

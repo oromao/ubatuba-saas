@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Extraí o cálculo de bounds do mapa para um helper compartilhado e passei a provar o bounds do dataset real de 10k parcelas diretamente no teste.
+- **Arquivos alterados:** `apps/web/src/lib/gis-bounds.js`, `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** decidir se o item sobe com a prova de bounds helper ou se ainda precisa de cobertura extra para overlays/clustering.
+- **Notas:** o runner segue sem WebGL, então a prova real de render permanece limitada ao fallback explícito.
+
 ### 2026-04-21 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Reforcei a prova do dashboard com leitura explícita de `/dashboard/kpis` e verificação do volume de sinais de prontidão/satélites expostos pelo backend.

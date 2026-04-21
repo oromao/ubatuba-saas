@@ -7,6 +7,7 @@ import type { FeatureCollection, Geometry, Feature } from "geojson";
 import { MapToolbar } from "../../../components/maps/MapToolbar";
 import { MapLayers } from "../../../components/maps/MapLayers";
 import { API_URL, apiFetch } from "../../../lib/api";
+import { computeGeometryBounds } from "../../../lib/gis-bounds";
 import { useMapStore } from "../../../lib/stores/useMapStore";
 import { fetchMapFeaturesGeojson } from "../../../lib/map-features";
 
@@ -491,37 +492,8 @@ export default function DynamicMapViewer() {
 
         // Fit map to parcels extent
         const fc = geojson as { features?: Array<{ geometry?: { type: string; coordinates: any } }> };
-        if (fc.features && fc.features.length > 0) {
-          let minLng = 180, maxLng = -180, minLat = 90, maxLat = -90;
-          let hasValidCoords = false;
-
-          for (const feat of fc.features) {
-            const type = feat.geometry?.type;
-            const coords = feat.geometry?.coordinates;
-            if (!coords) continue;
-
-            const allPolygons = type === "Polygon" ? [coords] : type === "MultiPolygon" ? coords : [];
-            
-            for (const polygon of allPolygons) {
-              for (const ring of polygon) {
-                if (!Array.isArray(ring)) continue;
-                for (const coord of ring) {
-                  if (!Array.isArray(coord)) continue;
-                  const lng = coord[0];
-                  const lat = coord[1];
-                  if (typeof lng === "number" && typeof lat === "number") {
-                    if (lng < minLng) minLng = lng;
-                    if (lng > maxLng) maxLng = lng;
-                    if (lat < minLat) minLat = lat;
-                    if (lat > maxLat) maxLat = lat;
-                    hasValidCoords = true;
-                  }
-                }
-              }
-            }
-          }
-          if (hasValidCoords && minLng < 180) {
-            const bounds: [[number, number], [number, number]] = [[minLng, minLat], [maxLng, maxLat]];
+        const bounds = computeGeometryBounds(fc.features ?? []);
+        if (bounds) {
             const probeWindow = typeof window !== "undefined"
               ? (window as Window & {
                   __gisScaleProbe?: {
@@ -536,7 +508,6 @@ export default function DynamicMapViewer() {
             }
             map.fitBounds(bounds, { padding: 60, maxZoom: 18 });
           }
-        }
       })
       .catch(() => {
         // parcels not yet seeded — silent fail, map still usable

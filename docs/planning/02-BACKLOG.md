@@ -102,7 +102,7 @@
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** GIS / Frontend / Performance
 - **DoD:** Mapa estável com dataset real grande (>10k geometrias), overlays, fitBounds sem quebrar, clustering funcional.
 - **Validação:** E2E + smoke de performance.
-- **Agente:** Codex (2026-04-21) — prova de dataset >10k e fallback explícito validada; o runner atual ainda falha em WebGL, então o render real do mapa em escala continua dependente do ambiente.
+- **Agente:** Codex (2026-04-21) — prova de dataset >10k e fallback explícito validada; o helper de bounds agora é compartilhado entre mapa e teste, mas o render real do mapa em escala continua dependente do ambiente.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
 - **Status:** `PARTIAL`
