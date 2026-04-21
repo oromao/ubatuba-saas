@@ -115,4 +115,36 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum resultado para "ZZZ-NO-MATCH"')).toBeVisible();
     await expect(page.getByRole('button').filter({ hasText: 'Limpar busca' }).last()).toBeVisible();
   });
+
+  test('renders the empty state for citizen 156 when there are no calls', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/citizen-156/calls**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/citizen-156/summary**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: { total: 0, abertos: 0, triagem: 0, encaminhados: 0, resolvidos: 0, anexos: 0 } }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/156', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Atendimento 156' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum chamado encontrado.')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Abrir primeiro chamado' })).toBeVisible();
+  });
 });

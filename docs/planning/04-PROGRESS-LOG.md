@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de empty state para `Atendimento 156`, cobrindo também o contrato compartilhado do `DataTable` em um fluxo cidadão central.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** buscar mais um módulo tabelado fora da cobertura atual, ou subir o item se o padrão já for suficiente para o backlog.
+- **Notas:** agora a cobertura inclui um módulo de atendimento cidadão, não só módulos cadastrais.
+
 ### 2026-04-21 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Tentei elevar a prova do mapa em escala para um sinal de runtime no browser, mas o runner não expõe o mapa completo com WebGL; mantive a prova estável no contrato de dataset >10k + fallback explícito + helper compartilhado.
