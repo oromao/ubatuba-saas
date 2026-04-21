@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de empty/error states para `PGV - Faces de Quadra`, cobrindo também o empty state com mensagem explícita quando a API retorna vazio.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** buscar mais um módulo tabelado fora da cobertura atual, ou subir o item se o padrão já for suficiente para o backlog.
+- **Notas:** o contrato de `DataTable` já estava sólido; a prova nova só estendeu a cobertura para um módulo PGV adicional.
+
 ### 2026-04-21 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Fechei a prova de escala como dataset grande confirmado + fallback explícito do mapa em ambiente sem WebGL; a suíte agora valida 10k parcelas seedadas e a mensagem operacional de indisponibilidade.

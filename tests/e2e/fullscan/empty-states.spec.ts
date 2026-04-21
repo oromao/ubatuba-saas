@@ -62,4 +62,25 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nao foi possivel carregar os dados.')).toBeVisible();
     await expect(page.getByText(/Falha ao carregar zonas|Failed to fetch|TypeError|aborted/i)).toBeVisible();
   });
+
+  test('renders the empty state for PGV faces when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/pgv/faces**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/pgv/faces', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'PGV - Faces de Quadra' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhuma face de quadra configurada.')).toBeVisible();
+    await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
+  });
 });
