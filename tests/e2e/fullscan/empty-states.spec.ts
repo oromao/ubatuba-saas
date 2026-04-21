@@ -168,4 +168,24 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhuma vistoria encontrada.')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Criar primeira vistoria' })).toBeVisible();
   });
+
+  test('renders the empty state for ambiental cases when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/environment/cases**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/ambiental', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Gestão Ambiental' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum caso ambiental encontrado.')).toBeVisible();
+  });
 });

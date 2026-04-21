@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de empty state para `Gestão Ambiental`, cobrindo outro fluxo operacional central com contrato explícito de vazio.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** buscar mais um módulo tabelado fora da cobertura atual, ou subir o item se o padrão já for suficiente para o backlog.
+- **Notas:** a cobertura agora inclui um módulo ambiental com empty state explícito e ação de criação.
+
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty state para `CTM - Vistorias`, cobrindo um fluxo de campo central com contrato explícito de vazio.
 - **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo
