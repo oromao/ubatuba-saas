@@ -67,6 +67,9 @@ module.exports = defineConfig({
         screenshot: 'only-on-failure',
         actionTimeout: 20_000,
         navigationTimeout: 45_000,
+        launchOptions: {
+          args: ['--enable-webgl', '--ignore-gpu-blocklist', '--use-gl=swiftshader'],
+        },
       },
     },
   ],

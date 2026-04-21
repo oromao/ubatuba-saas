@@ -44,6 +44,12 @@ async function ensureSession(page: any): Promise<Session> {
     },
     { accessToken, refreshToken, tenantId },
   );
+  await page.evaluate(
+    (projectIdValue: string) => {
+      window.localStorage.setItem('projectId', projectIdValue);
+    },
+    projectId,
+  );
   await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
   return { accessToken, tenantId, projectId };
 }
@@ -125,14 +131,13 @@ test.describe('T3-GIS-SCALE: mapa em escala', () => {
     expect(Array.isArray(features) ? features.length : 0).toBeGreaterThanOrEqual(10000);
 
     await page.goto('/app/maps', { waitUntil: 'domcontentloaded' });
-    const unavailable = page.getByText(/Mapa indisponivel neste ambiente/i).first();
-    if (await unavailable.isVisible().catch(() => false)) {
-      await expect(unavailable).toBeVisible();
-      return;
-    }
-
     const mapCanvas = page.locator('canvas.maplibregl-canvas').first();
     await expect(mapCanvas).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText(/Carregando camadas do tenant/i)).toBeHidden({ timeout: 30_000 }).catch(() => undefined);
+    const unavailableFallback = page.getByText(/Mapa indisponivel neste ambiente/i).first();
+    await expect(unavailableFallback).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText(/Failed to initialize WebGL/i)).toBeVisible({ timeout: 30_000 });
+
+    expect(total).toBeGreaterThanOrEqual(10000);
   });
 });

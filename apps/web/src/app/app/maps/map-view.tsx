@@ -85,6 +85,18 @@ export default function DynamicMapViewer() {
     () => orderedLayers.filter((layer) => layer.visible !== false),
     [orderedLayers],
   );
+  const projectId = typeof window !== "undefined" ? window.localStorage.getItem("projectId") ?? undefined : undefined;
+  if (typeof window !== "undefined") {
+    const probeWindow = window as Window & {
+      __gisScaleProbe?: {
+        fitBoundsCalls: number;
+        lastBounds: [[number, number], [number, number]] | null;
+        builtInParcelFeatures: number;
+        builtInParcelSourceReady: boolean;
+      };
+    };
+    probeWindow.__gisScaleProbe ??= { fitBoundsCalls: 0, lastBounds: null, builtInParcelFeatures: 0, builtInParcelSourceReady: false };
+  }
 
   useEffect(() => {
     let mounted = true;
@@ -368,8 +380,8 @@ export default function DynamicMapViewer() {
 
     // Try CTM parcels first (primary source), fall back to map-features
     const loadGeoJson = () =>
-      apiFetch<unknown>("/ctm/parcels/geojson").catch(() =>
-        fetchMapFeaturesGeojson("parcel", ""),
+      apiFetch<unknown>(`/ctm/parcels/geojson${projectId ? `?projectId=${encodeURIComponent(projectId)}` : ""}`).catch(() =>
+        fetchMapFeaturesGeojson("parcel", "", projectId),
       );
 
     loadGeoJson()
@@ -425,6 +437,24 @@ export default function DynamicMapViewer() {
               "text-halo-width": 1,
             },
           });
+        }
+
+        if (typeof window !== "undefined") {
+          const probeWindow = window as Window & {
+            __gisScaleProbe?: {
+              fitBoundsCalls: number;
+              lastBounds: [[number, number], [number, number]] | null;
+              builtInParcelFeatures: number;
+              builtInParcelSourceReady: boolean;
+            };
+          };
+          if (probeWindow.__gisScaleProbe) {
+            const features = Array.isArray((geojson as { features?: unknown[] })?.features)
+              ? ((geojson as { features?: unknown[] }).features as unknown[]).length
+              : 0;
+            probeWindow.__gisScaleProbe.builtInParcelFeatures = features;
+            probeWindow.__gisScaleProbe.builtInParcelSourceReady = features > 0;
+          }
         }
 
         // Cursor pointer ao passar sobre lote
@@ -491,7 +521,20 @@ export default function DynamicMapViewer() {
             }
           }
           if (hasValidCoords && minLng < 180) {
-            map.fitBounds([[minLng, minLat], [maxLng, maxLat]], { padding: 60, maxZoom: 18 });
+            const bounds: [[number, number], [number, number]] = [[minLng, minLat], [maxLng, maxLat]];
+            const probeWindow = typeof window !== "undefined"
+              ? (window as Window & {
+                  __gisScaleProbe?: {
+                    fitBoundsCalls: number;
+                    lastBounds: [[number, number], [number, number]] | null;
+                  };
+                })
+              : null;
+            if (probeWindow?.__gisScaleProbe) {
+              probeWindow.__gisScaleProbe.fitBoundsCalls += 1;
+              probeWindow.__gisScaleProbe.lastBounds = bounds;
+            }
+            map.fitBounds(bounds, { padding: 60, maxZoom: 18 });
           }
         }
       })

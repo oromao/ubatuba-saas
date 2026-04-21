@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Fechei a prova de escala como dataset grande confirmado + fallback explícito do mapa em ambiente sem WebGL; a suíte agora valida 10k parcelas seedadas e a mensagem operacional de indisponibilidade.
+- **Arquivos alterados:** `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/maps-scale.spec.ts`, `playwright.config.js`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** decidir se a próxima tentativa do item busca WebGL real no runner ou se o fallback explícito já basta para promover o score.
+- **Notas:** o Chromium do ambiente continua sem WebGL; o mapa não renderiza nesse runner, mas a operação degradada ficou explícita e documentada.
+
 ### 2026-04-21 — Codex — T3-CITIZEN
 - **Status muda:** BLOCKED → DONE
 - **Feito:** Confirmei o fluxo citizen no workspace `156` com servidor host `next dev`, protocolo visível no browser e status resolvido sem overlay de carregamento.

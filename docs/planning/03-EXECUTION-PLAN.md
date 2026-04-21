@@ -23,7 +23,7 @@
 |---|---|---|---|
 | T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
 | T3-CITIZEN | Codex | 2026-04-21 | Public request, backend list, and browser proof are now complete in the 156 workspace. |
-| T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset and navigable map already proved; next gap is explicit scale behavior beyond load. |
+| T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset proved; fallback explicit in WebGL-free runner is now covered, but the real map render still depends on the environment. |
 
 ## Próximos na fila (ordem de ataque)
 
@@ -31,7 +31,7 @@
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
-5. **T3-GIS-SCALE** — PARTIAL (dataset >10k and navigable map proved; explicit fitBounds/clustering/overlays still incomplete).
+5. **T3-GIS-SCALE** — PARTIAL (dataset >10k and explicit fallback proved; real WebGL render still blocked by runner environment).
 6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, and pgv/zonas error states proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence and backend-backed observability sections proved; broader KPI coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
