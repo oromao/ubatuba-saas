@@ -135,6 +135,39 @@ test.describe('T3-GIS-SCALE: mapa em escala', () => {
     expect(bounds?.[0]?.[0]).toBeLessThan(bounds?.[1]?.[0] ?? Infinity);
     expect(bounds?.[0]?.[1]).toBeLessThan(bounds?.[1]?.[1] ?? Infinity);
 
+    const multipolygonBounds = computeGeometryBounds([
+      {
+        geometry: {
+          type: 'MultiPolygon',
+          coordinates: [
+            [
+              [
+                [-46.4, -23.6],
+                [-46.39, -23.6],
+                [-46.39, -23.61],
+                [-46.4, -23.61],
+                [-46.4, -23.6],
+              ],
+            ],
+            [
+              [
+                [-46.38, -23.59],
+                [-46.37, -23.59],
+                [-46.37, -23.6],
+                [-46.38, -23.6],
+                [-46.38, -23.59],
+              ],
+            ],
+          ],
+        },
+      },
+      { geometry: { type: 'Polygon', coordinates: [] } },
+    ]);
+    expect(multipolygonBounds).toEqual([
+      [-46.4, -23.61],
+      [-46.37, -23.59],
+    ]);
+
     await page.goto('/app/maps', { waitUntil: 'domcontentloaded' });
     const mapCanvas = page.locator('canvas.maplibregl-canvas').first();
     await expect(mapCanvas).toBeVisible({ timeout: 30_000 });

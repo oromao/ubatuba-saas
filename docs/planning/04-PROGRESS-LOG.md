@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova do mapa em escala com `computeGeometryBounds` cobrindo `MultiPolygon` e geometria vazia, no mesmo fluxo usado pela UI.
+- **Arquivos alterados:** `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line -g "carrega um dataset grande"`
+- **Próximo:** seguir ampliando a prova GIS/observability enquanto o WebGL do runner seguir limitando a renderização real.
+- **Notas:** o helper agora tolera lixo geométrico sem quebrar o bounds.
+
 ### 2026-04-21 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei o contrato executivo do dashboard com prova unitária de `DashboardService` para KPIs, satélites e layout padrão.

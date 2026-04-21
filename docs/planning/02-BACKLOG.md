@@ -102,7 +102,7 @@
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** GIS / Frontend / Performance
 - **DoD:** Mapa estável com dataset real grande (>10k geometrias), overlays, fitBounds sem quebrar, clustering funcional.
 - **Validação:** E2E + smoke de performance.
-- **Agente:** Codex (2026-04-21) — prova de dataset >10k e fallback explícito validada; `GeometryService` agora também tem prova unitária de `MultiPolygon` e geometria malformada, o helper de bounds é compartilhado entre mapa e teste, mas o render real do mapa em escala continua dependente do ambiente WebGL do runner.
+- **Agente:** Codex (2026-04-21) — prova de dataset >10k e fallback explícito validada; `GeometryService` agora também tem prova unitária de `MultiPolygon` e geometria malformada; `computeGeometryBounds` ganhou prova explícita de `MultiPolygon` e ignora geometria vazia, mas o render real do mapa em escala continua dependente do ambiente WebGL do runner.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
 - **Status:** `PARTIAL`
