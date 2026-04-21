@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Revalidei o teste de escala do GIS com dataset grande e mantive a prova do mapa navegável no tenant real.
+- **Arquivos alterados:** `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** fechar um sinal de comportamento explícito em escala, como fitBounds observável ou clustering, se o backlog continuar nesse item.
+- **Notas:** a tentativa de bbox foi retirada porque não estava estável no dataset seedado; a prova principal segue válida.
+
 ### 2026-04-20 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova do dashboard para validar não só o layout persistido, mas também as seções executivas/sinais de prontidão alimentadas pelo backend real.
