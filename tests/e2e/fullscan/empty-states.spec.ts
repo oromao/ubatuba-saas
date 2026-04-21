@@ -563,4 +563,24 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum registro encontrado.')).toBeVisible();
     await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
   });
+
+  test('renders the empty state for poc score when the backend returns no data', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/poc/score**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: null }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/poc', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Conformidade interna' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Sem dados de score.')).toBeVisible();
+  });
 });
