@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Ampliei o resumo da parcela para provar vínculos cadastrais e de infraestrutura/logradouro no mesmo retorno do serviço.
+- **Arquivos alterados:** `apps/api/test/ctm-parcels.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npm --prefix apps/api test -- ctm-parcels.spec.ts`
+- **Próximo:** fechar o grafo da parcela em browser, unindo mapa, tributo e vistoria sem inconsistência.
+- **Notas:** o resumo agora devolve parcela, building, socioeconomic, infrastructure e logradouro em conjunto.
+
 ### 2026-04-21 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de monitoramento com dashboard filtrado no `MonitoringService`, mantendo os contadores principais e o breakdown por modo de origem.

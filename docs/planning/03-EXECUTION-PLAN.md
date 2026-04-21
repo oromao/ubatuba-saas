@@ -27,7 +27,7 @@
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified).
+1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified; `T4-PARCEL-GRAPH` now also has parcel summary proof in backend).
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).

@@ -20,6 +20,10 @@ describe('CTM Parcels Service', () => {
   let repository: ParcelsRepository;
   let projectsService: ProjectsService;
   let auditRepository: ParcelAuditRepository;
+  let parcelBuildingsServiceMock: { findByParcelId: jest.Mock; findByParcel: jest.Mock };
+  let parcelInfrastructureServiceMock: { findByParcelId: jest.Mock; findByParcel: jest.Mock };
+  let parcelSocioeconomicServiceMock: { findByParcelId: jest.Mock; findByParcel: jest.Mock };
+  let logradourosServiceMock: { findByGeometry: jest.Mock; findById: jest.Mock };
 
   const mockTenantId = new Types.ObjectId().toHexString();
   const mockProjectId = new Types.ObjectId().toHexString();
@@ -118,19 +122,19 @@ describe('CTM Parcels Service', () => {
         },
         {
           provide: ParcelBuildingsService,
-          useValue: { findByParcelId: jest.fn() },
+          useValue: (parcelBuildingsServiceMock = { findByParcelId: jest.fn(), findByParcel: jest.fn() }),
         },
         {
           provide: ParcelInfrastructureService,
-          useValue: { findByParcelId: jest.fn() },
+          useValue: (parcelInfrastructureServiceMock = { findByParcelId: jest.fn(), findByParcel: jest.fn() }),
         },
         {
           provide: ParcelSocioeconomicService,
-          useValue: { findByParcelId: jest.fn() },
+          useValue: (parcelSocioeconomicServiceMock = { findByParcelId: jest.fn(), findByParcel: jest.fn() }),
         },
         {
           provide: LogradourosService,
-          useValue: { findByGeometry: jest.fn() },
+          useValue: (logradourosServiceMock = { findByGeometry: jest.fn(), findById: jest.fn() }),
         },
       ],
     }).compile();
@@ -475,6 +479,27 @@ describe('CTM Parcels Service', () => {
           geometry: lineGeometry,
         } as any),
       ).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('getSummary', () => {
+    it('should link parcel to related cadastral and inspection data', async () => {
+      jest.spyOn(repository, 'findById').mockResolvedValue({
+        ...mockParcel,
+        logradouroId: new Types.ObjectId(),
+      } as any);
+      parcelBuildingsServiceMock.findByParcel.mockResolvedValue([{ id: 'building-1' }]);
+      parcelInfrastructureServiceMock.findByParcel.mockResolvedValue([{ id: 'infra-1' }]);
+      parcelSocioeconomicServiceMock.findByParcel.mockResolvedValue([{ id: 'socio-1' }]);
+      logradourosServiceMock.findById.mockResolvedValue({ id: 'logradouro-1', nome: 'Rua A' });
+
+      const result = await service.getSummary(mockTenantId, mockProjectId, 'parcel-001');
+
+      expect(result.parcel.id).toBe('parcel-001');
+      expect(result.building).toHaveLength(1);
+      expect(result.infrastructure).toHaveLength(1);
+      expect(result.socioeconomic).toHaveLength(1);
+      expect(result.logradouro).toMatchObject({ id: 'logradouro-1', nome: 'Rua A' });
     });
   });
 
