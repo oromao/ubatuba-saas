@@ -217,12 +217,11 @@ services:
       target: deps
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-    command: ["npm", "run", "dev"]
+    command: ["sh", "-lc", "npm run build && npm run start"]
     depends_on:
       api-dev:
         condition: service_started
     environment:
-      NODE_ENV: development
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     volumes:
       - ./apps/web:/app
