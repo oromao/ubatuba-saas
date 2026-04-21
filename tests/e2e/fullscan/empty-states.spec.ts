@@ -294,83 +294,35 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum logradouro encontrado.')).toBeVisible();
   });
 
-  test('renders the empty state for pgv relatorio when no impacted parcels are available', async ({ page }) => {
+  test('renders the empty state for integracoes logs when no sync records are available', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/pgv/zones**', async (route) => {
+    await page.route('**/api/tax-integration/connectors**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
-          body: JSON.stringify({ data: [] }),
+          body: JSON.stringify({ data: [{ _id: 'connector-1', name: 'Receita', mode: 'REST', isActive: true, lastSyncAt: null }] }),
         });
         return;
       }
       await route.continue();
     });
-    await page.route('**/api/pgv/faces**', async (route) => {
+    await page.route('**/api/tax-integration/connectors/connector-1/logs**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
           body: JSON.stringify({ data: [] }),
-        });
-        return;
-      }
-      await route.continue();
-    });
-    await page.route('**/api/pgv/versions**', async (route) => {
-      if (route.request().resourceType() === 'fetch') {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ data: [] }),
-        });
-        return;
-      }
-      await route.continue();
-    });
-    await page.route('**/api/pgv/simulations?projectId=demo**', async (route) => {
-      if (route.request().resourceType() === 'fetch') {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ data: [] }),
-        });
-        return;
-      }
-      await route.continue();
-    });
-    await page.route('**/api/pgv/simulations**', async (route) => {
-      if (route.request().resourceType() === 'fetch' && route.request().method() === 'POST') {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            data: {
-              summary: {
-                parcelsEvaluated: 0,
-                totalCurrentValue: 0,
-                totalProposedValue: 0,
-                totalDelta: 0,
-                totalDeltaPct: 0,
-                estimatedAnnualArrecadationImpact: 0,
-              },
-              filters: {},
-              chartSeries: [],
-              territorialBreakdown: [],
-              impactedParcels: [],
-              highlights: { withPositiveImpact: 0, withHigherUrbanPressure: 0 },
-            },
-          }),
         });
         return;
       }
       await route.continue();
     });
 
-    await page.goto('/app/pgv/relatorio', { waitUntil: 'domcontentloaded' });
+    await page.goto('/app/integracoes', { waitUntil: 'domcontentloaded' });
+    await page.getByRole('button', { name: /Ver Logs/ }).click();
 
-    await expect(page.getByRole('heading', { name: 'PGV Fazendária' })).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText('Nenhum imóvel impactado ainda.')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Integração Tributária (IPTU)' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum log de sincronização encontrado.')).toBeVisible();
   });
 });
