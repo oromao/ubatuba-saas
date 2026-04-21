@@ -147,4 +147,25 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum chamado encontrado.')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Abrir primeiro chamado' })).toBeVisible();
   });
+
+  test('renders the empty state for CTM vistorias when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/vistorias**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/ctm/vistorias', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Vistorias' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhuma vistoria encontrada.')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Criar primeira vistoria' })).toBeVisible();
+  });
 });
