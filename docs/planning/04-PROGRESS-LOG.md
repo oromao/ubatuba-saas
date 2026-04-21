@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T4-MOBILE
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Criei prova browser da página `/mobile` com controles offline-first, fila e ações de campo visíveis para o operador.
+- **Arquivos alterados:** `tests/e2e/fullscan/mobile-field.spec.ts`, `apps/web/src/lib/rbac.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/mobile-field.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/mobile-field.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** cobrir o ciclo completo de captura e sincronização em campo.
+- **Notas:** o login mobile precisou usar um perfil operacional válido no ambiente.
+
 ### 2026-04-21 — Codex — T4-AUDIT
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Transformei a auditoria em rota realmente navegável no menu lateral e provei o acesso browser com filtro.

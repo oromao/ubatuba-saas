@@ -143,9 +143,10 @@
 - **Agente:** Codex (2026-04-21) — `CTM Parcels Service` agora prova o resumo da parcela com vínculo cadastral e de infraestrutura/logradouro no mesmo retorno; o browser também provou detalhe da parcela com histórico, aba de vistorias vinculadas, aba IPTU com fallback explícito ou dados tributários, e exportação PDF da parcela, mas ainda falta fechar o caminho cross-module completo mapa → parcela → tributo → vistoria → relatórios.
 
 ### T4-MOBILE — Melhorar prova de operação mobile/campo
-- **Status:** `TODO`
+- **Status:** `PARTIAL`
 - **Severidade:** MEDIUM · **Esforço:** L · **Tipo:** Mobile / UX
 - **DoD:** Fluxos de vistoria usáveis em campo com conectividade instável.
+- **Agente:** Codex (2026-04-21) — a página `/mobile` agora tem prova browser de carregamento com controles offline-first e fila local, mas ainda falta cobrir o ciclo completo de captura/sincronização em campo.
 
 ### T4-AUDIT — Elevar confiança de auditoria e isolamento multi-tenant
 - **Status:** `PARTIAL`
