@@ -159,4 +159,27 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
     await page.getByRole('button', { name: 'Vistorias' }).click();
     await expect(page.getByText(/Nenhuma vistoria registrada para este lote\./i)).toBeVisible({ timeout: 10_000 });
   });
+
+  test('05 - Parcel detail exposes IPTU tab coherence', async ({ page }) => {
+    await ensureSession(page);
+    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
+
+    const row = page.locator('table tbody tr').nth(1);
+    await expect(row).toBeVisible({ timeout: 15_000 });
+    await row.click();
+    await expect(page).toHaveURL(/\/app\/ctm\/parcelas\/[a-zA-Z0-9_-]+/, { timeout: 10_000 });
+
+    await expect(page.getByRole('button', { name: 'IPTU' })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: 'IPTU' }).click();
+
+    const emptyState = page.getByText('Dados tributários não disponíveis. Importe via integração IPTU.');
+    if (await emptyState.isVisible().catch(() => false)) {
+      await expect(emptyState).toBeVisible({ timeout: 10_000 });
+      return;
+    }
+
+    await expect(page.getByText('Status IPTU')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Valor Venal Total')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('IPTU Lançado')).toBeVisible({ timeout: 10_000 });
+  });
 });

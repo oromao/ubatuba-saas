@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T4-PARCEL-GRAPH
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei o browser E2E da parcela para provar a aba IPTU com fallback explícito quando não houver dados tributários e métricas tributárias quando houver.
+- **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/parcel-e2e.spec.ts --project=scan --workers=1 --reporter=line -g "IPTU tab coherence"`
+- **Próximo:** continuar fechando o grafo da parcela até cobrir tributo e relatórios no browser.
+- **Notas:** o grafo continua PARTIAL porque o caminho cross-module completo ainda falta.
+
+### 2026-04-21 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei o browser E2E da parcela para provar o detalhe com histórico de alterações e a aba de vistorias vinculadas.
 - **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo

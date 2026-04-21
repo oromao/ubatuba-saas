@@ -140,7 +140,7 @@
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** Product / Domain / Backend
 - **DoD:** Uma parcela é a fonte única de verdade em todos os módulos. Abrir no mapa → clicar → ver tributo + vistorias + relatórios sem inconsistência.
 - **Validação:** E2E cross-module.
-- **Agente:** Codex (2026-04-21) — `CTM Parcels Service` agora prova o resumo da parcela com vínculo cadastral e de infraestrutura/logradouro no mesmo retorno; o browser também provou detalhe da parcela com histórico e aba de vistorias vinculadas, mas ainda falta fechar o caminho cross-module completo mapa → parcela → tributo → vistoria → relatórios.
+- **Agente:** Codex (2026-04-21) — `CTM Parcels Service` agora prova o resumo da parcela com vínculo cadastral e de infraestrutura/logradouro no mesmo retorno; o browser também provou detalhe da parcela com histórico, aba de vistorias vinculadas e aba IPTU com fallback explícito ou dados tributários, mas ainda falta fechar o caminho cross-module completo mapa → parcela → tributo → vistoria → relatórios.
 
 ### T4-MOBILE — Melhorar prova de operação mobile/campo
 - **Status:** `TODO`
