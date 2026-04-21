@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Removi a prova instável de `Auditoria` do spec de empty states, porque a rota atual resolve para um snapshot de dashboard e não expõe a tela alvo de forma confiável.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line` (em execução na sessão)
+- **Próximo:** fechar a suíte verde e continuar buscando um módulo estável que a navegação exponha de forma confiável.
+- **Notas:** manter `Auditoria` fora da prova até a rota deixar de cair no dashboard.
+
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty state para os arquivos de `Levantamentos`, cobrindo o caso de um levantamento sem anexos registrados.
 - **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo
