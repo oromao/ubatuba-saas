@@ -182,4 +182,31 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
     await expect(page.getByText('Valor Venal Total')).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('IPTU Lançado')).toBeVisible({ timeout: 10_000 });
   });
+
+  test('06 - Parcel detail PDF export triggers a report download', async ({ page }) => {
+    const session = await ensureSession(page);
+    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
+
+    const row = page.locator('table tbody tr').nth(1);
+    await expect(row).toBeVisible({ timeout: 15_000 });
+    await row.click();
+    await expect(page).toHaveURL(/\/app\/ctm\/parcelas\/[a-zA-Z0-9_-]+/, { timeout: 10_000 });
+
+    const downloadPromise = page.waitForEvent('download', { timeout: 10_000 });
+    await page.getByRole('button', { name: 'PDF' }).click();
+    const download = await downloadPromise;
+
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
+    const path = await download.path();
+    expect(path).toBeTruthy();
+
+    const parcelId = page.url().match(/\/app\/ctm\/parcelas\/([a-zA-Z0-9_-]+)/)?.[1];
+    expect(parcelId).toBeTruthy();
+
+    const response = await fetch(`${API_URL}/ctm/parcels/${parcelId}/pdf`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    expect(response.ok).toBeTruthy();
+    expect(response.headers.get('content-type')).toContain('application/pdf');
+  });
 });
