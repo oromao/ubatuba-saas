@@ -83,4 +83,25 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhuma face de quadra configurada.')).toBeVisible();
     await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
   });
+
+  test('renders the shared empty state for CTM mobiliario urbano too', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/urban-furniture**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/ctm/mobiliario', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'CTM - Mobiliario Urbano' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum registro encontrado.')).toBeVisible();
+    await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
+  });
 });
