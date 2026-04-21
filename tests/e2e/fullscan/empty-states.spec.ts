@@ -367,4 +367,52 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('heading', { name: 'REURB — Regularizacao Fundiaria' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Nenhum projeto cadastrado.')).toBeVisible();
   });
+
+  test('renders the empty state for monitoring events when no records are available', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/monitoring/events**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/monitoring/dashboard**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              total: 0,
+              triagem: 0,
+              fiscalizacao: 0,
+              notificacao: 0,
+              desfecho: 0,
+              criticidadeAlta: 0,
+              comEvidencia: 0,
+              semAtribuicao: 0,
+              notificados: 0,
+              sourceBreakdown: [],
+              typeBreakdown: [],
+              sourceModeBreakdown: [],
+              feedAdapters: [],
+              recentTimeline: [],
+            },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/monitoramento', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Monitoramento Ambiental' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum evento monitorado.')).toBeVisible();
+  });
 });
