@@ -208,4 +208,37 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('heading', { name: 'Levantamentos & Entregaveis' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Nenhum levantamento cadastrado.')).toBeVisible();
   });
+
+  test('renders the empty state for compliance when the profile has no records', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/compliance**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              company: null,
+              technicalResponsibles: [],
+              artsRrts: [],
+              cats: [],
+              team: [],
+              checklist: [],
+            },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/modulos/compliance', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Compliance' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Sem responsaveis cadastrados.')).toBeVisible();
+    await expect(page.getByText('Sem equipe cadastrada.')).toBeVisible();
+    await expect(page.getByText('Sem ART/RRT cadastrada.')).toBeVisible();
+    await expect(page.getByText('Sem CAT cadastrada.')).toBeVisible();
+    await expect(page.getByText('Nenhum item de checklist cadastrado.')).toBeVisible();
+  });
 });

@@ -32,7 +32,7 @@
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T3-GIS-SCALE** — PARTIAL (dataset >10k, shared bounds helper, and explicit fallback proved; real WebGL render still blocked by runner environment).
-6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, 156, ctm/vistorias, ambiental, and levantamentos error/empty states proved; broader module coverage still pending).
+6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, 156, ctm/vistorias, ambiental, levantamentos, and modulos/compliance error/empty states proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, and visible KPI cards are proved; broader observability coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
 9. **T3-CITIZEN** — DONE (public create, backend list, and browser proof complete in the 156 workspace).
