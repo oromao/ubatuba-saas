@@ -241,4 +241,36 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Sem CAT cadastrada.')).toBeVisible();
     await expect(page.getByText('Nenhum item de checklist cadastrado.')).toBeVisible();
   });
+
+  test('renders the empty state for cartas when the notification lists are empty', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/notifications-letters/templates**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/notifications-letters/batches**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/cartas', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Cartas de notificacao' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Sem templates cadastrados.')).toBeVisible();
+    await expect(page.getByText('Sem lotes gerados.')).toBeVisible();
+  });
 });
