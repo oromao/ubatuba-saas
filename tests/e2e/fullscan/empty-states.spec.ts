@@ -573,6 +573,48 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum entregavel gerado ainda.')).toBeVisible();
   });
 
+  test('renders the empty state for reurb notifications when a project exists but none were sent', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/reurb/tenant-config**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: { reurbEnabled: true } }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/reurb/projects**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [{ _id: 'reurb-project-1', name: 'Projeto Demo' }] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/reurb/notifications**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/reurb', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'REURB — Regularizacao Fundiaria' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Projeto Demo')).toBeVisible();
+    await expect(page.getByText('Nenhuma notificacao enviada.')).toBeVisible();
+  });
+
   test('renders the empty state for monitoring events when no records are available', async ({ page }) => {
     await ensureSession(page);
     await page.route('**/api/monitoring/events**', async (route) => {

@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de `REURB` para cobrir notificações vazias com projeto ativo.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line -g "reurb notifications"` e depois a suíte completa verde
+- **Próximo:** buscar um próximo módulo estável fora da cobertura atual.
+- **Notas:** o histórico de notificações vazio só aparece quando o projeto ativo é selecionado.
+
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de `REURB` para cobrir pendências e entregáveis vazios com projeto ativo.
 - **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo
