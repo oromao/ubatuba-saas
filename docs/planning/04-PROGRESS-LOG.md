@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T4-AUDIT
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Liberei a rota `/app/auditoria` no RBAC e provei a navegação browser da auditoria com filtro de ação.
+- **Arquivos alterados:** `apps/web/src/lib/rbac.ts`, `tests/e2e/fullscan/auditoria-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `tests/e2e/fullscan/auditoria-e2e.spec.ts`
+- **Prova:** `npx playwright test tests/e2e/fullscan/auditoria-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** cobrir a trilha de auditoria restante além da navegação browser.
+- **Notas:** a rota estava sendo negada pelo RBAC; isso agora está corrigido.
+
+### 2026-04-21 — Codex — T4-AUDIT
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova da auditoria da parcela para cobrir o smoke do endpoint `/ctm/parcels/audit` no controller, além do agregador do serviço.
 - **Arquivos alterados:** `apps/api/test/ctm-parcels-detail-api.e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo

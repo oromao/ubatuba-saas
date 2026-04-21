@@ -24,6 +24,7 @@ const APP_ROUTE_RULES: RouteRule[] = [
   { prefix: "/app/ambiental", roles: ROLE_GROUPS.ops },
   { prefix: "/app/156", roles: ROLE_GROUPS.ops },
   { prefix: "/app/observatorio", roles: ROLE_GROUPS.ops },
+  { prefix: "/app/auditoria", roles: ROLE_GROUPS.ops },
   { prefix: "/app/processes", roles: ROLE_GROUPS.ops },
   { prefix: "/app/assets", roles: ROLE_GROUPS.ops },
   { prefix: "/app/notifications", roles: ROLE_GROUPS.all },
