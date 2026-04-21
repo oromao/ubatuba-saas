@@ -36,6 +36,10 @@ describe('DashboardService', () => {
     expect(result.summary.processos).toBe(2);
     expect(result.summary.obrasPublicas).toBe(1);
     expect(result.secretarias).toHaveLength(6);
+    expect(result.satelliteHealth).toHaveLength(4);
+    expect(result.readinessSignals).toHaveLength(4);
+    expect(result.ctm.totalParcelas).toBe(100);
+    expect(result.ctm.comSqlu).toBe(80);
     expect(result.priorities[0].label).toBe('Obras em andamento');
   });
 

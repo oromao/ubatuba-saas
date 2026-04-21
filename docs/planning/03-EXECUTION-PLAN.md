@@ -33,7 +33,7 @@
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T3-GIS-SCALE** — PARTIAL (dataset >10k, shared bounds helper, explicit fallback, and `GeometryService` coverage for `MultiPolygon`/malformed geometry proved; real WebGL render still blocked by runner environment).
 6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, ctm/parcelas/:id, ctm/parcelas/:id/infraestrutura, 156, ctm/vistorias, ambiental, levantamentos, modulos/compliance, cartas, pgv/relatorio, integracoes logs/connectors, reurb projects/families/units/pendencies/deliverables/notifications, monitoramento, modulos/obras, modulos/empresas, and poc error/empty states proved; auditoria was dropped because the current route resolves to a dashboard snapshot instead of the target audit screen; broader module coverage still pending).
-7. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, and visible KPI cards are proved; broader observability coverage still pending).
+7. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, visible KPI cards, and backend contract coverage in `DashboardService` are proved; broader observability coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
 9. **T3-CITIZEN** — DONE (public create, backend list, and browser proof complete in the 156 workspace).
 

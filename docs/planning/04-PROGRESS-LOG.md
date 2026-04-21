@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei o contrato executivo do dashboard com prova unitária de `DashboardService` para KPIs, satélites e layout padrão.
+- **Arquivos alterados:** `apps/api/test/dashboard.service.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npm --prefix apps/api test -- dashboard.service.spec.ts`
+- **Próximo:** ampliar a observabilidade/indicadores do dashboard enquanto a UI executiva já segue provada.
+- **Notas:** a suíte passou; o warning do Mongoose é pré-existente e não bloqueia a prova.
+
 ### 2026-04-21 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de GIS com `MultiPolygon` válido e geometria malformada rejeitada no helper central.
