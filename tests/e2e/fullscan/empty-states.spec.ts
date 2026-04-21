@@ -514,4 +514,53 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await page.getByRole('button', { name: 'Vistorias' }).click();
     await expect(page.getByText('Nenhuma vistoria registrada para este lote.')).toBeVisible();
   });
+
+  test('renders the empty state for auditoria when there are no audit records', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/parcels/audit**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              entries: [],
+              total: 0,
+              limit: 50,
+              offset: 0,
+            },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/auditoria', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Auditoria de Dados' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum registro encontrado')).toBeVisible();
+    await expect(page.getByText('Tente ajustar os filtros de busca.')).toBeVisible();
+  });
+
+  test('renders the empty state for business permits when no requests exist', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/permits-business**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/modulos/empresas', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Alvará de Empresas' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum registro encontrado.')).toBeVisible();
+    await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
+  });
 });
