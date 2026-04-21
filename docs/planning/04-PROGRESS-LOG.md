@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de empty state para `CTM - Logradouros`, cobrindo também o contrato explícito de vazio do cadastro de vias públicas.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** buscar mais um módulo tabelado fora da cobertura atual, ou subir o item se o padrão já for suficiente para o backlog.
+- **Notas:** o módulo de logradouros agora passa pelo browser com lista vazia e mensagem explícita de nenhum registro.
+
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty state para `modulos/compliance`, cobrindo os vazios explícitos do painel de conformidade com perfil real zerado.
 - **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo

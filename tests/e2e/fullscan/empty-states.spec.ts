@@ -273,4 +273,24 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Sem templates cadastrados.')).toBeVisible();
     await expect(page.getByText('Sem lotes gerados.')).toBeVisible();
   });
+
+  test('renders the empty state for CTM logradouros when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/logradouros**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/ctm/logradouros', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'CTM - Logradouros' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum logradouro encontrado.')).toBeVisible();
+  });
 });
