@@ -327,3 +327,10 @@ Exemplo de entrada futura:
 - **Próximo:** Iniciar T1-HYDRATION. Dev server agora é reprodutível.
 - **Notas:** Cache do Next precisava de limpeza entre builds. Flake vinha daí.
 -->
+### 2026-04-21 — Codex — T3-CITIZEN
+- **Status:** BLOCKED
+- **Resumo:** confirmei que o backend de `citizen_calls` segue correto, mas o browser do workspace 156 não hidrata porque `/_next/static/chunks/main-app.js`, `app-pages-internals.js` e `app/app/156/page.js` retornam 404 no `web-dev`.
+- **Arquivos alterados:** `apps/web/src/app/app/156/page.tsx`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Prova:** `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line` ainda falhou no protocolo; `curl http://localhost:3000/app/156` mostra HTML server-side, mas os chunks do Next 404.
+- **Próximo:** corrigir o pipeline de assets/chunks do `web-dev` antes de tentar fechar a prova browser→API→DB.
+- **Notas:** o problema agora é infraestrutura de hidratação no dev server, não a persistência do chamado.

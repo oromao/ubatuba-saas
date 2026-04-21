@@ -129,7 +129,7 @@
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend / Tests
 - **DoD:** Cidadão abre solicitação → backend recebe → operador responde → cidadão vê status.
 - **Agente:** Codex (2026-04-20) — criação pública gera protocolo real, mas a listagem/retorno no fluxo administrativo ainda não reaparece no mesmo tenant.
-- **Agente:** Codex (2026-04-20) — o read path de `citizen_calls` agora enxerga os registros persistidos; o browser do workspace 156 ainda fica preso na shell de carregamento institucional, então a prova E2E completa continua pendente.
+- **Agente:** Codex (2026-04-21) — o read path de `citizen_calls` continua correto, mas o browser do workspace 156 segue sem hidratar porque os chunks do Next em `/_next/static/chunks/*` retornam 404; a prova E2E completa continua bloqueada.
 
 ---
 

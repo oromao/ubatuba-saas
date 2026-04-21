@@ -1,7 +1,7 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,21 +47,40 @@ const CATEGORIES = [
 type PendingAction = { id: string; status: string; message: string; label: string } | null;
 
 export default function Citizen156Page() {
-  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("VIAS");
   const [reporterName, setReporterName] = useState("");
   const [reporterContact, setReporterContact] = useState("");
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const [calls, setCalls] = useState<CitizenCall[]>([]);
+  const [summary, setSummary] = useState<CitizenCallSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const callsQuery = useQuery({
-    queryKey: ["citizen-156"],
-    queryFn: () => apiFetch<CitizenCall[]>("/citizen-156/calls"),
-  });
-  const summaryQuery = useQuery({
-    queryKey: ["citizen-156-summary"],
-    queryFn: () => apiFetch<CitizenCallSummary>("/citizen-156/summary"),
-  });
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    setError(null);
+
+    Promise.all([apiFetch<CitizenCall[]>("/citizen-156/calls"), apiFetch<CitizenCallSummary>("/citizen-156/summary")])
+      .then(([nextCalls, nextSummary]) => {
+        if (!alive) return;
+        setCalls(nextCalls);
+        setSummary(nextSummary);
+      })
+      .catch((err) => {
+        if (!alive) return;
+        setError(err instanceof Error ? err.message : "Erro ao carregar chamados");
+      })
+      .finally(() => {
+        if (!alive) return;
+        setLoading(false);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const createMutation = useMutation({
     mutationFn: () =>
@@ -70,8 +89,13 @@ export default function Citizen156Page() {
         body: JSON.stringify({ title, category, reporterName, reporterContact }),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["citizen-156"] });
-      queryClient.invalidateQueries({ queryKey: ["citizen-156-summary"] });
+      void Promise.all([apiFetch<CitizenCall[]>("/citizen-156/calls"), apiFetch<CitizenCallSummary>("/citizen-156/summary")]).then(
+        ([nextCalls, nextSummary]) => {
+          setCalls(nextCalls);
+          setSummary(nextSummary);
+          setError(null);
+        },
+      );
       setTitle("");
       setReporterName("");
       setReporterContact("");
@@ -85,8 +109,13 @@ export default function Citizen156Page() {
         body: JSON.stringify({ status, message }),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["citizen-156"] });
-      queryClient.invalidateQueries({ queryKey: ["citizen-156-summary"] });
+      void Promise.all([apiFetch<CitizenCall[]>("/citizen-156/calls"), apiFetch<CitizenCallSummary>("/citizen-156/summary")]).then(
+        ([nextCalls, nextSummary]) => {
+          setCalls(nextCalls);
+          setSummary(nextSummary);
+          setError(null);
+        },
+      );
       setPendingAction(null);
     },
   });
@@ -107,12 +136,12 @@ export default function Citizen156Page() {
       <div className="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="lg:col-span-2 grid gap-3 sm:grid-cols-3 xl:grid-cols-6">
           {[
-            { label: "Total", value: summaryQuery.data?.total ?? 0 },
-            { label: "Abertos", value: summaryQuery.data?.abertos ?? 0 },
-            { label: "Triagem", value: summaryQuery.data?.triagem ?? 0 },
-            { label: "Encaminhados", value: summaryQuery.data?.encaminhados ?? 0 },
-            { label: "Resolvidos", value: summaryQuery.data?.resolvidos ?? 0 },
-            { label: "Anexos", value: summaryQuery.data?.anexos ?? 0 },
+            { label: "Total", value: summary?.total ?? 0 },
+            { label: "Abertos", value: summary?.abertos ?? 0 },
+            { label: "Triagem", value: summary?.triagem ?? 0 },
+            { label: "Encaminhados", value: summary?.encaminhados ?? 0 },
+            { label: "Resolvidos", value: summary?.resolvidos ?? 0 },
+            { label: "Anexos", value: summary?.anexos ?? 0 },
           ].map((item) => (
             <Card key={item.label}>
               <CardContent className="p-4">
@@ -187,8 +216,9 @@ export default function Citizen156Page() {
           </CardHeader>
           <CardContent>
             <DataTable
-              data={callsQuery.data ?? []}
-              loading={callsQuery.isLoading}
+              data={calls}
+              loading={loading}
+              error={error}
               emptyMessage="Nenhum chamado encontrado."
               emptyAction={
                 <Button variant="outline" size="sm" onClick={() => document.querySelector<HTMLInputElement>('[aria-label="Título do chamado"]')?.focus()}>

@@ -22,7 +22,7 @@
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
 | T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
-| T3-CITIZEN | Codex | 2026-04-20 | Public request proof exists; backend list now sees persisted calls, but the 156 browser shell still blocks the full E2E proof. |
+| T3-CITIZEN | Codex | 2026-04-21 | Public request proof exists; backend list sees persisted calls, but the 156 browser still fails to hydrate because Next chunks 404 in dev. |
 | T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset and navigable map already proved; next gap is explicit scale behavior beyond load. |
 
 ## Próximos na fila (ordem de ataque)
@@ -35,7 +35,7 @@
 6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, and pgv/zonas error states proved; broader module coverage still pending).
 7. **T3-DASH-PROOF** — PARTIAL (layout persistence and backend-backed observability sections proved; broader KPI coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
-9. **T3-CITIZEN** — PARTIAL (public create proven; backend list now sees persisted calls, but 156 browser shell still blocks full E2E proof).
+9. **T3-CITIZEN** — BLOCKED (public create proven; backend list sees persisted calls, but 156 browser hydration is blocked by 404 chunks in dev).
 
 ## Bloqueios atuais
 
@@ -53,7 +53,7 @@
 - [ ] Definir stack oficial de E2E (Playwright é o implícito — confirmar).
 - [ ] Definir dataset real vs sintético para teste de GIS em escala (T3-GIS-SCALE).
 - [ ] Definir critério de "dataset de teste" para T3-IMPORT-PROOF.
-- [ ] Fechar a shell de carregamento do workspace `156` em `T3-CITIZEN` para completar a prova E2E.
+- [ ] Corrigir a entrega dos chunks do Next no `web-dev` para destravar `T3-CITIZEN` e completar a prova E2E.
 
 ## Check-in de final de sprint (preencher em 2026-05-01)
 
