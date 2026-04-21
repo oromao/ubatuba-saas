@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Tentei elevar a prova do mapa em escala para um sinal de runtime no browser, mas o runner não expõe o mapa completo com WebGL; mantive a prova estável no contrato de dataset >10k + fallback explícito + helper compartilhado.
+- **Arquivos alterados:** `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/maps-scale.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para o próximo item vivo do backlog ou, se houver ambiente WebGL real, retomar a prova de render completo.
+- **Notas:** o browser deste runner continua limitando a validação de render, então a prova operacional segue ancorada no fallback explícito.
+
 ### 2026-04-21 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Liguei os cards de KPI do dashboard ao payload real e refinei a prova para comparar o conteúdo visível com a resposta backend de `/dashboard/kpis` e `/dashboard/executive`.
