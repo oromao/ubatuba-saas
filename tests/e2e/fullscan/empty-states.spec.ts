@@ -326,6 +326,27 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum log de sincronização encontrado.')).toBeVisible();
   });
 
+  test('renders the empty state for integracoes connectors when no connector exists', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/tax-integration/connectors**', async (route) => {
+      if (route.request().resourceType() === 'fetch' && route.request().method() === 'GET') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify([]),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/integracoes', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Integração Tributária (IPTU)' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum conector configurado. Configure um conector para sincronizar dados do IPTU municipal.')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Configurar primeiro conector' })).toBeVisible();
+  });
+
   test('renders the empty state for reurb projects when no projects are available', async ({ page }) => {
     await ensureSession(page);
     await page.route('**/api/reurb/tenant-config**', async (route) => {
