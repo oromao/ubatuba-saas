@@ -623,4 +623,41 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await page.getByRole('button', { name: 'Infraestrutura' }).click();
     await expect(page.getByText('Dados de infraestrutura não cadastrados.')).toBeVisible();
   });
+
+  test('renders the empty state for levantamento files when the survey has no attachments', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/surveys**', async (route) => {
+      if (route.request().method() === 'GET' && route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: [
+              {
+                _id: 'survey-empty',
+                name: 'Levantamento vazio',
+                type: 'AEROFOTO_RGB_5CM',
+                pipelineStatus: 'RECEBIDO',
+                metadata: {
+                  municipality: 'Ubatuba',
+                  surveyDate: '2026-04-21',
+                  srcDatum: 'SIRGAS2000 / EPSG:4326',
+                  supplier: 'Fornecedor Demo',
+                },
+                files: [],
+              },
+            ],
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/levantamentos', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Levantamentos & Entregaveis' })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: 'Levantamento vazio' }).click();
+    await expect(page.getByText('Nenhum arquivo registrado.')).toBeVisible();
+  });
 });
