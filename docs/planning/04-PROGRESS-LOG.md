@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Reforcei a prova do dashboard com leitura explícita de `/dashboard/kpis` e verificação do volume de sinais de prontidão/satélites expostos pelo backend.
+- **Arquivos alterados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/dashboard-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** expandir a cobertura para mais KPIs/observabilidade satélite ou consolidar o item se a leitura atual bastar.
+- **Notas:** a dashboard continua com layout persistido e dados executivos reais; a mudança só deixou explícita a dependência de backend.
+
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty/error states para `PGV - Faces de Quadra`, cobrindo também o empty state com mensagem explícita quando a API retorna vazio.

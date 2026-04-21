@@ -62,6 +62,12 @@ test.describe('T3-DASH-PROOF: dashboard proof', () => {
   test('renders real KPI and observability data from the backend', async ({ page }) => {
     const session = await ensureSession(page);
 
+    const kpisResponse = await page.request.get(`${API_URL}/dashboard/kpis`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    expect(kpisResponse.ok()).toBeTruthy();
+    const kpis = await kpisResponse.json();
+
     const executiveResponse = await page.request.get(`${API_URL}/dashboard/executive`, {
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -71,8 +77,13 @@ test.describe('T3-DASH-PROOF: dashboard proof', () => {
     await expect(page.getByRole('heading', { name: 'Painel Executivo' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Widgets configuráveis')).toBeVisible();
 
+    expect(kpis?.data?.processes ?? kpis?.processes).toBeGreaterThanOrEqual(0);
+    expect(kpis?.data?.alerts ?? kpis?.alerts).toBeGreaterThanOrEqual(0);
+    expect(kpis?.data?.assets ?? kpis?.assets).toBeGreaterThanOrEqual(0);
+
     expect(executive?.data?.summary ?? executive?.summary).toBeTruthy();
-    expect(executive?.data?.readinessSignals ?? executive?.readinessSignals).toBeTruthy();
+    expect((executive?.data?.readinessSignals ?? executive?.readinessSignals)?.length).toBeGreaterThanOrEqual(4);
+    expect((executive?.data?.satelliteHealth ?? executive?.satelliteHealth)?.length).toBeGreaterThanOrEqual(4);
 
     await expect(page.getByRole('heading', { name: 'Visão por secretaria' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Prioridades de hoje' })).toBeVisible();
