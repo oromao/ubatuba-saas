@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-20 — Codex — T3-CITIZEN
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Corrigi o repositório de `citizen_calls` para ler/escrever tenantId de forma compatível com os documentos persistidos; o backend agora encontra os chamados públicos criados.
+- **Arquivos alterados:** `apps/api/src/modules/citizen-156/citizen-156.repository.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `node - <<'NODE' ...` com create público + listagem retornando o protocolo; `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line` ainda falhou na shell do workspace 156
+- **Próximo:** fechar a shell de carregamento do workspace 156 para que a prova browser→API→DB complete.
+- **Notas:** o gap mudou de read-model vazio para bootstrap do workspace 156 preso em "Carregando sessao institucional...".
+
 ### 2026-04-20 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Levei o contrato de erro explícito para `pgv/zonas` e confirmei o mesmo padrão no `DataTable` compartilhado.
