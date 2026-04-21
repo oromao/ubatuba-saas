@@ -104,4 +104,15 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Nenhum registro encontrado.')).toBeVisible();
     await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
   });
+
+  test('renders the empty state for CTM parcelas when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+
+    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Cadastro Técnico - Parcelas' })).toBeVisible({ timeout: 10_000 });
+    await page.getByPlaceholder('Buscar...').last().fill('ZZZ-NO-MATCH');
+    await expect(page.getByText('Nenhum resultado para "ZZZ-NO-MATCH"')).toBeVisible();
+    await expect(page.getByRole('button').filter({ hasText: 'Limpar busca' }).last()).toBeVisible();
+  });
 });
