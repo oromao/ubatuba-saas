@@ -583,4 +583,44 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('heading', { name: 'Conformidade interna' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Sem dados de score.')).toBeVisible();
   });
+
+  test('renders the empty state for parcel infrastructure when the tab has no data', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/parcels/parcel-empty**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              _id: 'parcel-empty',
+              sqlu: '000.000.000.0000',
+              workflowStatus: 'PENDENTE',
+              sourceType: 'MUNICIPAL',
+              isOfficial: true,
+            },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/ctm/parcels/parcel-empty/history**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/ctm/parcels/parcel-empty/infrastructure**', (route) => route.abort());
+
+    await page.goto('/app/ctm/parcelas/parcel-empty', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'Lote 000.000.000.0000' })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: 'Infraestrutura' }).click();
+    await expect(page.getByText('Dados de infraestrutura não cadastrados.')).toBeVisible();
+  });
 });

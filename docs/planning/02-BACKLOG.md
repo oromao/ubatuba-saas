@@ -109,7 +109,7 @@
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** UX
 - **DoD:** Zero tela branca. Todo módulo tem empty state desenhado + error state com ação.
 - **Validação:** Testes de componente + smoke.
-- **Agente:** Codex (2026-04-21) — `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `ctm/parcelas/:id`, `156`, `ctm/vistorias`, `ambiental`, `levantamentos`, `modulos/compliance`, `cartas`, `pgv/relatorio`, `integracoes`, `reurb`, `monitoramento`, `modulos/obras`, `modulos/empresas` e `poc` agora mostram error/empty state explícitos com fallback testado; ainda faltam outros módulos do padrão.
+- **Agente:** Codex (2026-04-21) — `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `ctm/parcelas/:id`, `156`, `ctm/vistorias`, `ambiental`, `levantamentos`, `modulos/compliance`, `cartas`, `pgv/relatorio`, `integracoes`, `reurb`, `monitoramento`, `modulos/obras`, `modulos/empresas`, `poc` e `ctm/parcelas/:id/infraestrutura` agora mostram error/empty state explícitos com fallback testado; ainda faltam outros módulos do padrão.
 
 ### T3-DASH-PROOF — Expandir prova do dashboard/observatório
 - **Status:** `PARTIAL`
