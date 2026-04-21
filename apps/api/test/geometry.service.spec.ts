@@ -59,4 +59,31 @@ describe('GeometryService', () => {
       ),
     ).toBe(true);
   });
+
+  it('validates a multipolygon and rejects malformed coordinates', () => {
+    const validMultiPolygon = service.validateGeometry({
+      type: 'MultiPolygon',
+      coordinates: [
+        [
+          [
+            [-46.305, -23.55],
+            [-46.304, -23.55],
+            [-46.304, -23.551],
+            [-46.305, -23.551],
+            [-46.305, -23.55],
+          ],
+        ],
+      ],
+    });
+
+    const malformedPolygon = service.validateGeometry({
+      type: 'Polygon',
+      coordinates: [[[-46.305, -23.55]]],
+    });
+
+    expect(validMultiPolygon.valid).toBe(true);
+    expect(validMultiPolygon.errors).toHaveLength(0);
+    expect(malformedPolygon.valid).toBe(false);
+    expect(malformedPolygon.errors).toContain('Polígono precisa de pelo menos 3 vértices + fechamento');
+  });
 });

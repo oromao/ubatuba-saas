@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de GIS com `MultiPolygon` válido e geometria malformada rejeitada no helper central.
+- **Arquivos alterados:** `apps/api/test/geometry.service.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npm --prefix apps/api test -- geometry.service.spec.ts`
+- **Próximo:** manter a cobertura GIS/observability avançando enquanto o render WebGL bruto segue dependente do runner.
+- **Notas:** o teste foi chamado pelo script do projeto; `jest` direto gerava conflito de worktrees.
+
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de `REURB` para cobrir notificações vazias com projeto ativo.
