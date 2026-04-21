@@ -274,6 +274,82 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByText('Sem lotes gerados.')).toBeVisible();
   });
 
+  test('renders the empty state for pgv relatorio when no impacted properties exist', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/pgv/zones**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify([]),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/pgv/faces**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify([]),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/pgv/versions**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify([]),
+        });
+        return;
+      }
+      await route.continue();
+    });
+    await page.route('**/api/pgv/simulations**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify([]),
+          });
+          return;
+        }
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            summary: {
+              parcelsEvaluated: 0,
+              totalCurrentValue: 0,
+              totalProposedValue: 0,
+              totalDelta: 0,
+              totalDeltaPct: 0,
+              estimatedAnnualArrecadationImpact: 0,
+            },
+            filters: {},
+            chartSeries: [],
+            territorialBreakdown: [],
+            impactedParcels: [],
+            highlights: { withPositiveImpact: 0, withHigherUrbanPressure: 0 },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/pgv/relatorio', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'PGV Fazendária' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum imóvel impactado ainda.')).toBeVisible();
+    await expect(page.getByText('A quebra territorial aparece aqui após a simulação.')).toBeVisible();
+  });
+
   test('renders the empty state for CTM logradouros when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
     await page.route('**/api/ctm/logradouros**', async (route) => {
