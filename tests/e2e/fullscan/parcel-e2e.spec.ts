@@ -142,4 +142,21 @@ test.describe('T2-PARCEL-E2E: Parcel Search/Detail/Update', () => {
     await expect(page.getByText('Localização')).toBeVisible({ timeout: 10_000 });
     await expect(page.locator('canvas').first()).toBeVisible({ timeout: 20_000 });
   });
+
+  test('04 - Parcel detail exposes linked vistorias and history summary', async ({ page }) => {
+    await ensureSession(page);
+    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
+
+    const row = page.locator('table tbody tr').nth(1);
+    await expect(row).toBeVisible({ timeout: 15_000 });
+    await row.click();
+    await expect(page).toHaveURL(/\/app\/ctm\/parcelas\/[a-zA-Z0-9_-]+/, { timeout: 10_000 });
+
+    await expect(page.getByText('Histórico de Alterações')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Histórico de Alterações')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText(/alterações registradas no log de auditoria/i)).toBeVisible({ timeout: 10_000 });
+
+    await page.getByRole('button', { name: 'Vistorias' }).click();
+    await expect(page.getByText(/Nenhuma vistoria registrada para este lote\./i)).toBeVisible({ timeout: 10_000 });
+  });
 });

@@ -23,6 +23,15 @@
 ## Entradas
 
 ### 2026-04-21 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei o browser E2E da parcela para provar o detalhe com histórico de alterações e a aba de vistorias vinculadas.
+- **Arquivos alterados:** `tests/e2e/fullscan/parcel-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/parcel-e2e.spec.ts --project=scan --workers=1 --reporter=line -g "linked vistorias and history summary"`
+- **Próximo:** continuar fechando o grafo da parcela até cobrir tributo e relatórios no browser.
+- **Notas:** a aba mostra o empty state explícito de vistorias quando não há registros.
+
+### 2026-04-21 — Codex — T4-PARCEL-GRAPH
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Ampliei o resumo da parcela para provar vínculos cadastrais e de infraestrutura/logradouro no mesmo retorno do serviço.
 - **Arquivos alterados:** `apps/api/test/ctm-parcels.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
