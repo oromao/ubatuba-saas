@@ -33,7 +33,7 @@
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T3-GIS-SCALE** — PARTIAL (dataset >10k and explicit fallback proved; real WebGL render still blocked by runner environment).
 6. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, and pgv/zonas error states proved; broader module coverage still pending).
-7. **T3-DASH-PROOF** — PARTIAL (layout persistence and backend-backed observability sections proved; broader KPI coverage still pending).
+7. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis` and `/dashboard/executive` are proved; broader KPI and observability coverage still pending).
 8. **T3-IMPORT-PROOF** — DONE (GeoJSON import proved with invalid payload not changing totals).
 9. **T3-CITIZEN** — DONE (public create, backend list, and browser proof complete in the 156 workspace).
 
