@@ -31,6 +31,12 @@ describe('ParcelsController detail smoke', () => {
       logradouro: null,
     }),
     getHistory: jest.fn().mockResolvedValue([{ id: 'audit-1', action: 'CREATE' }]),
+    getAuditLog: jest.fn().mockResolvedValue({
+      entries: [{ id: 'audit-1', action: 'UPDATE', parcelId: 'parcel-1' }],
+      total: 1,
+      limit: 50,
+      offset: 0,
+    }),
     generatePdf: jest.fn().mockResolvedValue(Buffer.from('%PDF-1.4 mock')),
   };
 
@@ -74,6 +80,15 @@ describe('ParcelsController detail smoke', () => {
       .expect((res) => {
         expect(Array.isArray(res.body)).toBe(true);
         expect(res.body[0].action).toBe('CREATE');
+      });
+
+    await request(app.getHttpServer())
+      .get('/ctm/parcels/audit')
+      .query({ parcelId: 'parcel-1', action: 'UPDATE', limit: '10', offset: '0' })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.total).toBe(1);
+        expect(res.body.entries[0].action).toBe('UPDATE');
       });
 
     await request(app.getHttpServer())

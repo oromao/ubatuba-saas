@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T4-AUDIT
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova da auditoria da parcela para cobrir o smoke do endpoint `/ctm/parcels/audit` no controller, além do agregador do serviço.
+- **Arquivos alterados:** `apps/api/test/ctm-parcels-detail-api.e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npm --prefix apps/api test -- ctm-parcels-detail-api.e2e.spec.ts`
+- **Próximo:** cobrir a trilha de auditoria restante além do smoke do endpoint.
+- **Notas:** o item permanece PARTIAL porque ainda falta a trilha completa.
+
+### 2026-04-21 — Codex — T4-AUDIT
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova da auditoria da parcela para cobrir o agregador `getAuditLog` do serviço, com total e paginação por tenant.
 - **Arquivos alterados:** `apps/api/test/ctm/parcels.spec.ts`, `apps/api/test/ctm/parcel-audit.repository.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** `apps/api/test/ctm/parcels.spec.ts`

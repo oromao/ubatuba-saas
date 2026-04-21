@@ -151,7 +151,7 @@
 - **Status:** `PARTIAL`
 - **Severidade:** HIGH · **Esforço:** M-L · **Tipo:** Security / Backend / Tests
 - **DoD:** Trilha de auditoria clara + testes de isolamento de tenant passando.
-- **Agente:** Codex (2026-04-21) — `ParcelAuditRepository` agora tem prova unitária de filtro por tenant/projeto/parcela e contagem/listagem sem vazamento entre tenants; ainda falta cobrir o restante da trilha de auditoria.
+- **Agente:** Codex (2026-04-21) — `ParcelAuditRepository` agora tem prova unitária de filtro por tenant/projeto/parcela e contagem/listagem sem vazamento entre tenants; o controller/serviço também têm smoke do endpoint de auditoria da parcela, mas ainda falta cobrir o restante da trilha de auditoria.
 
 ### T4-BRAIN-OS — Fechar auto-discovery, bootstrap e write-back do brain
 - **Status:** `DONE`
