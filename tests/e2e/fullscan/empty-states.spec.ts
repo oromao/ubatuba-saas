@@ -415,4 +415,53 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('heading', { name: 'Monitoramento Ambiental' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Nenhum evento monitorado.')).toBeVisible();
   });
+
+  test('renders the empty state for auditoria when no records are available', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/ctm/parcels/audit**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            data: {
+              entries: [],
+              total: 0,
+              limit: 50,
+              offset: 0,
+            },
+          }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/auditoria', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Auditoria de Dados' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum registro encontrado')).toBeVisible();
+    await expect(page.getByText('Tente ajustar os filtros de busca.')).toBeVisible();
+  });
+
+  test('renders the empty state for obras requests when no records are available', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/permits-works**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/modulos/obras', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Alvará de Obras' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum registro encontrado.')).toBeVisible();
+    await expect(page.getByText('Verifique se existem dados cadastrados ou ajuste os filtros.')).toBeVisible();
+  });
 });

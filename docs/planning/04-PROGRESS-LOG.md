@@ -24,6 +24,15 @@
 
 ### 2026-04-21 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de empty state para `Alvará de Obras`, cobrindo a tabela vazia de solicitações com o texto padrão do `DataTable`.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npx playwright test tests/e2e/fullscan/empty-states.spec.ts --project=scan --workers=1 --reporter=line -g "obras requests"`
+- **Próximo:** buscar mais um módulo tabelado fora da cobertura atual, ou subir o item se o padrão já for suficiente para o backlog.
+- **Notas:** a cobertura aproveita o `emptyMessage` padrão do componente `DataTable`, sem precisar de novo estado visual.
+
+### 2026-04-21 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova de empty state para `Monitoramento Ambiental`, cobrindo a lista vazia de eventos e os contadores zerados do painel.
 - **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
 - **Testes adicionados:** nenhum novo
