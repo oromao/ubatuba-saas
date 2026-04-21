@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Ampliei a prova de monitoramento com dashboard filtrado no `MonitoringService`, mantendo os contadores principais e o breakdown por modo de origem.
+- **Arquivos alterados:** `apps/api/test/monitoring.service.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum novo
+- **Prova:** `npm --prefix apps/api test -- monitoring.service.spec.ts`
+- **Próximo:** seguir para a próxima lacuna de T3/T4 com a mesma lógica de prova pequena e real.
+- **Notas:** o filtro no dashboard de monitoramento agora está coberto sem quebrar a agregação.
+
 ### 2026-04-21 — Codex — T3-GIS-SCALE
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei a prova do mapa em escala com `computeGeometryBounds` cobrindo `MultiPolygon` e geometria vazia, no mesmo fluxo usado pela UI.

@@ -53,6 +53,31 @@ describe('MonitoringService', () => {
     expect(dashboard.recentTimeline.length).toBeGreaterThanOrEqual(1);
   });
 
+  it('keeps dashboard aggregation stable when filters are applied', async () => {
+    const filteredRepository = {
+      ...repository,
+      list: jest.fn().mockResolvedValue([
+        { stage: 'TRIAGEM', severity: 'ALTA', source: 'CEMADEN', sourceMode: 'API', createdAt: new Date().toISOString(), evidenceKeys: ['ev-1'] },
+      ]),
+    } as unknown as MonitoringRepository;
+    const service = new MonitoringService(filteredRepository, alertsService, cache);
+    const dashboard = await service.dashboard('66f1f77a67e30f9f62000001', {
+      stage: 'TRIAGEM',
+      sourceMode: 'API',
+    });
+
+    expect(filteredRepository.list).toHaveBeenCalledWith(
+      '66f1f77a67e30f9f62000001',
+      expect.objectContaining({
+        stage: 'TRIAGEM',
+        sourceMode: 'API',
+      }),
+    );
+    expect(dashboard.total).toBe(1);
+    expect(dashboard.triagem).toBe(1);
+    expect(dashboard.sourceModeBreakdown[0]).toMatchObject({ sourceMode: 'API', total: 1 });
+  });
+
   it('promotes event to evidence stage when attaching evidence without explicit stage', async () => {
     const current = {
       stage: 'TRIAGEM',
