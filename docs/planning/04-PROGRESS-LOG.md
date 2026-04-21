@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-21 — Codex — T4-AUDIT
+- **Status muda:** TODO → PARTIAL
+- **Feito:** Adicionei prova unitária de tenant isolation no `ParcelAuditRepository` para listagem e contagem de auditoria.
+- **Arquivos alterados:** `apps/api/test/ctm/parcel-audit.repository.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `apps/api/test/ctm/parcel-audit.repository.spec.ts`
+- **Prova:** `npm --prefix apps/api test -- parcel-audit.repository.spec.ts`
+- **Próximo:** cobrir a trilha de auditoria restante além do repositório.
+- **Notas:** o item fica PARTIAL porque só o isolamento do repositório foi provado.
+
 ### 2026-04-21 — Codex — T4-PARCEL-GRAPH
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Ampliei o browser E2E da parcela para provar exportação PDF do detalhe e manter a verificação tributária/IPTU já existente.
