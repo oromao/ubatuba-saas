@@ -188,4 +188,24 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('heading', { name: 'Gestão Ambiental' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Nenhum caso ambiental encontrado.')).toBeVisible();
   });
+
+  test('renders the empty state for levantamentos when the API returns no rows', async ({ page }) => {
+    await ensureSession(page);
+    await page.route('**/api/levantamentos**', async (route) => {
+      if (route.request().resourceType() === 'fetch') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({ data: [] }),
+        });
+        return;
+      }
+      await route.continue();
+    });
+
+    await page.goto('/app/levantamentos', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Levantamentos & Entregaveis' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Nenhum levantamento cadastrado.')).toBeVisible();
+  });
 });
