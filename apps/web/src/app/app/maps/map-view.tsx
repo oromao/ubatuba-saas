@@ -119,6 +119,14 @@ export default function DynamicMapViewer() {
     };
   }, [setActiveLayers]);
 
+  const fetchJson = async (url: string) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Falha ao carregar ${url} (${response.status})`);
+    }
+    return response.json();
+  };
+
   useEffect(() => {
     if (!mapContainer.current || mapConfig.current) return;
 
@@ -325,7 +333,7 @@ export default function DynamicMapViewer() {
         if (!map.getSource(sourceId)) {
           const isExternalUrl = layer.dataUrl.startsWith("http");
           const fetchPromise = isExternalUrl
-            ? fetch(layer.dataUrl).then((res) => res.json())
+            ? fetchJson(layer.dataUrl)
             : apiFetch<unknown>(layer.dataUrl);
 
           fetchPromise
@@ -381,9 +389,12 @@ export default function DynamicMapViewer() {
 
     // Try CTM parcels first (primary source), fall back to map-features
     const loadGeoJson = () =>
-      apiFetch<unknown>(`/ctm/parcels/geojson${projectId ? `?projectId=${encodeURIComponent(projectId)}` : ""}`).catch(() =>
-        fetchMapFeaturesGeojson("parcel", "", projectId),
-      );
+      apiFetch<unknown>(`/ctm/parcels/geojson${projectId ? `?projectId=${encodeURIComponent(projectId)}` : ""}`).catch((error) => {
+        // CTM parcels may be unavailable in some seeded environments; make the fallback visible.
+        // eslint-disable-next-line no-console
+        console.warn("[Mapa] CTM parcels indisponiveis, fallback map-features ativado", error);
+        return fetchMapFeaturesGeojson("parcel", "", projectId);
+      });
 
     loadGeoJson()
       .then((geojson) => {
@@ -509,10 +520,11 @@ export default function DynamicMapViewer() {
             map.fitBounds(bounds, { padding: 60, maxZoom: 18 });
           }
       })
-      .catch(() => {
-        // parcels not yet seeded — silent fail, map still usable
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.warn("[Mapa] Falha ao carregar parcels built-in", error);
       });
-  }, [mapReady]);
+  }, [mapReady, projectId]);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#e5e7eb] font-sans">

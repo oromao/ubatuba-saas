@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 const schema = z.object({
   newPassword: z.string().min(8),
@@ -25,11 +26,17 @@ export function ResetPasswordForm() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: FormValues) => {
-    await fetch(`${API_URL}/auth/reset-password`, {
+    const res = await fetch(`${API_URL}/auth/reset-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, newPassword: values.newPassword }),
     });
+
+    if (!res.ok) {
+      toast.error("Nao foi possivel redefinir a senha. Verifique o token.");
+    } else {
+      toast.success("Senha atualizada com sucesso.");
+    }
   };
 
   return (

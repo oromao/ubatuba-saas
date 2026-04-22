@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T4-API-URL-HARDEN
+- **Status muda:** TODO → DONE
+- **Feito:** Centralizei a URL da API do frontend, alinhei o compose dev para falar direto com `http://localhost:4000`, removi fallback silencioso do badge, explicitei erros em formulários públicos e revalidei os fluxos críticos contra o backend real sem dependência do rewrite implícito do Next.
+- **Arquivos alterados:** `apps/web/src/lib/api.ts`, `apps/web/src/components/layout/topbar.tsx`, `apps/web/src/app/forgot-password/page.tsx`, `apps/web/src/app/reset-password/reset-password-form.tsx`, `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/topbar-notifications.spec.ts`, `docker-compose.yml`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npm --prefix apps/web run build`, `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts tests/e2e/fullscan/public-login-noise.spec.ts tests/e2e/fullscan/topbar-notifications.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir com o próximo item vivo do backlog; esta frente de hardening de API/browser ficou fechada.
+- **Notas:** o `next.config.mjs` ainda mantém rewrite `/api` por compatibilidade, mas o frontend e os E2E críticos já não dependem dele para falar com o backend real.
+
 ### 2026-04-22 — Codex — T4-AUDIT
 - **Status muda:** PARTIAL → DONE
 - **Feito:** Arquivei o `_document` legado do Pages Router, limpei o `.next`, troquei o browser local para falar direto com `http://localhost:4000` em vez do proxy `/api`, e revalidei a trilha de auditoria remanescente no compose estabilizado.

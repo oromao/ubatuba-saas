@@ -29,25 +29,69 @@ async function ensureSession(page: any) {
       sessionStorage.setItem('tenantId', tokens.tenantId);
     },
     { accessToken, refreshToken, tenantId },
-    { accessToken, refreshToken, tenantId },
   );
   await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+  return { accessToken, refreshToken, tenantId };
+}
+
+async function seedUnreadLetters(accessToken: string, tenantId: string) {
+  const templateResponse = await fetch(`${API_URL}/notifications-letters/templates`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+      'X-Tenant-Id': tenantId,
+    },
+    body: JSON.stringify({
+      name: `E2E badge ${Date.now()}`,
+      html: 'Aviso para {{sqlu}} em {{endereco}}',
+    }),
+  });
+  if (!templateResponse.ok) {
+    throw new Error(`Falha ao criar template: ${templateResponse.status}`);
+  }
+  const templatePayload = await templateResponse.json();
+  const template = templatePayload.data ?? templatePayload;
+  const templateId = template._id ?? template.id;
+
+  const batchResponse = await fetch(`${API_URL}/notifications-letters/batches/generate`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+      'X-Tenant-Id': tenantId,
+    },
+    body: JSON.stringify({
+      templateId,
+      parcelStatus: 'ATIVO',
+    }),
+  });
+  if (!batchResponse.ok) {
+    throw new Error(`Falha ao gerar lote: ${batchResponse.status}`);
+  }
+
+  const unreadResponse = await fetch(`${API_URL}/notifications-letters/unread-count`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'X-Tenant-Id': tenantId,
+    },
+  });
+  if (!unreadResponse.ok) {
+    throw new Error(`Falha ao ler contador: ${unreadResponse.status}`);
+  }
+  const unreadPayload = await unreadResponse.json();
+  return unreadPayload.data?.count ?? unreadPayload.count ?? 0;
 }
 
 test.describe('topbar notifications badge', () => {
   test('shows a real pending-count badge and opens cartas', async ({ page }) => {
-    await ensureSession(page);
-    await page.route('**/api/notifications-letters/unread-count', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ data: { count: 3 } }),
-      });
-    });
+    const session = await ensureSession(page);
+    const count = await seedUnreadLetters(session.accessToken, session.tenantId);
+    const expectedBadge = String(count > 9 ? '9+' : count);
 
-    const button = page.getByRole('button', { name: /3 notificacoes oficiais pendentes/i });
+    const button = page.locator('header button').filter({ has: page.locator('span.absolute', { hasText: expectedBadge }) }).first();
     await expect(button).toBeVisible({ timeout: 10_000 });
-    await expect(button.locator('span.absolute')).toHaveText('3');
+    await expect(button.locator('span.absolute')).toHaveText(expectedBadge);
 
     await button.click();
     await expect(page).toHaveURL(/\/app\/cartas/);

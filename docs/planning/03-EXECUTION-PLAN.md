@@ -17,6 +17,7 @@
 - `T4-HOOKS-OS` entrou em `DONE`: Claude Code e Codex passam a acionar bootstrap/write-back por hooks nativos; Gemini e app/workspace flows têm launcher/instruções de entrada apontando para o brain.
 - `T4-ENV-DOCKER` entrou em `DONE`: o compose de desenvolvimento foi reconstruído após limpeza controlada do host Docker, `api-dev` e `web-dev` sobem juntos e o Next responde no container sem `/_next/static/chunks` 404 na prova browser.
 - `T4-AUDIT` entrou em `DONE`: o `_document` legado foi arquivado, o browser local passou a falar direto com `http://localhost:4000` em vez do proxy `/api`, e as provas `citizen-proof` + `public-login-noise` voltaram a passar no compose estabilizado.
+- `T4-API-URL-HARDEN` entrou em `DONE`: a URL da API do frontend ficou explícita e consistente, os fallbacks silenciosos do badge/formulários foram removidos e as provas browser/API reais voltaram a bater no backend sem depender de rewrite implícito.
 - O fluxo de execução continua no sprint atual do produto; esta camada meta só torna o arranque e a persistência automáticos.
 
 ## Em execução agora

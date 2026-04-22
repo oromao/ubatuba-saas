@@ -158,6 +158,15 @@
 - **Agente:** Codex (2026-04-22) — o badge de notificações oficiais foi corrigido com endpoint real `GET /notifications-letters/unread-count`, o botão do topbar agora leva para `/app/cartas` e o fallback silencioso foi removido; a trilha de auditoria segue `PARTIAL` porque ainda falta o restante do grafo/audit trail, não mais por falta de prova do `web-dev`.
 - **Agente:** Codex (2026-04-22) — arquivei o `_document` legado em `.archive/2026-04-22/apps/web/src/pages/_document.tsx`, limpei o `.next` gerado, corrigi o browser local para falar direto com `http://localhost:4000` em vez do proxy `/api`, e revalidei `citizen-proof` + `public-login-noise` em Playwright; o bloco remanescente da auditoria foi fechado com prova browser/API/DB no compose estabilizado.
 
+### T4-API-URL-HARDEN — Normalizar URL da API e eliminar dependência implícita do Next dev
+- **Status:** `DONE`
+- **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / Infra / Tests
+- **Problema:** O frontend e alguns testes ainda dependiam de comportamento implícito do Next dev/proxy `/api`, o que gerava inconsistência entre dev local, Docker e browser real.
+- **DoD:** `NEXT_PUBLIC_API_URL` centralizado e consistente, browser falando direto com o backend publicado, sem fallback silencioso mascarando erro real, com prova automatizada do fluxo real.
+- **Validação:** build do frontend + Playwright browser/API real.
+- **Depende de:** T4-ENV-DOCKER, T4-AUDIT.
+- **Agente:** Codex (2026-04-22) — `apps/web/src/lib/api.ts` passou a resolver a URL da API de forma explícita, o compose dev publica `NEXT_PUBLIC_API_URL=http://localhost:4000`, o topbar parou de mascarar o contador de notificações com zero falso, os formulários públicos de recuperação passaram a reportar falha, e os fluxos `citizen-proof`, `public-login-noise` e `topbar-notifications` voltaram a provar o backend real sem proxy interno fake.
+
 ### T4-ENV-DOCKER — Estabilizar o `web-dev`/`api-dev` do compose e provar o Next no container
 - **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** Infra / DevEx / Frontend

@@ -1,15 +1,12 @@
 import { appLogger } from "@/lib/logger";
 
 const rawApiUrl = process.env.NEXT_PUBLIC_API_URL;
-const isLocalBrowser = typeof window !== "undefined" && ["localhost", "127.0.0.1"].includes(window.location.hostname);
 const browserFallback = typeof window !== "undefined" ? `${window.location.protocol}//${window.location.hostname}:4000` : "http://localhost:4000";
 
 export const API_URL =
-  isLocalBrowser
-    ? browserFallback
-    : rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().length > 0
-      ? rawApiUrl
-      : browserFallback;
+  rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().length > 0
+    ? rawApiUrl
+    : browserFallback;
 
 export async function apiFetch<T>(path: string, options: RequestInit = {}) {
   const storage = typeof window !== "undefined" ? window.sessionStorage : null;

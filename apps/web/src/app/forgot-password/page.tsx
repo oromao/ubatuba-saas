@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
 
 const schema = z.object({
   email: z.string().email(),
@@ -22,11 +23,17 @@ export default function ForgotPasswordPage() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (values: FormValues) => {
-    await fetch(`${API_URL}/auth/forgot-password`, {
+    const res = await fetch(`${API_URL}/auth/forgot-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
+
+    if (!res.ok) {
+      toast.error("Nao foi possivel enviar o link. Tente novamente.");
+    } else {
+      toast.success("Se o email existir, o link sera enviado.");
+    }
   };
 
   return (
