@@ -6,7 +6,7 @@ const browserFallback = typeof window !== "undefined" ? `${window.location.proto
 
 export const API_URL =
   isLocalBrowser
-    ? "/api"
+    ? browserFallback
     : rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().length > 0
       ? rawApiUrl
       : browserFallback;

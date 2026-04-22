@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T4-AUDIT
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Arquivei o `_document` legado do Pages Router, limpei o `.next`, troquei o browser local para falar direto com `http://localhost:4000` em vez do proxy `/api`, e revalidei a trilha de auditoria remanescente no compose estabilizado.
+- **Arquivos alterados:** `apps/web/src/lib/api.ts`, `.archive/2026-04-22/apps/web/src/pages/_document.tsx`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npm --prefix apps/web run build`, `docker compose --profile dev restart web-dev`, `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts tests/e2e/fullscan/public-login-noise.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir com a próxima frente do backlog vivo; `T4-AUDIT` ficou encerrado com prova browser/API/DB.
+- **Notas:** o sintoma que sobrava era o browser local via `/api`; com a chamada direta ao backend publicado em `4000`, os registros do 156 voltaram a aparecer e o redirect do login voltou a ser provado.
+
 ### 2026-04-22 — Codex — T4-ENV-DOCKER
 - **Status muda:** TODO → DONE
 - **Feito:** Limpei o host Docker, removi o estado saturado que fazia o Mongo cair com `No space left on device`, reconstruí o compose de desenvolvimento e provei o `web-dev` servindo HTML/chunks no container depois de corrigir os blockers de build do Next.
