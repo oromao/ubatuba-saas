@@ -68,7 +68,7 @@ export function Topbar() {
 
   const { data: notifData } = useQuery({
     queryKey: ["notifications-unread-count"],
-    queryFn: () => apiFetch<{ count: number }>("/notifications-letters/unread-count").catch(() => ({ count: 0 })),
+    queryFn: () => apiFetch<{ count: number }>("/notifications-letters/unread-count"),
     refetchInterval: 60_000,
     staleTime: 30_000,
   });
@@ -135,8 +135,8 @@ export function Topbar() {
           {/* Notification bell */}
           <button
             className="relative rounded-md p-2 text-on-surface-muted transition-colors hover:bg-cloud hover:text-on-surface"
-            aria-label={unreadCount > 0 ? `${unreadCount} notificacoes nao lidas` : "Notificacoes"}
-            onClick={() => router.push("/app/notifications")}
+            aria-label={unreadCount > 0 ? `${unreadCount} notificacoes oficiais pendentes` : "Notificacoes oficiais"}
+            onClick={() => router.push("/app/cartas")}
           >
             <Bell className="h-5 w-5" />
             {unreadCount > 0 && (

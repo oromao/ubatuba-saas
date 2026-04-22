@@ -61,6 +61,11 @@ export class NotificationsLettersController {
     return this.service.listBatches(req.tenantId, projectId);
   }
 
+  @Get('unread-count')
+  unreadCount(@Req() req: { tenantId: string }, @Query('projectId') projectId?: string) {
+    return this.service.getUnreadCount(req.tenantId, projectId);
+  }
+
   @Get('batches/:id')
   getBatch(
     @Req() req: { tenantId: string },
@@ -93,4 +98,3 @@ export class NotificationsLettersController {
     return this.service.getLetterDownloadUrl(req.tenantId, projectId, batchId, letterId);
   }
 }
-

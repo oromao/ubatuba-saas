@@ -167,6 +167,12 @@ export class NotificationsLettersService {
     return this.repository.listBatches(tenantId, String(resolvedProject));
   }
 
+  async getUnreadCount(tenantId: string, projectId?: string) {
+    const resolvedProject = await this.resolveProject(tenantId, projectId);
+    const count = await this.repository.countUnreadLetters(tenantId, String(resolvedProject));
+    return { count };
+  }
+
   async findBatchById(tenantId: string, projectId: string | undefined, batchId: string) {
     const resolvedProject = await this.resolveProject(tenantId, projectId);
     const batch = await this.repository.findBatchById(tenantId, String(resolvedProject), batchId);
@@ -212,4 +218,3 @@ export class NotificationsLettersService {
     return this.objectStorageService.createPresignedDownload({ key: letter.fileKey });
   }
 }
-

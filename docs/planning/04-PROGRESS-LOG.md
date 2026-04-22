@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T4-NOTIF-BADGE
+- **Status muda:** TODO → DONE
+- **Feito:** Removi o fallback silencioso do badge, implementei `GET /notifications-letters/unread-count` com contagem real de cartas geradas pendentes, e alinhei o clique do topo para `/app/cartas`.
+- **Arquivos alterados:** `apps/api/src/modules/notifications-letters/notifications-letters.controller.ts`, `apps/api/src/modules/notifications-letters/notifications-letters.repository.ts`, `apps/api/src/modules/notifications-letters/notifications-letters.service.ts`, `apps/web/src/components/layout/topbar.tsx`, `apps/api/test/notifications-letters.unread-count.spec.ts`, `apps/api/test/notifications-letters.repository.spec.ts`, `tests/e2e/fullscan/topbar-notifications.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** `apps/api/test/notifications-letters.unread-count.spec.ts`, `apps/api/test/notifications-letters.repository.spec.ts`, `tests/e2e/fullscan/topbar-notifications.spec.ts`
+- **Prova:** `npm --prefix apps/api test -- notifications-letters.repository.spec.ts`, `npm --prefix apps/api test -- notifications-letters.unread-count.spec.ts`, `BASE_URL=http://localhost:3100 API_URL=http://localhost:4000 npx playwright test tests/e2e/fullscan/topbar-notifications.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** revalidar a trilha de auditoria remanescente e o caminho Docker `web-dev`.
+- **Notas:** o badge agora expõe o estado real; o risco residual principal segue sendo o ambiente Docker não reproduzido.
+
 ### 2026-04-22 — Codex — T4-AUDIT
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Validei `ParcelAuditRepository`, `ctm/parcels` e a navegação browser de `/app/auditoria`; corrigi um locator ambíguo no spec e confirmei que o fluxo passa em `next dev` local com API real.
