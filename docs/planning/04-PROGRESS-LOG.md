@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T4-AUDIT
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Validei `ParcelAuditRepository`, `ctm/parcels` e a navegação browser de `/app/auditoria`; corrigi um locator ambíguo no spec e confirmei que o fluxo passa em `next dev` local com API real.
+- **Arquivos alterados:** `tests/e2e/fullscan/auditoria-e2e.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npm --prefix apps/api test -- parcel-audit.repository.spec.ts`, `npm --prefix apps/api test -- ctm-parcels-detail-api.e2e.spec.ts`, `npm --prefix apps/api test -- ctm-parcels.spec.ts`, `BASE_URL=http://localhost:3100 API_URL=http://localhost:4000 npx playwright test tests/e2e/fullscan/auditoria-e2e.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** fechar a trilha residual de auditoria e atacar o fallback silencioso do badge de notificações.
+- **Notas:** o ambiente Docker do compose base falhou no build com snapshot ausente; além disso, `GET /notifications-letters/unread-count` segue 404 e é engolido pelo topbar como `0`.
+
 ### 2026-04-22 — Codex — T3-CITIZEN
 - **Status muda:** BLOCKED → DONE
 - **Feito:** Revalidei o fluxo cidadão no workspace atual com `next dev` local no web e `nest start --watch` no api; a prova browser→API→DB passou sem a falha de chunks 404.

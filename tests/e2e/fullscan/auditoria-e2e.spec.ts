@@ -59,6 +59,6 @@ test.describe('T4-AUDIT: Audit page and tenant-safe parcel log', () => {
     await page.locator('select').first().selectOption('UPDATE');
     await page.getByRole('button', { name: 'Buscar' }).click();
 
-    await expect(page.getByText(/Nenhum registro encontrado|registro(s)? encontrado(s)?/i)).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText('Nenhum registro encontrado', { exact: true })).toBeVisible({ timeout: 15_000 });
   });
 });

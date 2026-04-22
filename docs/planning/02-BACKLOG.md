@@ -154,6 +154,13 @@
 - **Severidade:** HIGH · **Esforço:** M-L · **Tipo:** Security / Backend / Tests
 - **DoD:** Trilha de auditoria clara + testes de isolamento de tenant passando.
 - **Agente:** Codex (2026-04-21) — `ParcelAuditRepository` agora tem prova unitária de filtro por tenant/projeto/parcela e contagem/listagem sem vazamento entre tenants; o controller/serviço também têm smoke do endpoint de auditoria da parcela, e a página `/app/auditoria` ficou navegável no browser, mas ainda falta cobrir o restante da trilha de auditoria.
+- **Agente:** Codex (2026-04-22) — `apps/api/test/ctm-parcels-detail-api.e2e.spec.ts`, `apps/api/test/ctm-parcels.spec.ts` e a navegação browser de `/app/auditoria` passaram; o spec precisou de ajuste de locator, e o `notifications-letters/unread-count` continua 404 com fallback silencioso no topbar, então a trilha ainda não fecha como `DONE`.
+
+### T4-NOTIF-BADGE — Eliminar fallback silencioso do badge de notificações
+- **Status:** `TODO`
+- **Severidade:** LOW · **Esforço:** S · **Tipo:** Frontend / Backend / Tests
+- **DoD:** O topo do app mostra badge/contador real de notificações oficiais ou um estado explícito de indisponibilidade, sem 404 silencioso mascarado por fallback.
+- **Agente:** Codex (2026-04-22) — descoberto durante `T4-AUDIT`; `GET /notifications-letters/unread-count` retorna 404 e o topbar converte isso em `0` sem surfacing explícito.
 
 ### T4-BRAIN-OS — Fechar auto-discovery, bootstrap e write-back do brain
 - **Status:** `DONE`
