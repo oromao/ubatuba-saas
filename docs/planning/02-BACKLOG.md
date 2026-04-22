@@ -130,6 +130,7 @@
 - **DoD:** Cidadão abre solicitação → backend recebe → operador responde → cidadão vê status.
 - **Agente:** Codex (2026-04-20) — criação pública gera protocolo real, mas a listagem/retorno no fluxo administrativo ainda não reaparece no mesmo tenant.
 - **Agente:** Codex (2026-04-21) — o fluxo browser→API→DB foi provado no `156`; o protocolo novo aparece no workspace e o status resolve no mesmo tenant.
+- **Agente:** Codex (2026-04-22) — revalidação com `next dev` local e `nest start --watch` passou; a falha de chunks 404 no `web-dev` não se reproduziu neste ambiente.
 
 ---
 
@@ -146,7 +147,7 @@
 - **Status:** `PARTIAL`
 - **Severidade:** MEDIUM · **Esforço:** L · **Tipo:** Mobile / UX
 - **DoD:** Fluxos de vistoria usáveis em campo com conectividade instável.
-- **Agente:** Codex (2026-04-21) — a página `/mobile` agora tem prova browser de carregamento com controles offline-first e fila local, mas ainda falta cobrir o ciclo completo de captura/sincronização em campo.
+- **Agente:** Codex (2026-04-21) — a página `/mobile` agora tem prova browser de carregamento com controles offline-first e a fila local; o fluxo completo de captura offline, persistência em IndexedDB e sincronização de volta ao backend também foi provado, mas ainda falta ampliar o cenário de campo com evidência real de GPS/anexo.
 
 ### T4-AUDIT — Elevar confiança de auditoria e isolamento multi-tenant
 - **Status:** `PARTIAL`

@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T3-CITIZEN
+- **Status muda:** BLOCKED → DONE
+- **Feito:** Revalidei o fluxo cidadão no workspace atual com `next dev` local no web e `nest start --watch` no api; a prova browser→API→DB passou sem a falha de chunks 404.
+- **Arquivos alterados:** `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`, `docs/planning/02-BACKLOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line`
+- **Próximo:** seguir para o próximo item pendente do topo da fila.
+- **Notas:** o problema anterior ficou no caminho de execução do `web-dev`; o fluxo real do portal cidadão permanece provado.
+
 ### 2026-04-21 — Codex — T4-MOBILE
 - **Status muda:** TODO → PARTIAL
 - **Feito:** Criei prova browser da página `/mobile` com controles offline-first, fila e ações de campo visíveis para o operador.

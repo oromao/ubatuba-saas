@@ -25,7 +25,6 @@
 | T4-AUDIT | Codex | 2026-04-21 | Parcel audit repository plus controller/service audit smoke and the `/app/auditoria` page now have tenant-isolation coverage; broader audit trail still pending. |
 | T4-MOBILE | Codex | 2026-04-21 | Mobile page now has offline-first browser proof for field controls and queue visibility; capture/sync flow still pending. |
 | T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
-| T3-CITIZEN | Codex | 2026-04-21 | Public request, backend list, and browser proof are now complete in the 156 workspace. |
 | T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset, shared bounds helper, and fallback explicit in WebGL-free runner are covered, but the real map render still depends on the environment. |
 
 ## Próximos na fila (ordem de ataque)
