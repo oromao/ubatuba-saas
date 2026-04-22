@@ -30,10 +30,10 @@ type BulkResult = {
   results: { id: string; status: string; message?: string }[];
 };
 
-const STATUS_BADGE: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  PENDENTE: "secondary",
-  EM_VALIDACAO: "default",
-  APROVADA: "outline",
+const STATUS_BADGE: Record<string, "default" | "destructive" | "outline" | "success" | "warning" | "info"> = {
+  PENDENTE: "warning",
+  EM_VALIDACAO: "info",
+  APROVADA: "success",
   REPROVADA: "destructive",
 };
 
@@ -138,7 +138,7 @@ export default function AprovacaoPage() {
         {WORKFLOW_STATUSES.map((s) => (
           <Button
             key={s}
-            variant={workflowFilter === s ? "default" : "outline"}
+            variant={workflowFilter === s ? "primary" : "outline"}
             size="sm"
             onClick={() => {
               setWorkflowFilter(s);

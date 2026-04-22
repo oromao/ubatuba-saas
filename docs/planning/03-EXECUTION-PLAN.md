@@ -15,6 +15,7 @@
 
 - `T4-BRAIN-OS` entrou em `DONE`: o brain agora faz auto-discovery do projeto, bootstrap de sessão e write-back de memória sem setup manual.
 - `T4-HOOKS-OS` entrou em `DONE`: Claude Code e Codex passam a acionar bootstrap/write-back por hooks nativos; Gemini e app/workspace flows têm launcher/instruções de entrada apontando para o brain.
+- `T4-ENV-DOCKER` entrou em `DONE`: o compose de desenvolvimento foi reconstruído após limpeza controlada do host Docker, `api-dev` e `web-dev` sobem juntos e o Next responde no container sem `/_next/static/chunks` 404 na prova browser.
 - O fluxo de execução continua no sprint atual do produto; esta camada meta só torna o arranque e a persistência automáticos.
 
 ## Em execução agora
@@ -33,7 +34,7 @@
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
-5. **T4-AUDIT** — PARTIAL (tenant-isolated `ParcelAuditRepository` filters and counts plus the `getAuditLog` service/controller smoke and `/app/auditoria` browser navigation are now proved; the notification badge now has a real endpoint and opens `/app/cartas`, but the broader audit trail remains pending).
+5. **T4-AUDIT** — PARTIAL (tenant-isolated `ParcelAuditRepository` filters and counts plus the `getAuditLog` service/controller smoke and `/app/auditoria` browser navigation are now proved; the notification badge now has a real endpoint and opens `/app/cartas`, the Docker `web-dev` path is now proved, but the broader audit trail remains pending).
 6. **T4-MOBILE** — PARTIAL (offline-first browser proof for field controls and queue visibility is in place; capture/sync flow still pending).
 7. **T3-GIS-SCALE** — PARTIAL (dataset >10k, shared bounds helper, explicit fallback, `GeometryService` coverage for `MultiPolygon`/malformed geometry, and `computeGeometryBounds` coverage for `MultiPolygon`/empty geometry proved; real WebGL render still blocked by runner environment).
 8. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, ctm/parcelas/:id, ctm/parcelas/:id/infraestrutura, 156, ctm/vistorias, ambiental, levantamentos, modulos/compliance, cartas, pgv/relatorio, integracoes logs/connectors, reurb projects/families/units/pendencies/deliverables/notifications, monitoramento, modulos/obras, modulos/empresas, and poc error/empty states proved; auditoria was dropped because the current route resolves to a dashboard snapshot instead of the target audit screen; broader module coverage still pending).
@@ -76,4 +77,5 @@
 ## Fechamento desta sessão
 
 - Arquivos conflitantes foram classificados, mesclados ou arquivados.
+- `T4-ENV-DOCKER` ficou `DONE`; o Docker de desenvolvimento voltou a subir com `web-dev` e `api-dev` juntos, e a prova browser não registrou `/_next/static/chunks` 404.
 - A próxima sessão deve retomar pelo topo do backlog vivo, com o brain carregado automaticamente pelos hooks nativos sempre que a ferramenta permitir.

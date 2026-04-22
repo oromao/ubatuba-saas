@@ -286,7 +286,7 @@ export default function RelatoriosPage() {
             {(["parcelas", "fiscalizacao", "executivo"] as ReportType[]).map((type) => (
               <Button
                 key={type}
-                variant={activeType === type ? "default" : "outline"}
+                variant={activeType === type ? "primary" : "outline"}
                 size="sm"
                 onClick={() => handleTypeChange(type)}
               >

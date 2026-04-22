@@ -25,9 +25,9 @@ type AuditResponse = {
   offset: number;
 };
 
-const ACTION_BADGE_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+const ACTION_BADGE_VARIANT: Record<string, "default" | "outline" | "destructive" | "info"> = {
   CREATE: "default",
-  UPDATE: "secondary",
+  UPDATE: "info",
   DELETE: "destructive",
   TRANSICAO: "outline",
 };

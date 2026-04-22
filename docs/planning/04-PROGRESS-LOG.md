@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-22 — Codex — T4-ENV-DOCKER
+- **Status muda:** TODO → DONE
+- **Feito:** Limpei o host Docker, removi o estado saturado que fazia o Mongo cair com `No space left on device`, reconstruí o compose de desenvolvimento e provei o `web-dev` servindo HTML/chunks no container depois de corrigir os blockers de build do Next.
+- **Arquivos alterados:** `apps/web/src/app/app/aprovacao/page.tsx`, `apps/web/src/app/app/auditoria/page.tsx`, `apps/web/src/app/app/ctm/vistorias/novo/page.tsx`, `apps/web/src/app/app/relatorios/page.tsx`, `apps/web/src/lib/gis-bounds.d.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `docker system prune -af --volumes`, `npm --prefix apps/web run build`, `node` + Playwright browser check com zero `/_next/static/chunks` 404
+- **Próximo:** retomar `T4-AUDIT` pelo restante da trilha de auditoria; o ambiente Docker já não é o bloqueio desta frente.
+- **Notas:** o browser ainda mostra 401 para chamadas autenticadas na tela pública de login, mas isso não voltou a aparecer como 404 de chunk nem erro de hidratação.
+
 ### 2026-04-22 — Codex — T4-NOTIF-BADGE
 - **Status muda:** TODO → DONE
 - **Feito:** Removi o fallback silencioso do badge, implementei `GET /notifications-letters/unread-count` com contagem real de cartas geradas pendentes, e alinhei o clique do topo para `/app/cartas`.

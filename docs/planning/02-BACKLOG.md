@@ -155,7 +155,14 @@
 - **DoD:** Trilha de auditoria clara + testes de isolamento de tenant passando.
 - **Agente:** Codex (2026-04-21) — `ParcelAuditRepository` agora tem prova unitária de filtro por tenant/projeto/parcela e contagem/listagem sem vazamento entre tenants; o controller/serviço também têm smoke do endpoint de auditoria da parcela, e a página `/app/auditoria` ficou navegável no browser, mas ainda falta cobrir o restante da trilha de auditoria.
 - **Agente:** Codex (2026-04-22) — `apps/api/test/ctm-parcels-detail-api.e2e.spec.ts`, `apps/api/test/ctm-parcels.spec.ts` e a navegação browser de `/app/auditoria` passaram; o spec precisou de ajuste de locator, e o `notifications-letters/unread-count` continua 404 com fallback silencioso no topbar, então a trilha ainda não fecha como `DONE`.
-- **Agente:** Codex (2026-04-22) — o badge de notificações oficiais foi corrigido com endpoint real `GET /notifications-letters/unread-count`, o botão do topbar agora leva para `/app/cartas` e o fallback silencioso foi removido; a trilha de auditoria segue `PARTIAL` porque o caminho Docker `web-dev` ainda não foi provado nesta sessão.
+- **Agente:** Codex (2026-04-22) — o badge de notificações oficiais foi corrigido com endpoint real `GET /notifications-letters/unread-count`, o botão do topbar agora leva para `/app/cartas` e o fallback silencioso foi removido; a trilha de auditoria segue `PARTIAL` porque ainda falta o restante do grafo/audit trail, não mais por falta de prova do `web-dev`.
+
+### T4-ENV-DOCKER — Estabilizar o `web-dev`/`api-dev` do compose e provar o Next no container
+- **Status:** `DONE`
+- **Severidade:** HIGH · **Esforço:** M · **Tipo:** Infra / DevEx / Frontend
+- **DoD:** `docker compose --profile dev up -d --build web-dev api-dev` sobe limpo após limpeza controlada, `web-dev` e `api-dev` ficam ativos juntos e o Next serve HTML/chunks no container sem 404 de artefatos.
+- **Validação:** rebuild limpo do compose + prova browser sem 404 em `/_next/static/chunks` e sem erro de página/hidratação.
+- **Agente:** Codex (2026-04-22) — o host Docker estava em 100% de disco e o Mongo caía com `No space left on device`; após `docker system prune -af --volumes`, o compose voltou a subir, o `web-dev` recompilou no container, e a prova browser mostrou `/_next/static/chunks` sem 404.
 
 ### T4-NOTIF-BADGE — Eliminar fallback silencioso do badge de notificações
 - **Status:** `DONE`

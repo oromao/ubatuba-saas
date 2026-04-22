@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -58,7 +58,7 @@ async function uploadFiles(files: File[]): Promise<string[]> {
   return data.urls ?? [];
 }
 
-export default function NovaVistoriaPage() {
+function NovaVistoriaPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const prefilledParcelId = searchParams?.get("parcelId") ?? "";
@@ -225,5 +225,13 @@ export default function NovaVistoriaPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function NovaVistoriaPage() {
+  return (
+    <Suspense fallback={<div className="mx-auto w-full max-w-2xl px-4 py-6 md:px-8">Carregando...</div>}>
+      <NovaVistoriaPageContent />
+    </Suspense>
   );
 }
