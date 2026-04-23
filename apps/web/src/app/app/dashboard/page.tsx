@@ -44,7 +44,7 @@ export default function DashboardPage() {
     [],
   );
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error: kpisError } = useQuery({
     queryKey: ["kpis"],
     queryFn: () => apiFetch<{ processes: number; alerts: number; assets: number }>("/dashboard/kpis"),
   });
@@ -78,6 +78,8 @@ export default function DashboardPage() {
     queryKey: ["dashboard-layout"],
     queryFn: () => apiFetch<{ viewMode: string; widgets: WidgetConfig[] }>("/dashboard/layout"),
   });
+
+  const dashboardError = kpisError ?? executiveQuery.error ?? layoutQuery.error ?? null;
 
   const [viewMode, setViewMode] = useState<"executive" | "operational">("executive");
   const [widgets, setWidgets] = useState<WidgetConfig[]>([]);
@@ -139,6 +141,20 @@ export default function DashboardPage() {
       </div>
 
       <div className="mt-6 space-y-6">
+        {dashboardError && (
+          <Card className="border-rose-200 bg-rose-50">
+            <CardHeader>
+              <CardTitle className="text-rose-900">Painel indisponível</CardTitle>
+              <CardDescription className="text-rose-800">
+                Não foi possível carregar os indicadores executivos neste momento. Tente novamente ou revise a integração.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-rose-800">
+              {dashboardError instanceof Error ? dashboardError.message : "Falha inesperada ao carregar o painel executivo."}
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-xl">Widgets configuráveis</CardTitle>

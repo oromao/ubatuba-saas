@@ -169,6 +169,28 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     await expect(page.getByRole('button', { name: 'Criar primeira vistoria' })).toBeVisible();
   });
 
+  test('renders an explicit error state for observatorio when the API cannot load', async ({ page }) => {
+    await ensureSession(page);
+    await page.addInitScript(() => {
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url.includes("/observatory/market")) {
+          return new Response(JSON.stringify({ detail: "observatory down" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return originalFetch(input, init);
+      };
+    });
+    await page.goto('/app/observatorio', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Observatório Municipal' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Observatório indisponível')).toBeVisible();
+    await expect(page.getByText(/observatory down \(500\)/i)).toBeVisible();
+  });
+
   test('renders the empty state for ambiental cases when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
     await page.route('**/api/environment/cases**', async (route) => {
@@ -661,6 +683,29 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
     await expect(page.getByRole('heading', { name: 'Monitoramento Ambiental' })).toBeVisible({ timeout: 10_000 });
     await expect(page.getByText('Nenhum evento monitorado.')).toBeVisible();
+  });
+
+  test('renders an explicit error state for monitoring when the API cannot load', async ({ page }) => {
+    await ensureSession(page);
+    await page.addInitScript(() => {
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url.includes("/monitoring/events") || url.includes("/monitoring/dashboard")) {
+          return new Response(JSON.stringify({ detail: "monitoring down" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return originalFetch(input, init);
+      };
+    });
+
+    await page.goto('/app/monitoramento', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Monitoramento Ambiental' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Monitoramento indisponivel')).toBeVisible();
+    await expect(page.getByText(/monitoring down \(500\)/i)).toBeVisible();
   });
 
   test('renders the empty state for obras requests when no records are available', async ({ page }) => {

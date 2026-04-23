@@ -24,22 +24,29 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T4-PARCEL-GRAPH | Codex | 2026-04-21 | Parcel summary backend plus parcel detail browser proof for history, vistorias, IPTU, and PDF export are covered; cross-module graph still incomplete. |
-| T4-MOBILE | Codex | 2026-04-21 | Mobile page now has offline-first browser proof for field controls and queue visibility; capture/sync flow still pending. |
-| T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
+| T3-EMPTY-STATES | Codex | 2026-04-23 | Empty/error state proof now includes observatorio explicit failure UI with browser-stubbed API failure; broader module coverage still pending. |
+| T3-DASH-PROOF | Codex | 2026-04-21 | Dashboard KPIs, layout persistence, `/dashboard/kpis`, `/dashboard/executive`, and monitoring filters are covered; the dashboard now has explicit error-state UI, but broader observability still needs proof. |
 | T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset, shared bounds helper, and fallback explicit in WebGL-free runner are covered, but the real map render still depends on the environment. |
+| T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
+
+## Deploy status
+
+- VPS `172.233.188.166` está respondendo em `api` e `web`.
+- `api` ficou saudável após a correção da healthcheck do compose.
+- `nginx` está ativo na borda pública e o smoke HTTP retorna `200 OK`.
+- `T3-EMPTY-STATES` ganhou mais uma prova estável: o erro do `monitoramento` agora sobe via `fetch` stub no browser, não só por empty state.
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified; `T4-PARCEL-GRAPH` now also has parcel summary and parcel detail browser proof for history, vistorias, IPTU, and PDF export).
+1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified; `T4-PARCEL-GRAPH` now also has parcel summary and the consolidated map/IPTU/vistorias/PDF graph proof).
 2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
 3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
 4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
 5. **T4-AUDIT** — DONE (the browser-local API client now bypasses the broken `/api` rewrite in local dev, the legacy `_document` residue is archived, and the citizen/login Playwright regressions pass again in the compose).
-6. **T4-MOBILE** — PARTIAL (offline-first browser proof for field controls and queue visibility is in place; capture/sync flow still pending).
+6. **T4-MOBILE** — DONE (offline-first browser proof now covers field controls, queue visibility, GPS capture, evidence upload, and sync back to backend).
 7. **T3-GIS-SCALE** — PARTIAL (dataset >10k, shared bounds helper, explicit fallback, `GeometryService` coverage for `MultiPolygon`/malformed geometry, and `computeGeometryBounds` coverage for `MultiPolygon`/empty geometry proved; real WebGL render still blocked by runner environment).
-8. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, ctm/parcelas/:id, ctm/parcelas/:id/infraestrutura, 156, ctm/vistorias, ambiental, levantamentos, modulos/compliance, cartas, pgv/relatorio, integracoes logs/connectors, reurb projects/families/units/pendencies/deliverables/notifications, monitoramento, modulos/obras, modulos/empresas, and poc error/empty states proved; auditoria was dropped because the current route resolves to a dashboard snapshot instead of the target audit screen; broader module coverage still pending).
-9. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, visible KPI cards, backend contract coverage in `DashboardService`, and filtered dashboard coverage in `MonitoringService` are proved; broader observability coverage still pending).
+8. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, ctm/parcelas/:id, ctm/parcelas/:id/infraestrutura, 156, ctm/vistorias, ambiental, levantamentos, modulos/compliance, cartas, pgv/relatorio, integracoes logs/connectors, reurb projects/families/units/pendencies/deliverables/notifications, observatorio, poc, and monitoring error/empty states are partially covered; auditoria was dropped because the current route resolves to a dashboard snapshot instead of the target audit screen; broader module coverage still pending).
+9. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, visible KPI cards, backend contract coverage in `DashboardService`, filtered dashboard coverage in `MonitoringService`, and explicit dashboard error UI are covered; broader observability coverage still pending).
 
 ## Bloqueios atuais
 

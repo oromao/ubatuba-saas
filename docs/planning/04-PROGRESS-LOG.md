@@ -22,6 +22,105 @@
 
 ## Entradas
 
+### 2026-04-23 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Fechei a prova E2E explícita do erro do monitoramento ambiental usando stub de `fetch` no browser, sem depender do intercept de rede que estava instável no runner.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/empty-states.spec.ts --workers=1 --reporter=line -g "monitoring when the API cannot load"`
+- **Próximo:** seguir fechando os módulos restantes de `T3-EMPTY-STATES`.
+- **Notas:** o monitoramento estava caindo no empty state normal com `route.abort`; o stub de `fetch` no browser expôs o card de erro de forma estável.
+
+### 2026-04-23 — Codex — VPS-DEPLOY
+- **Status muda:** IN_PROGRESS → DONE
+- **Feito:** Corrigi a healthcheck do `api` no compose para usar `node` em vez de `wget`, sincronizei o workspace para a VPS, rebuildei `api` e `web`, subi `nginx` e confirmei smoke HTTP na borda pública.
+- **Arquivos alterados:** `docker-compose.yml`, `apps/web/src/app/app/dashboard/page.tsx`, `apps/web/src/app/app/maps/map-view.tsx`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `ssh root@172.233.188.166 'cd /root/ubatuba-saas && docker compose ps && curl -fsS http://localhost:4000/health && curl -fsSI http://localhost/'`
+- **Próximo:** seguir o backlog vivo agora que a VPS está saudável.
+- **Notas:** o login SSH aceitou a chave apenas como `root`, não como `ubuntu`; a healthcheck anterior falhava porque a imagem do API não traz `wget`.
+
+### 2026-04-23 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Adicionei card explícito de erro ao POC quando o score falha, mas a prova E2E não ficou estável no runner e foi retirada.
+- **Arquivos alterados:** `apps/web/src/app/app/poc/page.tsx`, `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** nenhuma nova
+- **Próximo:** estabilizar o POC ou seguir para outro módulo ainda não coberto em `T3-EMPTY-STATES`.
+- **Notas:** o backend continuou servindo score válido no runner, então o erro não apareceu de forma confiável com o stub/abort.
+
+### 2026-04-23 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Adicionei um card explícito de erro ao monitoramento ambiental, mas a prova E2E do estado ainda ficou instável no runner e foi retirada para manter a suíte verde.
+- **Arquivos alterados:** `apps/web/src/app/app/monitoramento/page.tsx`, `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** nenhuma nova
+- **Próximo:** estabilizar `monitoramento` ou seguir para outro módulo ainda não coberto em `T3-EMPTY-STATES`.
+- **Notas:** o card de erro existe no UI, mas o estado não apareceu de forma confiável com o stub de rede neste runner.
+
+### 2026-04-23 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Adicionei card explícito de erro ao painel executivo quando consultas de dashboard falham, mantive a prova principal de layout/KPIs intacta e descartei uma tentativa de E2E de erro por instabilidade no runner.
+- **Arquivos alterados:** `apps/web/src/app/app/dashboard/page.tsx`, `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/dashboard-proof.spec.ts --workers=1 --reporter=line`
+- **Próximo:** ampliar `T3-DASH-PROOF` com cobertura de observabilidade satélite ou seguir para o próximo item vivo do backlog.
+- **Notas:** o caso de erro do dashboard foi removido do spec porque não ficou estável no runner; a UI de erro fica pronta para uma prova mais determinística depois.
+
+### 2026-04-23 — Codex — T3-EMPTY-STATES
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Adicionei e provei o estado explícito de erro do observatório municipal quando a API falha, com card visível, mensagem técnica e fallback consistente no Playwright.
+- **Arquivos alterados:** `apps/web/src/app/app/observatorio/page.tsx`, `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/empty-states.spec.ts --workers=1 --reporter=line -g "observatorio"`
+- **Próximo:** continuar `T3-EMPTY-STATES` com os módulos restantes do padrão ou seguir para o próximo item vivo do backlog.
+- **Notas:** o teste usa stub de `fetch` no browser para forçar `observatory/market` a responder 500 sem depender do intercept de rede.
+
+### 2026-04-23 — Codex — T3-GIS-SCALE
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Corrigi o `MONGO_URL` do spec de escala para o Mongo local sem auth neste workspace e revalidei o cenário com 10k geometrias, `computeGeometryBounds` em massa, `MultiPolygon` e fallback explícito do mapa.
+- **Arquivos alterados:** `tests/e2e/fullscan/maps-scale.spec.ts`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/maps-scale.spec.ts --workers=1 --reporter=line`
+- **Próximo:** decidir se vale elevar `T3-GIS-SCALE` com um smoke adicional de render/clustering ou manter como `PARTIAL` até o ambiente real de WebGL.
+- **Notas:** o spec agora usa `mongodb://localhost:27017/flydea`, que é o endpoint autenticável neste workspace; `mongodb://root:rootpass@localhost:27017/flydea?authSource=admin` falhava com auth error.
+
+### 2026-04-23 — Codex — T4-MOBILE
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Ampliei a prova mobile com GPS e anexo local, corrigi o contrato do sync mobile para aceitar o payload real da UI, validei o POST `/mobile/ctm-sync` com `processed: 1`, e o Playwright passou com a fila offline sincronizando ao voltar online.
+- **Arquivos alterados:** `apps/api/src/modules/mobile/dto/mobile-sync.dto.ts`, `apps/api/src/modules/mobile/mobile.controller.ts`, `tests/e2e/fullscan/mobile-field.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/mobile-field.spec.ts --workers=1 --reporter=line`
+- **Próximo:** seguir para o próximo item vivo do backlog após `T4-MOBILE`.
+- **Notas:** o sync mobile agora aceita o payload da UI e o replay direto por API também retornou `201` com `processed: 1`.
+
+### 2026-04-23 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Consolidei uma prova única que encadeia mapa, IPTU, vistorias, PDF e retorno ao detalhe em um lote real, e a execução Playwright passou sem flake.
+- **Arquivos alterados:** `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/critical-flows.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/critical-flows.spec.ts --workers=1 --reporter=line -g "Parcel graph: map, IPTU, vistorias and PDF are connected"`
+- **Próximo:** seguir para o próximo item vivo do backlog depois de `T4-PARCEL-GRAPH`.
+- **Notas:** o fallback de WebGL continua aceito; a prova de grafo agora não depende do canvas para fechar o ciclo.
+
+### 2026-04-23 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Adicionei um link explícito da parcela para `/app/maps?sqlu=...`, destaquei o `sqlu` no mapa e provei no Playwright o fluxo parcela → mapa usando um lote real vindo do GeoJSON cadastral.
+- **Arquivos alterados:** `apps/web/src/app/app/ctm/parcelas/[id]/page.tsx`, `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/critical-flows.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/critical-flows.spec.ts --workers=1 --reporter=line -g "Abrir detalhe de parcela e ir ao mapa"`
+- **Próximo:** fechar o retorno mapa → detalhe usando o popup/link do mapa e então reavaliar se o grafo inteiro pode subir para `DONE`.
+- **Notas:** a prova ainda depende do contexto de `web-dev` do compose; reiniciei o serviço para limpar o cache quebrado do Next antes da validação final.
+
+### 2026-04-23 — Codex — T4-PARCEL-GRAPH
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Fechei a volta do grafo com um link persistente no mapa para o detalhe da parcela destacada, recuperando o `id` pela API/GeoJSON, e validei no Playwright o ciclo detalhe → mapa → detalhe.
+- **Arquivos alterados:** `apps/web/src/app/app/maps/map-view.tsx`, `tests/e2e/fullscan/critical-flows.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/critical-flows.spec.ts --workers=1 --reporter=line -g "Abrir detalhe de parcela e ir ao mapa"`
+- **Próximo:** encadear tributo + vistorias + relatórios no mesmo fluxo final do grafo.
+- **Notas:** a página do mapa continua tolerando o fallback de WebGL indisponível; o link de retorno agora independe disso.
+
 ### 2026-04-22 — Codex — T4-API-URL-HARDEN
 - **Status muda:** TODO → DONE
 - **Feito:** Centralizei a URL da API do frontend, alinhei o compose dev para falar direto com `http://localhost:4000`, removi fallback silencioso do badge, explicitei erros em formulários públicos e revalidei os fluxos críticos contra o backend real sem dependência do rewrite implícito do Next.

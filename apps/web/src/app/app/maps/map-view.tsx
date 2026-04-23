@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { useSearchParams } from "next/navigation";
 import type { FeatureCollection, Geometry, Feature } from "geojson";
 import { MapToolbar } from "../../../components/maps/MapToolbar";
 import { MapLayers } from "../../../components/maps/MapLayers";
@@ -67,6 +68,7 @@ const buildPaint = (layer: LayerItem, type: "circle" | "line" | "fill") => {
 };
 
 export default function DynamicMapViewer() {
+  const searchParams = useSearchParams();
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapConfig = useRef<maplibregl.Map | null>(null);
   const drawControl = useRef<DrawControlHandle | null>(null);
@@ -74,6 +76,7 @@ export default function DynamicMapViewer() {
   const [mapReady, setMapReady] = useState(false);
   const [geoserverUnavailable, setGeoserverUnavailable] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
+  const [highlightedParcel, setHighlightedParcel] = useState<{ sqlu?: string; id?: string } | null>(null);
 
   const { activeLayers, drawMode, setActiveLayers, addFeature, clearFeatures, features } = useMapStore();
 
@@ -87,6 +90,7 @@ export default function DynamicMapViewer() {
     [orderedLayers],
   );
   const projectId = typeof window !== "undefined" ? window.localStorage.getItem("projectId") ?? undefined : undefined;
+  const highlightedSqlu = searchParams?.get("sqlu") ?? "";
   if (typeof window !== "undefined") {
     const probeWindow = window as Window & {
       __gisScaleProbe?: {
@@ -98,6 +102,33 @@ export default function DynamicMapViewer() {
     };
     probeWindow.__gisScaleProbe ??= { fitBoundsCalls: 0, lastBounds: null, builtInParcelFeatures: 0, builtInParcelSourceReady: false };
   }
+
+  useEffect(() => {
+    let mounted = true;
+    if (!highlightedSqlu) {
+      setHighlightedParcel(null);
+      return;
+    }
+
+    apiFetch<Array<{ _id?: string; id?: string; sqlu?: string }>>(`/ctm/parcels?sqlu=${encodeURIComponent(highlightedSqlu)}`)
+      .then((parcels) => {
+        if (!mounted) return;
+        const match = parcels?.find((parcel) => parcel.sqlu === highlightedSqlu || parcel._id || parcel.id);
+        const parcelId = match?._id || match?.id;
+        if (parcelId) {
+          setHighlightedParcel({ sqlu: highlightedSqlu, id: parcelId });
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setHighlightedParcel(null);
+        }
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [highlightedSqlu]);
 
   useEffect(() => {
     let mounted = true;
@@ -398,6 +429,24 @@ export default function DynamicMapViewer() {
 
     loadGeoJson()
       .then((geojson) => {
+        const features = Array.isArray((geojson as { features?: Array<{ id?: string; properties?: Record<string, unknown> | null }> })?.features)
+          ? (geojson as { features: Array<{ id?: string; properties?: Record<string, unknown> | null }> }).features
+          : [];
+        if (highlightedSqlu) {
+          const match = features.find((feature) => {
+            const props = feature.properties ?? {};
+            const sqlu = typeof props.sqlu === "string" ? props.sqlu : "";
+            return sqlu === highlightedSqlu;
+          });
+          const props = match?.properties ?? {};
+          const parcelId = typeof props._id === "string" ? props._id : typeof props.id === "string" ? props.id : typeof match?.id === "string" ? match.id : undefined;
+          if (match) {
+            setHighlightedParcel({ sqlu: highlightedSqlu, id: parcelId });
+          }
+        } else {
+          setHighlightedParcel(null);
+        }
+
         if (!map.getSource(SOURCE)) {
           map.addSource(SOURCE, {
             type: "geojson",
@@ -478,6 +527,7 @@ export default function DynamicMapViewer() {
           const feat = e.features?.[0];
           if (!feat) return;
           const p = feat.properties ?? {};
+          const parcelId = typeof p._id === "string" ? p._id : typeof p.id === "string" ? p.id : "";
           const html = `
             <div style="font-family:sans-serif;line-height:1.5">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
@@ -494,6 +544,7 @@ export default function DynamicMapViewer() {
                 <b>Área:</b> <span>${p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—"}</span>
                 <b>Zoneamento:</b> <span>${p.zoneamento ?? "—"}</span>
               </div>
+              ${parcelId ? `<div style="margin-top:8px"><a href="/app/ctm/parcelas/${parcelId}" style="display:inline-block;padding:6px 10px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-size:11px">Abrir detalhe</a></div>` : ""}
             </div>`;
           new maplibregl.Popup({ closeButton: true, maxWidth: "280px" })
             .setLngLat(e.lngLat)
@@ -524,7 +575,7 @@ export default function DynamicMapViewer() {
         // eslint-disable-next-line no-console
         console.warn("[Mapa] Falha ao carregar parcels built-in", error);
       });
-  }, [mapReady, projectId]);
+  }, [highlightedSqlu, mapReady, projectId]);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#e5e7eb] font-sans">
@@ -550,6 +601,25 @@ export default function DynamicMapViewer() {
       {geoserverUnavailable && (
         <div className="pointer-events-none absolute left-4 top-4 z-[10] max-w-sm rounded-xl border border-amber-200 bg-amber-50/95 px-4 py-3 text-xs text-amber-900 shadow-lg backdrop-blur">
           Infraestrutura GIS indisponivel nesta sessao. O mapa segue com basemap e camadas nao dependentes de GeoServer.
+        </div>
+      )}
+
+      {highlightedSqlu && (
+        <div className="pointer-events-none absolute left-1/2 top-4 z-[10] -translate-x-1/2 rounded-full border border-teal-200 bg-white/95 px-4 py-2 text-xs text-teal-900 shadow-lg backdrop-blur">
+          Lote destacado: {highlightedSqlu}
+        </div>
+      )}
+
+      {highlightedParcel?.id && highlightedParcel.sqlu && (
+        <div className="absolute left-4 top-16 z-[11] max-w-xs rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
+          <div className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Parcela destacada</div>
+          <div className="mt-1 text-sm font-semibold text-slate-900">{highlightedParcel.sqlu}</div>
+          <a
+            href={`/app/ctm/parcelas/${highlightedParcel.id}`}
+            className="mt-3 inline-flex h-9 items-center justify-center rounded-sm border border-outline bg-surface-elevated px-3 text-sm font-semibold text-on-surface transition-all duration-fast ease-standard hover:bg-cloud"
+          >
+            Abrir detalhe
+          </a>
         </div>
       )}
 
