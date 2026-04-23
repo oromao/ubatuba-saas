@@ -106,4 +106,28 @@ test.describe('T3-DASH-PROOF: dashboard proof', () => {
     await expect(page.getByText('Portal institucional')).toBeVisible();
     await expect(page.getByText('RBAC e tenant')).toBeVisible();
   });
+
+  test('renders an explicit error state when dashboard data cannot load', async ({ page }) => {
+    await ensureSession(page);
+    await page.addInitScript(() => {
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = async (input, init) => {
+        const url = typeof input === "string" ? input : input.url;
+        if (url.includes("/dashboard/kpis") || url.includes("/dashboard/executive") || url.includes("/dashboard/layout")) {
+          return new Response(JSON.stringify({ detail: "dashboard down" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+        return originalFetch(input, init);
+      };
+    });
+
+    await page.goto('/app/dashboard', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.getByRole('heading', { name: 'Painel Executivo' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByText('Painel indisponível')).toBeVisible();
+    await expect(page.getByText(/dashboard down \(500\)/i)).toBeVisible();
+  });
+
 });

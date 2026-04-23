@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-23 — Codex — T3-DASH-PROOF
+- **Status muda:** PARTIAL → PARTIAL
+- **Feito:** Fechei a prova E2E do estado de erro do painel executivo usando stub de `fetch` no browser; agora o dashboard mostra card explícito de indisponibilidade e a prova ficou estável.
+- **Arquivos alterados:** `tests/e2e/fullscan/dashboard-proof.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/dashboard-proof.spec.ts --workers=1 --reporter=line -g "dashboard data cannot load"`
+- **Próximo:** ampliar a observabilidade satélite / KPIs ou decidir se a frente pode subir para `DONE`.
+- **Notas:** o estado de erro do dashboard estava flakeando; com `fetch` stub no browser o card aparece de forma estável.
+
 ### 2026-04-23 — Codex — T3-EMPTY-STATES
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Fechei a prova E2E explícita do erro do monitoramento ambiental usando stub de `fetch` no browser, sem depender do intercept de rede que estava instável no runner.

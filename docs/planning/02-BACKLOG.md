@@ -109,14 +109,14 @@
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** UX
 - **DoD:** Zero tela branca. Todo módulo tem empty state desenhado + error state com ação.
 - **Validação:** Testes de componente + smoke.
-- **Agente:** Codex (2026-04-21) — `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `ctm/parcelas/:id`, `ctm/parcelas/:id/infraestrutura`, `156`, `ctm/vistorias`, `ambiental`, `levantamentos`, `modulos/compliance`, `cartas`, `pgv/relatorio`, `integracoes`, `reurb`, `monitoramento`, `modulos/obras`, `modulos/empresas` e `poc` agora mostram error/empty state explícitos com fallback testado; `integracoes` ganhou também a prova de conectores vazios; `reurb` ganhou prova de famílias/unidades vazias, pendências/entregáveis vazios e notificações vazias com projeto ativo; `auditoria` foi removida da prova porque a rota abre snapshot de dashboard e não expõe a tela alvo de forma confiável; ainda faltam outros módulos do padrão.
+- **Agente:** Codex (2026-04-23) — `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `ctm/parcelas/:id`, `ctm/parcelas/:id/infraestrutura`, `156`, `ctm/vistorias`, `ambiental`, `levantamentos`, `modulos/compliance`, `cartas`, `pgv/relatorio`, `integracoes`, `reurb`, `observatorio` e `poc` agora mostram error/empty state explícitos com fallback testado; `monitoramento` recebeu card explícito de erro mas a prova E2E ainda não fechou; `integracoes` ganhou também a prova de conectores vazios; `reurb` ganhou prova de famílias/unidades vazias, pendências/entregáveis vazios e notificações vazias com projeto ativo; `auditoria` foi removida da prova porque a rota abre snapshot de dashboard e não expõe a tela alvo de forma confiável; ainda faltam outros módulos do padrão.
 
 ### T3-DASH-PROOF — Expandir prova do dashboard/observatório
 - **Status:** `PARTIAL`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend
 - **DoD:** KPIs estáveis, layout persistido, fonte de dados real e auditável.
 - **Validação:** Integração + smoke.
-- **Agente:** Codex (2026-04-21) — layout do dashboard persiste em reload, `/dashboard/kpis` e `/dashboard/executive` estão provados, os cards de KPI foram ligados ao payload real, os sinais de prontidão/satélites seguem auditáveis, `DashboardService` agora também tem prova unitária do contrato executivo, e `MonitoringService` ganhou prova de dashboard filtrado; ainda falta ampliar KPIs/observabilidade satélite.
+- **Agente:** Codex (2026-04-23) — layout do dashboard persiste em reload, `/dashboard/kpis` e `/dashboard/executive` estão provados, os cards de KPI foram ligados ao payload real, os sinais de prontidão/satélites seguem auditáveis, `DashboardService` agora também tem prova unitária do contrato executivo, `MonitoringService` ganhou prova de dashboard filtrado, o painel recebeu card explícito de erro e a prova E2E desse estado agora também está estável; ainda falta ampliar KPIs/observabilidade satélite e decidir se a frente sobe para `DONE`.
 
 ### T3-IMPORT-PROOF — Provar importações (GeoJSON / CSV / base externa)
 - **Status:** `DONE`
@@ -137,17 +137,20 @@
 ## 🟩 T4 — Differentiation / leadership
 
 ### T4-PARCEL-GRAPH — Conectar parcela-mapa-tributo-vistoria como grafo único de verdade
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** Product / Domain / Backend
 - **DoD:** Uma parcela é a fonte única de verdade em todos os módulos. Abrir no mapa → clicar → ver tributo + vistorias + relatórios sem inconsistência.
 - **Validação:** E2E cross-module.
 - **Agente:** Codex (2026-04-21) — `CTM Parcels Service` agora prova o resumo da parcela com vínculo cadastral e de infraestrutura/logradouro no mesmo retorno; o browser também provou detalhe da parcela com histórico, aba de vistorias vinculadas, aba IPTU com fallback explícito ou dados tributários, e exportação PDF da parcela, mas ainda falta fechar o caminho cross-module completo mapa → parcela → tributo → vistoria → relatórios.
+- **Agente:** Codex (2026-04-23) — adicionei link explícito da parcela para o mapa, passei a destacar `sqlu` na rota `/app/maps?sqlu=...`, e provei no Playwright o fluxo parcela → mapa a partir de um lote real consumido do GeoJSON cadastral; ainda falta testar o retorno mapa → detalhe com o popup/link do mapa.
+- **Agente:** Codex (2026-04-23) — completei a volta parcela → mapa → detalhe no Playwright usando o link persistente do mapa e a recuperação do lote destacado pela API/GeoJSON; depois consolidei a prova única `Parcel graph: map, IPTU, vistorias and PDF are connected`, que fecha o ciclo com tributo, vistorias, PDF e retorno ao detalhe no mesmo fluxo.
 
 ### T4-MOBILE — Melhorar prova de operação mobile/campo
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** MEDIUM · **Esforço:** L · **Tipo:** Mobile / UX
 - **DoD:** Fluxos de vistoria usáveis em campo com conectividade instável.
 - **Agente:** Codex (2026-04-21) — a página `/mobile` agora tem prova browser de carregamento com controles offline-first e a fila local; o fluxo completo de captura offline, persistência em IndexedDB e sincronização de volta ao backend também foi provado, mas ainda falta ampliar o cenário de campo com evidência real de GPS/anexo.
+- **Agente:** Codex (2026-04-23) — ampliei a prova com captura de GPS e anexo local, corrigi o contrato do sync mobile para aceitar o payload real da UI, validadi o POST `/mobile/ctm-sync` com `processed: 1`, e o Playwright final passou com a fila offline sincronizando ao voltar online.
 
 ### T4-AUDIT — Elevar confiança de auditoria e isolamento multi-tenant
 - **Status:** `DONE`

@@ -35,6 +35,7 @@
 - `api` ficou saudável após a correção da healthcheck do compose.
 - `nginx` está ativo na borda pública e o smoke HTTP retorna `200 OK`.
 - `T3-EMPTY-STATES` ganhou mais uma prova estável: o erro do `monitoramento` agora sobe via `fetch` stub no browser, não só por empty state.
+- `T3-DASH-PROOF` também ganhou prova estável do card de erro do painel executivo, com backend simulado no browser.
 
 ## Próximos na fila (ordem de ataque)
 
