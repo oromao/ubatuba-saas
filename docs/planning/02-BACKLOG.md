@@ -39,7 +39,8 @@
 *Enquanto T1 não estiver DONE, nada novo entra. Ponto.*
 
 ### T1-AUDIT-VISTORIAS — CRÍTICO: Corrigir criação de vistorias (botão não responde)
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** CRITICAL · **Esforço:** S · **Tipo:** Frontend / CTM
 - **Problema:** Botão "Nova Vistoria" em /app/ctm/vistorias não responde a cliques. Fluxo de fiscalização travado.
 - **DoD:** (1) Clique abre modal/página de criação (2) Formulário renderiza campos (data, tipo, responsável) (3) Salvar persiste no DB

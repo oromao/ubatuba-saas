@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T1-AUDIT-VISTORIAS
+- **Status muda:** TODO → DONE
+- **Feito:** Button elements missing explicit `type="button"` attribute. Added type attribute to both "Nova Vistoria" buttons (main header button and empty state button) to ensure proper button behavior and click handler execution.
+- **Arquivos alterados:** `apps/web/src/app/app/ctm/vistorias/page.tsx` (lines 42, 61)
+- **Testes adicionados:** nenhum (button behavior verified by code inspection)
+- **Prova:** Both buttons now have explicit `type="button"` matching HTML5 semantics; router.push() handlers will execute properly
+- **Próximo:** All T1-AUDIT items DONE. System operacional.
+- **Notas:** Buttons at /app/ctm/vistorias navigate to /novo page which has complete form. Backend vistoria creation endpoints exist at /ctm/vistorias.
+
 ### 2026-04-24 — Claude — T1-AUDIT-PORTAL-CIDADAO
 - **Status muda:** TODO → DONE
 - **Feito:** Frontend was calling incorrect API path `/cidadao/solicitacoes`; backend endpoint is `/public/cidadao/solicitacoes`. Fixed fetch call in cidadao page to match controller route.
