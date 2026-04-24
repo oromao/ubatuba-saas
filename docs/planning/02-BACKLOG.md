@@ -192,7 +192,8 @@
 - **Origem:** Auditoria 2026-04-24 (P2.1)
 
 ### T3-AUDIT-CONFIRMATIONS — Implementar modais de confirmação em ações críticas
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / UX
 - **Problema:** Botões como "Deferir" (Alvará) ou "Deletar" não mostram confirmação. Risco de ações irreversíveis.
 - **DoD:** (1) Modal aparece antes de ação irreversível (2) Opções "Cancelar" e "Confirmar" (3) Mensagem clara
@@ -200,7 +201,8 @@
 - **Origem:** Auditoria 2026-04-24 (P2.2)
 
 ### T3-AUDIT-TENANT-VALIDATION — Adicionar validação de Tenant no login
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / Auth
 - **Problema:** Campo Tenant pré-preenchido. Não há forma de testar multi-tenancy.
 - **DoD:** (1) Campo editável (2) Validação: tenant inexistente → erro claro (3) Login com tenant diferente funciona
@@ -208,7 +210,8 @@
 - **Origem:** Auditoria 2026-04-24 (P2.3)
 
 ### T3-AUDIT-CONSOLE-ERROR — Corrigir erro de console Hidrografia/Mapbox
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** LOW · **Esforço:** S · **Tipo:** Frontend / GIS
 - **Problema:** Console: "Cannot read properties of undefined (reading 'getSource')". Falha ao carregar camada.
 - **DoD:** (1) Sem erros no console (2) Camada carrega sem exception (3) Validação de object antes de property access
