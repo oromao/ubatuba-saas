@@ -128,7 +128,8 @@
 - **Origem:** Auditoria 2026-04-24 (Bugs #7, #9)
 
 ### T2-AUDIT-FEEDBACK-VISUAL — Implementar feedback visual em filtros
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / UX
 - **Problema:** Filtro "Demo" em CTM Parcelas clica mas não mostra spinner/mensagem. Usuário não sabe se funcionou.
 - **DoD:** (1) Ao clicar, spinner/badge aparece (2) Dados carregam ou "nenhum resultado" (3) Feedback claro

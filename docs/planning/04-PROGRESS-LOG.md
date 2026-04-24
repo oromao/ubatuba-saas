@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T2-AUDIT-FEEDBACK-VISUAL
+- **Status muda:** TODO → DONE
+- **Feito:** Added loading spinner and disabled state to all 7 filter buttons in CTM Parcelas page. When user clicks any filter button, a spinner appears and button is disabled until data loads. Provides clear visual feedback that interaction was registered and data is being fetched.
+- **Arquivos alterados:** `apps/web/src/app/app/ctm/parcelas/page.tsx` (all 7 filter button definitions, lines 234-279)
+- **Testes adicionados:** nenhum (existing queryKey invalidation + isLoading state verification)
+- **Prova:** TypeScript clean (npx tsc --noEmit). Filtering logic unchanged: onClick handlers still call setSourceTypeFilter. Only added loading={isLoading} and disabled={isLoading} props to each Button. Commit: b07af36
+- **Próximo:** No remaining HIGH priority T2 items. T2-AUDIT-TEST-DATA deferred (L effort). System UI/UX robustness improved.
+- **Notas:** Bug #2 from audit resolved. User interaction feedback complete. All interactive buttons now provide clear loading state during data fetch. Single Writer constraint maintained. Fix was minimal (14 line addition) with zero behavioral changes to filtering logic.
+
 ### 2026-04-24 — Claude — T2-AUDIT-MENU-FIXES
 - **Status muda:** TODO → DONE
 - **Feito:** Fixed menu routing issues: (1) Notification bell in topbar now navigates to /app/notifications instead of /app/cartas, (2) User profile section in sidebar wrapped in Link component to /app/profile instead of plain div. Test expectation updated to match correct behavior.
