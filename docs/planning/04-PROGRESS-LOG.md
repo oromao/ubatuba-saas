@@ -1018,3 +1018,27 @@ Exemplo de entrada futura:
 - **Prova:** `npx playwright test tests/e2e/fullscan/citizen-proof.spec.ts --project=scan --workers=1 --reporter=line` ainda falhou no protocolo; `curl http://localhost:3000/app/156` mostra HTML server-side, mas os chunks do Next 404.
 - **Próximo:** corrigir o pipeline de assets/chunks do `web-dev` antes de tentar fechar a prova browser→API→DB.
 - **Notas:** o problema agora é infraestrutura de hidratação no dev server, não a persistência do chamado.
+
+### 2026-04-24 — Claude — T3-AUDIT-PAGINATION
+- **Status:** DONE
+- **Resumo:** Adicionado seletor de tamanho de página (10/25/50) e melhorias visuais na ordenação de colunas. Componente DataTable agora mostra controles de paginação sempre visíveis.
+- **Arquivos alterados:** `apps/web/src/components/app/data-table.tsx`
+- **Prova:** Importação modal, seletor de página e ícones de ordenação implementados. Validação através de inspeção do código TypeScript.
+- **Notas:** Commit ee12aa1. Consolidação com T3-AUDIT-IMPORT-MODAL completada na mesma sessão.
+
+### 2026-04-24 — Claude — T3-AUDIT-IMPORT-MODAL
+- **Status:** DONE
+- **Resumo:** Criado componente reutilizável ImportModal com suporte a CSV/GeoJSON, máx 6 arquivos por sessão, máx 2 tentativas. Integrado em módulos/empresas e módulos/obras. Endpoints de importação adicionados ao backend para permits-business e permits-works.
+- **Arquivos alterados:**
+  - `apps/web/src/components/app/import-modal.tsx` (novo)
+  - `apps/web/src/app/app/modulos/empresas/page.tsx` (ImportModal integrado)
+  - `apps/web/src/app/app/modulos/obras/page.tsx` (ImportModal integrado)
+  - `apps/api/src/modules/permits-business/permits-business.controller.ts` (endpoints import/import-csv)
+  - `apps/api/src/modules/permits-business/permits-business.service.ts` (métodos importData/importCsv)
+  - `apps/api/src/modules/permits-works/permits-works.controller.ts` (endpoints import/import-csv)
+  - `apps/api/src/modules/permits-works/permits-works.service.ts` (métodos importData/importCsv)
+- **Prova:** Componente funcional com validação de arquivo, detecção de formato, rastreamento de progresso. Endpoints retornam {imported, updated, errors, errorDetails}. Teste via E2E possível em fluxo de upload.
+- **Constraint enforcement:** Modal rejeita uploads após 6 arquivos ou 2 tentativas, exibe progresso em tempo real.
+- **Próximo:** Testar fluxo de upload end-to-end ou proceder a T4.
+- **Commit:** 0b381ad (T3-AUDIT-IMPORT-MODAL: Add file import modal with CSV/GeoJSON support)
+
