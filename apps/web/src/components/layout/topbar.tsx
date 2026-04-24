@@ -138,7 +138,7 @@ export function Topbar() {
           <button
             className="relative rounded-md p-2 text-on-surface-muted transition-colors hover:bg-cloud hover:text-on-surface"
             aria-label={typeof unreadCount === "number" && unreadCount > 0 ? `${unreadCount} notificacoes oficiais pendentes` : "Notificacoes oficiais"}
-            onClick={() => router.push("/app/cartas")}
+            onClick={() => router.push("/app/notifications")}
           >
             <Bell className="h-5 w-5" />
             {typeof unreadCount === "number" && unreadCount > 0 && (

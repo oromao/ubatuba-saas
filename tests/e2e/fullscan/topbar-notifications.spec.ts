@@ -84,7 +84,7 @@ async function seedUnreadLetters(accessToken: string, tenantId: string) {
 }
 
 test.describe('topbar notifications badge', () => {
-  test('shows a real pending-count badge and opens cartas', async ({ page }) => {
+  test('shows a real pending-count badge and opens notifications', async ({ page }) => {
     const session = await ensureSession(page);
     const count = await seedUnreadLetters(session.accessToken, session.tenantId);
     const expectedBadge = String(count > 9 ? '9+' : count);
@@ -94,6 +94,6 @@ test.describe('topbar notifications badge', () => {
     await expect(button.locator('span.absolute')).toHaveText(expectedBadge);
 
     await button.click();
-    await expect(page).toHaveURL(/\/app\/cartas/);
+    await expect(page).toHaveURL(/\/app\/notifications/);
   });
 });
