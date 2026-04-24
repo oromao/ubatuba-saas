@@ -44,7 +44,8 @@ test.describe('admin routing audit', () => {
       '/app/relatorios',
       '/app/aprovacao',
       '/app/certidoes',
-      '/app/notifications'
+      '/app/notifications',
+      '/app/ctm/equipamentos',
     ];
 
     for (const href of routesToTest) {

@@ -79,7 +79,7 @@ export const navGroups: NavGroup[] = [
     title: "FISCALIZAÇÃO",
     items: [
       withDefaultRoles({ label: "Processos Digitais", href: "/app/processes", icon: FileCheck2, keywords: ["workflow", "alvara"] }),
-      withDefaultRoles({ label: "Notificações Oficiais", href: "/app/cartas", icon: Mail, keywords: ["notificacao", "pdf", "protocolo", "multa"] }),
+      { label: "Notificações Oficiais", href: "/app/notifications", icon: Mail, keywords: ["notificacao", "sistema", "avisos"], roles: ROLE_GROUPS.all },
       withDefaultRoles({ label: "Fila de Aprovacao", href: "/app/aprovacao", icon: CheckSquare, keywords: ["aprovacao", "validacao", "pendentes"] }),
     ],
   },

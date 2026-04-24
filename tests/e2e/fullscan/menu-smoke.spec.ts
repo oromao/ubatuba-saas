@@ -41,7 +41,7 @@ test.describe('menu smoke', () => {
     const menuRoutes = [
       '/app/ctm/parcelas',
       '/app/ctm/logradouros',
-      '/app/ctm/mobiliario',
+      '/app/ctm/equipamentos',
       '/app/ctm/vistorias',
       '/app/maps',
       '/app/dashboard',

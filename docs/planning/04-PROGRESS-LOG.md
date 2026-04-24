@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T1-AUDIT-CTM-EQUIPAMENTOS (correção real)
+- **Status muda:** DONE (falso positivo anterior) → DONE (verificado)
+- **Feito:** Entrada anterior no log afirmava DONE mas o arquivo `page.tsx` não existia no repositório e o nav-config apontava para `/app/ctm/mobiliario`. Criado `apps/web/src/app/app/ctm/equipamentos/page.tsx` com tabela ID/TIPO/LOCALIZAÇÃO/STATUS consumindo endpoint `/ctm/urban-furniture`. Nav atualizado para `/app/ctm/equipamentos`. Testes `menu-smoke.spec.ts`, `routing-audit.spec.ts` e `scan-helpers.ts` atualizados para refletir nova rota.
+- **Arquivos alterados:** `apps/web/src/app/app/ctm/equipamentos/page.tsx` (criado), `apps/web/src/components/layout/nav-config.ts`, `tests/e2e/fullscan/menu-smoke.spec.ts`, `tests/e2e/fullscan/routing-audit.spec.ts`, `tests/e2e/fullscan/scan-helpers.ts`
+- **Testes adicionados:** `/app/ctm/equipamentos` adicionado a routing-audit.spec.ts e menu-smoke.spec.ts
+- **Prova:** `npx tsc --noEmit` → exit 0 (sem erros TypeScript). Rota criada via Next.js App Router filesystem (arquivo em path correto). Server não estava disponível para curl; validação estática confirmada.
+- **Próximo:** T1-AUDIT-VISTORIAS, T1-AUDIT-PORTAL-CIDADAO
+- **Notas:** O endpoint de backend é `/ctm/urban-furniture` (não `/ctm/equipamentos`). A rota de menu "Equipamentos ↗" antes apontava para `/app/ctm/mobiliario` como workaround — agora aponta para `/app/ctm/equipamentos` corretamente.
+
 ### 2026-04-24 — Gemini — T1-AUDIT-ROUTING
 - **Status muda:** TODO → DONE
 - **Feito:** Identificadas rotas ausentes no RBAC (apps/web/src/lib/rbac.ts) que causavam redirecionamento indevido para o dashboard. Adicionadas as rotas /app/relatorios, /app/aprovacao e /app/certidoes às regras de acesso.

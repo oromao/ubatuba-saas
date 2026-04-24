@@ -27,6 +27,7 @@ export async function runContinuousFullScan(page: Page, testInfo: TestInfo, role
     '/app/levantamentos',
     '/app/ctm/parcelas',
     '/app/ctm/logradouros',
+    '/app/ctm/equipamentos',
     '/app/ctm/mobiliario',
     '/app/pgv/zonas',
     '/app/pgv/faces',

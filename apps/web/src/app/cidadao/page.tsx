@@ -62,7 +62,7 @@ export default function CidadaoPage() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/cidadao/solicitacoes`, {
+      const res = await fetch(`${API_URL}/public/cidadao/solicitacoes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
