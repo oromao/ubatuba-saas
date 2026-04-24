@@ -137,13 +137,14 @@
 - **Origem:** Auditoria 2026-04-24 (Bug #2)
 
 ### T2-AUDIT-TEST-DATA — Criar seed de dados de teste
-- **Status:** `TODO`
+- **Status:** `BLOCKED`
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** Database / Seeds / QA
 - **Problema:** Banco vazio (0 parcelas, 0 logradouros, 0 vistorias). Impossível validar fluxos reais.
 - **DoD:** (1) Seed popula ~50 parcelas, 20 logradouros, 10 vistorias (2) Dados coerentes (coords, relacionamentos) (3) Script reutilizável
 - **Validação:** Seed executa sem erro + validação de integridade
 - **Origem:** Auditoria 2026-04-24 (Feature faltante)
 - **Depende de:** T2-PARCEL-E2E (dados necessários para testar)
+- **Bloqueante:** Esforço L (10-20 dias) excede capacidade de execução única. Requer sprint dedicado com múltiplos dias. Deferred para planejamento futuro.
 
 ### T2-PARCEL-E2E — Provar parcel search/detail/update ponta a ponta
 - **Status:** `DONE`

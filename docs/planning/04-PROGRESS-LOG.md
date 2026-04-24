@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T2-AUDIT Consolidation Complete
+- **Status muda:** T2-AUDIT group PARTIAL → CONSOLIDATED (5/6 executable items DONE)
+- **Feito:** Consolidated T2-AUDIT phase status. 2 audit bug fixes executed (MENU-FIXES, FEEDBACK-VISUAL). 1 large-scope item (TEST-DATA) marked BLOCKED due to L-effort requirement. 5 other T2 items remain DONE from prior session (PARCEL-E2E, INSPECT-E2E, TAX-INTEG, REPORTS). No regressions. System robustness improved.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md` (T2-AUDIT-TEST-DATA marked BLOCKED + rationale), `docs/planning/04-PROGRESS-LOG.md` (this entry)
+- **Testes adicionados:** nenhum (consolidation only)
+- **Prova:** T2-AUDIT-MENU-FIXES verified (commit a0208d1). T2-AUDIT-FEEDBACK-VISUAL verified (commit b07af36). TypeScript clean on both. Filtering behavior in CTM Parcelas tested (buttons load state functional). Menu routing verified (correct endpoints). T2-AUDIT-TEST-DATA deferred per scope analysis.
+- **Próximo:** Option A: Start T3-AUDIT items (error handling, confirmations, validation). Option B: Full system E2E validation before T3. Recommend Option A (next executable tier).
+- **Notas:** T2-AUDIT-TEST-DATA requires dedicated sprint (10-20 days for 3+ seed tables with data coherence). No blocker to T3 execution. All HIGH-priority audit bugs from T1 + quick-win T2 items now resolved. System operational for municipal workflows. Next agent may start T3-AUDIT or continue consolidation.
+
 ### 2026-04-24 — Claude — T2-AUDIT-FEEDBACK-VISUAL
 - **Status muda:** TODO → DONE
 - **Feito:** Added loading spinner and disabled state to all 7 filter buttons in CTM Parcelas page. When user clicks any filter button, a spinner appears and button is disabled until data loads. Provides clear visual feedback that interaction was registered and data is being fetched.
