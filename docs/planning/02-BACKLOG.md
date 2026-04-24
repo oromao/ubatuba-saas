@@ -40,6 +40,20 @@
 - **Validation:** TypeScript clean, all files intact, no regressions, 4/4 items verified
 - **Outcome:** System operationally ready for T2 robustness phase
 
+**T2-AUDIT CONSOLIDATION STATUS: ✅ DONE (2026-04-24)**
+- T2-AUDIT-MENU-FIXES ✅ DONE (notification bell + user profile nav corrected)
+- T2-AUDIT-FEEDBACK-VISUAL ✅ DONE (filter loading spinners implemented)
+- **Validation:** TypeScript clean, menu routing verified, visual feedback on data fetch
+- **Outcome:** Menu navigation stable, user feedback clear on async operations
+
+**T3-AUDIT QUICK-WINS CONSOLIDATION STATUS: ✅ DONE (2026-04-24)**
+- T3-AUDIT-CONFIRMATIONS ✅ DONE (confirmation dialogs on destructive actions)
+- T3-AUDIT-TENANT-VALIDATION ✅ DONE (editable tenant field, clear error messages)
+- T3-AUDIT-CONSOLE-ERROR ✅ DONE (fixed undefined map.getSource() error)
+- T3-AUDIT-EMPTY-MESSAGES ✅ DONE (enhanced empty states with icon and CTA support)
+- **Validation:** TypeScript clean, 4/4 quick-wins implemented, UX maturity improved
+- **Outcome:** Multi-tenant support enabled, error handling clarified, destructive actions confirmed, empty states guideful
+
 ---
 
 ## 🟥 T1 — Survival / credibility blockers
@@ -235,7 +249,8 @@
 - **Origem:** Auditoria 2026-04-24 (P3.2)
 
 ### T3-AUDIT-EMPTY-MESSAGES — Melhorar mensagens de estado vazio
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** LOW · **Esforço:** S · **Tipo:** Frontend / UX
 - **Problema:** "Nenhum X encontrado" sem CTA. Não incentiva ação.
 - **DoD:** (1) Mensagem + botão CTA (2) Ícone ilustrativo (3) Dica de próximos passos
