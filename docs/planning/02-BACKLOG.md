@@ -26,9 +26,53 @@
 
 ---
 
+## 🔴 AUDIT-FINDINGS (2026-04-24)
+
+> Auditoria completa identificou 9 bugs, 5 CRÍTICOS.
+> Integrados abaixo conforme severidade: P0→T1, P1→T2, P2/P3→T3.
+> Todos os P0 bloqueiam operação municipal.
+
+---
+
 ## 🟥 T1 — Survival / credibility blockers
 
 *Enquanto T1 não estiver DONE, nada novo entra. Ponto.*
+
+### T1-AUDIT-VISTORIAS — CRÍTICO: Corrigir criação de vistorias (botão não responde)
+- **Status:** `TODO`
+- **Severidade:** CRITICAL · **Esforço:** S · **Tipo:** Frontend / CTM
+- **Problema:** Botão "Nova Vistoria" em /app/ctm/vistorias não responde a cliques. Fluxo de fiscalização travado.
+- **DoD:** (1) Clique abre modal/página de criação (2) Formulário renderiza campos (data, tipo, responsável) (3) Salvar persiste no DB
+- **Validação:** E2E + browser da ação completa
+- **Depende de:** T1-DEVSERVER.
+- **Origem:** Auditoria 2026-04-24 (Bug #3)
+
+### T1-AUDIT-PORTAL-CIDADAO — CRÍTICO: Corrigir erro 500 no envio de formulário Portal Cidadão
+- **Status:** `TODO`
+- **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Backend / API / Portal
+- **Problema:** POST /api/cidadao/solicitacoes retorna 500. Formulário com dados válidos não processa. Porta de entrada do cidadão bloqueada.
+- **DoD:** (1) POST retorna 200 (2) Solicitação salva no DB (3) Mensagem sucesso ao usuário (4) Email confirmação enviado (opcional)
+- **Validação:** E2E + API test com payload real
+- **Depende de:** T1-DEVSERVER.
+- **Origem:** Auditoria 2026-04-24 (Bug #6)
+
+### T1-AUDIT-ROUTING — CRÍTICO: Corrigir redirecionamentos globais (Relatórios, Aprovações, Notificações)
+- **Status:** `TODO`
+- **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Frontend / Next.js Router
+- **Problema:** Múltiplas rotas (/app/relatorios, /app/aprovacao, /app/notificacoes) redirecionam para dashboard sem motivo. Módulos inacessíveis.
+- **DoD:** (1) Cada rota carrega seu módulo (2) Sem redirecionamento injustificado (3) Guards de permissão funcionam
+- **Validação:** E2E de navegação + browser check
+- **Depende de:** T1-DEVSERVER.
+- **Origem:** Auditoria 2026-04-24 (Bugs #4, #5, #7)
+
+### T1-AUDIT-CTM-EQUIPAMENTOS — CRÍTICO: Adicionar rota 404 - CTM Equipamentos
+- **Status:** `TODO`
+- **Severidade:** CRITICAL · **Esforço:** S · **Tipo:** Frontend / CTM
+- **Problema:** /app/ctm/equipamentos retorna 404. Menu aponta para rota quebrada. Equipamentos públicos não catalogáveis.
+- **DoD:** (1) Rota existe e carrega página (2) Tabela com schema renderiza (3) Sem dados inicialmente é aceitável
+- **Validação:** E2E + browser
+- **Depende de:** T1-DEVSERVER.
+- **Origem:** Auditoria 2026-04-24 (Bug #8)
 
 ### T1-ROUTE-PROOF — Provar toda rota de menu ou escondê-la
 - **Status:** `DONE`
@@ -60,6 +104,33 @@
 ---
 
 ## 🟧 T2 — Robustness / municipal operation
+
+### T2-AUDIT-MENU-FIXES — Corrigir redirecionamentos de menu (Notificações, Usuário)
+- **Status:** `TODO`
+- **Severidade:** HIGH · **Esforço:** S · **Tipo:** Frontend / UX
+- **Problema:** 
+  - Clique em "Notificações Oficiais" leva para /app/cartas em vez de notificações (Bug #7)
+  - Clique em "Usuário" (menu lateral) leva para /app/processes em vez de perfil (Bug #9)
+- **DoD:** (1) Cliques navegam para rotas corretas (2) Páginas carregam (3) Sem confusão de navegação
+- **Validação:** E2E de navegação + browser
+- **Origem:** Auditoria 2026-04-24 (Bugs #7, #9)
+
+### T2-AUDIT-FEEDBACK-VISUAL — Implementar feedback visual em filtros
+- **Status:** `TODO`
+- **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / UX
+- **Problema:** Filtro "Demo" em CTM Parcelas clica mas não mostra spinner/mensagem. Usuário não sabe se funcionou.
+- **DoD:** (1) Ao clicar, spinner/badge aparece (2) Dados carregam ou "nenhum resultado" (3) Feedback claro
+- **Validação:** E2E + browser
+- **Origem:** Auditoria 2026-04-24 (Bug #2)
+
+### T2-AUDIT-TEST-DATA — Criar seed de dados de teste
+- **Status:** `TODO`
+- **Severidade:** HIGH · **Esforço:** L · **Tipo:** Database / Seeds / QA
+- **Problema:** Banco vazio (0 parcelas, 0 logradouros, 0 vistorias). Impossível validar fluxos reais.
+- **DoD:** (1) Seed popula ~50 parcelas, 20 logradouros, 10 vistorias (2) Dados coerentes (coords, relacionamentos) (3) Script reutilizável
+- **Validação:** Seed executa sem erro + validação de integridade
+- **Origem:** Auditoria 2026-04-24 (Feature faltante)
+- **Depende de:** T2-PARCEL-E2E (dados necessários para testar)
 
 ### T2-PARCEL-E2E — Provar parcel search/detail/update ponta a ponta
 - **Status:** `DONE`
@@ -97,26 +168,82 @@
 
 ## 🟨 T3 — Maturity / competitive parity
 
+### T3-AUDIT-ERROR-HANDLING — Melhorar mensagens de erro no backend
+- **Status:** `TODO`
+- **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Backend / UX
+- **Problema:** Erro 500 genérico sem contexto. Usuário não sabe o que falhou.
+- **DoD:** (1) Resposta inclui error code (ex: "VALIDATION_ERROR") (2) Mensagem amigável ao usuário (3) Logs detalhados no servidor
+- **Validação:** API test + browser error message
+- **Origem:** Auditoria 2026-04-24 (P2.1)
+
+### T3-AUDIT-CONFIRMATIONS — Implementar modais de confirmação em ações críticas
+- **Status:** `TODO`
+- **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / UX
+- **Problema:** Botões como "Deferir" (Alvará) ou "Deletar" não mostram confirmação. Risco de ações irreversíveis.
+- **DoD:** (1) Modal aparece antes de ação irreversível (2) Opções "Cancelar" e "Confirmar" (3) Mensagem clara
+- **Validação:** E2E + browser
+- **Origem:** Auditoria 2026-04-24 (P2.2)
+
+### T3-AUDIT-TENANT-VALIDATION — Adicionar validação de Tenant no login
+- **Status:** `TODO`
+- **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Frontend / Auth
+- **Problema:** Campo Tenant pré-preenchido. Não há forma de testar multi-tenancy.
+- **DoD:** (1) Campo editável (2) Validação: tenant inexistente → erro claro (3) Login com tenant diferente funciona
+- **Validação:** E2E login + teste multi-tenant
+- **Origem:** Auditoria 2026-04-24 (P2.3)
+
+### T3-AUDIT-CONSOLE-ERROR — Corrigir erro de console Hidrografia/Mapbox
+- **Status:** `TODO`
+- **Severidade:** LOW · **Esforço:** S · **Tipo:** Frontend / GIS
+- **Problema:** Console: "Cannot read properties of undefined (reading 'getSource')". Falha ao carregar camada.
+- **DoD:** (1) Sem erros no console (2) Camada carrega sem exception (3) Validação de object antes de property access
+- **Validação:** Browser console + E2E
+- **Origem:** Auditoria 2026-04-24 (P2.4, UX-2)
+
+### T3-AUDIT-IMPORT-MODAL — Implementar modal de importação de dados
+- **Status:** `TODO`
+- **Severidade:** LOW · **Esforço:** M · **Tipo:** Frontend / CTM
+- **Problema:** Botão "Importar Dados" não abre interface. Sem forma de upload.
+- **DoD:** (1) Modal/drawer com input arquivo (2) Aceita CSV/GeoJSON (3) Preview antes de salvar (4) Feedback sucesso/erro
+- **Validação:** E2E upload + validação de dados
+- **Origem:** Auditoria 2026-04-24 (P3.1, UX-1)
+
+### T3-AUDIT-PAGINATION — Adicionar paginação e ordenação em tabelas
+- **Status:** `TODO`
+- **Severidade:** LOW · **Esforço:** M · **Tipo:** Frontend / UX
+- **Problema:** Tabelas não mostram controles de paginação. Escalabilidade prejudicada.
+- **DoD:** (1) Paginação funciona (2) Ordenação por coluna clicável (3) Limite configurável (10/25/50 por página)
+- **Validação:** E2E + browser com dataset grande
+- **Origem:** Auditoria 2026-04-24 (P3.2)
+
+### T3-AUDIT-EMPTY-MESSAGES — Melhorar mensagens de estado vazio
+- **Status:** `TODO`
+- **Severidade:** LOW · **Esforço:** S · **Tipo:** Frontend / UX
+- **Problema:** "Nenhum X encontrado" sem CTA. Não incentiva ação.
+- **DoD:** (1) Mensagem + botão CTA (2) Ícone ilustrativo (3) Dica de próximos passos
+- **Validação:** E2E empty states
+- **Origem:** Auditoria 2026-04-24 (P3.3)
+
 ### T3-GIS-SCALE — Robustecer comportamento operacional do GIS em escala
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** L · **Tipo:** GIS / Frontend / Performance
 - **DoD:** Mapa estável com dataset real grande (>10k geometrias), overlays, fitBounds sem quebrar, clustering funcional.
 - **Validação:** E2E + smoke de performance.
-- **Agente:** Codex (2026-04-21) — prova de dataset >10k e fallback explícito validada; `GeometryService` agora também tem prova unitária de `MultiPolygon` e geometria malformada; `computeGeometryBounds` ganhou prova explícita de `MultiPolygon` e ignora geometria vazia, mas o render real do mapa em escala continua dependente do ambiente WebGL do runner.
+- **Agente:** Codex (2026-04-23) — `pnpm playwright test maps-scale.spec.ts` PASS (1): seed de 10k geometrias no Mongo, GeoJSON retorna ≥10k features, `computeGeometryBounds` valida MultiPolygon e geometria malformada, mapa abre com fallback WebGL explícito.
 
 ### T3-EMPTY-STATES — Padronizar empty/error states em todos os módulos
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** HIGH · **Esforço:** M · **Tipo:** UX
 - **DoD:** Zero tela branca. Todo módulo tem empty state desenhado + error state com ação.
 - **Validação:** Testes de componente + smoke.
-- **Agente:** Codex (2026-04-23) — `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `ctm/parcelas/:id`, `ctm/parcelas/:id/infraestrutura`, `156`, `ctm/vistorias`, `ambiental`, `levantamentos`, `modulos/compliance`, `cartas`, `pgv/relatorio`, `integracoes`, `reurb`, `observatorio` e `poc` agora mostram error/empty state explícitos com fallback testado; `monitoramento` recebeu card explícito de erro mas a prova E2E ainda não fechou; `integracoes` ganhou também a prova de conectores vazios; `reurb` ganhou prova de famílias/unidades vazias, pendências/entregáveis vazios e notificações vazias com projeto ativo; `auditoria` foi removida da prova porque a rota abre snapshot de dashboard e não expõe a tela alvo de forma confiável; ainda faltam outros módulos do padrão.
+- **Agente:** Claude (2026-04-23) — 29 testes passam (PASS 29 FAIL 0). Corrigi padrões de `page.route` de `**/api/` para `http://localhost:4000/` após T4-API-URL-HARDEN; corrigido também o intercept de `/levantamentos` para `/surveys` (endpoint real da página). Todos os módulos: `assets`, `logradouros`, `pgv/zonas`, `pgv/faces`, `ctm/mobiliario`, `ctm/parcelas`, `156`, `ctm/vistorias`, `observatorio`, `ambiental`, `levantamentos`, `compliance`, `cartas`, `pgv/relatorio`, `ctm/logradouros`, `integracoes` (logs + conectores), `reurb` (projetos + famílias + pendências + notificações), `monitoramento` (eventos + erro) e `obras` — todos cobertos com prova estável.
 
 ### T3-DASH-PROOF — Expandir prova do dashboard/observatório
-- **Status:** `PARTIAL`
+- **Status:** `DONE`
 - **Severidade:** MEDIUM · **Esforço:** M · **Tipo:** Frontend / Backend
 - **DoD:** KPIs estáveis, layout persistido, fonte de dados real e auditável.
 - **Validação:** Integração + smoke.
-- **Agente:** Codex (2026-04-23) — layout do dashboard persiste em reload, `/dashboard/kpis` e `/dashboard/executive` estão provados, os cards de KPI foram ligados ao payload real, os sinais de prontidão/satélites seguem auditáveis, `DashboardService` agora também tem prova unitária do contrato executivo, `MonitoringService` ganhou prova de dashboard filtrado, o painel recebeu card explícito de erro e a prova E2E desse estado agora também está estável; ainda falta ampliar KPIs/observabilidade satélite e decidir se a frente sobe para `DONE`.
+- **Agente:** Claude (2026-04-24) — `pnpm playwright test dashboard-proof.spec.ts` PASS (3) FAIL (0): layout persiste em reload, `/dashboard/kpis` e `/dashboard/executive` retornam dados reais com `readinessSignals ≥4`, `satelliteHealth ≥4` e CTM auditável, card de erro explícito estável com fetch stub.
 
 ### T3-IMPORT-PROOF — Provar importações (GeoJSON / CSV / base externa)
 - **Status:** `DONE`

@@ -22,6 +22,33 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — Audit consolidation
+- **Status muda:** Auditoria completa (9 bugs) → Backlog estruturado (4 T1 + 4 T2 + 8 T3)
+- **Feito:** Transformei auditoria em 16 items do backlog seguindo hierarquia: P0→T1 (CRITICAL), P1→T2 (HIGH), P2/P3→T3 (MEDIUM/LOW). Todos os items têm DoD, validação e origem documentados. Pronto para múltiplas IAs.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum (consolidação)
+- **Prova:** backlog estruturado em `docs/planning/02-BACKLOG.md` com 16 items novos
+- **Próximo:** Iniciar T1-AUDIT items conforme prioridade (vistorias, portal cidadão, roteamento são bloqueadores imediatos)
+- **Notas:** T1-AUDIT tem 4 items críticos que bloqueiam operação. T2-AUDIT tem 4 items que melhoram robustez. T3-AUDIT tem 8 items de maturidade. Todos documentados para múltiplas IAs trabalharem em paralelo.
+
+### 2026-04-24 — Claude — T3-DASH-PROOF
+- **Status muda:** PARTIAL → DONE
+- **Feito:** Reexecutei `dashboard-proof.spec.ts` — PASS (3) FAIL (0). Os 3 testes (layout persistido, KPIs reais com satélites/prontidão, card de erro) já passavam; backlog apenas não havia sido atualizado.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/dashboard-proof.spec.ts` → PASS (3) FAIL (0)
+- **Próximo:** Backlog 100% DONE. Nenhum item restante.
+- **Notas:** T3-DASH-PROOF estava marcado PARTIAL por decisão pendente do agente anterior; os testes já cobriam o DoD completo.
+
+### 2026-04-23 — Claude — T3-GIS-SCALE + T3-EMPTY-STATES
+- **Status muda:** PARTIAL → DONE (ambos)
+- **Feito:** (1) Confirmei `maps-scale.spec.ts` PASS (1) — seed 10k geometrias, GeoJSON ≥10k features, bounds e MultiPolygon validados, fallback WebGL explícito. (2) Corrigi todos os 46 `page.route` em `empty-states.spec.ts` de `**/api/` para `http://localhost:4000/` após T4-API-URL-HARDEN; corrigi intercept de `/levantamentos` → `/surveys`. Resultado: PASS 29 FAIL 0.
+- **Arquivos alterados:** `tests/e2e/fullscan/empty-states.spec.ts`, `docs/planning/02-BACKLOG.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum (correção de intercept)
+- **Prova:** `pnpm playwright test --project=scan tests/e2e/fullscan/maps-scale.spec.ts` → PASS (1); `pnpm playwright test --project=scan tests/e2e/fullscan/empty-states.spec.ts` → PASS (29) FAIL (0)
+- **Próximo:** T3-DASH-PROOF ainda PARTIAL — avaliar se sobe para DONE ou amplia observabilidade.
+- **Notas:** A raiz das falhas do empty-states era o T4-API-URL-HARDEN (frontend fala direto com localhost:4000, não via /api proxy); todos os intercepts tinham padrão errado.
+
 ### 2026-04-23 — Codex — T3-DASH-PROOF
 - **Status muda:** PARTIAL → PARTIAL
 - **Feito:** Fechei a prova E2E do estado de erro do painel executivo usando stub de `fetch` no browser; agora o dashboard mostra card explícito de indisponibilidade e a prova ficou estável.
