@@ -11,7 +11,7 @@ import {
   type SortingState,
   type ColumnDef,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Search, X, Database } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -169,15 +169,25 @@ export function DataTable<T extends Record<string, unknown>>({
             {table.getRowModel().rows.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="py-12 text-center text-on-surface-muted">
-                  <div className="space-y-3">
-                    <p className="text-sm font-semibold text-on-surface">
-                      {globalFilter ? `Nenhum resultado para "${globalFilter}"` : emptyMessage}
-                    </p>
-                    {!globalFilter && (
-                      <p className="text-xs text-on-surface-muted">
-                        Verifique se existem dados cadastrados ou ajuste os filtros.
+                  <div className="flex flex-col items-center justify-center space-y-4">
+                    <div className="rounded-full bg-cloud p-3">
+                      <Database className="h-6 w-6 text-on-surface-muted" />
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-sm font-semibold text-on-surface">
+                        {globalFilter ? `Nenhum resultado para "${globalFilter}"` : emptyMessage}
                       </p>
-                    )}
+                      {!globalFilter && (
+                        <p className="text-xs text-on-surface-muted">
+                          {emptyAction ? "Comece criando seu primeiro registro." : "Verifique se existem dados cadastrados ou ajuste os filtros."}
+                        </p>
+                      )}
+                      {globalFilter && (
+                        <p className="text-xs text-on-surface-muted">
+                          Tente ajustar sua busca ou remova os filtros.
+                        </p>
+                      )}
+                    </div>
                     {globalFilter ? (
                       <Button variant="outline" size="sm" onClick={() => setGlobalFilter("")}>
                         Limpar busca
