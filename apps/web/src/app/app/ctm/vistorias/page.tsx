@@ -39,7 +39,7 @@ export default function VistoriasPage() {
           <h1 className="font-display text-2xl font-semibold text-on-surface">Vistorias</h1>
           <p className="text-sm text-on-surface-muted">Gestão de vistorias de campo.</p>
         </div>
-        <Button size="sm" onClick={() => router.push("/app/ctm/vistorias/novo")}>
+        <Button type="button" size="sm" onClick={() => router.push("/app/ctm/vistorias/novo")}>
           Nova Vistoria
         </Button>
       </div>
@@ -58,6 +58,7 @@ export default function VistoriasPage() {
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
             <p className="text-sm text-on-surface-muted">Nenhuma vistoria encontrada.</p>
             <Button
+              type="button"
               size="sm"
               variant="outline"
               className="mt-4"
