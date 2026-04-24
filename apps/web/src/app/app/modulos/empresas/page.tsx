@@ -9,6 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DataTable } from "@/components/app/data-table";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { ImportModal } from "@/components/app/import-modal";
+import { Upload } from "lucide-react";
+import { toast } from "sonner";
 
 type BusinessPermit = {
   _id: string;
@@ -32,6 +35,7 @@ export default function EmpresasPage() {
   const [cnpj, setCnpj] = useState("12.345.678/0001-99");
   const [activityDescription, setActivityDescription] = useState("Comercio local e servicos");
   const [confirmDeferOpen, setConfirmDeferOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
 
   const permitsQuery = useQuery({
     queryKey: ["permits-business"],
@@ -86,6 +90,32 @@ export default function EmpresasPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["permits-business"] }),
   });
 
+  const importMutation = useMutation({
+    mutationFn: async (payload: { file: File; content: string | Record<string, any> }) => {
+      const extension = payload.file.name.split(".").pop()?.toLowerCase();
+      const endpoint = extension === "csv" ? "/permits-business/import-csv" : "/permits-business/import";
+
+      const body = extension === "csv"
+        ? JSON.stringify({ csv: payload.content, fileName: payload.file.name, sourceType: "CSV_ENRICHMENT" })
+        : JSON.stringify({ data: payload.content, fileName: payload.file.name, sourceType: "DIRECT_IMPORT" });
+
+      return apiFetch<{ imported: number; updated: number; errors: number }>(endpoint, {
+        method: "POST",
+        body,
+      });
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["permits-business"] });
+      toast.success(`${data.imported + data.updated} registro(s) importado(s)`);
+      if (data.errors > 0) {
+        toast.warning(`${data.errors} erro(s) encontrados`);
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message ?? "Erro ao importar dados");
+    },
+  });
+
   return (
     <div className="mx-auto w-full max-w-7xl animate-fade-up px-4 py-6 md:px-8 motion-reduce:animate-none">
       <div className="flex items-center justify-between">
@@ -121,6 +151,15 @@ export default function EmpresasPage() {
             <Input value={activityDescription} onChange={(e) => setActivityDescription(e.target.value)} placeholder="Atividade" />
             <Button onClick={() => createMutation.mutate()} disabled={createMutation.isPending}>
               {createMutation.isPending ? "Abrindo..." : "Abrir solicitação"}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setImportModalOpen(true)}
+              className="flex items-center gap-2"
+              disabled={importMutation.isPending}
+            >
+              <Upload className="h-4 w-4" />
+              Importar dados
             </Button>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" onClick={() => respondRequirementMutation.mutate()} disabled={respondRequirementMutation.isPending || !selected}>
@@ -248,6 +287,21 @@ export default function EmpresasPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Import modal for bulk data loading */}
+      <ImportModal
+        open={importModalOpen}
+        onOpenChange={setImportModalOpen}
+        title="Importar Dados de Empresas"
+        description="Carregue dados de alvará de empresas via CSV ou GeoJSON."
+        supportedFormats={["csv", "geojson"]}
+        maxFiles={6}
+        maxAttempts={2}
+        onImport={async (file, content) => {
+          await importMutation.mutateAsync({ file, content });
+        }}
+        isLoading={importMutation.isPending}
+      />
     </div>
   );
 }

@@ -260,4 +260,92 @@ export class PermitsBusinessService {
       actorId,
     });
   }
+
+  async importData(tenantId: string, data: any, fileName: string, sourceType: string, actorId?: string) {
+    if (!data || !Array.isArray(data.features)) {
+      throw new BadRequestException('Dados GeoJSON inválidos. Esperado array de features.');
+    }
+
+    let imported = 0;
+    let updated = 0;
+    let errors = 0;
+    const errorDetails: Array<{ row: number; featureId?: string; message: string }> = [];
+
+    for (let i = 0; i < data.features.length; i++) {
+      const feature = data.features[i];
+      try {
+        const properties = feature.properties || {};
+        const companyName = properties.companyName || properties.company_name || `Importado ${i + 1}`;
+        const cnpj = properties.cnpj || properties.CNPJ || `${i}`;
+        const activityDescription = properties.activityDescription || properties.activity || 'Importado';
+
+        const existing = await this.repo.findOne(tenantId, { cnpj });
+        if (existing) {
+          await this.repo.update(tenantId, existing._id, { companyName, activityDescription });
+          updated++;
+        } else {
+          await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
+          imported++;
+        }
+      } catch (error) {
+        errors++;
+        errorDetails.push({
+          row: i + 1,
+          featureId: feature.properties?.id,
+          message: error instanceof Error ? error.message : 'Erro desconhecido',
+        });
+      }
+    }
+
+    return { imported, updated, errors, errorDetails };
+  }
+
+  async importCsv(tenantId: string, csv: string, fileName: string, sourceType: string, actorId?: string) {
+    const lines = csv.split('\n').filter((line) => line.trim());
+    if (lines.length < 2) {
+      throw new BadRequestException('CSV deve ter cabeçalho e pelo menos uma linha de dados');
+    }
+
+    const headers = lines[0].split(',').map((h) => h.trim().toLowerCase());
+    const cnpjIndex = headers.indexOf('cnpj');
+    const companyIndex = headers.indexOf('company') || headers.indexOf('companyname') || headers.indexOf('empresa');
+    const activityIndex = headers.indexOf('activity') || headers.indexOf('activitydescription');
+
+    if (cnpjIndex === -1) {
+      throw new BadRequestException('CSV deve ter coluna "cnpj"');
+    }
+
+    let imported = 0;
+    let updated = 0;
+    let errors = 0;
+    const errorDetails: Array<{ row: number; featureId?: string; message: string }> = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      try {
+        const values = lines[i].split(',').map((v) => v.trim());
+        const cnpj = values[cnpjIndex];
+        const companyName = companyIndex !== -1 ? values[companyIndex] : `Importado ${i}`;
+        const activityDescription = activityIndex !== -1 ? values[activityIndex] : 'Importado';
+
+        if (!cnpj) continue;
+
+        const existing = await this.repo.findOne(tenantId, { cnpj });
+        if (existing) {
+          await this.repo.update(tenantId, existing._id, { companyName, activityDescription });
+          updated++;
+        } else {
+          await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
+          imported++;
+        }
+      } catch (error) {
+        errors++;
+        errorDetails.push({
+          row: i + 1,
+          message: error instanceof Error ? error.message : 'Erro desconhecido',
+        });
+      }
+    }
+
+    return { imported, updated, errors, errorDetails };
+  }
 }

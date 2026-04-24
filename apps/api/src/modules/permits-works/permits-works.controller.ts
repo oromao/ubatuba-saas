@@ -87,4 +87,24 @@ export class PermitsWorksController {
   issue(@Req() req: { tenantId: string }, @Param('id') id: string) {
     return this.service.issueDecisionPdf(req.tenantId, id);
   }
+
+  @Post('import')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  importData(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Body() dto: { data: any; fileName: string; sourceType: string },
+  ) {
+    return this.service.importData(req.tenantId, dto.data, dto.fileName, dto.sourceType, req.user?.sub);
+  }
+
+  @Post('import-csv')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  importCsv(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Body() dto: { csv: string; fileName: string; sourceType: string },
+  ) {
+    return this.service.importCsv(req.tenantId, dto.csv, dto.fileName, dto.sourceType, req.user?.sub);
+  }
 }
