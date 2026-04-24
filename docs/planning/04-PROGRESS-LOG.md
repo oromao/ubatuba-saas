@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T1-AUDIT Consolidation Validation
+- **Status muda:** T1-AUDIT group TODO → DONE
+- **Feito:** Validated all 4 T1-AUDIT fixes with integrated checks: (1) Portal Cidadão endpoint path matches (/public/cidadao/solicitacoes), (2) Admin routing RBAC configured (relatorios, aprovacao routes in ROLE_GROUPS.ops), (3) CTM Equipamentos page file exists, (4) Vistorias buttons have type="button" attributes. TypeScript compilation clean. No file regressions. All fixes in place.
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md` (consolidation status added), `docs/planning/04-PROGRESS-LOG.md` (this entry)
+- **Testes adicionados:** nenhum (static validation only)
+- **Prova:** Manual verification: grep for endpoint paths, RBAC routes, page existence, button attributes; npx tsc --noEmit returned clean; git log shows 5 commits with fixes; file integrity check passed
+- **Próximo:** T2-AUDIT phase ready to begin
+- **Notas:** All 4 T1-AUDIT items DONE. System transitioned from "blocked" to "operationally ready". Ready for T2 robustness improvements.
+
 ### 2026-04-24 — Claude — T1-AUDIT-VISTORIAS
 - **Status muda:** TODO → DONE
 - **Feito:** Button elements missing explicit `type="button"` attribute. Added type attribute to both "Nova Vistoria" buttons (main header button and empty state button) to ensure proper button behavior and click handler execution.

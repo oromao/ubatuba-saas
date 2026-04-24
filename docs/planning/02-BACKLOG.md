@@ -32,6 +32,14 @@
 > Integrados abaixo conforme severidade: P0→T1, P1→T2, P2/P3→T3.
 > Todos os P0 bloqueiam operação municipal.
 
+**T1-AUDIT CONSOLIDATION STATUS: ✅ DONE (2026-04-24)**
+- T1-AUDIT-VISTORIAS ✅ DONE (button type attribute fix)
+- T1-AUDIT-PORTAL-CIDADAO ✅ DONE (API path fix)
+- T1-AUDIT-ROUTING ✅ DONE (RBAC routes added)
+- T1-AUDIT-CTM-EQUIPAMENTOS ✅ DONE (page created)
+- **Validation:** TypeScript clean, all files intact, no regressions, 4/4 items verified
+- **Outcome:** System operationally ready for T2 robustness phase
+
 ---
 
 ## 🟥 T1 — Survival / credibility blockers
