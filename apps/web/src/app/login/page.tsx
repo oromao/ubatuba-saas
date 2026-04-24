@@ -63,7 +63,14 @@ export default function LoginPage() {
       login(payload.data.accessToken, payload.data.refreshToken, payload.data.tenantId);
       return;
     }
-    toast.error("Credenciais invalidas. Verifique email, senha e tenant.");
+
+    // Extract error detail and provide specific message
+    const errorDetail = payload.detail ?? payload.message ?? "Erro ao fazer login";
+    const errorMessage = errorDetail.toLowerCase().includes("tenant")
+      ? `Tenant "${values.tenantSlug}" não existe. Verifique o nome do municipio.`
+      : `${errorDetail}. Verifique email, senha e tenant.`;
+
+    toast.error(errorMessage);
   };
 
   return (
@@ -158,18 +165,22 @@ export default function LoginPage() {
                   />
                 </div>
 
-                {!fixedTenant && (
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
-                      Municipio / Tenant
-                    </label>
-                    <Input
-                      placeholder="ubatuba"
-                      autoComplete="organization"
-                      {...register("tenantSlug")}
-                    />
-                  </div>
-                )}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate">
+                    Municipio / Tenant
+                  </label>
+                  <Input
+                    placeholder="ubatuba"
+                    autoComplete="organization"
+                    disabled={!!fixedTenant}
+                    {...register("tenantSlug")}
+                  />
+                  {fixedTenant && (
+                    <p className="text-xs text-slate">
+                      Tenant fixado pela configuração. Defina <code className="bg-cloud px-1 py-0.5 rounded text-[11px]">NEXT_PUBLIC_TENANT_SLUG</code> para alterá-lo.
+                    </p>
+                  )}
+                </div>
 
                 <Button type="submit" className="mt-2 w-full bg-ocean text-white" loading={isSubmitting}>
                   {isSubmitting ? "Entrando..." : "Entrar"}
