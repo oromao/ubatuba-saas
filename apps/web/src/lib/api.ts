@@ -67,14 +67,17 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}) {
 
   if (!res.ok) {
     let detail = "Erro ao carregar dados";
+    let code = "UNKNOWN_ERROR";
     let correlationId: string | null = null;
     try {
       const payload = (await res.clone().json()) as {
         detail?: string;
         title?: string;
+        code?: string;
         correlationId?: string;
       };
       detail = payload.detail ?? payload.title ?? detail;
+      code = payload.code ?? "UNKNOWN_ERROR";
       correlationId = payload.correlationId ?? null;
     } catch {
       /* ignore parse errors */
@@ -83,10 +86,11 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}) {
       path,
       method: options.method ?? "GET",
       status: res.status,
+      code,
       correlationId,
       detail,
     });
-    throw new Error(`${detail} (${res.status})`);
+    throw new Error(`${detail} (${code} - ${res.status}${correlationId ? ` - ref: ${correlationId}` : ""})`);
   }
   const payload = (await res.json()) as { data: T };
   return payload.data;

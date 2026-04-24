@@ -32,12 +32,26 @@ export class HttpExceptionFilter implements ExceptionFilter {
           : String((exceptionResponse as { message?: unknown }).message ?? 'Erro de validacao'))
         : exception instanceof HttpException
           ? exception.message
+          : exception instanceof Error
+          ? exception.message
           : 'Erro interno';
 
     const title =
       exception instanceof HttpException
         ? HttpStatus[status]
         : 'Internal Server Error';
+
+    // Extract error code if available, or generate from error type
+    let errorCode = 'INTERNAL_ERROR';
+    if (typeof exceptionResponse === 'object' && exceptionResponse !== null && 'error' in exceptionResponse) {
+      errorCode = String((exceptionResponse as { error?: unknown }).error);
+    } else if (exception instanceof HttpException) {
+      errorCode = `HTTP_${status}`;
+    } else if (exception instanceof SyntaxError) {
+      errorCode = 'PARSE_ERROR';
+    } else if (exception instanceof TypeError) {
+      errorCode = 'TYPE_ERROR';
+    }
 
     const payload = {
       status,
@@ -71,6 +85,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       title,
       status,
       detail,
+      code: errorCode,
       instance: request.url,
       correlationId: request.correlationId ?? null,
       ...extra,
