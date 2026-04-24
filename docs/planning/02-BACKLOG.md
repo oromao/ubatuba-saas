@@ -117,7 +117,8 @@
 ## 🟧 T2 — Robustness / municipal operation
 
 ### T2-AUDIT-MENU-FIXES — Corrigir redirecionamentos de menu (Notificações, Usuário)
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** HIGH · **Esforço:** S · **Tipo:** Frontend / UX
 - **Problema:** 
   - Clique em "Notificações Oficiais" leva para /app/cartas em vez de notificações (Bug #7)

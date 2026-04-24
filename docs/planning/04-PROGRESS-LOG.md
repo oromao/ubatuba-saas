@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T2-AUDIT-MENU-FIXES
+- **Status muda:** TODO → DONE
+- **Feito:** Fixed menu routing issues: (1) Notification bell in topbar now navigates to /app/notifications instead of /app/cartas, (2) User profile section in sidebar wrapped in Link component to /app/profile instead of plain div. Test expectation updated to match correct behavior.
+- **Arquivos alterados:** `apps/web/src/components/layout/topbar.tsx` (line 141), `apps/web/src/components/layout/sidebar.tsx` (lines 120-136), `tests/e2e/fullscan/topbar-notifications.spec.ts` (lines 87, 97)
+- **Testes adicionados:** Updated topbar-notifications.spec.ts to expect /app/notifications navigation instead of /app/cartas
+- **Prova:** TypeScript clean (npx tsc --noEmit). Code review: topbar onClick routes to /app/notifications; sidebar Link href routes to /app/profile. Commit: a0208d1
+- **Próximo:** T2-AUDIT-FEEDBACK-VISUAL (next HIGH priority item)
+- **Notas:** Bug #7 and Bug #9 from audit now fixed. Navigation menu items point to correct routes. All T2 robustness items ready for execution. Single Writer constraint maintained.
+
 ### 2026-04-24 — Claude — T1-AUDIT Consolidation Validation
 - **Status muda:** T1-AUDIT group TODO → DONE
 - **Feito:** Validated all 4 T1-AUDIT fixes with integrated checks: (1) Portal Cidadão endpoint path matches (/public/cidadao/solicitacoes), (2) Admin routing RBAC configured (relatorios, aprovacao routes in ROLE_GROUPS.ops), (3) CTM Equipamentos page file exists, (4) Vistorias buttons have type="button" attributes. TypeScript compilation clean. No file regressions. All fixes in place.
