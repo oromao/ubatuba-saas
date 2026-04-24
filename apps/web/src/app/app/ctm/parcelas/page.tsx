@@ -232,6 +232,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Todas
         </Button>
@@ -239,6 +241,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "DEMO" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("DEMO")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Demo
         </Button>
@@ -246,6 +250,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "OFFICIAL_IMPORT" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("OFFICIAL_IMPORT")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Oficial
         </Button>
@@ -253,6 +259,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "DEMO_EXTERNAL" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("DEMO_EXTERNAL")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Externo
         </Button>
@@ -260,6 +268,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "OFFICIAL_SAMPLE" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("OFFICIAL_SAMPLE")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           Amostra
         </Button>
@@ -267,6 +277,8 @@ export default function CtmParcelsPage() {
           variant={sourceTypeFilter === "GEOJSON" ? "primary" : "outline"}
           size="sm"
           onClick={() => setSourceTypeFilter("GEOJSON")}
+          loading={isLoading}
+          disabled={isLoading}
         >
           GeoJSON
         </Button>
@@ -274,6 +286,8 @@ export default function CtmParcelsPage() {
           variant={showOnlyOfficial ? "primary" : "outline"}
           size="sm"
           onClick={() => setShowOnlyOfficial(!showOnlyOfficial)}
+          loading={isLoading}
+          disabled={isLoading}
         >
           {showOnlyOfficial ? "Mostrar Todos" : "Apenas Oficiais"}
         </Button>
