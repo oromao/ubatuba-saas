@@ -183,7 +183,8 @@
 ## 🟨 T3 — Maturity / competitive parity
 
 ### T3-AUDIT-ERROR-HANDLING — Melhorar mensagens de erro no backend
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** MEDIUM · **Esforço:** S · **Tipo:** Backend / UX
 - **Problema:** Erro 500 genérico sem contexto. Usuário não sabe o que falhou.
 - **DoD:** (1) Resposta inclui error code (ex: "VALIDATION_ERROR") (2) Mensagem amigável ao usuário (3) Logs detalhados no servidor

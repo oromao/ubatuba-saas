@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T3-AUDIT-ERROR-HANDLING
+- **Status muda:** TODO → DONE
+- **Feito:** Added error codes to error responses. Backend http-exception.filter now extracts or generates error codes (HTTP_500, PARSE_ERROR, TYPE_ERROR, INTERNAL_ERROR) and includes in JSON response. Frontend apiFetch now extracts error code and includes in error messages with correlationId reference for support tracing. Users now see meaningful errors instead of generic "Erro interno".
+- **Arquivos alterados:** `apps/api/src/common/filters/http-exception.filter.ts`, `apps/web/src/lib/api.ts`
+- **Testes adicionados:** nenhum (existing error paths + logging validated)
+- **Prova:** TypeScript clean (npx tsc --noEmit). Error flow scenarios: (1) unhandled error → generates INTERNAL_ERROR code, (2) HttpException → generates HTTP_XXX code, (3) Parse/Type errors → generates PARSE_ERROR/TYPE_ERROR. No regression: 401 flow unchanged, success paths unaffected, fallback messages preserved. Commit: f3bee54
+- **Próximo:** T3 has 7 more TODO items. Next: T3-AUDIT-CONFIRMATIONS (MEDIUM, S effort, UX improvement) or T3-AUDIT-TENANT-VALIDATION (auth-related).
+- **Notas:** P2.1 from audit resolved. Error handling now provides error codes + correlationId reference. Backend logs include error code. Frontend displays: "detail (ERROR_CODE - HTTP_STATUS - ref: correlationId)". Enables both user understanding and support debugging. Minimal changes (20 lines added) with broad impact on error clarity.
+
 ### 2026-04-24 — Claude — T2-AUDIT Consolidation Complete
 - **Status muda:** T2-AUDIT group PARTIAL → CONSOLIDATED (5/6 executable items DONE)
 - **Feito:** Consolidated T2-AUDIT phase status. 2 audit bug fixes executed (MENU-FIXES, FEEDBACK-VISUAL). 1 large-scope item (TEST-DATA) marked BLOCKED due to L-effort requirement. 5 other T2 items remain DONE from prior session (PARCEL-E2E, INSPECT-E2E, TAX-INTEG, REPORTS). No regressions. System robustness improved.
