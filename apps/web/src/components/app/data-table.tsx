@@ -16,6 +16,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Column<T> = {
   key: keyof T;
@@ -145,18 +152,19 @@ export function DataTable<T extends Record<string, unknown>>({
                   return (
                     <TableHead
                       key={header.id}
-                      className="cursor-pointer select-none whitespace-nowrap"
+                      className="cursor-pointer select-none whitespace-nowrap hover:bg-cloud/30 transition-colors"
                       onClick={header.column.getToggleSortingHandler()}
                       aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : "none"}
+                      title="Click to sort"
                     >
-                      <span className="inline-flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1.5 font-semibold">
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {sorted === "asc" ? (
-                          <ArrowUp className="h-3 w-3" />
+                          <ArrowUp className="h-4 w-4 text-on-surface" />
                         ) : sorted === "desc" ? (
-                          <ArrowDown className="h-3 w-3" />
+                          <ArrowDown className="h-4 w-4 text-on-surface" />
                         ) : (
-                          <ArrowUpDown className="h-3 w-3 opacity-30" />
+                          <ArrowUpDown className="h-4 w-4 opacity-40 hover:opacity-70" />
                         )}
                       </span>
                     </TableHead>
@@ -217,13 +225,37 @@ export function DataTable<T extends Record<string, unknown>>({
         </Table>
       </div>
 
-      {table.getPageCount() > 1 && (
-        <div className="flex flex-col gap-3 text-sm text-on-surface-muted sm:flex-row sm:items-center sm:justify-between">
+      {/* Pagination and page size controls */}
+      <div className="flex flex-col gap-3 text-sm text-on-surface-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
           <span>
             Pagina {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
             {" — "}
             {filteredCount} de {data.length} registros
           </span>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          {/* Page size selector */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-on-surface-muted">Itens por página:</span>
+            <Select
+              value={String(table.getState().pagination.pageSize)}
+              onValueChange={(value) => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="h-8 w-20 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="25">25</SelectItem>
+                <SelectItem value="50">50</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Pagination buttons */}
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
@@ -231,6 +263,7 @@ export function DataTable<T extends Record<string, unknown>>({
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
               aria-label="Pagina anterior"
+              className="h-8 w-8"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -240,12 +273,13 @@ export function DataTable<T extends Record<string, unknown>>({
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
               aria-label="Proxima pagina"
+              className="h-8 w-8"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
