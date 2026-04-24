@@ -1,0 +1,6 @@
+[   10006ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[   10007ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[   92192ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[   92194ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[   93244ms] [ERROR] WebSocket connection to 'wss://openclaw.labspaulo.site/' failed: Error during WebSocket handshake: Unexpected response code: 502 @ https://openclaw.labspaulo.site/assets/index-DIfSzHeM.js:1
+[   94958ms] [ERROR] WebSocket connection to 'wss://openclaw.labspaulo.site/' failed: Error during WebSocket handshake: Unexpected response code: 502 @ https://openclaw.labspaulo.site/assets/index-DIfSzHeM.js:1

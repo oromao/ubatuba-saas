@@ -63,6 +63,36 @@ let NotificationsLettersRepository = class NotificationsLettersRepository {
             .sort({ createdAt: -1 })
             .exec();
     }
+    async countUnreadLetters(tenantId, projectId) {
+        const [result] = await this.batchModel.aggregate([
+            {
+                $match: {
+                    tenantId: (0, object_id_1.asObjectId)(tenantId),
+                    projectId: (0, object_id_1.asObjectId)(projectId),
+                },
+            },
+            {
+                $project: {
+                    pendingLetters: {
+                        $size: {
+                            $filter: {
+                                input: '$letters',
+                                as: 'letter',
+                                cond: { $eq: ['$$letter.status', 'GERADA'] },
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    count: { $sum: '$pendingLetters' },
+                },
+            },
+        ]);
+        return result?.count ?? 0;
+    }
     findBatchById(tenantId, projectId, batchId) {
         return this.batchModel
             .findOne({

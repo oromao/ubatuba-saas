@@ -22,7 +22,7 @@ type PocScore = {
 };
 
 export default function PocPage() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["poc-score"],
     queryFn: () => apiFetch<PocScore>("/poc/score"),
     refetchInterval: 30_000,
@@ -43,7 +43,13 @@ export default function PocPage() {
           <CardDescription>Resultado consolidado do endpoint `/poc/score`.</CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
+          {error ? (
+            <div className="rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">
+              <p className="font-semibold">Conformidade indisponível</p>
+              <p className="mt-1">Não foi possível carregar o score da prova de conceito no momento.</p>
+              <p className="mt-2 text-xs text-rose-800">{error instanceof Error ? error.message : "Falha inesperada ao carregar o score."}</p>
+            </div>
+          ) : isLoading ? (
             <p className="text-sm text-on-surface-muted">Carregando score...</p>
           ) : data ? (
             <div className="space-y-2">

@@ -22,9 +22,9 @@ export declare class LayersController {
     }): Promise<{
         imported: number;
         errors: number;
-        errorDetails: {
+        errorDetails: Array<{
             layer: string;
             message: string;
-        }[];
+        }>;
     }>;
 }

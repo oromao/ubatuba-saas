@@ -5,7 +5,7 @@ import { expect, test } from '@playwright/test';
 import { computeGeometryBounds } from '../../../apps/web/src/lib/gis-bounds.js';
 
 const API_URL = process.env.API_URL || 'http://localhost:4000';
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://root:rootpass@localhost:27017/flydea?authSource=admin';
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/flydea';
 const storageDir = path.resolve(process.cwd(), 'storage');
 const rolesPath = path.resolve(storageDir, 'roles.json');
 

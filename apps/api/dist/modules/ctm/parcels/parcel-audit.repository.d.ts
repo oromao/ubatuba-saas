@@ -13,4 +13,20 @@ export declare class ParcelAuditRepository {
     }> & {
         __v: number;
     })[]>;
+    listAll(tenantId: string, filters: {
+        parcelId?: string;
+        actorId?: string;
+        action?: string;
+        limit?: number;
+        offset?: number;
+    }): Promise<(import("mongoose").FlattenMaps<ParcelAuditLogDocument> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    })[]>;
+    countAll(tenantId: string, filters: {
+        parcelId?: string;
+        actorId?: string;
+        action?: string;
+    }): Promise<number>;
 }

@@ -1,0 +1,34 @@
+Você está no repo: /Users/paulo/Documents/ubatuba-saas
+
+TASK: T1-AUDIT-VISTORIAS
+
+
+REGRAS OBRIGATÓRIAS:
+- Leia 02-BACKLOG.md, 08-AUDIT-FINDINGS-SUMMARY.md, 09-MULTIAGENT-HANDOFF.md e 04-PROGRESS-LOG.md.
+- Trabalhe somente na task designada.
+- Não mexa em arquivos fora do escopo sem evidência forte.
+- Não refatore amplo.
+- Não invente sucesso.
+- Não faça loop: se falhar 2 vezes com o mesmo erro, registre causa provável e mude abordagem.
+- Sempre rode validação objetiva.
+- Atualize 04-PROGRESS-LOG.md no final.
+- Faça commit pequeno e claro.
+- Saída final: problema, causa raiz, arquivos alterados, validação, risco residual, commit.
+
+
+MISSÃO:
+
+Corrija o fluxo de Vistorias onde o botão não clica/não executa ação.
+Use 09-MULTIAGENT-HANDOFF.md seção Claude e backlog correspondente.
+Objetivo: fiscal consegue iniciar/criar vistoria pelo fluxo principal.
+Valide no browser ou teste E2E focado.
+
+
+CRITÉRIO DE SUCESSO:
+- Bug corrigido de verdade.
+- Teste/validação passou.
+- Sem falso positivo.
+- Sem loop.
+- Commit feito com prefixo [T1-AUDIT-VISTORIAS].
+
+COMECE AGORA.

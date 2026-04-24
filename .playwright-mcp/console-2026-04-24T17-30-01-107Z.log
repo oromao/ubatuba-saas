@@ -1,0 +1,3 @@
+[    2649ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[    2649ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://openclaw.labspaulo.site/chat?session=main:0
+[    2674ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ https://openclaw.labspaulo.site/__openclaw/control-ui-config.json:0

@@ -36,6 +36,7 @@ export declare class NotificationsLettersRepository {
     }> & {
         __v: number;
     })[]>;
+    countUnreadLetters(tenantId: string, projectId: string): Promise<any>;
     findBatchById(tenantId: string, projectId: string, batchId: string): Promise<(import("mongoose").Document<unknown, {}, LetterBatchDocument, {}, {}> & LetterBatch & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

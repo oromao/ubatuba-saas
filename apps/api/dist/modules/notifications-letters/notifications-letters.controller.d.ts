@@ -44,6 +44,11 @@ export declare class NotificationsLettersController {
     }> & {
         __v: number;
     })[]>;
+    unreadCount(req: {
+        tenantId: string;
+    }, projectId?: string): Promise<{
+        count: any;
+    }>;
     getBatch(req: {
         tenantId: string;
     }, projectId: string | undefined, id: string): Promise<import("mongoose").Document<unknown, {}, import("./letter-batch.schema").LetterBatchDocument, {}, {}> & import("./letter-batch.schema").LetterBatch & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{

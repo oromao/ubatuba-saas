@@ -23,13 +23,25 @@ let Citizen156Repository = class Citizen156Repository {
         this.model = model;
     }
     list(tenantId) {
-        return this.model.find({ tenantId: (0, object_id_1.asObjectId)(tenantId) }).sort({ createdAt: -1 }).exec();
+        return this.model
+            .find({
+            $or: [{ tenantId }, { tenantId: (0, object_id_1.asObjectId)(tenantId) }],
+        })
+            .sort({ createdAt: -1 })
+            .exec();
     }
     findById(tenantId, id) {
-        return this.model.findOne({ _id: id, tenantId: (0, object_id_1.asObjectId)(tenantId) }).exec();
+        return this.model.findOne({
+            _id: id,
+            $or: [{ tenantId }, { tenantId: (0, object_id_1.asObjectId)(tenantId) }],
+        }).exec();
     }
     create(data) {
-        return this.model.create(data);
+        return this.model.create({
+            ...data,
+            tenantId: data.tenantId ? (0, object_id_1.asObjectId)(String(data.tenantId)) : data.tenantId,
+            projectId: data.projectId ? (0, object_id_1.asObjectId)(String(data.projectId)) : data.projectId,
+        });
     }
     save(doc) {
         return doc.save();

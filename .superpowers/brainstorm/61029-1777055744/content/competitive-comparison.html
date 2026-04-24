@@ -1,0 +1,75 @@
+<h2>GeoPixel vs FlyDea — Posicionamento Competitivo</h2>
+<p class="subtitle">Análise de gaps críticos para ganhar licitações de GovTech</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">GeoPixel (Referência Madura)</div>
+    <div class="mockup-body">
+      <h4>✅ Consolidated</h4>
+      <ul>
+        <li>WebGIS enterprise (Cesium, ícones próprios)</li>
+        <li>CTM com 10+ anos de UX municipal</li>
+        <li>IPTU/PGV estável, auditado</li>
+        <li>Mobile nativo (iOS/Android)</li>
+        <li>Portal cidadão produção</li>
+        <li>E2E ci/cd, deploy automatizado</li>
+        <li>Backup/DR documentado</li>
+      </ul>
+      <hr>
+      <h4>⚠️ Pontos de vulnerabilidade</h4>
+      <ul>
+        <li>Menos modular (monólito)</li>
+        <li>Stack proprietário = vendor lock-in</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">FlyDea (OpenStack)</div>
+    <div class="mockup-body">
+      <h4>✅ Fortalezas</h4>
+      <ul>
+        <li>Modular (NestJS + Next.js)</li>
+        <li>Aberto (dados em SQL padrão)</li>
+        <li>Bom progresso em core (4/5)</li>
+        <li>Infraestrutura moderna</li>
+      </ul>
+      <hr>
+      <h4>🔴 Gaps críticos para licitação</h4>
+      <ul>
+        <li><strong>Mobile</strong> (2/5) — campo precisa</li>
+        <li><strong>CI/CD</strong> — nenhuma prova E2E automatizada</li>
+        <li><strong>Compliance</strong> — sem auditoria visível</li>
+        <li><strong>Notificações/cartas</strong> — não produção</li>
+        <li><strong>UX ops</strong> — empty states, wizard completo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h3>Próxima decisão:</h3>
+<p>Para ganhar licitações, qual desses gaps é mais crítico pra sua estratégia?</p>
+
+<div class="options">
+  <div class="option" data-choice="mobile-first" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Mobile First (Vistorias em Campo)</h3>
+      <p>Prioridade: demo mobile nativo + sincronização offline. Prefeituras veem campo com confiança.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="reliability" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Reliability & Compliance</h3>
+      <p>Prioridade: E2E CI/CD, backup/DR visível, auditoria legal. Sinaliza "operacional confiável" vs GeoPixel.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="balanced" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Balanced: 40% cada + UX</h3>
+      <p>Mobile MVP + CI/CD proof de maneira rápida, depois refina UX. Cobertura ampla com menos profundidade.</p>
+    </div>
+  </div>
+</div>

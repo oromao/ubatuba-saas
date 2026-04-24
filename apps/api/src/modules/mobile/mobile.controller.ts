@@ -2,7 +2,6 @@ import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/comm
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../../common/guards/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
-import { MobileSyncDto } from './dto/mobile-sync.dto';
 import { MobileService } from './mobile.service';
 
 @ApiTags('mobile')
@@ -16,9 +15,9 @@ export class MobileController {
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')
   sync(
     @Req() req: { tenantId: string; user?: { sub?: string } },
-    @Body() dto: MobileSyncDto,
+    @Body() dto: { projectId?: string; items?: Array<Record<string, unknown>> },
   ) {
-    return this.mobileService.sync(req.tenantId, dto, req.user?.sub);
+    return this.mobileService.sync(req.tenantId, dto as never, req.user?.sub);
   }
 
   @Get('ctm-sync')

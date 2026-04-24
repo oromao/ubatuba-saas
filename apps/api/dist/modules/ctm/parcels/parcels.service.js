@@ -946,6 +946,26 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
             doc.end();
         });
     }
+    async getAuditLog(tenantId, filters) {
+        const entries = await this.parcelAuditRepository.listAll(tenantId, filters);
+        const total = await this.parcelAuditRepository.countAll(tenantId, filters);
+        return { entries, total, limit: filters.limit ?? 50, offset: filters.offset ?? 0 };
+    }
+    async bulkTransicao(tenantId, ids, newStatus, observacao, userId, userRole) {
+        const results = await Promise.allSettled(ids.map((id) => this.transicao(tenantId, undefined, id, newStatus, observacao, userId, userRole)));
+        const successful = results.filter((r) => r.status === 'fulfilled').length;
+        const failed = results.filter((r) => r.status === 'rejected').length;
+        return {
+            total: ids.length,
+            successful,
+            failed,
+            results: results.map((r, i) => ({
+                id: ids[i],
+                status: r.status === 'fulfilled' ? 'ok' : 'erro',
+                message: r.status === 'rejected' ? r.reason.message : undefined,
+            })),
+        };
+    }
 };
 exports.ParcelsService = ParcelsService;
 exports.ParcelsService = ParcelsService = ParcelsService_1 = __decorate([

@@ -1,0 +1,124 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/paulo/.gemini/hooks/rtk-hook-gemini.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "claude-mem-context",
+            "type": "command",
+            "command": "\"/Users/paulo/.bun/bin/bun\" \"/Users/paulo/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook gemini-cli context",
+            "timeout": 8000
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "claude-mem-observation",
+            "type": "command",
+            "command": "\"/Users/paulo/.bun/bin/bun\" \"/Users/paulo/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook gemini-cli observation",
+            "timeout": 8000
+          }
+        ]
+      }
+    ],
+    "PreCompress": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "claude-mem-summarize",
+            "type": "command",
+            "command": "\"/Users/paulo/.bun/bin/bun\" \"/Users/paulo/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook gemini-cli summarize",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "claude-mem-session-complete",
+            "type": "command",
+            "command": "\"/Users/paulo/.bun/bin/bun\" \"/Users/paulo/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs\" hook gemini-cli session-complete",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    },
+    "enablePermanentToolApproval": true
+  },
+  "mcpServers": {
+    "Neon": {
+      "type": "http",
+      "url": "https://mcp.neon.tech/mcp",
+      "headers": {
+        "Authorization": "Bearer napi_cqtl5l04cvez21ghrik87jhmg24s6kso9xpi3930gst3dqh6dvh28my4bpndjbeq"
+      }
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "/opt/homebrew/bin/mcp-server-filesystem",
+      "args": [
+        "/"
+      ]
+    }
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
+  },
+  "general": {
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true,
+    "enableAutoUpdate": true,
+    "notificationMethod": "auto",
+    "retryFetchErrors": true,
+    "maxAttempts": 10,
+    "plan": {
+      "enabled": true,
+      "directory": "/Users/paulo/.gemini/plans",
+      "modelRouting": true
+    }
+  },
+  "ui": {
+    "inlineThinkingMode": "full"
+  },
+  "model": {
+    "disableLoopDetection": false
+  },
+  "agents": {
+    "browser": {
+      "blockFileUploads": false
+    }
+  },
+  "context": {
+    "loadMemoryFromIncludeDirectories": true
+  },
+  "experimental": {
+    "worktrees": true,
+    "memoryManager": true
+  }
+}

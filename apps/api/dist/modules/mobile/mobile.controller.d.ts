@@ -1,4 +1,3 @@
-import { MobileSyncDto } from './dto/mobile-sync.dto';
 import { MobileService } from './mobile.service';
 export declare class MobileController {
     private readonly mobileService;
@@ -8,7 +7,10 @@ export declare class MobileController {
         user?: {
             sub?: string;
         };
-    }, dto: MobileSyncDto): Promise<{
+    }, dto: {
+        projectId?: string;
+        items?: Array<Record<string, unknown>>;
+    }): Promise<{
         processed: number;
         failed: {
             clientId?: string;

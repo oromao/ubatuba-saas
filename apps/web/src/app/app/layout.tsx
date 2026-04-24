@@ -14,7 +14,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const allowed = isAppRouteAllowed(pathname ?? "/app", userRole);
+  const allowed = ready ? isAppRouteAllowed(pathname ?? "/app", userRole) : true;
 
   useEffect(() => {
     if (!ready || !token) return;
@@ -23,19 +23,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, [allowed, ready, router, token]);
 
-  // Not yet hydrated — render nothing to avoid layout flash
-  if (!ready) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-cloud text-on-surface">
-        <div className="rounded-md border border-outline bg-surface-elevated px-4 py-3 text-sm text-on-surface-muted">
-          Carregando sessao institucional...
-        </div>
-      </div>
-    );
-  }
-
-  // No session — hard block, redirect handled by useAuthGuard
-  if (!token) {
+  // No session after hydration — hard block, redirect handled by useAuthGuard
+  if (ready && !token) {
     return (
       <div className="flex h-screen items-center justify-center bg-cloud text-on-surface">
         <div className="rounded-md border border-outline bg-surface-elevated px-4 py-3 text-sm text-on-surface-muted">
@@ -66,6 +55,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <main className="flex-1 overflow-y-auto px-3 pb-4 pt-3 md:px-0">{children}</main>
         </div>
       </div>
+      {!ready && (
+        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-cloud/80 text-on-surface">
+          <div className="rounded-md border border-outline bg-surface-elevated px-4 py-3 text-sm text-on-surface-muted">
+            Carregando sessao institucional...
+          </div>
+        </div>
+      )}
       <Toaster position="bottom-right" richColors />
     </SidebarProvider>
   );

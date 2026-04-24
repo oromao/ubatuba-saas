@@ -49,6 +49,18 @@ export declare class ParcelsController {
         workflowStatus: "PENDENTE" | "EM_VALIDACAO" | "APROVADA" | "REPROVADA";
         pendingIssues: string[];
     }[]>;
+    getAuditLog(req: {
+        tenantId: string;
+    }, parcelId?: string, action?: string, limit?: string, offset?: string): Promise<{
+        entries: (import("mongoose").FlattenMaps<import("./parcel-audit.schema").ParcelAuditLogDocument> & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }> & {
+            __v: number;
+        })[];
+        total: number;
+        limit: number;
+        offset: number;
+    }>;
     geojson(req: {
         tenantId: string;
     }, projectId?: string, sqlu?: string, inscription?: string, inscricaoImobiliaria?: string, status?: string, workflowStatus?: string, bbox?: string, q?: string, sourceType?: string, isOfficial?: string): Promise<{
@@ -66,6 +78,26 @@ export declare class ParcelsController {
     getPdf(id: string, req: {
         tenantId: string;
     }, res: Response): Promise<void>;
+    bulkTransicao(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+            role?: string;
+        };
+    }, body: {
+        ids: string[];
+        status: string;
+        observacao: string;
+    }): Promise<{
+        total: number;
+        successful: number;
+        failed: number;
+        results: {
+            id: string;
+            status: string;
+            message: string | undefined;
+        }[];
+    }>;
     get(req: {
         tenantId: string;
     }, id: string, projectId?: string): Promise<import("./parcel.schema").ParcelDocument | null>;

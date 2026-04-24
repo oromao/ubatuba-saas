@@ -62,11 +62,11 @@ export default function CidadaoPage() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/public/calls`, {
+      const res = await fetch(`${API_URL}/cidadao/solicitacoes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          tenantId: process.env.NEXT_PUBLIC_TENANT_ID || "demo",
+          tenantSlug: process.env.NEXT_PUBLIC_TENANT_SLUG || "demo",
           title: form.assunto,
           category: form.categoria,
           description: form.descricao || undefined,

@@ -34,6 +34,7 @@ export default function ObrasPage() {
     queryKey: ["permits-works"],
     queryFn: () => apiFetch<PermitRequest[]>("/permits-works"),
   });
+  const requestsError = requestsQuery.error ?? null;
 
   const createMutation = useMutation({
     mutationFn: () =>
@@ -93,6 +94,20 @@ export default function ObrasPage() {
         <Badge variant="info">P1</Badge>
       </div>
       <div className="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        {requestsError && (
+          <Card className="border-rose-200 bg-rose-50 lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-rose-900">Alvará de obras indisponível</CardTitle>
+              <CardDescription className="text-rose-800">
+                Não foi possível carregar as solicitações de obra neste momento. Tente novamente ou revise a integração.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-rose-800">
+              {requestsError instanceof Error ? requestsError.message : "Falha inesperada ao carregar o alvará de obras."}
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardHeader>
             <CardTitle>Abrir solicitação</CardTitle>

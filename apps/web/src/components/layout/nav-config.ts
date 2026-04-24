@@ -46,7 +46,7 @@ export const navGroups: NavGroup[] = [
     items: [
       withDefaultRoles({ label: "Lotes e Imóveis", href: "/app/ctm/parcelas", icon: Landmark, keywords: ["lotes", "ctm", "parcelas"] }),
       withDefaultRoles({ label: "Malha Viária ↗", href: "/app/ctm/logradouros", icon: Route, keywords: ["ruas", "vias", "logradouros"] }),
-      withDefaultRoles({ label: "Equipamentos ↗", href: "/app/ctm/mobiliario", icon: Armchair, keywords: ["urbano", "mobiliario"] }),
+      withDefaultRoles({ label: "Equipamentos ↗", href: "/app/ctm/equipamentos", icon: Armchair, keywords: ["urbano", "mobiliario", "equipamentos"] }),
       withDefaultRoles({ label: "Vistorias", href: "/app/ctm/vistorias", icon: ClipboardCheck, keywords: ["vistoria", "campo", "inspecao", "foto"] }),
       withDefaultRoles({
         label: "Mapa Interativo",

@@ -132,6 +132,11 @@ let NotificationsLettersService = class NotificationsLettersService {
         const resolvedProject = await this.resolveProject(tenantId, projectId);
         return this.repository.listBatches(tenantId, String(resolvedProject));
     }
+    async getUnreadCount(tenantId, projectId) {
+        const resolvedProject = await this.resolveProject(tenantId, projectId);
+        const count = await this.repository.countUnreadLetters(tenantId, String(resolvedProject));
+        return { count };
+    }
     async findBatchById(tenantId, projectId, batchId) {
         const resolvedProject = await this.resolveProject(tenantId, projectId);
         const batch = await this.repository.findBatchById(tenantId, String(resolvedProject), batchId);

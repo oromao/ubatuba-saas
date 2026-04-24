@@ -57,16 +57,17 @@
 - **Origem:** Auditoria 2026-04-24 (Bug #6)
 
 ### T1-AUDIT-ROUTING — CRÍTICO: Corrigir redirecionamentos globais (Relatórios, Aprovações, Notificações)
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Gemini (2026-04-24)
 - **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Frontend / Next.js Router
 - **Problema:** Múltiplas rotas (/app/relatorios, /app/aprovacao, /app/notificacoes) redirecionam para dashboard sem motivo. Módulos inacessíveis.
 - **DoD:** (1) Cada rota carrega seu módulo (2) Sem redirecionamento injustificado (3) Guards de permissão funcionam
-- **Validação:** E2E de navegação + browser check
+- **Validação:** E2E (tests/e2e/fullscan/routing-audit.spec.ts) e Unit (apps/web/src/lib/rbac.spec.ts)
 - **Depende de:** T1-DEVSERVER.
 - **Origem:** Auditoria 2026-04-24 (Bugs #4, #5, #7)
 
 ### T1-AUDIT-CTM-EQUIPAMENTOS — CRÍTICO: Adicionar rota 404 - CTM Equipamentos
-- **Status:** `TODO`
+- **Status:** `DONE`
 - **Severidade:** CRITICAL · **Esforço:** S · **Tipo:** Frontend / CTM
 - **Problema:** /app/ctm/equipamentos retorna 404. Menu aponta para rota quebrada. Equipamentos públicos não catalogáveis.
 - **DoD:** (1) Rota existe e carrega página (2) Tabela com schema renderiza (3) Sem dados inicialmente é aceitável

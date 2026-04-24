@@ -1,0 +1,10 @@
+{"type":"server-started","port":63931,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:63931","screen_dir":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content","state_dir":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/state"}
+{"type":"screen-added","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/competitive-comparison.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/competitive-comparison.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/competitive-comparison.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/competitive-comparison.html"}
+{"type":"screen-added","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/waiting.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/waiting.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/waiting.html"}
+{"type":"screen-updated","file":"/Users/paulo/Documents/ubatuba-saas/.superpowers/brainstorm/61029-1777055744/content/waiting.html"}
+{"type":"server-stopped","reason":"owner process exited"}

@@ -63,6 +63,21 @@ export function useAuth() {
     setReady(true);
   }, []);
 
+  React.useEffect(() => {
+    const storage = getStorage();
+    if (!storage || ready) return;
+    const storedToken = storage.getItem("accessToken") ?? null;
+    const storedTenantId = storage.getItem("tenantId") ?? null;
+    const payload = storedToken ? decodeJwtPayload(storedToken) : null;
+    setToken(storedToken);
+    setTenantId(storedTenantId);
+    setUserName(resolveUserName(payload));
+    setUserEmail(payload?.email ?? null);
+    setUserRole(payload?.role ?? null);
+    setDepartment(payload?.department ?? null);
+    setReady(true);
+  }, [ready]);
+
   const login = (accessToken: string, refreshToken: string, tenantId: string, nextPath = "/app/dashboard") => {
     const storage = getStorage();
     storage?.setItem("accessToken", accessToken);

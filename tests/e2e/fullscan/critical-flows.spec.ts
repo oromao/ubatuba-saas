@@ -79,25 +79,85 @@ test.describe('Critical Demo Flows', () => {
     await expect(page.locator('text=Total de Parcelas').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('03 - Abrir detalhe de parcela', async ({ page }) => {
-    await ensureSession(page);
-    await page.goto('/app/ctm/parcelas', { waitUntil: 'domcontentloaded' });
-    // Wait for table rows to load
-    const row = page.locator('tbody tr').first();
-    await expect(row).toBeVisible({ timeout: 15_000 });
-    await row.click();
+  test('03 - Abrir detalhe de parcela e ir ao mapa', async ({ page }) => {
+    const { accessToken } = await ensureSession(page);
+    const response = await fetch(`${API_URL}/ctm/parcels/geojson`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    expect(response.ok).toBeTruthy();
+    const payload = await response.json();
+    const geojson = Array.isArray(payload) ? payload : payload?.data;
+    expect(geojson?.type).toBe('FeatureCollection');
+    expect(Array.isArray(geojson?.features)).toBeTruthy();
+    expect(geojson.features.length).toBeGreaterThan(0);
+
+    const firstFeature = geojson.features[0];
+    const parcelId = firstFeature?.properties?._id || firstFeature?.properties?.id || firstFeature?.id;
+    expect(parcelId).toBeTruthy();
+
+    await page.goto(`/app/ctm/parcelas/${parcelId}`, { waitUntil: 'domcontentloaded' });
     await expect(page).toHaveURL(/\/parcelas\/[a-zA-Z0-9]+/, { timeout: 10_000 });
     await expect(page.locator('text=Parcelas').first()).toBeVisible({ timeout: 5_000 }); // breadcrumb
+
+    const mapButton = page.getByRole('link', { name: 'Mapa', exact: true });
+    await expect(mapButton).toBeVisible({ timeout: 5_000 });
+    await mapButton.click();
+    await expect(page).toHaveURL(/\/app\/maps\?sqlu=/, { timeout: 10_000 });
+    await expect(page.getByText(/Lote destacado:/i).first()).toBeVisible({ timeout: 10_000 });
+
+    const detailLink = page.getByRole('link', { name: 'Abrir detalhe', exact: true });
+    await expect(detailLink).toBeVisible({ timeout: 10_000 });
+    await detailLink.click();
+    await expect(page).toHaveURL(/\/app\/ctm\/parcelas\/[a-zA-Z0-9_-]+/, { timeout: 10_000 });
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible({ timeout: 10_000 });
   });
 
-  test('04 - Listagem REURB carrega com stats', async ({ page }) => {
+  test('04 - Parcel graph: map, IPTU, vistorias and PDF are connected', async ({ page }) => {
+    const { accessToken } = await ensureSession(page);
+    const response = await fetch(`${API_URL}/ctm/parcels/geojson`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    expect(response.ok).toBeTruthy();
+    const payload = await response.json();
+    const geojson = Array.isArray(payload) ? payload : payload?.data;
+    const firstFeature = geojson?.features?.[0];
+    const parcelId = firstFeature?.properties?._id || firstFeature?.properties?.id || firstFeature?.id;
+    const sqlu = firstFeature?.properties?.sqlu;
+    expect(parcelId).toBeTruthy();
+    expect(sqlu).toBeTruthy();
+
+    await page.goto(`/app/ctm/parcelas/${parcelId}`, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible({ timeout: 10_000 });
+
+    await expect(page.getByRole('button', { name: 'Vistorias' })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: 'Vistorias' }).click();
+    await expect(page.locator('body')).toContainText(/Vistoria|Nenhuma vistoria registrada/i, { timeout: 10_000 });
+
+    await expect(page.getByRole('button', { name: 'IPTU' })).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: 'IPTU' }).click();
+    await expect(page.locator('body')).toContainText(/IPTU|Dados tributários não disponíveis/i, { timeout: 10_000 });
+
+    const pdfButton = page.getByRole('button', { name: 'PDF' });
+    await expect(pdfButton).toBeVisible({ timeout: 10_000 });
+    const downloadPromise = page.waitForEvent('download');
+    await pdfButton.click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
+
+    await page.getByRole('link', { name: 'Mapa', exact: true }).click();
+    await expect(page).toHaveURL(/\/app\/maps\?sqlu=/, { timeout: 10_000 });
+    await expect(page.getByText(/Lote destacado:/i)).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('link', { name: 'Abrir detalhe', exact: true })).toBeVisible({ timeout: 10_000 });
+  });
+
+  test('05 - Listagem REURB carrega com stats', async ({ page }) => {
     await ensureSession(page);
     await page.goto('/app/reurb', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
     await expect(page.locator('text=REURB').first()).toBeVisible();
   });
 
-  test('05 - REURB: criar projeto e selecionar', async ({ page }) => {
+  test('06 - REURB: criar projeto e selecionar', async ({ page }) => {
     await ensureSession(page);
     await page.goto('/app/reurb', { waitUntil: 'domcontentloaded' });
     // Scroll to projects section
@@ -105,7 +165,7 @@ test.describe('Critical Demo Flows', () => {
     await expect(page.locator('text=Projetos REURB').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('06 - Upload endpoint responde 200', async ({ page }) => {
+  test('07 - Upload endpoint responde 200', async ({ page }) => {
     const { accessToken, tenantId } = await ensureSession(page);
     // Verify upload endpoint is reachable (POST without files returns empty urls)
     const formData = new FormData();
@@ -122,13 +182,13 @@ test.describe('Critical Demo Flows', () => {
     expect(body.data).toHaveProperty('urls');
   });
 
-  test('07 - Logradouros CTM carrega', async ({ page }) => {
+  test('08 - Logradouros CTM carrega', async ({ page }) => {
     await ensureSession(page);
     await page.goto('/app/ctm/logradouros', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });
   });
 
-  test('08 - Mobiliario urbano carrega', async ({ page }) => {
+  test('09 - Mobiliario urbano carrega', async ({ page }) => {
     await ensureSession(page);
     await page.goto('/app/ctm/mobiliario', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('h1').first()).toBeVisible({ timeout: 10_000 });

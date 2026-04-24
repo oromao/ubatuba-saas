@@ -27,7 +27,7 @@ const STATUS_COLOR: Record<string, "default" | "destructive" | "outline" | "info
 
 export default function VistoriasPage() {
   const router = useRouter();
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["ctm-vistorias"],
     queryFn: () => apiFetch<Vistoria[]>("/ctm/vistorias"),
   });
@@ -39,20 +39,32 @@ export default function VistoriasPage() {
           <h1 className="font-display text-2xl font-semibold text-on-surface">Vistorias</h1>
           <p className="text-sm text-on-surface-muted">Gestão de vistorias de campo.</p>
         </div>
-        <Link href="/app/ctm/vistorias/novo">
-          <Button size="sm">Nova Vistoria</Button>
-        </Link>
+        <Button size="sm" onClick={() => router.push("/app/ctm/vistorias/novo")}>
+          Nova Vistoria
+        </Button>
       </div>
 
       <div className="mt-6">
+        {error && (
+          <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">
+            <p className="font-semibold">Vistorias indisponíveis</p>
+            <p className="mt-1">Não foi possível carregar as vistorias neste momento. Tente novamente ou revise a integração.</p>
+            <p className="mt-2 text-xs text-rose-800">{error instanceof Error ? error.message : "Falha inesperada ao carregar vistorias."}</p>
+          </div>
+        )}
         {isLoading ? (
           <p className="text-sm text-on-surface-muted">Carregando...</p>
         ) : !data || data.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
             <p className="text-sm text-on-surface-muted">Nenhuma vistoria encontrada.</p>
-            <Link href="/app/ctm/vistorias/novo" className="mt-4">
-              <Button size="sm" variant="outline">Criar primeira vistoria</Button>
-            </Link>
+            <Button
+              size="sm"
+              variant="outline"
+              className="mt-4"
+              onClick={() => router.push("/app/ctm/vistorias/novo")}
+            >
+              Criar primeira vistoria
+            </Button>
           </div>
         ) : (
           <div className="overflow-x-auto rounded-lg border">

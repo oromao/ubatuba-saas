@@ -42,9 +42,9 @@ test.describe('T3-CITIZEN: citizen portal flow', () => {
     await page.goto('/cidadao', { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: /Portal Cidadão 156/i })).toBeVisible({ timeout: 10_000 });
 
-    const publicResponse = await page.request.post(`${API_URL}/public/calls`, {
+    const publicResponse = await page.request.post(`${API_URL}/cidadao/solicitacoes`, {
       data: {
-        tenantId: session.tenantId,
+        tenantSlug: 'demo',
         title: `Buraco na via ${protocolSuffix}`,
         category: 'Buracos e Pavimentação',
         description: 'Teste E2E de portal cidadão.',

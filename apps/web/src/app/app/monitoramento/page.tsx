@@ -70,6 +70,7 @@ export default function MonitoringPage() {
         recentTimeline: Array<{ id: string; title: string; stage: string; severity: string; source: string; resolvedAt: string | null }>;
       }>(`/monitoring/dashboard${query ? `?${query}` : ""}`),
   });
+  const monitoringError = eventsQuery.error ?? dashboardQuery.error ?? null;
 
   const ingestMutation = useMutation({
     mutationFn: () =>
@@ -114,6 +115,20 @@ export default function MonitoringPage() {
         <Badge variant="info">P1</Badge>
       </div>
       <div className="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        {monitoringError && (
+          <Card className="border-rose-200 bg-rose-50 lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-rose-900">Monitoramento indisponivel</CardTitle>
+              <CardDescription className="text-rose-800">
+                Não foi possível carregar os eventos ambientais neste momento. Tente novamente ou revise a integração.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-rose-800">
+              {monitoringError instanceof Error ? monitoringError.message : "Falha inesperada ao carregar o monitoramento."}
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardHeader>
             <CardTitle>Ingerir evento</CardTitle>

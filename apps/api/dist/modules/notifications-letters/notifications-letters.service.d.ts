@@ -41,6 +41,9 @@ export declare class NotificationsLettersService {
     }> & {
         __v: number;
     })[]>;
+    getUnreadCount(tenantId: string, projectId?: string): Promise<{
+        count: any;
+    }>;
     findBatchById(tenantId: string, projectId: string | undefined, batchId: string): Promise<import("mongoose").Document<unknown, {}, LetterBatchDocument, {}, {}> & import("./letter-batch.schema").LetterBatch & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

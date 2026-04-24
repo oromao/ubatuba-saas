@@ -41,6 +41,9 @@ let NotificationsLettersController = class NotificationsLettersController {
     listBatches(req, projectId) {
         return this.service.listBatches(req.tenantId, projectId);
     }
+    unreadCount(req, projectId) {
+        return this.service.getUnreadCount(req.tenantId, projectId);
+    }
     getBatch(req, projectId, id) {
         return this.service.findBatchById(req.tenantId, projectId, id);
     }
@@ -107,6 +110,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], NotificationsLettersController.prototype, "listBatches", null);
+__decorate([
+    (0, common_1.Get)('unread-count'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], NotificationsLettersController.prototype, "unreadCount", null);
 __decorate([
     (0, common_1.Get)('batches/:id'),
     __param(0, (0, common_1.Req)()),

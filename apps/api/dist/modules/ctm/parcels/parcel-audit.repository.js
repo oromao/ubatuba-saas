@@ -35,6 +35,32 @@ let ParcelAuditRepository = class ParcelAuditRepository {
             .sort({ createdAt: -1 })
             .exec();
     }
+    listAll(tenantId, filters) {
+        const query = { tenantId: (0, object_id_1.asObjectId)(tenantId) };
+        if (filters.parcelId)
+            query.parcelId = (0, object_id_1.asObjectId)(filters.parcelId);
+        if (filters.actorId)
+            query.actorId = (0, object_id_1.asObjectId)(filters.actorId);
+        if (filters.action)
+            query.action = filters.action;
+        return this.model
+            .find(query)
+            .sort({ createdAt: -1 })
+            .skip(filters.offset ?? 0)
+            .limit(filters.limit ?? 50)
+            .lean()
+            .exec();
+    }
+    countAll(tenantId, filters) {
+        const query = { tenantId: (0, object_id_1.asObjectId)(tenantId) };
+        if (filters.parcelId)
+            query.parcelId = (0, object_id_1.asObjectId)(filters.parcelId);
+        if (filters.actorId)
+            query.actorId = (0, object_id_1.asObjectId)(filters.actorId);
+        if (filters.action)
+            query.action = filters.action;
+        return this.model.countDocuments(query).exec();
+    }
 };
 exports.ParcelAuditRepository = ParcelAuditRepository;
 exports.ParcelAuditRepository = ParcelAuditRepository = __decorate([

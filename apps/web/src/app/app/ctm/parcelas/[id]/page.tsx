@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -289,6 +290,14 @@ export default function ParcelDetailsPage() {
               <ClipboardCheck className="h-4 w-4 mr-2" />
               Nova Vistoria
             </Button>
+          )}
+          {!isEditing && (
+            <Link
+              href={`/app/maps?sqlu=${encodeURIComponent(parcel.sqlu)}`}
+              className="inline-flex h-9 items-center justify-center gap-2 rounded-sm border border-outline bg-surface-elevated px-4 text-sm font-semibold text-on-surface transition-all duration-fast ease-standard hover:bg-cloud"
+            >
+              Mapa
+            </Link>
           )}
           {!isEditing && (
             <Button

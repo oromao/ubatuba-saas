@@ -59,6 +59,14 @@ let ParcelsController = class ParcelsController {
     pending(req, projectId) {
         return this.parcelsService.listPendencias(req.tenantId, projectId);
     }
+    getAuditLog(req, parcelId, action, limit, offset) {
+        return this.parcelsService.getAuditLog(req.tenantId, {
+            parcelId,
+            action,
+            limit: limit ? parseInt(limit, 10) : 50,
+            offset: offset ? parseInt(offset, 10) : 0,
+        });
+    }
     geojson(req, projectId, sqlu, inscription, inscricaoImobiliaria, status, workflowStatus, bbox, q, sourceType, isOfficial) {
         return this.parcelsService.geojson(req.tenantId, projectId, {
             sqlu,
@@ -86,6 +94,9 @@ let ParcelsController = class ParcelsController {
             'Content-Length': buffer.length,
         });
         res.end(buffer);
+    }
+    bulkTransicao(req, body) {
+        return this.parcelsService.bulkTransicao(req.tenantId, body.ids, body.status, body.observacao, req.user?.sub, req.user?.role);
     }
     get(req, id, projectId) {
         return this.parcelsService.findById(req.tenantId, projectId, id);
@@ -175,6 +186,17 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "pending", null);
 __decorate([
+    (0, common_1.Get)('audit'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('parcelId')),
+    __param(2, (0, common_1.Query)('action')),
+    __param(3, (0, common_1.Query)('limit')),
+    __param(4, (0, common_1.Query)('offset')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String, String, String]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "getAuditLog", null);
+__decorate([
     (0, common_1.Get)('geojson'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('projectId')),
@@ -212,6 +234,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ParcelsController.prototype, "getPdf", null);
+__decorate([
+    (0, common_1.Post)('bulk-transicao'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "bulkTransicao", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Req)()),

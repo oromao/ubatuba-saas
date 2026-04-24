@@ -1,0 +1,364 @@
+- generic [ref=e64]:
+  - banner [ref=e65]:
+    - generic [ref=e66]:
+      - generic [ref=e70]:
+        - generic [ref=e71]: OpenClaw
+        - generic [ref=e72]: ›
+        - generic [ref=e73]: Chat
+      - generic [ref=e74]:
+        - button "Open command palette" [ref=e75] [cursor=pointer]:
+          - generic [ref=e76]: Pesquisar
+          - generic [ref=e77]: ⌘K
+        - group "Color mode" [ref=e79]:
+          - 'button "Color mode: System" [pressed] [ref=e80] [cursor=pointer]':
+            - img [ref=e81]
+          - 'button "Color mode: Light" [ref=e83] [cursor=pointer]':
+            - img [ref=e84]
+          - 'button "Color mode: Dark" [ref=e90] [cursor=pointer]':
+            - img [ref=e91]
+  - complementary [ref=e94]:
+    - generic [ref=e95]:
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - img "OpenClaw" [ref=e98]
+          - generic [ref=e99]:
+            - generic [ref=e100]: Controle
+            - generic [ref=e101]: OpenClaw
+        - button "Recolher barra lateral" [ref=e102] [cursor=pointer]:
+          - img [ref=e104]
+      - navigation [ref=e108]:
+        - generic [ref=e109]:
+          - button "Chat" [expanded] [ref=e110] [cursor=pointer]:
+            - generic [ref=e111]: Chat
+            - img [ref=e113]
+          - link "Chat" [ref=e116] [cursor=pointer]:
+            - /url: /chat
+            - img [ref=e118]
+            - generic [ref=e120]: Chat
+        - generic [ref=e121]:
+          - button "Controle" [expanded] [ref=e122] [cursor=pointer]:
+            - generic [ref=e123]: Controle
+            - img [ref=e125]
+          - generic [ref=e127]:
+            - link "Visão Geral" [ref=e128] [cursor=pointer]:
+              - /url: /overview
+              - img [ref=e130]
+              - generic [ref=e131]: Visão Geral
+            - link "Canais" [ref=e132] [cursor=pointer]:
+              - /url: /channels
+              - img [ref=e134]
+              - generic [ref=e137]: Canais
+            - link "Instâncias" [ref=e138] [cursor=pointer]:
+              - /url: /instances
+              - img [ref=e140]
+              - generic [ref=e143]: Instâncias
+            - link "Sessões" [ref=e144] [cursor=pointer]:
+              - /url: /sessions
+              - img [ref=e146]
+              - generic [ref=e149]: Sessões
+            - link "Uso" [ref=e150] [cursor=pointer]:
+              - /url: /usage
+              - img [ref=e152]
+              - generic [ref=e153]: Uso
+            - link "Tarefas Cron" [ref=e154] [cursor=pointer]:
+              - /url: /cron
+              - img [ref=e156]
+              - generic [ref=e161]: Tarefas Cron
+        - generic [ref=e162]:
+          - button "Agente" [expanded] [ref=e163] [cursor=pointer]:
+            - generic [ref=e164]: Agente
+            - img [ref=e166]
+          - generic [ref=e168]:
+            - link "Agentes" [ref=e169] [cursor=pointer]:
+              - /url: /agents
+              - img [ref=e171]
+              - generic [ref=e173]: Agentes
+            - link "Habilidades" [ref=e174] [cursor=pointer]:
+              - /url: /skills
+              - img [ref=e176]
+              - generic [ref=e178]: Habilidades
+            - link "Nós" [ref=e179] [cursor=pointer]:
+              - /url: /nodes
+              - img [ref=e181]
+              - generic [ref=e183]: Nós
+            - link "Sonhos" [ref=e184] [cursor=pointer]:
+              - /url: /dreaming
+              - img [ref=e186]
+              - generic [ref=e188]: Sonhos
+        - generic [ref=e189]:
+          - button "Configurações" [expanded] [ref=e190] [cursor=pointer]:
+            - generic [ref=e191]: Configurações
+            - img [ref=e193]
+          - generic [ref=e195]:
+            - link "Configuração" [ref=e196] [cursor=pointer]:
+              - /url: /config
+              - img [ref=e198]
+              - generic [ref=e201]: Configuração
+            - link "Comunicações" [ref=e202] [cursor=pointer]:
+              - /url: /communications
+              - img [ref=e204]
+              - generic [ref=e207]: Comunicações
+            - link "Aparência e Configuração" [ref=e208] [cursor=pointer]:
+              - /url: /appearance
+              - img [ref=e210]
+              - generic [ref=e212]: Aparência e Configuração
+            - link "Automação" [ref=e213] [cursor=pointer]:
+              - /url: /automation
+              - img [ref=e215]
+              - generic [ref=e217]: Automação
+            - link "Infraestrutura" [ref=e218] [cursor=pointer]:
+              - /url: /infrastructure
+              - img [ref=e220]
+              - generic [ref=e223]: Infraestrutura
+            - link "IA e Agentes" [ref=e224] [cursor=pointer]:
+              - /url: /ai-agents
+              - img [ref=e226]
+              - generic [ref=e236]: IA e Agentes
+            - link "Depuração" [ref=e237] [cursor=pointer]:
+              - /url: /debug
+              - img [ref=e239]
+              - generic [ref=e248]: Depuração
+            - link "Logs" [ref=e249] [cursor=pointer]:
+              - /url: /logs
+              - img [ref=e251]
+              - generic [ref=e254]: Logs
+      - generic [ref=e256]:
+        - link "Documentação" [ref=e257] [cursor=pointer]:
+          - /url: https://docs.openclaw.ai
+          - img [ref=e259]
+          - generic [ref=e261]: Documentação
+          - img [ref=e263]
+        - generic "v2026.4.22" [ref=e266]:
+          - generic [ref=e267]: Versão
+          - generic [ref=e268]: v2026.4.22
+          - 'img "Gateway status: Online" [ref=e269]'
+  - main [ref=e270]:
+    - generic [ref=e271]:
+      - generic [ref=e273]:
+        - combobox [ref=e275] [cursor=pointer]:
+          - option "novoodod"
+          - option "clean"
+          - option "ops"
+          - option "teste"
+          - option "main" [selected]
+          - option "novo"
+        - combobox "Chat model" [active] [ref=e277] [cursor=pointer]:
+          - option "Default (qwen2.5:1.5b)"
+          - option "qwen2.5:1.5b"
+          - option "qwen2.5:3b" [selected]
+        - combobox "Chat thinking level" [ref=e279] [cursor=pointer]:
+          - option "Default (off)" [selected]
+          - option "off"
+          - option "minimal"
+          - option "low"
+          - option "medium"
+          - option "high"
+      - generic [ref=e281]:
+        - button "Atualizar dados do chat" [ref=e282] [cursor=pointer]:
+          - img [ref=e283]
+        - generic [ref=e286]: "|"
+        - button "Alternar saída de pensamento/trabalho do assistente" [pressed] [ref=e287] [cursor=pointer]:
+          - img [ref=e288]
+        - button "Alternar chamadas de ferramenta e resultados de ferramenta" [pressed] [ref=e298] [cursor=pointer]:
+          - img [ref=e299]
+        - button "Alternar modo de foco (ocultar barra lateral + cabeçalho da página)" [ref=e301] [cursor=pointer]:
+          - img [ref=e302]
+        - button "Mostrar sessões de cron" [pressed] [ref=e308] [cursor=pointer]:
+          - img [ref=e310]
+    - generic [ref=e313]:
+      - log [ref=e316]:
+        - generic [ref=e317]:
+          - generic [ref=e318]:
+            - img [ref=e320]
+            - generic [ref=e323]:
+              - generic [ref=e325]:
+                - paragraph [ref=e326]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e327]: "[Fri 2026-04-24 14:43 UTC] Ola"
+              - generic [ref=e328]:
+                - generic [ref=e329]: openclaw-control-ui
+                - generic [ref=e330]: 11:43
+                - generic [ref=e331]:
+                  - button "Delete message":
+                    - img
+          - generic [ref=e332]:
+            - img [ref=e334]
+            - generic [ref=e337]:
+              - generic [ref=e338]: Assistant
+              - generic [ref=e339]: 11:43
+              - generic [ref=e341]: qwen2.5:3b
+              - button "Read aloud":
+                - img
+              - generic [ref=e342]:
+                - button "Delete message":
+                  - img
+          - generic [ref=e343]:
+            - img [ref=e345]
+            - generic [ref=e348]:
+              - generic [ref=e350]:
+                - paragraph [ref=e351]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e352]: "[Fri 2026-04-24 14:43 UTC] Ola"
+              - generic [ref=e354]:
+                - paragraph [ref=e355]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e356]: "[Fri 2026-04-24 14:43 UTC] Ola"
+              - generic [ref=e357]:
+                - generic [ref=e358]: openclaw-control-ui
+                - generic [ref=e359]: 11:43
+                - generic [ref=e360]:
+                  - button "Delete message":
+                    - img
+          - generic [ref=e361]:
+            - img [ref=e363]
+            - generic [ref=e366]:
+              - generic [ref=e367]: Assistant
+              - generic [ref=e368]: 11:53
+              - generic [ref=e370]: qwen2.5:3b
+              - button "Read aloud":
+                - img
+              - generic [ref=e371]:
+                - button "Delete message":
+                  - img
+          - generic [ref=e372]:
+            - img [ref=e374]
+            - generic [ref=e377]:
+              - generic [ref=e379]:
+                - paragraph [ref=e380]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e381]: "[Fri 2026-04-24 14:54 UTC] responda só ok"
+              - generic [ref=e383]:
+                - paragraph [ref=e384]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e385]: "[Fri 2026-04-24 14:54 UTC] responda só ok"
+              - generic [ref=e387]:
+                - paragraph [ref=e388]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e389]: "[Fri 2026-04-24 15:00 UTC] responda só ok"
+              - generic [ref=e391]:
+                - paragraph [ref=e392]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e393]: "[Fri 2026-04-24 15:00 UTC] responda só ok"
+              - generic [ref=e395]:
+                - paragraph [ref=e396]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e397]: "[Fri 2026-04-24 16:48 UTC] Ola"
+              - generic [ref=e399]:
+                - paragraph [ref=e400]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e401]: "[Fri 2026-04-24 16:48 UTC] Ola"
+              - generic [ref=e403]:
+                - paragraph [ref=e404]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e405]: "[Fri 2026-04-24 17:09 UTC] Ola"
+              - generic [ref=e406]:
+                - generic [ref=e407]: openclaw-control-ui
+                - generic [ref=e408]: 11:55
+                - generic [ref=e409]:
+                  - button "Delete message":
+                    - img
+          - generic [ref=e410]:
+            - img [ref=e412]
+            - generic [ref=e415]:
+              - generic [ref=e416]: Assistant
+              - generic [ref=e417]: 14:10
+              - generic [ref=e419]: qwen2.5:3b
+              - button "Read aloud":
+                - img
+              - generic [ref=e420]:
+                - button "Delete message":
+                  - img
+          - generic [ref=e421]:
+            - img [ref=e423]
+            - generic [ref=e426]:
+              - generic [ref=e428]:
+                - paragraph [ref=e429]:
+                  - text: "[Bootstrap pending]"
+                  - text: Please read BOOTSTRAP.md from the workspace and follow it before replying normally.
+                  - text: If this run can complete the BOOTSTRAP.md workflow, do so.
+                  - text: If it cannot, explain the blocker briefly, continue with any bootstrap steps that are still possible here, and offer the simplest next step.
+                  - text: Do not pretend bootstrap is complete when it is not.
+                  - text: Do not use a generic first greeting or reply normally until after you have handled BOOTSTRAP.md.
+                  - text: Your first user-visible reply for a bootstrap-pending workspace must follow BOOTSTRAP.md, not a generic greeting.
+                - paragraph [ref=e430]: "[Fri 2026-04-24 17:10 UTC] Ola"
+              - generic [ref=e431]:
+                - generic [ref=e432]: openclaw-control-ui
+                - generic [ref=e433]: 14:10
+                - generic [ref=e434]:
+                  - button "Delete message":
+                    - img
+      - generic [ref=e435]:
+        - textbox "Message Assistant (Enter to send)" [ref=e436]
+        - generic [ref=e437]:
+          - generic [ref=e438]:
+            - button "Attach file" [ref=e439] [cursor=pointer]:
+              - img [ref=e440]
+            - button "Voice input" [ref=e442] [cursor=pointer]:
+              - img [ref=e443]
+          - generic [ref=e446]:
+            - button "New session" [ref=e447] [cursor=pointer]:
+              - img [ref=e448]
+            - button "Export chat" [ref=e449] [cursor=pointer]:
+              - img [ref=e450]
+            - button "Send message" [ref=e453] [cursor=pointer]:
+              - img [ref=e454]

@@ -35,7 +35,7 @@ async function ensureSession(page: any) {
 test.describe('T3-EMPTY-STATES: empty and error states', () => {
   test('renders an explicit error state when a table-backed module cannot fetch data', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/assets**', (route) => route.abort());
+    await page.route('http://localhost:4000/assets**', (route) => route.abort());
     await page.goto('/app/assets', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByRole('heading', { name: 'Ativos territoriais' })).toBeVisible({ timeout: 10_000 });
@@ -45,7 +45,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders an explicit error state on logradouros too', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/logradouros**', (route) => route.abort());
+    await page.route('http://localhost:4000/ctm/logradouros**', (route) => route.abort());
     await page.goto('/app/ctm/logradouros', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByRole('heading', { name: 'CTM - Logradouros' })).toBeVisible({ timeout: 10_000 });
@@ -55,7 +55,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders an explicit error state on PGV zones as well', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/pgv/zones**', (route) => route.abort());
+    await page.route('http://localhost:4000/pgv/zones**', (route) => route.abort());
     await page.goto('/app/pgv/zonas', { waitUntil: 'domcontentloaded' });
 
     await expect(page.getByRole('heading', { name: 'PGV - Zonas de Valor' })).toBeVisible({ timeout: 10_000 });
@@ -65,7 +65,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for PGV faces when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/pgv/faces**', async (route) => {
+    await page.route('http://localhost:4000/pgv/faces**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -86,7 +86,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the shared empty state for CTM mobiliario urbano too', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/urban-furniture**', async (route) => {
+    await page.route('http://localhost:4000/ctm/urban-furniture**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -118,7 +118,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for citizen 156 when there are no calls', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/citizen-156/calls**', async (route) => {
+    await page.route('http://localhost:4000/citizen-156/calls**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -129,7 +129,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/citizen-156/summary**', async (route) => {
+    await page.route('http://localhost:4000/citizen-156/summary**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -150,7 +150,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for CTM vistorias when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/vistorias**', async (route) => {
+    await page.route('http://localhost:4000/ctm/vistorias**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -193,7 +193,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for ambiental cases when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/environment/cases**', async (route) => {
+    await page.route('http://localhost:4000/environment/cases**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -213,7 +213,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for levantamentos when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/levantamentos**', async (route) => {
+    await page.route('http://localhost:4000/surveys**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -233,7 +233,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for compliance when the profile has no records', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/compliance**', async (route) => {
+    await page.route('http://localhost:4000/compliance**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -266,7 +266,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for cartas when the notification lists are empty', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/notifications-letters/templates**', async (route) => {
+    await page.route('http://localhost:4000/notifications-letters/templates**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -277,7 +277,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/notifications-letters/batches**', async (route) => {
+    await page.route('http://localhost:4000/notifications-letters/batches**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -298,7 +298,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for pgv relatorio when no impacted properties exist', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/pgv/zones**', async (route) => {
+    await page.route('http://localhost:4000/pgv/zones**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -309,7 +309,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/pgv/faces**', async (route) => {
+    await page.route('http://localhost:4000/pgv/faces**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -320,7 +320,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/pgv/versions**', async (route) => {
+    await page.route('http://localhost:4000/pgv/versions**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -331,7 +331,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/pgv/simulations**', async (route) => {
+    await page.route('http://localhost:4000/pgv/simulations**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         if (route.request().method() === 'GET') {
           await route.fulfill({
@@ -374,7 +374,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for CTM logradouros when the API returns no rows', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/logradouros**', async (route) => {
+    await page.route('http://localhost:4000/ctm/logradouros**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -394,7 +394,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for integracoes logs when no sync records are available', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/tax-integration/connectors**', async (route) => {
+    await page.route('http://localhost:4000/tax-integration/connectors**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -405,7 +405,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/tax-integration/connectors/connector-1/logs**', async (route) => {
+    await page.route('http://localhost:4000/tax-integration/connectors/connector-1/logs**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -426,7 +426,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for integracoes connectors when no connector exists', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/tax-integration/connectors**', async (route) => {
+    await page.route('http://localhost:4000/tax-integration/connectors**', async (route) => {
       if (route.request().resourceType() === 'fetch' && route.request().method() === 'GET') {
         await route.fulfill({
           status: 200,
@@ -447,7 +447,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for reurb projects when no projects are available', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/reurb/tenant-config**', async (route) => {
+    await page.route('http://localhost:4000/reurb/tenant-config**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -460,13 +460,13 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
     });
     const emptyList = JSON.stringify({ data: [] });
     for (const path of [
-      '**/api/reurb/projects**',
-      '**/api/reurb/families**',
-      '**/api/reurb/units**',
-      '**/api/reurb/notification-templates**',
-      '**/api/reurb/notifications**',
-      '**/api/reurb/pendencies**',
-      '**/api/reurb/deliverables**',
+      'http://localhost:4000/reurb/projects**',
+      'http://localhost:4000/reurb/families**',
+      'http://localhost:4000/reurb/units**',
+      'http://localhost:4000/reurb/notification-templates**',
+      'http://localhost:4000/reurb/notifications**',
+      'http://localhost:4000/reurb/pendencies**',
+      'http://localhost:4000/reurb/deliverables**',
     ]) {
       await page.route(path, async (route) => {
         if (route.request().resourceType() === 'fetch') {
@@ -489,7 +489,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for reurb families and units when a project exists but no records do', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/reurb/tenant-config**', async (route) => {
+    await page.route('http://localhost:4000/reurb/tenant-config**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -500,7 +500,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/projects**', async (route) => {
+    await page.route('http://localhost:4000/reurb/projects**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -511,7 +511,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/families**', async (route) => {
+    await page.route('http://localhost:4000/reurb/families**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -522,7 +522,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/units**', async (route) => {
+    await page.route('http://localhost:4000/reurb/units**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -543,7 +543,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for reurb pendencies and deliverables when a project exists but none are generated', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/reurb/tenant-config**', async (route) => {
+    await page.route('http://localhost:4000/reurb/tenant-config**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -554,7 +554,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/projects**', async (route) => {
+    await page.route('http://localhost:4000/reurb/projects**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -565,7 +565,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/pendencies**', async (route) => {
+    await page.route('http://localhost:4000/reurb/pendencies**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -576,7 +576,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/deliverables**', async (route) => {
+    await page.route('http://localhost:4000/reurb/deliverables**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -597,7 +597,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for reurb notifications when a project exists but none were sent', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/reurb/tenant-config**', async (route) => {
+    await page.route('http://localhost:4000/reurb/tenant-config**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -608,7 +608,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/projects**', async (route) => {
+    await page.route('http://localhost:4000/reurb/projects**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -619,7 +619,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/reurb/notifications**', async (route) => {
+    await page.route('http://localhost:4000/reurb/notifications**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -639,7 +639,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for monitoring events when no records are available', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/monitoring/events**', async (route) => {
+    await page.route('http://localhost:4000/monitoring/events**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -650,7 +650,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/monitoring/dashboard**', async (route) => {
+    await page.route('http://localhost:4000/monitoring/dashboard**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -710,7 +710,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for obras requests when no records are available', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/permits-works**', async (route) => {
+    await page.route('http://localhost:4000/permits-works**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -731,7 +731,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for parcel vistorias when the tab has no records', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/parcels/parcel-empty**', async (route) => {
+    await page.route('http://localhost:4000/ctm/parcels/parcel-empty**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -750,7 +750,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/ctm/parcels/parcel-empty/history**', async (route) => {
+    await page.route('http://localhost:4000/ctm/parcels/parcel-empty/history**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -761,7 +761,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/ctm/vistorias?parcelId=parcel-empty**', async (route) => {
+    await page.route('http://localhost:4000/ctm/vistorias?parcelId=parcel-empty**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -781,7 +781,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for business permits when no requests exist', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/permits-business**', async (route) => {
+    await page.route('http://localhost:4000/permits-business**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -802,7 +802,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for poc score when the backend returns no data', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/poc/score**', async (route) => {
+    await page.route('http://localhost:4000/poc/score**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -822,7 +822,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for parcel infrastructure when the tab has no data', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/ctm/parcels/parcel-empty**', async (route) => {
+    await page.route('http://localhost:4000/ctm/parcels/parcel-empty**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -841,7 +841,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/ctm/parcels/parcel-empty/history**', async (route) => {
+    await page.route('http://localhost:4000/ctm/parcels/parcel-empty/history**', async (route) => {
       if (route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,
@@ -852,7 +852,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
       }
       await route.continue();
     });
-    await page.route('**/api/ctm/parcels/parcel-empty/infrastructure**', (route) => route.abort());
+    await page.route('http://localhost:4000/ctm/parcels/parcel-empty/infrastructure**', (route) => route.abort());
 
     await page.goto('/app/ctm/parcelas/parcel-empty', { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'Lote 000.000.000.0000' })).toBeVisible({ timeout: 10_000 });
@@ -862,7 +862,7 @@ test.describe('T3-EMPTY-STATES: empty and error states', () => {
 
   test('renders the empty state for levantamento files when the survey has no attachments', async ({ page }) => {
     await ensureSession(page);
-    await page.route('**/api/surveys**', async (route) => {
+    await page.route('http://localhost:4000/surveys**', async (route) => {
       if (route.request().method() === 'GET' && route.request().resourceType() === 'fetch') {
         await route.fulfill({
           status: 200,

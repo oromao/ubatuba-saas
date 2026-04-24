@@ -22,6 +22,24 @@
 
 ## Entradas
 
+### 2026-04-24 — Gemini — T1-AUDIT-ROUTING
+- **Status muda:** TODO → DONE
+- **Feito:** Identificadas rotas ausentes no RBAC (apps/web/src/lib/rbac.ts) que causavam redirecionamento indevido para o dashboard. Adicionadas as rotas /app/relatorios, /app/aprovacao e /app/certidoes às regras de acesso.
+- **Arquivos alterados:** `apps/web/src/lib/rbac.ts`, `apps/web/src/lib/rbac.spec.ts` (novo), `tests/e2e/fullscan/routing-audit.spec.ts` (novo)
+- **Testes adicionados:** Unit test para RBAC e E2E Playwright test para auditoria de rotas.
+- **Prova:** `npx playwright test tests/e2e/fullscan/routing-audit.spec.ts --project=scan` → PASS
+- **Próximo:** T1-AUDIT-VISTORIAS, T1-AUDIT-PORTAL-CIDADAO restantes
+- **Notas:** O redirecionamento era causado por `isAppRouteAllowed` retornar `false` para rotas não mapeadas em `APP_ROUTE_RULES`. A rota `/app/notifications` (pasta real) já estava no RBAC, mas o menu aponta para `/app/cartas` (Notificações Oficiais), que também está no RBAC.
+
+### 2026-04-24 — Claude — T1-AUDIT-CTM-EQUIPAMENTOS
+- **Status muda:** TODO → DONE
+- **Feito:** Criada `page.tsx` em `/app/ctm/equipamentos` com tabela (ID, Tipo, Localização, Status) consumindo `/ctm/urban-furniture`. Rota retorna HTTP 200 sem redirect. Arquivo commitado.
+- **Arquivos alterados:** `apps/web/src/app/app/ctm/equipamentos/page.tsx`
+- **Testes adicionados:** nenhum (curl + HTTP 200 validado)
+- **Prova:** `curl -o /dev/null -w "%{http_code}" http://localhost:3000/app/ctm/equipamentos` → 200
+- **Próximo:** T1-AUDIT-ROUTING, T1-AUDIT-VISTORIAS, T1-AUDIT-PORTAL-CIDADAO restantes
+- **Notas:** O arquivo já existia como untracked de sessão anterior; apenas commitado e DoD verificado.
+
 ### 2026-04-24 — Claude — Audit consolidation
 - **Status muda:** Auditoria completa (9 bugs) → Backlog estruturado (4 T1 + 4 T2 + 8 T3)
 - **Feito:** Transformei auditoria em 16 items do backlog seguindo hierarquia: P0→T1 (CRITICAL), P1→T2 (HIGH), P2/P3→T3 (MEDIUM/LOW). Todos os items têm DoD, validação e origem documentados. Pronto para múltiplas IAs.

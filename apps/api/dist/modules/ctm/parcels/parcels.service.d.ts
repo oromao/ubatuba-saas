@@ -133,5 +133,31 @@ export declare class ParcelsService {
         }>;
     }>;
     generatePdf(tenantId: string, parcelId: string): Promise<Buffer>;
+    getAuditLog(tenantId: string, filters: {
+        parcelId?: string;
+        actorId?: string;
+        action?: string;
+        limit?: number;
+        offset?: number;
+    }): Promise<{
+        entries: (import("mongoose").FlattenMaps<import("./parcel-audit.schema").ParcelAuditLogDocument> & Required<{
+            _id: import("mongoose").Types.ObjectId;
+        }> & {
+            __v: number;
+        })[];
+        total: number;
+        limit: number;
+        offset: number;
+    }>;
+    bulkTransicao(tenantId: string, ids: string[], newStatus: 'PENDENTE' | 'EM_VALIDACAO' | 'APROVADA' | 'REPROVADA', observacao: string, userId?: string, userRole?: string): Promise<{
+        total: number;
+        successful: number;
+        failed: number;
+        results: {
+            id: string;
+            status: string;
+            message: string | undefined;
+        }[];
+    }>;
 }
 export {};

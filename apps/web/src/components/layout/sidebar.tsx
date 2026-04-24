@@ -99,11 +99,12 @@ function SidebarBrand({ collapsed }: { collapsed: boolean }) {
 }
 
 function SidebarProfile({ collapsed }: { collapsed: boolean }) {
-  const { userName, userEmail, logout } = useAuth();
+  const { ready, token, userName, userEmail, logout } = useAuth();
   const [lastTenantSlug, setLastTenantSlug] = useState<string | null>(null);
   const { data: tenant } = useQuery({
     queryKey: ["current-tenant"],
     queryFn: () => apiFetch<{ name: string; slug: string } | null>("/tenants/me"),
+    enabled: ready && Boolean(token),
     staleTime: 5 * 60 * 1000,
   });
 

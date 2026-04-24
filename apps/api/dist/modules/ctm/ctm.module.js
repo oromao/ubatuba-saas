@@ -96,6 +96,7 @@ exports.CtmModule = CtmModule = __decorate([
             import_batch_repository_1.ImportBatchRepository,
             parcels_service_1.ParcelsService,
             geometry_service_1.GeometryService,
+            parcel_audit_repository_1.ParcelAuditRepository,
         ],
     })
 ], CtmModule);

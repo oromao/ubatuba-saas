@@ -116,7 +116,7 @@ export default function ObservatoryPage() {
     return params.toString();
   }, [compare, focus, neighborhood, projectId, street, zoneId]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["observatory-market", query],
     queryFn: () => apiFetch<MarketOverview>(`/observatory/market${query ? `?${query}` : ""}`),
   });
@@ -189,6 +189,20 @@ export default function ObservatoryPage() {
           </Button>
         </CardContent>
       </Card>
+
+      {error && (
+        <Card className="mt-4 border-rose-200 bg-rose-50">
+          <CardHeader>
+            <CardTitle className="text-rose-900">Observatório indisponível</CardTitle>
+            <CardDescription className="text-rose-800">
+              Não foi possível carregar os indicadores executivos no momento. Tente novamente ou revise a integração.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-sm text-rose-800">
+            {error instanceof Error ? error.message : "Falha inesperada ao carregar o observatório."}
+          </CardContent>
+        </Card>
+      )}
 
       <section className="mt-6 grid gap-4 md:grid-cols-4">
         {isLoading

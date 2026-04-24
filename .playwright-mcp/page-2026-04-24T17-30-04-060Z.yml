@@ -1,0 +1,48 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - img "OpenClaw" [ref=e6]
+    - generic [ref=e7]: OpenClaw
+    - generic [ref=e8]: Painel do Gateway
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]: URL WebSocket
+      - textbox "URL WebSocket" [ref=e12]:
+        - /placeholder: ws://127.0.0.1:18789
+        - text: wss://openclaw.labspaulo.site
+    - generic [ref=e13]:
+      - generic [ref=e14]: Token do Gateway
+      - generic [ref=e15]:
+        - textbox "Token do Gateway Alternar visibilidade do token" [ref=e16]:
+          - /placeholder: OPENCLAW_GATEWAY_TOKEN (opcional)
+        - button "Alternar visibilidade do token" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+    - generic [ref=e23]:
+      - generic [ref=e24]: Senha (não armazenada)
+      - generic [ref=e25]:
+        - textbox "Senha (não armazenada) Alternar visibilidade da senha" [ref=e26]:
+          - /placeholder: opcional
+        - button "Alternar visibilidade da senha" [ref=e27] [cursor=pointer]:
+          - img [ref=e28]
+    - button "Conectar" [ref=e33] [cursor=pointer]
+  - generic [ref=e34]:
+    - generic [ref=e35]: Como conectar
+    - list [ref=e36]:
+      - listitem [ref=e37]:
+        - text: "Inicie o gateway na sua máquina host:"
+        - 'button "Copy command: openclaw gateway run" [ref=e38]':
+          - code [ref=e39]: openclaw gateway run
+          - button "Copy command" [ref=e40] [cursor=pointer]:
+            - generic [ref=e41]:
+              - img [ref=e43]
+              - img [ref=e47]
+      - listitem [ref=e49]:
+        - text: "Obtenha uma URL do painel com token:"
+        - 'button "Copy command: openclaw dashboard" [ref=e50]':
+          - code [ref=e51]: openclaw dashboard
+          - button "Copy command" [ref=e52] [cursor=pointer]:
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - img [ref=e59]
+      - listitem [ref=e61]: Cole a URL do WebSocket e o token acima, ou abra a URL com token diretamente.
+    - link "Leia a documentação →" [ref=e63] [cursor=pointer]:
+      - /url: https://docs.openclaw.ai/web/dashboard
