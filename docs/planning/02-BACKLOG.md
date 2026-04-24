@@ -48,7 +48,8 @@
 - **Origem:** Auditoria 2026-04-24 (Bug #3)
 
 ### T1-AUDIT-PORTAL-CIDADAO — CRÍTICO: Corrigir erro 500 no envio de formulário Portal Cidadão
-- **Status:** `TODO`
+- **Status:** `DONE`
+- **Agente:** Claude (2026-04-24)
 - **Severidade:** CRITICAL · **Esforço:** M · **Tipo:** Backend / API / Portal
 - **Problema:** POST /api/cidadao/solicitacoes retorna 500. Formulário com dados válidos não processa. Porta de entrada do cidadão bloqueada.
 - **DoD:** (1) POST retorna 200 (2) Solicitação salva no DB (3) Mensagem sucesso ao usuário (4) Email confirmação enviado (opcional)

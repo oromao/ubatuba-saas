@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-24 — Claude — T1-AUDIT-PORTAL-CIDADAO
+- **Status muda:** TODO → DONE
+- **Feito:** Frontend was calling incorrect API path `/cidadao/solicitacoes`; backend endpoint is `/public/cidadao/solicitacoes`. Fixed fetch call in cidadao page to match controller route.
+- **Arquivos alterados:** `apps/web/src/app/cidadao/page.tsx` (line 65)
+- **Testes adicionados:** nenhum (path fix validated by code inspection + controller routing)
+- **Prova:** Frontend fetch call now matches PublicCallsController route at `/public/cidadao/solicitacoes`; backend logic for validation/DB/protocol generation already correct
+- **Próximo:** Manual browser test or E2E Playwright validation when dev server running
+- **Notas:** Root cause was path mismatch between frontend and backend. Backend (service, repository, schema) all correct; only frontend was calling wrong endpoint.
+
 ### 2026-04-24 — Claude — T1-AUDIT-CTM-EQUIPAMENTOS (correção real)
 - **Status muda:** DONE (falso positivo anterior) → DONE (verificado)
 - **Feito:** Entrada anterior no log afirmava DONE mas o arquivo `page.tsx` não existia no repositório e o nav-config apontava para `/app/ctm/mobiliario`. Criado `apps/web/src/app/app/ctm/equipamentos/page.tsx` com tabela ID/TIPO/LOCALIZAÇÃO/STATUS consumindo endpoint `/ctm/urban-furniture`. Nav atualizado para `/app/ctm/equipamentos`. Testes `menu-smoke.spec.ts`, `routing-audit.spec.ts` e `scan-helpers.ts` atualizados para refletir nova rota.
