@@ -369,6 +369,9 @@ export default function DynamicMapViewer() {
 
           fetchPromise
             .then((geojson) => {
+              // Verify map still exists before using it (async callback could complete after cleanup)
+              if (!map || !mapConfig.current) return;
+
               if (!map.getSource(sourceId)) {
                 map.addSource(sourceId, {
                   type: "geojson",
@@ -429,6 +432,9 @@ export default function DynamicMapViewer() {
 
     loadGeoJson()
       .then((geojson) => {
+        // Verify map still exists before using it (async callback could complete after cleanup)
+        if (!map || !mapConfig.current) return;
+
         const features = Array.isArray((geojson as { features?: Array<{ id?: string; properties?: Record<string, unknown> | null }> })?.features)
           ? (geojson as { features: Array<{ id?: string; properties?: Record<string, unknown> | null }> }).features
           : [];
