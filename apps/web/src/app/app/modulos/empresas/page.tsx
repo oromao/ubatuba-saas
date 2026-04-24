@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/app/data-table";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 type BusinessPermit = {
   _id: string;
@@ -30,6 +31,7 @@ export default function EmpresasPage() {
   const [companyName, setCompanyName] = useState("Empresa Demo Ubatuba");
   const [cnpj, setCnpj] = useState("12.345.678/0001-99");
   const [activityDescription, setActivityDescription] = useState("Comercio local e servicos");
+  const [confirmDeferOpen, setConfirmDeferOpen] = useState(false);
 
   const permitsQuery = useQuery({
     queryKey: ["permits-business"],
@@ -127,7 +129,7 @@ export default function EmpresasPage() {
               <Button variant="outline" onClick={() => addEvidenceMutation.mutate()} disabled={addEvidenceMutation.isPending || !selected}>
                 Anexar evidência
               </Button>
-              <Button variant="outline" onClick={() => decideMutation.mutate()} disabled={decideMutation.isPending || !selected}>
+              <Button variant="outline" onClick={() => setConfirmDeferOpen(true)} disabled={decideMutation.isPending || !selected}>
                 Deferir
               </Button>
             </div>
@@ -215,6 +217,37 @@ export default function EmpresasPage() {
           </Card>
         </div>
       ) : null}
+
+      {/* Confirmation dialog for "Deferir" action */}
+      <Dialog open={confirmDeferOpen} onOpenChange={setConfirmDeferOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar deferimento</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-on-surface-muted">
+            Esta ação aprovará o alvará de "{selected?.companyName}". Esta decisão não pode ser desfeita facilmente.
+          </p>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setConfirmDeferOpen(false)}
+              disabled={decideMutation.isPending}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                decideMutation.mutate();
+                setConfirmDeferOpen(false);
+              }}
+              disabled={decideMutation.isPending}
+            >
+              {decideMutation.isPending ? "Processando..." : "Confirmar deferimento"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
