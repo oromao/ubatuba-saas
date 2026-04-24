@@ -72,7 +72,10 @@
       "mcp__Claude_in_Chrome__read_page",
       "mcp__Claude_in_Chrome__tabs_create_mcp",
       "Bash(bash /Users/paulo/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/scripts/start-server.sh --project-dir /Users/paulo/Documents/ubatuba-saas)",
-      "Bash(bash /Users/paulo/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh --project-dir /Users/paulo/Documents/ubatuba-saas)"
+      "Bash(bash /Users/paulo/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh --project-dir /Users/paulo/Documents/ubatuba-saas)",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/vps-deploy.sh)",
+      "Read(//tmp/**)"
     ]
   },
   "enableAllProjectMcpServers": true,
