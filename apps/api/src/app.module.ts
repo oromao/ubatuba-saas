@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
 import { TenantsModule } from './modules/tenants/tenants.module';
 import { UsersModule } from './modules/users/users.module';
+import { GisModule } from './modules/gis/gis.module';
 import { MembershipsModule } from './modules/memberships/memberships.module';
 import { ProcessesModule } from './modules/processes/processes.module';
 import { AlertsModule } from './modules/alerts/alerts.module';
@@ -63,6 +64,7 @@ import { ReportsModule } from './modules/reports/reports.module';
     AuthModule,
     TenantsModule,
     UsersModule,
+    GisModule,
     MembershipsModule,
     ProcessesModule,
     AlertsModule,
