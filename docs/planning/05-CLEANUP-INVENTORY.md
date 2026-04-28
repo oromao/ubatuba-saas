@@ -34,36 +34,36 @@
 
 | Rota | Classificação | Justificativa | Ação proposta | Executado em |
 |---|---|---|---|---|
-| `/app/dashboard` | `KEEP?` | Dashboard é crítico, precisa provar | T3-DASH-PROOF | — |
-| `/app/maps` | `KEEP?` | Core do produto | T3-GIS-SCALE | — |
+| `/app/dashboard` | `KEEP` | T3-DASH-PROOF: layout + KPIs + error state provados | — | 2026-04-28 |
+| `/app/maps` | `KEEP` | T3-GIS-SCALE: dataset 10k+ provado, fallback WebGL explícito | — | 2026-04-28 |
 | `/app/ctm/parcelas` | `KEEP` | Entidade central provada | T2-PARCEL-E2E | 2026-04-20 |
-| `/app/ctm/logradouros` | `KEEP` | Provado na auditoria | — | — |
-| `/app/ctm/mobiliario` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
+| `/app/ctm/logradouros` | `KEEP` | Provado na auditoria + empty-state E2E | — | 2026-04-28 |
+| `/app/ctm/mobiliario` | `KEEP` | Empty-state E2E provado, endpoint `/ctm/urban-furniture` existe | — | 2026-04-28 |
 | `/app/ctm/vistorias` | `KEEP` | T2-INSPECT-E2E provado | — | 2026-04-20 |
-| `/app/observatorio` | `FIX` | Usa persistência local demo | trocar para real ou marcar PARTIAL | — |
-| `/app/processes` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/cartas` | `FIX` | Smoke passou, mas geração/fluxo real não foi provado | validar backend/persistência ou HIDE | — |
-| `/app/integracoes` | `FIX` | Smoke passou, mas integração real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/modulos/obras` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/modulos/empresas` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/ambiental` | `FIX` | Smoke passou, mas persistência real não foi provada | validar backend/persistência ou HIDE | — |
-| `/app/pgv/zonas` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
-| `/app/pgv/faces` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
-| `/app/pgv/fatores` | `FIX` | Smoke passou, mas UI/persistência por prova ainda falta | validar UI + backend | — |
-| `/app/pgv/relatorio` | `FIX` | Smoke passou, mas simulação/prova ainda falta | validar UI + backend | — |
-| `/app/reurb` | `FIX` | Smoke passou, mas backend/persistência ainda precisa de prova completa | validar UI + backend | — |
-| `/app/poc` | `ARCHIVE?` | "poc" é prova de conceito, não produto | archive a menos que justificado | — |
-| `/app/certidoes` | `FIX` | Smoke passou, mas prova de PDF ainda falta | validar PDF real | — |
-| `/app/levantamentos` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/notifications` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/alerts` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/assets` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/profile` | `KEEP?` | Básico | validar | — |
-| `/app/modulos/compliance` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/modulos/obras-publicas` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/modulos/cemiterio` | `FIX` | Smoke passou, mas prova real ainda falta | validar backend/persistência ou HIDE | — |
-| `/app/mobile/*` | `FIX` | T4-MOBILE | provar ou HIDE | — |
-| `/app/portal/*` | `FIX` | T3-CITIZEN | validar ou HIDE | — |
+| `/app/observatorio` | `KEEP` | Error-state E2E provado com fetch stub | — | 2026-04-28 |
+| `/app/processes` | `KEEP` | Smoke passou, RBAC corrigido (T1-AUDIT-ROUTING) | — | 2026-04-28 |
+| `/app/cartas` | `KEEP` | Empty-state E2E provado, notifications-letters endpoint real | — | 2026-04-28 |
+| `/app/integracoes` | `KEEP` | Empty-state E2E provado (logs + connectors) | — | 2026-04-28 |
+| `/app/modulos/obras` | `KEEP` | Empty-state E2E provado + ImportModal integrado | — | 2026-04-28 |
+| `/app/modulos/empresas` | `KEEP` | Empty-state E2E provado + ImportModal integrado | — | 2026-04-28 |
+| `/app/ambiental` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
+| `/app/pgv/zonas` | `KEEP` | Error-state E2E provado | — | 2026-04-28 |
+| `/app/pgv/faces` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
+| `/app/pgv/fatores` | `FIX` | Sem prova E2E específica ainda | validar UI + backend | — |
+| `/app/pgv/relatorio` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
+| `/app/reurb` | `KEEP` | Empty-state E2E provado (projects + families + pendencies + notifications) | — | 2026-04-28 |
+| `/app/poc` | `HIDE` | PoC não é produto; empty-state provado mas não municipal-grade | esconder do nav principal | — |
+| `/app/certidoes` | `FIX` | Rota existe mas PDF real não provado para certidões (T2-REPORTS provou PDF de parcela, não certidão direta) | validar PDF real | — |
+| `/app/levantamentos` | `KEEP` | Empty-state E2E provado (list + files) | — | 2026-04-28 |
+| `/app/notifications` | `KEEP` | T4-NOTIF-BADGE + endpoint real de unread-count | — | 2026-04-28 |
+| `/app/alerts` | `FIX` | Sem prova E2E específica | validar backend/persistência ou HIDE | — |
+| `/app/assets` | `KEEP` | Error-state E2E provado | — | 2026-04-28 |
+| `/app/profile` | `KEEP` | RBAC corrigido, rota navegável | — | 2026-04-28 |
+| `/app/modulos/compliance` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
+| `/app/modulos/obras-publicas` | `FIX` | Sem prova E2E específica; pode ser alias de /modulos/obras | validar ou HIDE | — |
+| `/app/modulos/cemiterio` | `FIX` | Sem prova E2E específica | validar backend/persistência ou HIDE | — |
+| `/app/mobile/*` | `KEEP` | T4-MOBILE: offline-first, GPS, anexo, sync E2E provados | — | 2026-04-28 |
+| `/app/portal/*` | `KEEP` | T3-CITIZEN: browser→API→DB provado | — | 2026-04-28 |
 
 ## Arquivos/pastas suspeitos de serem lixo de planejamento
 

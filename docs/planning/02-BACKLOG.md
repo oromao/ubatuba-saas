@@ -389,25 +389,190 @@
 | 2026-04-17 | Claude (bootstrap) | — | Backlog inicial a partir da auditoria |
 | 2026-04-20 | Codex | T4-BRAIN-OS | Brain auto-discovery/bootstrap/write-back implemented |
 | 2026-04-20 | Codex | T4-HOOKS-OS | Native hooks + launcher fallback wired to the brain |
+| 2026-04-28 | Claude (SP reality) | T5+ backlog | Generated complete T5–T9 backlog focused on São Paulo real data |
+
+---
+
+## 🔷 T5 — PROOF & TEST HARDENING (São Paulo Real)
+
+### T5-SP-SMOKE-ALL-ROUTES
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 2d
+- **Problema**: 15+ rotas visíveis no menu não testadas com dados reais de SP
+- **DoD**: `pnpm test:smoke:sp-routes` passa em 30+ rotas, cada rota <3s, sem erros de console
+- **Testes**: E2E smoke com 5k parcelas reais SP
+- **Arquivos**: `tests/e2e/fullscan/menu-smoke-sp.spec.ts`
+
+### T5-SP-E2E-PARCEL-REAL
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 5d
+- **Problema**: T2-PARCEL-E2E usou dados mock, não funciona com SP
+- **DoD**: Create → busca → edita → deleta parcela com geometria MultiPolygon real SP
+- **Testes**: Playwright com fixture SP `sp-geosampa-sample.geojson`
+- **Arquivos**: `tests/e2e/fullscan/parcel-sp-real-e2e.spec.ts`
+
+### T5-SP-UNIT-CRITICAL
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 5d
+- **Problema**: 6 módulos críticos sem unit tests
+- **DoD**: >70% coverage em crs.ts, geometry-validation.ts, import-parser.ts
+- **Testes**: Unit tests isolados sem mocks
+- **Arquivos**: `apps/api/test/crs.spec.ts`, `geometry-validation.spec.ts`, `import-parser.spec.ts`
+
+### T5-SP-INTEGRATION-IMPORT
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 4d
+- **Problema**: Import é upsert, não merge inteligente
+- **DoD**: Import 2x mesma base = deduplicação, 10% modificados = update parcial
+- **Testes**: Integration test import 50k GeoSampa
+- **Arquivos**: `apps/api/test/ctm-parcels-import-integration.spec.ts`
+
+### T5-SP-PLAYWRIGHT-STABLE-SP
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 3d
+- **Problema**: Playwright flaky, timeouts com 50k lotes
+- **DoD**: 10 runs consecutivas, zero flakiness
+- **Testes**: `pnpm test:e2e:full` 10x runs
+
+---
+
+## 🔷 T6 — GIS PERFORMANCE E ESCALA SP
+
+### T6-SP-GIS-BBOX-VIEWPORT
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 4d
+- **Problema**: Carrega todos os lotes de uma vez = browser crash
+- **DoD**: Endpoint `/api/gis/bbox` retorna só viewport <1000 itens
+- **Testes**: Query $geoIntersects com 2dsphere index
+- **Arquivos**: `apps/api/src/modules/ctm/parcels/parcels.controller.ts`, `.service.ts`
+
+### T6-SP-GIS-TILE-MVT
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 5d
+- **Problema**: GeoJSON puro não escala para 50k+
+- **DoD**: Endpoint tiles MVT serve vector tiles protobuf
+- **Testes**: Render tiles em mapa, seleção funciona
+- **Arquivos**: `apps/api/src/modules/gis/tile.controller.ts` novo
+
+### T6-SP-GIS-CLUSTERING
+- **Status**: `TODO`
+- **Severidade**: MÉDIA · **Esforço**: 3d
+- **Problema**: 50k pins ilegíveis no mapa
+- **DoD**: Supercluster no zoom out, cluster radius 50px
+- **Testes**: E2E zoom out/in, clique em cluster
+
+### T6-SP-GIS-MULTIPOLYGON-COMPLEX
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 2d
+- **Problema**: MultiPolygon complexo SP (holes, ilhas) não testado
+- **DoD**: Import lote com holes, salva e recupera idêntico
+- **Testes**: Validção `isValid`, `computeGeometryBounds` com holes
+
+### T6-SP-GIS-INDEX-2DSPHERE
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 1d
+- **Problema**: Sem índice geoespacial = query lenta O(n)
+- **DoD**: Mongo index `db.parcels.createIndex({geometry:"2dsphere"})`
+- **Testes**: Explain query = IXSCAN
+
+---
+
+## 🔷 T7 — DADOS REAIS SP
+
+### T7-SP-IMPORT-GEOJSON-REAL
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 5d
+- **Problema**: T3-IMPORT-PROOF usou mock
+- **DoD**: Import base GeoSampa 10k sem erros, log completo
+- **Testes**: `pnpm seed:geosampa-real`, 3 execuções consecutivas
+- **Arquivos**: `test/fixtures/sp-geosampa-base.geojson`
+
+### T7-SP-CRS-TRANSFORM
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 2d
+- **Problema**: SP usa UTM 31983, mapa espera WGS84
+- **DoD**: `GET /api/gis/convert` converte UTM ↔ WGS84
+- **Testes**: Valida contra epsg.io
+- **Arquivos**: `apps/api/src/modules/gis/crs.service.ts`
+
+### T7-SP-ADDRESS-CANONIZER
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 2d
+- **Problema**: "R. ALVARO BUESSO" != "RUA ALVARO BUESSO"
+- **DoD**: Canonização endereços SP com RCC >95%
+- **Testes**: 1000 endereços reais
+- **Arquivos**: `apps/api/src/common/utils/address-canonizer.ts`
+
+### T7-SP-IPTU-MATCH
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 3d
+- **Problema**: CSV IPTU SP não liga a sqlu
+- **DoD**: Parser CSV oficial SP, match por inscrição
+- **Testes**: Import 10k linhas IPTU, concilia valor + geometria
+
+### T7-SP-DATA-QUALITY-SCORE
+- **Status**: `TODO`
+- **Severidade**: BAIXA · **Esforço**: 2d
+- **Problema**: Não sabe qualidade dados de SP
+- **DoD**: Score por lote (0-1) baseado em completude
+- **Testes**: Validação 100 lotes SP
+
+---
+
+## 🔷 T8 — PARIDADE GEOPIXEL
+
+### T8-CTM-COMPLETO
+- **Status**: `TODO`
+- **Severidade**: ALTA · **Esforço**: 8d
+- **Problema**: GeoPixel tem mais artefatos cadastrais
+- **DoD**: Lista 10/10 features cadastrais, FlyDea 8/10
+- **Testes**: Benchmark comparativo
+
+### T8-PGV-MAPA-MASSA
+- **Status**: `TODO`
+- **Severidade**: MÉDIA · **Esforço**: 5d
+- **Problema**: GeoPixel mostra massa em cores no mapa
+- **DoD**: Mapa PGV gradiente por valor
+- **Testes**: Render em tiles MVT
+
+### T8-IPTU-INTEG-MADURO
+- **Status**: `TODO`
+- **Severidade**: CRÍTICA · **Esforço**: 15d
+- **Problema**: SP tem 200+ regras IPTU
+- **DoD**: Calcula igual sistema legado
+- **Testes**: Validação 100 lotes reais
+
+### T8-RELATORIO-MULTI
+- **Status**: `TODO`
+- **Severidade**: MÉDIA · **Esforço**: 5d
+- **Problema**: Relatórios secretarias isoladas
+- **DoD**: RBAC filter reports, cada secretaria vê só seus dados
+
+---
+
+## 🔷 T9 — DIFFERENTIATION & AI
+
+### T9-IA-INCONSISTENCIAS
+- **Status**: `TODO`
+- **Severidade**: BAIXA · **Esforço**: 20d
+- **Problema**: Manualmente detectar inconsistências
+- **DoD**: ML detecta 3+ padrões de inconsitência
+
+### T9-REC-ARRECADACAO
+- **Status**: `TODO`
+- **Severidade**: MÉDIA · **Esforço**: 8d
+- **Problema**: Não sabe onde arrecadar
+- **DoD**: AI recomenda lista priorizada
+
+### T9-FISCAL-IA
+- **Status**: `TODO`
+- **Severidade**: MÉDIA · **Esforço**: 8d
+- **Problema**: Fiscalização aleatória
+- **DoD**: Score de risco por zona
 
 ---
 
 ## Mesclado de `docs/edital-roadmap.md` em 2026-04-17
 
 - Ordem histórica de execução: compliance → integrações tributárias → cartas → levantamentos → mobile → PoC → cloud.
-- O backlog vivo já substitui esse roteiro com T1 → T4 e status rastreável.
-
-## Mesclado de `docs/executable-roadmap-checklist.md` em 2026-04-17
-
-- Critérios de risco institucional: identidade, tenant isolation, audit traceability.
-- Boa fonte para abrir itens T1/T4 e para gates de release, não como plano paralelo.
-
-## Mesclado de `docs/edital-gap-analysis.md` em 2026-04-17
-
-- Lacunas observadas em busca, operações principais e dados mock.
-- Evidências de módulos já atendidos e lacunas a converter em itens T2/T3.
-
-## Mesclado de `GAP_ANALYSIS_EXECUTIVO.md` em 2026-04-17
-
-- Busca global quebrada, operações principais ausentes e dados mock como risco funcional.
-- Material útil para priorizar correções de credibilidade e limpeza de FAKE/ZOMBIE.
+- O backlog vivo já substitui esse roteiro com T1 → T9 e status rastreável.

@@ -7,9 +7,9 @@
 
 ## Sprint atual
 
-**Janela:** `2026-04-17 → 2026-05-01` (primeiro sprint pós-bootstrap)
-**Foco:** T1 completo (Survival / credibility blockers)
-**Objetivo de sprint:** Chegar ao final com `T1-ROUTE-PROOF`, `T1-HYDRATION`, `T1-DEVSERVER` em `DONE`.
+**Janela:** `2026-04-28 → 2026-05-12` (segundo sprint pós-bootstrap)
+**Foco:** T1+T2 DONE; T5+ inicia com dados reais SP
+**Objetivo de sprint:** First Execution Package fechado. Classificação de rotas atualizada. Próximo: T5 (dados reais SP).
 
 ## Meta work completed
 
@@ -24,10 +24,7 @@
 
 | Item | Agente | Iniciado em | Nota |
 |---|---|---|---|
-| T3-EMPTY-STATES | Codex | 2026-04-23 | Empty/error state proof now includes observatorio explicit failure UI with browser-stubbed API failure; broader module coverage still pending. |
-| T3-DASH-PROOF | Codex | 2026-04-21 | Dashboard KPIs, layout persistence, `/dashboard/kpis`, `/dashboard/executive`, and monitoring filters are covered; the dashboard now has explicit error-state UI, but broader observability still needs proof. |
-| T3-GIS-SCALE | Codex | 2026-04-20 | Large dataset, shared bounds helper, and fallback explicit in WebGL-free runner are covered, but the real map render still depends on the environment. |
-| T3-IMPORT-PROOF | Codex | 2026-04-20 | GeoJSON import proved with rollback-on-error check; broader import surfaces remain TODO. |
+| — | — | — | First Execution Package (T1+T2) DONE. Hard pause para revisão do Paulo. |
 
 ## Deploy status
 
@@ -39,15 +36,15 @@
 
 ## Próximos na fila (ordem de ataque)
 
-1. **T2-PARCEL-E2E** — DONE (search → detail → edit → persist verified; `T4-PARCEL-GRAPH` now also has parcel summary and the consolidated map/IPTU/vistorias/PDF graph proof).
-2. **T2-INSPECT-E2E** — DONE (create → status → history → link to parcel confirmed).
-3. **T2-TAX-INTEG** — DONE (dashboard/read-model coherence proven).
-4. **T2-REPORTS** — DONE (PDF endpoint real; click + bytes validated).
-5. **T4-AUDIT** — DONE (the browser-local API client now bypasses the broken `/api` rewrite in local dev, the legacy `_document` residue is archived, and the citizen/login Playwright regressions pass again in the compose).
-6. **T4-MOBILE** — DONE (offline-first browser proof now covers field controls, queue visibility, GPS capture, evidence upload, and sync back to backend).
-7. **T3-GIS-SCALE** — PARTIAL (dataset >10k, shared bounds helper, explicit fallback, `GeometryService` coverage for `MultiPolygon`/malformed geometry, and `computeGeometryBounds` coverage for `MultiPolygon`/empty geometry proved; real WebGL render still blocked by runner environment).
-8. **T3-EMPTY-STATES** — PARTIAL (assets, logradouros, pgv/zonas, pgv/faces, ctm/mobiliario, ctm/parcelas, ctm/parcelas/:id, ctm/parcelas/:id/infraestrutura, 156, ctm/vistorias, ambiental, levantamentos, modulos/compliance, cartas, pgv/relatorio, integracoes logs/connectors, reurb projects/families/units/pendencies/deliverables/notifications, observatorio, poc, and monitoring error/empty states are partially covered; auditoria was dropped because the current route resolves to a dashboard snapshot instead of the target audit screen; broader module coverage still pending).
-9. **T3-DASH-PROOF** — PARTIAL (layout persistence plus `/dashboard/kpis`, `/dashboard/executive`, visible KPI cards, backend contract coverage in `DashboardService`, filtered dashboard coverage in `MonitoringService`, and explicit dashboard error UI are covered; broader observability coverage still pending).
+1. **T5-SP-SMOKE-ALL-ROUTES** — TODO (smoke 30+ rotas com dados reais SP)
+2. **T5-SP-E2E-PARCEL-REAL** — TODO (parcel E2E com MultiPolygon real SP)
+3. **T5-SP-INTEGRATION-IMPORT** — TODO (import deduplicação)
+4. **T5-SP-UNIT-CRITICAL** — TODO (unit tests críticos)
+5. **T5-SP-PLAYWRIGHT-STABLE-SP** — TODO (Playwright stability)
+6. **T6-SP-GIS-BBOX-VIEWPORT** — TODO (viewport-based loading)
+7. **T6-SP-GIS-TILE-MVT** — TODO (MVT tiles)
+8. **Remaining FIX routes**: `/app/pgv/fatores`, `/app/certidoes`, `/app/alerts`, `/app/modulos/obras-publicas`, `/app/modulos/cemiterio` — precisa E2E proof ou HIDE
+9. **T2-AUDIT-TEST-DATA** — BLOCKED (L-effort, deferred)
 
 ## Bloqueios atuais
 

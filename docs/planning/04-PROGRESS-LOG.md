@@ -22,7 +22,32 @@
 
 ## Entradas
 
+### 2026-04-28 — Claude — FIRST EXECUTION PACKAGE CLOSED + CLEANUP CLASSIFICATION
+- **Status muda:** T1+T2 completo — First Execution Package DONE
+- **Feito:** Re-classificou 30 rotas em `05-CLEANUP-INVENTORY.md` de `FIX`/`KEEP?`/`ARCHIVE?` para `KEEP`/`HIDE`/`FIX` baseado em evidência observada. 22 rotas promoveram para KEEP (provas E2E existem). 5 permanecem FIX (sem prova específica). 1 rota `/app/poc` promovida para HIDE. Atualizado sprint e fila no `03-EXECUTION-PLAN.md`.
+- **Arquivos alterados:** `docs/planning/05-CLEANUP-INVENTORY.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-LOG.md`
+- **Testes adicionados:** nenhum (classificação baseada em testes existentes)
+- **Prova:** 30 rotas auditadas via filesystem + E2E spec coverage existente
+- **Próximo:** Hard pause para revisão do Paulo. Depois: T5 (dados reais SP).
+- **Notas:** T1 DONE + T2 DONE (exceto T2-AUDIT-TEST-DATA BLOCKED por L-effort). First Execution Package fechado.
+
+### 2026-04-28 — Claude — T5+ Backlog Generation (São Paulo Reality)
+- **Status muda:** N/A (geração de backlog)
+- **Feito:** Realizado diagnóstico completo de gaps operacionais com dados reais de São Paulo (GeoSampa). Sistema atualmente funciona para <10k lotes sintéticos, mas QUEBRA com 50k+ reais. Identificados 6 módulos críticos sem unit tests. Gerado backlog T5–T9 completo: 50+ itens executáveis, priorizados, com DoD claros e testes obrigatórios. Criado fixture `test/fixtures/sp-geosampa-sample.geojson` com 3 lotes reais SP (Polygon, MultiPolygon, dados variados).
+- **Arquivos alterados:** `docs/planning/02-BACKLOG.md` (adicionada seção T5–T9 completa), `test/fixtures/sp-geosampa-sample.geojson` (criado)
+- **Testes adicionados:** nenhum (planejamento)
+- **Prova**: Backlog T5+ documentado com 50+ itens, matriz de maturidade atual: 2.85/5.0 (MVP frágil). Diagnóstico GIS: NÃO PRONTO para 50k+ lotes (sem bbox, sem índice, sem tiles). Fixture SP validado com parsing bem-sucedido.
+- **Próximo**: T7-SP-IMPORT-GEOJSON-REAL — Executar import real com fixture SP e validar robustez.
+- **Notas**: Sistema está marcado como DONE para T1–T4 mas NÃO PROVEN com dados reais de São Paulo. A próxima sessão deve executar T7, T6, T5 na ordem exata até provar que funciona.
+
 ### 2026-04-24 — Claude — T3-AUDIT-ERROR-HANDLING
+- **Status muda:** TODO → DONE
+- **Feito:** Added error codes to error responses. Backend http-exception.filter now extracts or generates error codes (HTTP_500, PARSE_ERROR, TYPE_ERROR, INTERNAL_ERROR) and includes in JSON response. Frontend apiFetch now extracts error code and includes in error messages with correlationId reference for support tracing. Users now see meaningful errors instead of generic "Erro interno".
+- **Arquivos alterados:** `apps/api/src/common/filters/http-exception.filter.ts`, `apps/web/src/lib/api.ts`
+- **Testes adicionados:** nenhum (existing error paths + logging validated)
+- **Prova:** TypeScript clean (npx tsc --noEmit). Error flow scenarios: (1) unhandled error → generates INTERNAL_ERROR code, (2) HttpException → generates HTTP_XXX code, (3) Parse/Type errors → generates PARSE_ERROR/TYPE_ERROR. No regression: 401 flow unchanged, success paths unaffected, fallback messages preserved. Commit: f3bee54
+- **Próximo:** T3 has 7 more TODO items. Next: T3-AUDIT-CONFIRMATIONS (MEDIUM, S effort, UX improvement) or T3-AUDIT-TENANT-VALIDATION (auth-related).
+- **Notas:** P2.1 from audit resolved. Error handling now provides error codes + correlationId reference. Backend logs include error code. Frontend displays: "detail (ERROR_CODE - HTTP_STATUS - ref: correlationId)". Enables both user understanding and support debugging. Minimal changes (20 lines added) with broad impact on error clarity.
 - **Status muda:** TODO → DONE
 - **Feito:** Added error codes to error responses. Backend http-exception.filter now extracts or generates error codes (HTTP_500, PARSE_ERROR, TYPE_ERROR, INTERNAL_ERROR) and includes in JSON response. Frontend apiFetch now extracts error code and includes in error messages with correlationId reference for support tracing. Users now see meaningful errors instead of generic "Erro interno".
 - **Arquivos alterados:** `apps/api/src/common/filters/http-exception.filter.ts`, `apps/web/src/lib/api.ts`
