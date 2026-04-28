@@ -609,7 +609,457 @@
 
 ---
 
-## Mesclado de `docs/edital-roadmap.md` em 2026-04-17
+## 🔶 T8 — PARIDADE GEOPIXEL-CLASS (Competitive Parity)
 
-- Ordem histórica de execução: compliance → integrações tributárias → cartas → levantamentos → mobile → PoC → cloud.
-- O backlog vivo já substitui esse roteiro com T1 → T9 e status rastreável.
+**Objetivo:** Deixar FlyDea comparável à GeoPixel em funcionalidades básicas.
+
+### T8-GIS-MVT — Implementar MVT Tiles
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** XL (20d) · **Tipo:** GIS / Backend / Performance
+- **Problema:** GeoJSON puro não escala para 50k+ geometrias. Browser crash com dataset real SP.
+- **DoD:** (1) Endpoint `/api/gis/tiles/{z}/{x}/{y}.pbf` serve vector tiles (2) Renderização no mapa funciona (3) Seleção de features funciona (4) Suporte a layers múltiplos
+- **Validação:** E2E render + seleção + performance com 50k+ geometrias
+- **Testes:** Unit (encoder), Integration (endpoint), E2E (render)
+- **Arquivos:** `apps/api/src/modules/gis/tile.controller.ts`, `tile.service.ts`, `apps/api/src/common/utils/mvt.util.ts`
+- **Depende de:** T6-SP-GIS-INDEX-2DSPHERE
+- **Impacto em licitação:** **BLOQUEIO TOTAL** — Sistema inutilizável em escala municipal
+- **Definição de pronto:** MVT tiles servindo e renderizando com dataset SP real
+
+### T8-GIS-CRS — CRS Transform UTM↔WGS84
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (3d) · **Tipo:** GIS / Backend
+- **Problema:** SP usa UTM 31983 (EPSG:31983), sistema assume WGS84 (EPSG:4326). Import de dados SP falha ou corrompe coordenadas.
+- **DoD:** (1) `GET /api/gis/convert?from=31983&to=4326&coords=...` (2) Conversão bidirecional (3) Validação contra epsg.io (4) Handle batch conversion
+- **Validação:** Unit tests contra coordenadas conhecidas + integration test
+- **Testes:** Unit (crs.service.ts), Integration (API endpoint)
+- **Arquivos:** `apps/api/src/modules/gis/crs.service.ts`, `crs.controller.ts`
+- **Impacto em licitação:** **BLOQUEIO TOTAL** — Dados geográficos incorretos
+
+### T8-GIS-BBOX — Endpoint Bbox Viewport
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (4d) · **Tipo:** GIS / Backend
+- **Problema:** Carrega todos os lotes de uma vez = browser crash. Necessário carregar apenas o que está no viewport.
+- **DoD:** (1) Endpoint `/api/gis/bbox?minLng=...&minLat=...&maxLng=...&maxLat=...` (2) Retorna <1000 itens por default (3) Query otimizada com 2dsphere index (4) Suporte a paginação
+- **Validação:** Query explain = IXSCAN, performance <500ms com 50k geometrias
+- **Testes:** Integration (bbox query), E2E (mapa interativo)
+- **Arquivos:** `apps/api/src/modules/ctm/parcels/parcels.controller.ts`, `parcels.service.ts`
+- **Impacto em licitação:** **CRÍTICO** — UX ruim, browser freeze
+
+### T8-GIS-CLUSTER — Supercluster para Mapa
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** S (2d) · **Tipo:** GIS / Frontend
+- **Problema:** 50k+ pins no mapa = sobreposição, UX ilegível.
+- **DoD:** (1) Supercluster implementado (2) Cluster radius 50px (3) Zoom out = clusters, zoom in = detalhe (4) Click em cluster expande
+- **Validação:** E2E zoom out/in + clique em cluster
+- **Testes:** E2E (clustering behavior)
+- **Arquivos:** `apps/web/src/app/app/maps/map-view.tsx`
+- **Depende de:** T8-GIS-MVT
+- **Impacto em licitação:** **ALTO** — Mapa inutilizável visualmente
+
+### T8-GIS-MULTIPOLYGON — Suporte MultiPolygon Complexo
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** S (2d) · **Tipo:** GIS / Backend / Tests
+- **Problema:** MultiPolygon complexo SP (holes, ilhas) não testado. Risco de dados corrompidos.
+- **DoD:** (1) Import lote com holes (2) Salva e recupera idêntico (3) Validação `isValid` (4) `computeGeometryBounds` funciona com holes
+- **Validação:** Import real SP + validação geométrica
+- **Testes:** Unit (geometry validation), Integration (import), E2E (render)
+- **Arquivos:** `apps/api/src/modules/ctm/parcels/parcel.schema.ts`, `parcels.service.ts`
+- **Impacto em licitação:** **ALTO** — Dados geométricos incorretos
+
+### T8-INTEG-GEOSAMPA — Import GeoSampa Real
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (4d) · **Tipo:** Integração / Dados
+- **Problema:** Import atual não testado com dados reais de São Paulo (50k+ lotes).
+- **DoD:** (1) Script `pnpm seed:geosampa-real` executa sem erros (2) Import 10k lotes sem falhas (3) Log completo de import (4) Estatísticas de import
+- **Validação:** 3 execuções consecutivas sem erros
+- **Testes:** Integration (import 50k), E2E (visualização)
+- **Arquivos:** `test/fixtures/sp-geosampa-base.geojson`, `scripts/seed-geosampa.mjs`
+- **Depende de:** T8-GIS-CRS, T7-SP-DATA-REAL
+- **Impacto em licitação:** **CRÍTICO** — Não pode provar que funciona com dados reais
+
+### T8-CTM-DESMEMB — Workflow de Desmembramento
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (10d) · **Tipo:** CTM / Domain / Backend
+- **Problema:** GeoPixel tem workflow completo de desmembramento. FlyDea tem apenas CRUD simples.
+- **DoD:** (1) Parcela → desmembramento → aprovação → nova parcela (2) Validação topológica (3) Histórico de desmembramento (4) Inversão de desmembramento
+- **Validação:** E2E completo do workflow
+- **Testes:** Unit (validation), Integration (workflow), E2E (UI)
+- **Arquivos:** `apps/api/src/modules/ctm/parcels/parcels-desmembramento.service.ts`
+- **Impacto em licitação:** **CRÍTICO** — CTM incompleto
+
+### T8-CTM-COMPLETO — CTM Completo (10/10 Features)
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** L (8d) · **Tipo:** CTM / Product
+- **Problema:** GeoPixel tem 10/10 features cadastrais. FlyDea tem 6/10.
+- **DoD:** (1) Lista comparativa FlyDea vs GeoPixel (2) Implementar features faltantes (3) Benchmark de performance (4) Documentação completa
+- **Validação:** Benchmark comparativo + E2E de todas as features
+- **Testes:** E2E de cada feature
+- **Impacto em licitação:** **ALTO** — Gap competitivo
+
+### T8-PROCESS-ALVARA — Módulo de Alvarás
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** XL (15d) · **Tipo:** Processos / Backend / Frontend
+- **Problema:** Não tem módulo de alvarás. Não atende processo de licitação.
+- **DoD:** (1) CRUD alvará (2) Workflow de aprovação (3) Vinculação com parcela (4) Emissão de documento oficial (5) Prazo de validade
+- **Validação:** E2E completo do fluxo
+- **Testes:** Unit, Integration, E2E
+- **Arquivos:** `apps/api/src/modules/processes/alvaras/`
+- **Impacto em licitação:** **CRÍTICO** — Processo não atender
+
+### T8-PROCESS-HABITE — Módulo Habite-se
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (8d) · **Tipo:** Processos / Backend / Frontend
+- **Problema:** Não tem módulo de habite-se. Não atende construção.
+- **DoD:** (1) CRUD habite-se (2) Vinculação com alvará (3) Inspeção final (4) Emissão de certidão (5) Registro oficial
+- **Validação:** E2E completo
+- **Testes:** Unit, Integration, E2E
+- **Arquivos:** `apps/api/src/modules/processes/habites/`
+- **Impacto em licitação:** **CRÍTICO** — Processo não atende
+
+### T8-TRIB-IPTU — Cálculo IPTU
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (10d) · **Tipo:** Tributação / Backend
+- **Problema:** Dashboard usa mock. Não tem cálculo real de IPTU.
+- **DoD:** (1) Engine de cálculo IPTU (2) Integração com planta de valores (3) Cálculo por parcela (4) Dashboard coerente (5) Simulador
+- **Validação:** Validação contra sistema legado SP
+- **Testes:** Unit (cálculo), Integration (API), E2E (visualização)
+- **Arquivos:** `apps/api/src/modules/tributacao/iptu-calculator.service.ts`
+- **Depende de:** T8-TRIB-PLANTA
+- **Impacto em licitação:** **CRÍTICO** — Fiscalização impossível
+
+### T8-TRIB-PLANTA — Planta de Valores
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** M (5d) · **Tipo:** Tributação / Backend
+- **Problema:** Sem planta de valores por zona. Cálculo IPTU não tem base.
+- **DoD:** (1) CRUD zona tributária (2) Valor por m² por zona (3) Planta visual no mapa (4) Export PDF
+- **Validação:** Ajax de zona no mapa + export PDF
+- **Testes:** Unit, Integration, E2E
+- **Arquivos:** `apps/api/src/modules/tributacao/zonas/`
+- **Impacto em licitação:** **ALTO** — Cálculo IPTU inválido
+
+### T8-CIDADAO-156 — Integração 156
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (5d) · **Tipo:** Portal / Integração
+- **Problema:** Portal cidadão isolado. Não integra com sistema nacional 156.
+- **DoD:** (1) API de integração 156 (2) Sincronização de solicitações (3) Acompanhamento unificado (4) Notificações
+- **Validação:** Solicitação → 156 → Resposta visível no portal
+- **Testes:** Integration, E2E
+- **Arquivos:** `apps/api/src/modules/citizen/156-integration.service.ts`
+- **Impacto em licitação:** **CRÍTICO** — Não atende padrão nacional
+
+### T8-CERTIDAO-OFICIAL — Certidões Oficiais com Validade Jurídica
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (7d) · **Tipo:** Relatórios / Legal
+- **Problema:** PDF simples sem assinatura digital. Sem validade jurídica.
+- **DoD:** (1) Geração de certidão oficial (2) Assinatura digital (3) Número único (4) Validade temporal (5) Verificação online
+- **Validação:** Validação com cartório de registro
+- **Testes:** E2E (geração + verificação)
+- **Arquivos:** `apps/api/src/modules/certificates/certificate-generator.service.ts`
+- **Impacto em licitação:** **CRÍTICO** — Documentos sem valor legal
+
+### T8-PGV-MAPA-MASSA — Mapa PGV por Valor
+- **Status:** `TODO`
+- **Severidade:** MÉDIA · **Esforço:** M (5d) · **Tipo:** GIS / PGV
+- **Problema:** GeoPixel mostra massa em cores no mapa. FlyDea não tem.
+- **DoD:** (1) Gradiente de cores por valor de m² (2) Legenda dinâmica (3) Tooltip com valores (4) Filtro por faixa de valor
+- **Validação:** Renderização visual correta
+- **Testes:** E2E (interação com mapa)
+- **Arquivos:** `apps/web/src/app/app/pgv/mapa-massa/`
+- **Depende de:** T8-GIS-MVT, T8-TRIB-PLANTA
+- **Impacto em licitação:** **MÉDIO** — Diferencial visual
+
+---
+
+## 🟧 T9 — LICITATION READINESS (Prontidão para prova técnica)
+
+**Objetivo:** Deixar pronto para demonstração técnica em licitação e prova de conformidade.
+
+### T9-DEMO-DATA — Dataset de Demonstração SP
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (5d) · **Tipo:** Dados / QA
+- **Problema:** Sem dataset real de SP para demonstração. Não pode provar nada.
+- **DoD:** (1) Dataset de 5k parcelas SP (2) Logradouros correspondentes (3) Dados de IPTU real (4) Vistorias de exemplo (5) Seed reproduzível
+- **Validação:** Script executa sem erros + dados coerentes
+- **Testes:** Integration (seed), E2E (visualização)
+- **Arquivos:** `test/fixtures/demo-sp-dataset.geojson`, `scripts/seed-demo.mjs`
+- **Impacto em licitação:** **CRÍTICO** — Não tem o que demonstrar
+
+### T9-DEMO-FLOW — Fluxo de Demo 30 Minutos
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (3d) · **Tipo:** Product / UX
+- **Problema:** Sem roteiro de demonstração. Risco de apresentaçao fraca.
+- **DoD:** (1) Roteiro escrita (2) Scripts de execução (3) Dados pré-carregados (4) Checklist de verificação (5) Slides de suporte
+- **Validação:** Ensaios internos (3x)
+- **Testes:** - (documentação)
+- **Arquivos:** `docs/licitacao/demo-roteiro.md`, `docs/licitacao/demo-scripts/`
+- **Depende de:** T9-DEMO-DATA
+- **Impacto em licitação:** **CRÍTICO** — Apresentação amadora
+
+### T9-SEC-AUDIT — Auditoria de Segurança
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (5d) · **Tipo:** Security / Backend
+- **Problema:** Sem auditoria de segurança. Vulnerabilidades não detectadas.
+- **DoD:** (1) Relatório OWASP Top 10 (2) Scan automático em CI (3) Fix de todos críticos (4) Documentação de Security Policy
+- **Validação:** Relatório limpo + CI passing
+- **Testes:** Security scan em pipeline
+- **Arquivos:** `docs/security/START.md`, `.github/workflows/security-scan.yml`
+- **Impacto em licitação:** **CRÍTICO** — Risco de desqualificação por segurança
+
+### T9-PERF-BASE — Performance Baseline
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** M (4d) · **Tipo:** Performance / Tests
+- **Problema:** Sem métricas de performance.Não sabe se escala.
+- **DoD:** (1) Map load <2s (2) Search <300ms (3) Import 10k <10min (4) Concurrent 100 users <3s (5) Relato de performance
+- **Validação:** Load tests passing
+- **Testes:** Load tests (k6/JMeter)
+- **Arquivos:** `tests/performance/map-load.spec.js`, `tests/performance/search.spec.js`
+- **Impacto em licitação:** **ALTO** — Não pode provar que escala
+
+### T9-DOCS-TEC — Documentação Técnica para Licitação
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** L (10d) · **Tipo:** Documentation / Legal
+- **Problema:** Sem documentação técnica. Desqualificação imediata.
+- **DoD:** (1) Arquitetura completa (2) API spec (OpenAPI) (3) Diagrama de infra (4) Manual de implantação (5) Guia de usuário
+- **Validação:** Revisão jurídica + técnico
+- **Testes:** - (documentação)
+- **Arquivos:** `docs/licitacao/arquitetura.md`, `docs/licitacao/api-spec.yaml`, `docs/licitacao/manual-implantacao.md`
+- **Impacto em licitação:** **CRÍTICO** — Documentação obrigatória
+
+### T9-COMPLIANCE — Compliance LGPD e Normas Municipais
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (5d) · **Tipo:** Legal / Security
+- **Problema:** Compliance parcial. Risco jurídico.
+- **DoD:** (1) Checklist LGPD completo (2) Politica de privacidade (3) Termos de uso (4) Trilha de auditoria 100% (5) Relatórios de compliance
+- **Validação:** Auditoria externa (opcional)
+- **Testes:** - (documentação + testes de auditoria)
+- **Arquivos:** `docs/compliance/lgpd-checklist.md`, `docs/compliance/politica-privacidade.md`
+- **Impacto em licitação:** **CRÍTICO** — Requisito legal obrigatório
+
+### T9-MULTI-TENANT-PROOF — Prova de Multi-Tenant Isolation
+- **Status:** `TODO`
+- **Severidade:** CRÍTICA · **Esforço:** M (4d) · **Tipo:** Security / Tests
+- **Problema:** Multi-tenant não provado. Risco de vazamento de dados.
+- **DoD:** (1) Tenant A não vê dados Tenant B (2) Admin Tenant A ≠ Admin Tenant B (3) Performance isolada (4) Storage separado (5) Audit trail por tenant
+- **Validação:** E2E cross-tenant tests
+- **Testes:** Unit (tenant guard), Integration (query isolation), E2E (cross-tenant)
+- **Arquivos:** `tests/e2e/tenant-isolation.spec.ts`
+- **Impacto em licitação:** **CRÍTICO** — Risco de desqualificação
+
+### T9-BACKUP-RESTORE — Backup e Restore Automático
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** S (2d) · **Tipo:** Ops / Infra
+- **Problema:** Sem backup automático. Risco de perda de dados.
+- **DoD:** (1) Backup diário automático (2) Restore validado (3) Documentação (4) Alertas de falha (5) Testes de restore
+- **Validação:** Restore completo <15min
+- **Testes:** Integration (backup script), E2E (restore validation)
+- **Arquivos:** `scripts/backup-daily.sh`, `docs/operations/backup-restore.md`
+- **Impacto em licitação:** **ALTO** — Requisito operacional básico
+
+### T9-MONITOR — Monitoramento e Alertas
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** M (3d) · **Tipo:** Ops / Monitoring
+- **Problema:** Sem monitoramento. Downtime não detectado.
+- **DoD:** (1) Dash de health (2) Alertas por email/Slack (3) Métricas de performance (4) Log centralizado (5) SLA tracking
+- **Validação:** 7 dias uptime Monitoring
+- **Testes:** Integration (alert triggers)
+- **Arquivos:** `docker-compose.monitor.yml`, `apps/monitor/`
+- **Impacto em licitação:** **ALTO** — Operação não confiável
+
+### T9-ERROR-HANDLING — Tratamento de Erros Robusto
+- **Status:** `TODO`
+- **Severidade:** MÉDIA · **Esforço:** S (2d) · **Tipo:** UX / Backend
+- **Problema:** Erros genéricos. Usuário não entende o que falhou.
+- **DoD:** (1) Erros amigáveis (2) Codes de erro únicos (3) Logs detalhados (4) Sugestões de ação (5) Documentação
+- **Validação:** Testes de erro em todos os fluxos
+- **Testes:** Unit (error handling), E2E (error display)
+- **Arquivos:** `apps/api/src/common/filters/http-exception.filter.ts`, `apps/web/src/lib/error-display.tsx`
+- **Impacto em licitação:** **MÉDIO** — UX profissional
+
+### T9-HELP-SYSTEM — Sistema de Ajuda Contextual
+- **Status:** `TODO`
+- **Severidade:** BAIXA · **Esforço:** S (3d) · **Tipo:** UX / Documentation
+- **Problema:** Sem ajuda contextual. Usuário perdido.
+- **DoD:** (1) Tooltips em campos (2) Guia do usuário inline (3) Tour inicial (4) FAQ contextual (5) Botão de ajuda
+- **Validação:** UX review
+- **Testes:** E2E (help system)
+- **Arquivos:** `apps/web/src/components/HelpTooltip.tsx`, `docs/user-guide/`
+- **Impacto em licitação:** **BAIXO** — Melhoria de UX
+
+---
+
+## 🟨 T10 — DIFFERENTIATION (Diferenciais para VENCER, não só empatar)
+
+**Objetivo:** Criar vantagens competitivas exclusivas contra GeoPixel.
+
+### T10-OBSERVATORIO — Observatório Imobiliário
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** L (10d) · **Tipo:** Analytics / BI
+- **Problema:** GeoPixel não tem analytics avançado. Oportunidade de diferencial.
+- **DoD:** (1) KPIs executivos (2) Comparativos temporais (3) Heatmaps por valor (4) Predições de mercado (5) Relatórios executivos PDF
+- **Validação:** Demo com dados reais
+- **Testes:** E2E (analytics), Integration (data pipeline)
+- **Arquivos:** `apps/api/src/modules/observatorio/observatorio.service.ts`
+- **Impacto em licitação:** **ALTO** — Diferencial competitivo
+
+### T10-OFFLINE-FULL — Mobile Offline Completo
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** XL (15d) · **Tipo:** Mobile / Offline
+- **Problema:** GeoPixel tem mobile limitado. Oportunidade de liderança.
+- **DoD:** (1) 100% funcionalidade offline (2) IndexedDB sync (3) GPS offline (4) Fotos offline (5) Formulários offline (6) Sync automático
+- **Validação:** Teste de campo real
+- **Testes:** E2E (offline mode), Integration (sync)
+- **Arquivos:** `apps/mobile/src/services/offline-sync.ts`
+- **Impacto em licitação:** **ALTO** — Diferencial para fiscalização
+
+### T10-AI-PARCEL — Classificação Automática de Parcelas
+- **Status:** `TODO`
+- **Severidade:** MÉDIA · **Esforço:** XL (20d) · **Tipo:** AI / GIS
+- **Problema:** Classificação manual é lenta. IA pode acelerar.
+- **DoD:** (1) Modelo ML treinado (2) Classificação automática (3) Validação humana (4) Retraining pipeline (5) Métricas de acurácia
+- **Validação:** Acurácia >90% em dataset de teste
+- **Testes:** Unit (ML model), Integration (API), E2E (UI)
+- **Arquivos:** `apps/api/src/modules/ai/parcel-classifier.service.ts`
+- **Impacto em licitação:** **MÉDIO** — Diferencial tecnológico
+
+### T10-WORKFLOW-ENGINE — Engine BPMN
+- **Status:** `TODO`
+- **Severidade:** ALTA · **Esforço:** XL (25d) · **Tipo:** Processos / BPMN
+- **Problema:** Workflows hardcoded. Limita flexibilidade.
+- **DoD:** (1) Engine BPMN (Camunda/Activiti) (2) Designer visual (3) Workflows customizáveis (4) Versionamento (5) Deploy automático
+- **Validação:** Modelo customizado executando
+- **Testes:** Integration (BPMN engine), E2E (workflow execution)
+- **Arquivos:** `apps/api/src/modules/workflow/`
+- **Impacto em licitação:** **ALTO** — Flexibilidade máxima
+
+### T10-REC-ARRECADACAO — Recomendação de Arrecadação
+- **Status:** `TODO`
+- **Severidade:** MÉDIA · **Esforço:** M (8d) · **Tipo:** Analytics / AI
+- **Problema:** Fiscalização aleatória. Perde eficiência.
+- **DoD:** (1) Score de risco por parcela (2) Lista priorizada (3) Alertas de atraso (4) Relatórios de eficiência
+- **Validação:** Aumento de arrecadação mensurável
+- **Testes:** Integration (scoring), E2E (dashboard)
+- **Arquivos:** `apps/api/src/modules/analytics/arrecadacao-analytics.service.ts`
+- **Impacto em licitação:** **MÉDIO** — Otimização fiscal
+
+### T10-FISCAL-IA — Fiscalização Inteligente
+- **Status:** `TODO`
+- **Severidade:** MÉDIA · **Esforço:** M (8d) · **Tipo:** Analytics / AI
+- **Problema:** Fiscalização reativa. IA pode ser proativa.
+- **DoD:** (1) Detecção de anomalias (2) Alertas automáticos (3) Padroes de fraude (4) Relatórios de fiscalização
+- **Validação:** Redução de falsos positivos
+- **Testes:** Integration (detection), E2E (alerts)
+- **Arquivos:** `apps/api/src/modules/ai/fiscal-ai.service.ts`
+- **Impacto em licitação:** **MÉDIO** — Fiscalização eficiente
+
+### T10-IOT-INTEGRATION — Integração com IoT
+- **Status:** `TODO`
+- **Severidade:** BAIXA · **Esforço:** L (10d) · **Tipo:** IoT / Sensoriamento
+- **Problema:** Sem sensoriamento remoto. Dados limitados à fiscalização.
+- **DoD:** (1) Integração com sensores (2) Dashboard IoT (3) Alertas automáticos (4) Análise temporal
+- **Validação:** PoC com sensor real
+- **Testes:** Integration (IoT API), E2E (dashboard)
+- **Arquivos:** `apps/api/src/modules/iot/iot-integration.service.ts`
+- **Impacto em licitação:** **BAIXO** — Futuro do monitoramento
+
+### T10-CHATBOT — Chatbot de Atendimento
+- **Status:** `TODO`
+- **Severidade:** BAIXA · **Esforço:** M (8d) · **Tipo:** Cidadão / AI
+- **Problema:** Cidadão sem suporte 24/7.
+- **DoD:** (1) Chatbot LLM (2) Integração com 156 (3) FAQ automático (4) Escalamento humano (5) Métricas de satisfação
+- **Validação:** Testes com usuários reais
+- **Testes:** E2E (chat flow), Integration (LLM API)
+- **Arquivos:** `apps/web/src/components/Chatbot.tsx`
+- **Impacto em licitação:** **BAIXO** — Melhoria de serviço
+
+### T10-BLOCKCHAIN-AUDIT — Blockchain para Auditoria
+- **Status:** `TODO`
+- **Severidade:** BAIXA · **Esforço:** XL (20d) · **Tipo:** Auditoria / Blockchain
+- **Problema:** Auditoria pode ser questionada. Blockchain = imutável.
+- **DoD:** (1) Hash de cada ação em blockchain (2) Verificação pública (3) Integração com sistema (4) Explorador de blockchain
+- **Validação:** Transações auditáveis
+- **Testes:** Integration (blockchain), E2E (verification)
+- **Arquivos:** `apps/api/src/modules/blockchain/blockchain-audit.service.ts`
+- **Impacto em licitação:** **BAIXO** — Confiança máxima
+
+---
+
+## 📊 TRIAGEM DE PRIORIDADES (Próximos 15 Itens)
+
+### 🔴 ONDA 0 - BLOCKERS CRÍTICOS (Sem isso = NÃO COMPETE)
+
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
+|---|---|---|---|---|---|---|
+| 1 | T8-GIS-MVT | MVT Tiles | XL (20d) | **P0** | BLOQUEIO TOTAL | - |
+| 2 | T8-GIS-CRS | CRS Transform | M (3d) | **P0** | BLOQUEIO TOTAL | - |
+| 3 | T8-GIS-BBOX | Bbox Viewport | M (4d) | **P0** | BLOQUEIO TOTAL | - |
+| 4 | T8-GIS-CLUSTER | Supercluster | S (2d) | **P0** | ALTO | T8-GIS-MVT |
+| 5 | T8-INTEG-GEOSAMPA | Import GeoSampa Real | M (4d) | **P0** | CRÍTICO | T8-GIS-CRS |
+
+### 🟠 ONDA 1 - PROCESSOS CRÍTICOS (Sem isso = NÃO ATENDE EDITAL)
+
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
+|---|---|---|---|---|---|---|
+| 6 | T8-PROCESS-ALVARA | Módulo Alvarás | XL (15d) | **P0** | CRÍTICO | - |
+| 7 | T8-PROCESS-HABITE | Módulo Habite-se | L (8d) | **P0** | CRÍTICO | - |
+| 8 | T8-TRIB-IPTU | Cálculo IPTU | L (10d) | **P0** | CRÍTICO | T8-TRIB-PLANTA |
+| 9 | T8-TRIB-PLANTA | Planta de Valores | M (5d) | **P0** | ALTO | - |
+| 10 | T8-CERTIDAO-OFICIAL | Certidões Oficiais | L (7d) | **P0** | CRÍTICO | - |
+
+### 🟡 ONDA 2 - TRIBUTAÇÃO E INTEGRAÇÃO
+
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
+|---|---|---|---|---|---|---|
+| 11 | T8-CIDADAO-156 | Integração 156 | M (5d) | **P0** | CRÍTICO | - |
+| 12 | T8-CTM-DESMEMB | Workflow Desmembramento | L (10d) | **P0** | ALTO | - |
+
+### 🟢 ONDA 3 - PROVAS E TESTES
+
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
+|---|---|---|---|---|---|---|
+| 13 | T9-DEMO-DATA | Dataset Demonstração SP | L (5d) | **P0** | CRÍTICO | - |
+| 14 | T5-SP-E2E-PARCEL-REAL | E2E Parcela Real SP | M (5d) | **P0** | CRÍTICO | - |
+| 15 | T5-SP-PLAYWRIGHT-STABLE-SP | Playwright Estável | M (3d) | **P0** | CRÍTICO | - |
+
+### 🔵 ONDA 4 - DIFERENCIAIS (Para vencer, não só empatar)
+
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
+|---|---|---|---|---|---|---|
+| 16 | T10-OBSERVATORIO | Observatório Imobiliário | L (10d) | P1 | ALTO | - |
+| 17 | T10-OFFLINE-FULL | Mobile Offline Completo | XL (15d) | P1 | ALTO | - |
+| 18 | T10-WORKFLOW-ENGINE | Engine BPMN | XL (25d) | P1 | ALTO | - |
+| 19 | T10-AI-PARCEL | Classificação Automática | XL (20d) | P2 | MÉDIO | - |
+| 20 | T10-REC-ARRECADACAO | Recomendação Arrecadação | M (8d) | P2 | MÉDIO | - |
+
+---
+
+## Histórico de mudanças
+
+| Data | Agente | Item | Ação |
+|---|---|---|---|
+| 2026-04-28 | Mistral Vibe | T8-T10 | Adicionados 35+ itens para paridade GeoPixel-class e prontidão licitação |
+| 2026-04-28 | Claude (SP reality) | T5+ backlog | Generated complete T5–T9 backlog focused on São Paulo real data |
+| 2026-04-20 | Codex | T4-BRAIN-OS | Brain auto-discovery/bootstrap/write-back implemented |
+| 2026-04-20 | Codex | T4-HOOKS-OS | Native hooks + launcher fallback wired to the brain |
+| 2026-04-17 | Claude (bootstrap) | — | Backlog inicial a partir da auditoria |
+
+---
+
+## Legenda de Esforço Extendida
+
+| Código | Esforço | Dias | Tipo |
+|---|---|---|---|
+| XS | Micro | <1d | Fix rápido |
+| S | Pequeno | 1-3d | Feature simples |
+| M | Médio | 3-10d | Module/Integration |
+| L | Grande | 10-20d | System/Workflow |
+| XL | Extra Grande | >20d | Platform/Architecture |
+
+---
+
+## Notas Finais
+
+> **Atualizado por:** Mistral Vibe (Principal GovTech Product Strategist + Principal GIS Architect + Principal QA Auditor)
+> **Data:** 2026-04-28
+> **Modo:** DEEP BRAINSTORM + GAP ANALYSIS vs GeoPixel-class
+> **Contexto:** Análise completa pós-GLM revelou que sistema NÃO está pronto para licitação. Gap de -2.8 pontos vs GeoPixel. 
+> **Próximo:** Executar ONDA 0 (Blockers Críticos) antes de qualquer tentativa de licitação.

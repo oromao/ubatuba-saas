@@ -2,14 +2,229 @@
 
 > Estado **vivo** do que está sendo executado agora.
 > Atualize ao iniciar e ao encerrar cada sessão.
+> **Última atualização:** 2026-04-28 por Mistral Vibe (Diagnóstico Completo Pós-GLM)
 
 ---
 
-## Sprint atual
+## 🎯 VISÃO GERAL ESTRATÉGICA
 
-**Janela:** `2026-04-28 → 2026-05-12` (segundo sprint pós-bootstrap)
-**Foco:** T1+T2 DONE; T5+ inicia com dados reais SP
-**Objetivo de sprint:** First Execution Package fechado. Classificação de rotas atualizada. Próximo: T5 (dados reais SP).
+**Objetivo Final:** Alcançar **NÍVEL PRIME** (paridade GeoPixel-class + diferenciais) para competir e VENCER licitações municipais.
+
+**Status Atual:** ❌ **NÃO PRONTO PARA LICITAÇÃO** (Score: 20.5/100)
+
+**Gap vs GeoPixel:** -2.8 pontos (escala 0-5) across 14 domínios
+
+**Estratégia:** Executar em 4 Ondas sequenciais até atingir prontidão mínima (70/100).
+
+---
+
+## 📅 LINHA DO TEMPO ESTRATÉGICA
+
+### Fase 1: SUPERVIVÊNCIA (Já Concluída - T1+T2)
+- ✅ First Execution Package (T1+T2) DONE
+- ✅ System opera em modo básico sem crash
+- ✅ Roteamento e navegação funcionando
+
+### Fase 2: PRONTIDÃO MÍNIMA (Próximos 6 meses)
+- **ONDA 0:** Blockers Críticos (4 semanas) → Score 40/100
+- **ONDA 1:** Processos Críticos (8 semanas) → Score 60/100  
+- **ONDA 2:** Integração e Tributação (4 semanas) → Score 65/100
+- **ONDA 3:** Provas e Testes (4 semanas) → Score 70/100 ✅ **PRONTO PARA LICITAÇÃO**
+
+### Fase 3: DIFERENCIAÇÃO (Paralelo - 6 meses)
+- **ONDA 4:** Diferenciais Competitivos (T10) → VANTAGEM para vencer
+
+### Fase 4: EXCELÊNCIA (Contínuo)
+- Otimização contínua
+- Novos módulos (Cemitério, Obras, etc.)
+- Expansão para outros municípios
+
+---
+
+## 🚀 SPINT ATUAL (ONDA 0 - BLOCKERS CRÍTICOS)
+
+**Janela:** `2026-04-28 → 2026-05-28` (4 semanas)
+**Foco:** Resolver BLOCKERS IMPEDITIVOS para licitação
+**Objetivo de sprint:** Alcançar **40/100** no score geral (hoje: 20.5/100)
+
+### Itens em Execução (ONDA 0)
+
+| # | ID | Título | Agente | Iniciado | Status | Prioridade |
+|---|---|---|---|---|---|---|
+| 1 | T8-GIS-CRS | CRS Transform UTM↔WGS84 | - | - | TODO | **P0** |
+| 2 | T8-GIS-BBOX | Endpoint Bbox Viewport | - | - | TODO | **P0** |
+| 3 | T8-GIS-MVT | MVT Tiles | - | - | TODO | **P0** |
+| 4 | T8-GIS-CLUSTER | Supercluster | - | - | TODO | **P0** |
+| 5 | T8-INTEG-GEOSAMPA | Import GeoSampa Real | - | - | TODO | **P0** |
+
+**Meta ONDA 0:** 5 itens críticos em progresso → Reduzir risco de BLOQUEIO TOTAL
+
+---
+
+## 📋 SPRINTS PRÓXIMOS
+
+### Sprint 2: ONDA 1 - Processos Críticos (2026-05-28 → 2026-07-25)
+**Objetivo:** Implementar módulos de processos essenciais para licitação
+**Meta:** Alcançar **60/100** (Score: Processos + Tributação)
+
+| # | ID | Título | Esforço | Prioridade |
+|---|---|---|---|---|
+| 1 | T8-PROCESS-ALVARA | Módulo Alvarás | XL (15d) | **P0** |
+| 2 | T8-PROCESS-HABITE | Módulo Habite-se | L (8d) | **P0** |
+| 3 | T8-TRIB-PLANTA | Planta de Valores | M (5d) | **P0** |
+| 4 | T8-TRIB-IPTU | Cálculo IPTU | L (10d) | **P0** |
+| 5 | T8-CERTIDAO-OFICIAL | Certidões Oficiais | L (7d) | **P0** |
+
+### Sprint 3: ONDA 2 - Integração (2026-07-25 → 2026-08-22)
+**Objetivo:** Integração com sistemas externos
+**Meta:** Alcançar **65/100**
+
+| # | ID | Título | Esforço | Prioridade |
+|---|---|---|---|---|
+| 1 | T8-CIDADAO-156 | Integração 156 | M (5d) | **P0** |
+| 2 | T8-CTM-DESMEMB | Workflow Desmembramento | L (10d) | **P0** |
+| 3 | T8-GIS-MULTIPOLYGON | MultiPolygon Complexo | S (2d) | P1 |
+| 4 | T7-SP-ADDRESS-CANONIZER | Canonizador Endereços | M (2d) | P1 |
+| 5 | T7-SP-IPTU-MATCH | Match IPTU-SP | M (3d) | P1 |
+
+### Sprint 4: ONDA 3 - Provas (2026-08-22 → 2026-09-19)
+**Objetivo:** Provar que tudo funciona com dados reais
+**Meta:** Alcançar **70/100** ✅ **PRONTO PARA LICITAÇÃO**
+
+| # | ID | Título | Esforço | Prioridade |
+|---|---|---|---|---|
+| 1 | T9-DEMO-DATA | Dataset Demonstração SP | L (5d) | **P0** |
+| 2 | T5-SP-E2E-PARCEL-REAL | E2E Parcela Real SP | M (5d) | **P0** |
+| 3 | T5-SP-PLAYWRIGHT-STABLE-SP | Playwright Estável | M (3d) | **P0** |
+| 4 | T5-SP-UNIT-CRITICAL | Unit Tests Críticos | M (5d) | **P0** |
+| 5 | T5-SP-INTEGRATION-IMPORT | Import Deduplicação | M (4d) | **P0** |
+| 6 | T9-PERF-BASE | Performance Baseline | M (4d) | P0 |
+| 7 | T9-SEC-AUDIT | Auditoria Segurança | M (5d) | **P0** |
+| 8 | T9-MULTI-TENANT-PROOF | Multi-tenant Isolation | M (4d) | **P0** |
+
+---
+
+## 🎯 DEFINIÇÃO DE PRONTO (DoD - Definition of Done)
+
+### Para TODOS os Itens:
+- [ ] Código funciona (UI → API → DB)
+- [ ] Testes automatizados passando
+- [ ] Documentação atualizada
+- [ ] Validação de Paulo (ou delegado)
+- [ ] Prova de runtime real (NÃO mock)
+- [ ] Atualização no 01-MATURITY-MATRIX.md
+- [ ] Atualização no 04-PROGRESS-LOG.md
+
+### Para Itens Críticos (P0):
+- [ ] E2E completo com dados reais
+- [ ] Testes de performance
+- [ ] Auditoria de segurança
+- [ ] Validação em 2+ navegadores
+
+### Para Módulos Novos:
+- [ ] Smoke tests
+- [ ] Unit tests (>70% coverage)
+- [ ] Integration tests
+- [ ] E2E tests
+- [ ] Documentação de API (OpenAPI)
+- [ ] Documentação de usuário
+
+---
+
+## 🔥 DECISÕES ARQUITETURAIS PENDENTES (Precisam do Paulo)
+
+| # | Decisão | Impacto | Prioridade | Status |
+|---|---|---|---|---|
+| 1 | **Stack MVP para licitação** | Definir se focamos em T8 (paridade) ou T8+T10 (diferenciais) | **CRÍTICA** | ⚠️ PENDENTE |
+| 2 | **Orçamento de desenvolvimento** | Alocar recursos para ONDA 0 (5 itens, ~43 dias-homem) | **CRÍTICA** | ⚠️ PENDENTE |
+| 3 | **Parceria com consultoria** | Para compliance LGPD e documentos oficiais | **ALTA** | ⚠️ PENDENTE |
+| 4 | **Stack de BPMN** | Camunda vs Activiti vs Custom para T10-WORKFLOW-ENGINE | **MÉDIA** | ⚠️ PENDENTE |
+| 5 | **Desde de dados real** | GeoSampa vs São Paulo completa vs dataset sintético | **ALTA** | ⚠️ PENDENTE |
+
+---
+
+## 📊 MÉTRICAS DE SUCESSO
+
+### Score Geral (0-100)
+```
+Atual:     20.5/100  ❌ NÃO PRONTO
+ONDA 0:    40/100   ⚠️ PARCIAL
+ONDA 1:    60/100   ⚠️ PARCIAL
+ONDA 2:    65/100   ⚠️ PARCIAL  
+ONDA 3:    70/100   ✅ PRONTO PARA LICITAÇÃO
+T10:       85+/100  🏆 DIFERENCIAL COMPETITIVO
+```
+
+### Métricas Específicas
+| Métrica | Alvo ONDA 0 | Alvo ONDA 3 | Atual |
+|---|---|---|---|
+| GIS Funcional | ✅ MVT+CRS+Bbox | ✅ Cluster+MultiPolygon | ❌ trưởng |
+| CTM Completo | 6/10 features | 10/10 features | 6/10 |
+| Processos | 0 modules | 5+ modules | 0 |
+| Tributação | Mock | Real | Mock |
+| Testes | - | 70%+ coverage | ~30% |
+| Performance | - | <2s map load | Unknown |
+| Multi-tenant | - | 100% proved | ❌ |
+
+---
+
+## 🚨 RISCOS E CONTINGÊNCIAS
+
+### Riscos de Alto Impacto
+
+| # | Risco | Probabilidade | Impacto | Mitigação |
+|---|---|---|---|---|
+| 1 | **Falha em resolver blockers** | Média | **CATASTRÓFICO** | Sprint dedicado ONDA 0 |
+| 2 | **Dados SP não disponíveis** | Alta | **CRÍTICO** | Usar dataset sintético + adaptador |
+| 3 | **Orçamento insuficiente** | Média | **CRÍTICO** | Priorizar T8, adiar T10 |
+| 4 | **Equipe sobrecarregada** | Alta | **ALTO** | Contratar consultor especializado |
+| 5 | **Mudança em requistos de licitação** | Baixa | **ALTO** | Monitorar editais Novamente |
+
+### Plano de Contingência
+
+Se **ONDA 0 não completar em 4 semanas:**
+1. Estender sprint por 2 semanas
+2. Reduzir escopo (ex: adiar T8-GIS-MVT para T8-GIS-BBOX + GeoJSON otimizado)
+3. Buscar ajuda externa (consultoria GIS especializada)
+
+Se **Orçamento insuficiente:**
+1. Priorizar apenas ONDA 0 + ONDA 3 (blockers + provas)
+2. Adiar diferenciais (T10) para mencapai fase 2
+3. Focar em prefeituras pequenas (<50k parcelas)
+
+---
+
+## ✅ CHECK-IN DE FINAL DE SPRINT
+
+### Sprint atual (2026-04-28 → 2026-05-28) - ONDA 0
+
+- **Itens entregues:** (a preencher)
+- **Itens movidos para próximo sprint:** (a preencher)
+- **Mudanças na matriz de maturidade:** (a preencher)
+- **Decisões tomadas:** (a preencher)
+- **Lições aprendidas:** (a preencher)
+- **Score atualizado:** (a preencher)
+
+---
+
+## 📚 REFERÊNCIAS
+
+- [01-MATURITY-MATRIX.md](./01-MATURITY-MATRIX.md) - Scorecard completo
+- [02-BACKLOG.md](./02-BACKLOG.md) - Itens detalhados T8-T10
+- [04-PROGRESS-LOG.md](./04-PROGRESS-LOG.md) - Histórico de progresso
+- [05-CLEANUP-INVENTORY.md](./05-CLEANUP-INVENTORY.md) - Inventário de limpeza
+- [06-TESTING-STRATEGY.md](./06-TESTING-STRATEGY.md) - Estratégia de testes
+- [11-GAP-ANALYSIS-PRIME.md](./11-GAP-ANALYSIS-PRIME.md) - Diagnóstico completo (novo)
+
+---
+
+## 💡 NOTAS FINAIS
+
+> **Atualizado por:** Mistral Vibe (Principal GovTech Product Strategist + Principal GIS Architect + Principal QA Auditor)
+> **Data:** 2026-04-28
+> **Modo:** DEEP BRAINSTORM + GAP ANALYSIS vs GeoPixel-class
+> **Contexto:** Esta análise revelou que FlyDea está ** ~6 meses de distância** de competir com GeoPixel em licitações.
+> **Próxima Ação:** Executar **ONDA 0** de forma **DEDICADA** e **FOCADA**. Nada novo entra até ONDA 0 estar 100% completa.
 
 ## Meta work completed
 
