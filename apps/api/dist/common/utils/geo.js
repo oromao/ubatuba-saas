@@ -1,13 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isPolygonGeometry = isPolygonGeometry;
 exports.isLineGeometry = isLineGeometry;
 exports.isPointGeometry = isPointGeometry;
 exports.calculateGeometryArea = calculateGeometryArea;
-const area_1 = __importDefault(require("@turf/area"));
+const area_1 = require("@turf/area");
 function isPolygonGeometry(value) {
     if (!value || typeof value !== 'object')
         return false;
@@ -28,10 +25,10 @@ function isPointGeometry(value) {
     return geometry.type === 'Point' && Array.isArray(geometry.coordinates);
 }
 function calculateGeometryArea(geometry) {
-    // Assumes SRID 4326 (WGS84) and uses Turf's planar area approximation.
     return (0, area_1.default)({
         type: 'Feature',
         geometry,
         properties: {},
     });
 }
+//# sourceMappingURL=geo.js.map

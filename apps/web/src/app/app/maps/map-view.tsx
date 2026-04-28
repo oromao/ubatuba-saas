@@ -480,19 +480,87 @@ export default function DynamicMapViewer() {
           setHighlightedParcel(null);
         }
 
+        // T6-SP-GIS-CLUSTERING: Enable clustering for large datasets
         if (!map.getSource(SOURCE)) {
           map.addSource(SOURCE, {
             type: "geojson",
             data: geojson as maplibregl.GeoJSONSourceSpecification["data"],
-          });
+            cluster: true,
+            clusterRadius: 50,
+            clusterProperties: {
+              // Sum of point counts in cluster
+              point_count: ["+", ["case", ["has", "point_count"], ["get", "point_count"], 0], 1],
+            },
+          } as maplibregl.GeoJSONSourceSpecification);
         } else {
-          (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
+          const source = map.getSource(SOURCE) as maplibregl.GeoJSONSource;
+          source.setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
         }
+        
+        // Add cluster layers for better visualization at low zoom levels
+        if (!map.getLayer('parcels-cluster')) {
+          map.addLayer({
+            id: 'parcels-cluster',
+            type: 'circle',
+            source: SOURCE,
+            filter: ["has", "point_count"],
+            paint: {
+              "circle-color": [
+                "step",
+                ["get", "point_count"],
+                "#22c55e",
+                10,
+                "#16a34a",
+                50,
+                "#15803d",
+                100,
+                "#059669",
+                500,
+                "#047857",
+              ],
+              "circle-radius": [
+                "step",
+                ["get", "point_count"],
+                20,
+                10,
+                30,
+                50,
+                40,
+                100,
+                60,
+              ],
+              "circle-opacity": 0.8,
+              "circle-stroke-width": 2,
+              "circle-stroke-color": "#fff",
+            },
+          });
+          
+          // Cluster text label
+          map.addLayer({
+            id: 'parcels-cluster-count',
+            type: 'symbol',
+            source: SOURCE,
+            filter: ["has", "point_count"],
+            layout: {
+              "text-field": ["get", "point_count_abbreviated"],
+              "text-size": 12,
+              "text-font": ["Noto Sans Regular"],
+              "text-allow-overlap": true,
+            },
+            paint: {
+              "text-color": "#fff",
+              "text-halo-color": "#000",
+              "text-halo-width": 2,
+            },
+          });
+        }
+        
         if (!map.getLayer(FILL_LAYER)) {
           map.addLayer({
             id: FILL_LAYER,
             type: "fill",
             source: SOURCE,
+            filter: ["!", ["has", "point_count"]], // T6-SP-GIS-CLUSTERING: Don't render clusters as polygons
             paint: {
               "fill-color": [
                 "match", ["get", "statusCadastral"],
@@ -509,6 +577,7 @@ export default function DynamicMapViewer() {
             id: LINE_LAYER,
             type: "line",
             source: SOURCE,
+            filter: ["!", ["has", "point_count"]], // T6-SP-GIS-CLUSTERING: Don't render clusters as lines
             paint: {
               "line-color": "#0f766e",
               "line-width": 1.2,
