@@ -451,7 +451,7 @@ export class GisService {
    * Calculate WGS84 bbox for a given tile coordinate.
    * Uses Web Mercator projection (EPSG:3857) standard tiling scheme.
    */
-  private tileToBbox(z: number, x: number, y: number): Bbox {
+  public tileToBbox(z: number, x: number, y: number): Bbox {
     const n = Math.PI - (2.0 * Math.PI * y) / Math.pow(2, z);
     const minLat = (180.0 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
     const maxLat = (180.0 / Math.PI) * Math.atan(0.5 * (Math.exp(n - (2.0 * Math.PI) / Math.pow(2, z))) - Math.exp(-(n - (2.0 * Math.PI) / Math.pow(2, z))));
