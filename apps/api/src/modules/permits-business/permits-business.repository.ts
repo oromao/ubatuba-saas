@@ -16,6 +16,14 @@ export class PermitsBusinessRepository {
     return this.model.findOne({ _id: id, tenantId: asObjectId(tenantId) }).exec();
   }
 
+  findOne(tenantId: string, query: any) {
+    return this.model.findOne({ ...query, tenantId: asObjectId(tenantId) }).exec();
+  }
+
+  update(tenantId: string, id: string, data: Partial<PermitBusinessRequest>) {
+    return this.model.findOneAndUpdate({ _id: id, tenantId: asObjectId(tenantId) }, data, { new: true }).exec();
+  }
+
   create(data: Partial<PermitBusinessRequest>) {
     return this.model.create(data);
   }
