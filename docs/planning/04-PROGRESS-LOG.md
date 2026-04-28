@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-28 — Claude — T6-SP-GIS-SCALE
+- **Status muda:** TODO → DONE
+- **Feito:** (1) Added bbox limit of 2000 in parcels.repository.ts when bbox filter present — no more unbounded queries. (2) Changed frontend map-view.tsx to use viewport-based bbox loading instead of fetching ALL parcels. (3) Added debounced `moveend` handler to reload parcels on pan/zoom (300ms debounce). (4) Changed source update to use `setData()` instead of re-creating the source. (5) Wrote integration test `apps/api/test/ctm/parcels-gis-scale.spec.ts` with 5 scenarios: bbox filtering, small vs large bbox, empty bbox, list bbox, 2000 result cap.
+- **Arquivos alterados:** `apps/api/src/modules/ctm/parcels/parcels.repository.ts` (bbox limit), `apps/web/src/app/app/maps/map-view.tsx` (viewport loading + moveend), `apps/api/test/ctm/parcels-gis-scale.spec.ts` (novo), `docs/planning/02-BACKLOG.md`
+- **Testes adicionados:** `apps/api/test/ctm/parcels-gis-scale.spec.ts` (5 test cases)
+- **Prova:** TypeScript clean (no errors in changed files). Bbox query capped at 2000 results.
+- **Próximo:** T5-SP-TEST-PROOF (fix remaining failing routes + extend smoke)
+- **Notas:** 2dsphere index already exists on `geometry` field (parcel.schema.ts:176). $geoWithin uses it.
+
 ### 2026-04-28 — Claude — T7-SP-DATA-REAL
 - **Status muda:** TODO → DONE
 - **Feito:** (1) Fixed critical bug: CRS validation `throw` on bad coords crashed entire import → changed to `continue` with error detail. (2) Added `rawProperties` preservation on import. (3) Created dirty data fixture `test/fixtures/sp-dirty-data-test.geojson` with 10 features covering: valid Polygon, MultiPolygon, null geometry, UTM coords, no SQLU/inscricao, duplicate (non-upsert), duplicate (upsert), SQLU alias columns. (4) Wrote integration test `apps/api/test/ctm/parcels-import-dirty.spec.ts` with 9 scenarios.

@@ -438,6 +438,19 @@
 
 ## 🔷 T6 — GIS PERFORMANCE E ESCALA SP
 
+### T6-SP-GIS-SCALE — Make GIS usable with São Paulo scale
+- **Status**: `DONE`
+- **Severidade**: CRÍTICA · **Esforço**: 4d
+- **DoD**: Map loads with partial data (viewport); no full dataset load; zoom/pan responsive; large dataset doesn't break UI
+- **Agente**: Claude (2026-04-28)
+- **Validação**: Integration test `apps/api/test/ctm/parcels-gis-scale.spec.ts` (5 scenarios)
+- **Implementação**:
+  - Added bbox limit of 2000 in repository.list() when bbox filter present
+  - Changed frontend map-view.tsx to use viewport-based bbox loading instead of full dataset
+  - Added debounced `moveend` handler to reload parcels on pan/zoom
+  - Changed source update to use `setData()` instead of re-creating source
+  - Existing 2dsphere index on `geometry` field ensures $geoWithin uses IXSCAN
+
 ### T6-SP-GIS-BBOX-VIEWPORT
 - **Status**: `TODO`
 - **Severidade**: CRÍTICA · **Esforço**: 4d

@@ -419,18 +419,45 @@ export default function DynamicMapViewer() {
     const LINE_LAYER = "builtin-parcels-line";
     const LABEL_LAYER = "builtin-parcels-label";
 
-    if (map.getSource(SOURCE)) return; // already loaded
+    if (map.getSource(SOURCE)) return; // already loaded — layers added below
 
-    // Try CTM parcels first (primary source), fall back to map-features
-    const loadGeoJson = () =>
-      apiFetch<unknown>(`/ctm/parcels/geojson${projectId ? `?projectId=${encodeURIComponent(projectId)}` : ""}`).catch((error) => {
-        // CTM parcels may be unavailable in some seeded environments; make the fallback visible.
+    // Viewport-based loading: fetch only parcels within current map bounds
+    const loadParcelsInViewport = () => {
+      const bounds = map.getBounds();
+      const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+      return apiFetch<unknown>(`/ctm/parcels/geojson?bbox=${bbox}${projectId ? `&projectId=${encodeURIComponent(projectId)}` : ""}`).catch((error) => {
         // eslint-disable-next-line no-console
         console.warn("[Mapa] CTM parcels indisponiveis, fallback map-features ativado", error);
         return fetchMapFeaturesGeojson("parcel", "", projectId);
       });
+    };
 
-    loadGeoJson()
+    // Debounced reload on pan/zoom for viewport-based loading
+    let moveTimeout: ReturnType<typeof setTimeout>;
+    const onMoveEnd = () => {
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(() => {
+        loadParcelsInViewport().then((geojson) => {
+          if (!map || !mapConfig.current) return;
+          const source = map.getSource(SOURCE);
+          if (source) {
+            (source as maplibregl.GeoJSONSource).setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
+          }
+          if (typeof window !== "undefined") {
+            const probeWindow = window as Window & { __gisScaleProbe?: { builtInParcelFeatures: number } };
+            if (probeWindow.__gisScaleProbe) {
+              const features = Array.isArray((geojson as { features?: unknown[] })?.features)
+                ? ((geojson as { features?: unknown[] }).features as unknown[]).length
+                : 0;
+              probeWindow.__gisScaleProbe.builtInParcelFeatures = features;
+            }
+          }
+        }).catch(() => {});
+      }, 300);
+    };
+    map.on("moveend", onMoveEnd);
+
+    loadParcelsInViewport()
       .then((geojson) => {
         // Verify map still exists before using it (async callback could complete after cleanup)
         if (!map || !mapConfig.current) return;
@@ -458,6 +485,8 @@ export default function DynamicMapViewer() {
             type: "geojson",
             data: geojson as maplibregl.GeoJSONSourceSpecification["data"],
           });
+        } else {
+          (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
         }
         if (!map.getLayer(FILL_LAYER)) {
           map.addLayer({

@@ -70,7 +70,10 @@ export class ParcelsRepository {
       };
     }
 
-    return this.model.find(query).sort({ sqlu: 1 }).exec();
+    const limit = filters.bbox ? 2000 : 0;
+    const q = this.model.find(query).sort({ sqlu: 1 });
+    if (limit > 0) q.limit(limit);
+    return q.exec();
   }
 
   findById(tenantId: string, projectId: string, id: string): Promise<ParcelDocument | null> {
