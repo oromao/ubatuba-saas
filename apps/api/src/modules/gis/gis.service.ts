@@ -147,7 +147,7 @@ export class GisService {
     }
     // WGS84 (4326) -> UTM 23S (31983)
     else if (fromEPSG === EPSG_WGS84 && toEPSG === EPSG_UTM_23S) {
-      output = this.wgs84ToUtm(input.x, input.y, 23, true);
+      output = this.wgs84ToUtm(input.x, input.y, null, true);
     }
     // Same CRS - no transformation needed
     else if (fromEPSG === toEPSG) {
@@ -181,10 +181,21 @@ export class GisService {
   }
 
   /**
+   * Calculate UTM zone from longitude
+   * Zones 1-60, each 6 degrees wide, starting at -180
+   */
+  private calculateUtmZone(longitude: number): number {
+    // UTM zones are 1-60, each covering 6 degrees of longitude
+    // Zone 1: -180 to -174, Zone 2: -174 to -168, ..., Zone 60: 174 to 180
+    const zoneFloat = (longitude + 180) / 6 + 1;
+    return Math.floor(zoneFloat);
+  }
+
+  /**
    * Convert WGS84 (lon/lat) to UTM
    * Based on standard UTM conversion formulas
    */
-  private wgs84ToUtm(longitude: number, latitude: number, zone: number, southernHemisphere: boolean): Coordinate {
+  private wgs84ToUtm(longitude: number, latitude: number, zone: number | null, southernHemisphere: boolean): Coordinate {
     // Implementation based on standard UTM conversion
     // This is a simplified version - for production use proj4js or similar library
     
@@ -192,11 +203,14 @@ export class GisService {
     const f = 1 / 298.257223563; // WGS84 flattening
     const k0 = 0.9996; // Scale factor
     
+    // Calculate zone from longitude if not provided
+    const calculatedZone = zone === null ? this.calculateUtmZone(longitude) : zone;
+    
     const latRad = latitude * (Math.PI / 180);
     const lonRad = longitude * (Math.PI / 180);
     
     // Central meridian for zone
-    const lon0 = (zone - 1) * 6 - 180 + 3;
+    const lon0 = (calculatedZone - 1) * 6 - 180 + 3;
     const lon0Rad = lon0 * (Math.PI / 180);
     
     const N = a / Math.sqrt(1 - (2 * f) + (f * f));

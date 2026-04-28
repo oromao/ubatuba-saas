@@ -25,7 +25,6 @@ export class GisController {
   @ApiResponse({
     status: 200,
     description: 'Coordinate transformation result',
-    type: CoordinateTransformResult,
   })
   @ApiResponse({
     status: 400,
@@ -53,7 +52,6 @@ export class GisController {
   @ApiResponse({
     status: 200,
     description: 'Array of coordinate transformation results',
-    type: [CoordinateTransformResult],
   })
   @ApiResponse({
     status: 400,

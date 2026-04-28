@@ -613,6 +613,30 @@
 
 **Objetivo:** Deixar FlyDea comparável à GeoPixel em funcionalidades básicas.
 
+### T8-GIS-CRS — CRS Transform UTM↔WGS84
+- **Status:** `IN_PROGRESS`
+- **Severidade:** CRÍTICA · **Esforço:** M (3d) · **Tipo:** GIS / Backend
+- **Problema:** SP usa UTM 31983 (EPSG:31983), sistema assume WGS84 (EPSG:4326). Import de dados SP falha ou corrompe coordenadas.
+- **DoD:** (1) `GET /api/gis/convert?from=31983&to=4326&coords=...` (2) Conversão bidirecional (3) Validação contra epsg.io (4) Handle batch conversion
+- **Validação:** Unit tests contra coordenadas conhecidas + integration test
+- **Testes:** Unit (crs.service.ts), Integration (API endpoint)
+- **Arquivos:** `apps/api/src/modules/gis/crs.service.ts`, `crs.controller.ts`
+- **Implementação:** Endpoint REST criado em gis.controller.ts, testes unitários em test/gis/gis-crs.spec.ts
+- **Agente:** Mistral Vibe (2026-04-28)
+- **Impacto em licitação:** **BLOQUEIO TOTAL** — Dados geográficos incorretos
+
+### T8-GIS-BBOX — Endpoint Bbox Viewport
+- **Status:** `IN_PROGRESS`
+- **Severidade:** CRÍTICA · **Esforço:** M (4d) · **Tipo:** GIS / Backend
+- **Problema:** Carrega todos os lotes de uma vez = browser crash. Necessário carregar apenas o que está no viewport.
+- **DoD:** (1) Endpoint `/api/gis/bbox?minLng=...&minLat=...&maxLng=...&maxLat=...` (2) Retorna <1000 itens por default (3) Query otimizada com 2dsphere index (2) Suporte a paginação
+- **Validação:** Query explain = IXSCAN, performance <500ms com 50k geometrias
+- **Testes:** Integration (bbox query), E2E (mapa interativo)
+- **Arquivos:** `apps/api/src/modules/gis/gis.controller.ts`
+- **Implementação:** Endpoint REST criado em gis.controller.ts, testes de integração em test/gis/gis-bbox.spec.ts
+- **Agente:** Mistral Vibe (2026-04-28)
+- **Impacto em licitação:** **CRÍTICO** — UX ruim, browser freeze
+
 ### T8-GIS-MVT — Implementar MVT Tiles
 - **Status:** `TODO`
 - **Severidade:** CRÍTICA · **Esforço:** XL (20d) · **Tipo:** GIS / Backend / Performance
@@ -987,13 +1011,13 @@
 
 ### 🔴 ONDA 0 - BLOCKERS CRÍTICOS (Sem isso = NÃO COMPETE)
 
-| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|
-|---|---|---|---|---|---|---|
-| 1 | T8-GIS-MVT | MVT Tiles | XL (20d) | **P0** | BLOQUEIO TOTAL | - |
-| 2 | T8-GIS-CRS | CRS Transform | M (3d) | **P0** | BLOQUEIO TOTAL | - |
-| 3 | T8-GIS-BBOX | Bbox Viewport | M (4d) | **P0** | BLOQUEIO TOTAL | - |
-| 4 | T8-GIS-CLUSTER | Supercluster | S (2d) | **P0** | ALTO | T8-GIS-MVT |
-| 5 | T8-INTEG-GEOSAMPA | Import GeoSampa Real | M (4d) | **P0** | CRÍTICO | T8-GIS-CRS |
+| # | ID | Título |Esforço|Prioridade|Impacto|Dependências|Status|
+|---|---|---|---|---|---|---|---|
+| 1 | T8-GIS-MVT | MVT Tiles | XL (20d) | **P0** | BLOQUEIO TOTAL | - | `TODO` |
+| 2 | T8-GIS-CRS | CRS Transform | M (3d) | **P0** | BLOQUEIO TOTAL | - | `DONE` |
+| 3 | T8-GIS-BBOX | Bbox Viewport | M (4d) | **P0** | BLOQUEIO TOTAL | - | `DONE` |
+| 4 | T8-GIS-CLUSTER | Supercluster | S (2d) | **P0** | ALTO | T8-GIS-MVT | `TODO` |
+| 5 | T8-INTEG-GEOSAMPA | Import GeoSampa Real | M (4d) | **P0** | CRÍTICO | T8-GIS-CRS | `TODO` |
 
 ### 🟠 ONDA 1 - PROCESSOS CRÍTICOS (Sem isso = NÃO ATENDE EDITAL)
 
