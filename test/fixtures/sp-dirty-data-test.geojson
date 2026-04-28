@@ -1,0 +1,202 @@
+{
+  "type": "FeatureCollection",
+  "name": "sp_dirty_data_test",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6333, -23.5505],
+          [-46.6330, -23.5505],
+          [-46.6330, -23.5502],
+          [-46.6333, -23.5502],
+          [-46.6333, -23.5505]
+        ]]
+      },
+      "properties": {
+        "sqlu": "SP-VALID-001",
+        "inscricao_imobiliaria": "01072-900-000-0-404",
+        "logradouro": "R. ALVARO BUESSO",
+        "numero": "100",
+        "bairro": "Bela Vista",
+        "area_terreno": 500.0,
+        "status_cadastral": "ATIVO",
+        "zoneamento": "ZP-3",
+        "cd_setor": "107",
+        "cd_quadra": "290",
+        "cd_lote": "004",
+        "nm_categoria": "RESIDENCIAL"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [[
+            [-46.6350, -23.5510],
+            [-46.6348, -23.5510],
+            [-46.6348, -23.5508],
+            [-46.6350, -23.5508],
+            [-46.6350, -23.5510]
+          ]],
+          [[
+            [-46.6345, -23.5512],
+            [-46.6343, -23.5512],
+            [-46.6343, -23.5510],
+            [-46.6345, -23.5510],
+            [-46.6345, -23.5512]
+          ]]
+        ]
+      },
+      "properties": {
+        "sqlu": "SP-MULTIPOLY-001",
+        "inscricao": "01073-000-001-0-106",
+        "logradouro": "RUA ALVARO BUESSO",
+        "numero": "2555",
+        "bairro": "Consolacao",
+        "area": 450.0,
+        "status": "ATIVO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "sqlu": "SP-NO-GEOM-001",
+        "inscricao_imobiliaria": "01080-100-000-0-301",
+        "logradouro": "Av. Reboucas",
+        "area_terreno": 300.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [333000, 7395000],
+          [333100, 7395000],
+          [333100, 7394900],
+          [333000, 7394900],
+          [333000, 7395000]
+        ]]
+      },
+      "properties": {
+        "sqlu": "SP-UTM-BUG-001",
+        "inscricao": "01085-000-002-0-500",
+        "logradouro": "R. Oscar Freire",
+        "area_terreno": 800.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6400, -23.5600],
+          [-46.6398, -23.5600],
+          [-46.6398, -23.5598],
+          [-46.6400, -23.5598],
+          [-46.6400, -23.5600]
+        ]]
+      },
+      "properties": {
+        "inscricao_imobiliaria": "01082-200-008-0-205",
+        "logradouro": "Av. Ipiranga",
+        "numero": "500",
+        "bairro": "Republica",
+        "area_terreno": 1200.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-46.6370, -23.5540]
+      },
+      "properties": {
+        "sqlu": "SP-POINT-GEOM-001",
+        "inscricao": "01090-000-001-0-100",
+        "logradouro": "R. Haddock Lobo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6410, -23.5620],
+          [-46.6408, -23.5620],
+          [-46.6408, -23.5618],
+          [-46.6410, -23.5618],
+          [-46.6410, -23.5620]
+        ]]
+      },
+      "properties": {}
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6500, -23.5700],
+          [-46.6498, -23.5700],
+          [-46.6498, -23.5698],
+          [-46.6500, -23.5698],
+          [-46.6500, -23.5700]
+        ]]
+      },
+      "properties": {
+        "sqlu": "SP-DUP-001",
+        "inscricao_imobiliaria": "01095-000-001-0-100",
+        "logradouro": "R. da Consolacao",
+        "area_terreno": 650.0,
+        "status_cadastral": "ATIVO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6500, -23.5700],
+          [-46.6498, -23.5700],
+          [-46.6498, -23.5698],
+          [-46.6500, -23.5698],
+          [-46.6500, -23.5700]
+        ]]
+      },
+      "properties": {
+        "sqlu": "SP-DUP-001",
+        "inscricao_imobiliaria": "01095-000-001-0-100",
+        "logradouro": "R. da Consolacao (updated)",
+        "area_terreno": 700.0,
+        "status_cadastral": "ATIVO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6600, -23.5800],
+          [-46.6598, -23.5800],
+          [-46.6598, -23.5798],
+          [-46.6600, -23.5798],
+          [-46.6600, -23.5800]
+        ]]
+      },
+      "properties": {
+        "codigosqlu": "SP-ALIAS-001",
+        "inscricao_imob": "01100-000-001-0-200",
+        "nome_logradouro": "Av. Brigadeiro Faria Lima",
+        "nome_bairro": "Itaim Bibi",
+        "area_m2": "890.5",
+        "valor_venal_total": "2500000",
+        "iptu_lancado": "R$ 1.500,00",
+        "situacao_iptu": "QUITADO"
+      }
+    }
+  ]
+}

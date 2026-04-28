@@ -686,7 +686,9 @@ export class ParcelsService {
           const lng = firstCoord[0];
           const lat = firstCoord[1];
           if (typeof lng === 'number' && typeof lat === 'number' && (Math.abs(lng) > 180 || Math.abs(lat) > 90)) {
-            throw new Error(`Coordenadas inválidas para WGS84 (Lng: ${lng}, Lat: ${lat}). O GeoJSON deve estar em EPSG:4326. Dados do GeoSampa/SIRGAS 2000 UTM devem ser convertidos antes da importação.`);
+            errors++;
+            errorDetails.push({ row: i + 1, featureId: String(featureId), message: `Coordenadas inválidas para WGS84 (Lng: ${lng}, Lat: ${lat}). GeoJSON deve estar em EPSG:4326.`, field: 'geometry' });
+            continue;
           }
         }
 
@@ -749,7 +751,8 @@ export class ParcelsService {
           sqlu: sqlu || `DEMO-${Date.now()}-${i}`,
           inscricaoImobiliaria: inscription,
           inscription,
-          enderecoPrincipal,
+          rawProperties: props,
+      enderecoPrincipal,
           mainAddress,
           codigoImovel: getPropertyValue(props, ...(PROPERTY_ALIASES.codigoImovel || [])),
           setor: getPropertyValue(props, ...(PROPERTY_ALIASES.setor || [])),

@@ -479,6 +479,18 @@
 
 ## 🔷 T7 — DADOS REAIS SP
 
+### T7-SP-DATA-REAL — Replace demo data assumptions with real SP-compatible data
+- **Status**: `DONE`
+- **Severidade**: CRÍTICA · **Esforço**: 3d
+- **DoD**: Import does NOT crash on bad data; handles large dataset; reports stats; no silent failures; dirty data covered
+- **Agente**: Claude (2026-04-28)
+- **Validação**: Integration test `apps/api/test/ctm/parcels-import-dirty.spec.ts` (9 scenarios)
+- **Implementação**:
+  - Fixed critical bug: CRS validation `throw` → `continue` (line 688-691)
+  - Added `rawProperties` preservation on import
+  - Created dirty data fixture `test/fixtures/sp-dirty-data-test.geojson` (10 features: valid, null geom, UTM coords, no ID, duplicates, aliases)
+  - Test coverage: null geom skip, UTM skip, no-SQLU skip, duplicate skip, upsert mode, SQLU alias resolution, rawProperties preservation, stats reporting
+
 ### T7-SP-IMPORT-GEOJSON-REAL
 - **Status**: `TODO`
 - **Severidade**: CRÍTICA · **Esforço**: 5d

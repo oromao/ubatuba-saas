@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-28 — Claude — T7-SP-DATA-REAL
+- **Status muda:** TODO → DONE
+- **Feito:** (1) Fixed critical bug: CRS validation `throw` on bad coords crashed entire import → changed to `continue` with error detail. (2) Added `rawProperties` preservation on import. (3) Created dirty data fixture `test/fixtures/sp-dirty-data-test.geojson` with 10 features covering: valid Polygon, MultiPolygon, null geometry, UTM coords, no SQLU/inscricao, duplicate (non-upsert), duplicate (upsert), SQLU alias columns. (4) Wrote integration test `apps/api/test/ctm/parcels-import-dirty.spec.ts` with 9 scenarios.
+- **Arquivos alterados:** `apps/api/src/modules/ctm/parcels/parcels.service.ts` (CRS fix + rawProperties), `test/fixtures/sp-dirty-data-test.geojson` (novo), `apps/api/test/ctm/parcels-import-dirty.spec.ts` (novo), `docs/planning/02-BACKLOG.md`
+- **Testes adicionados:** `apps/api/test/ctm/parcels-import-dirty.spec.ts` (9 test cases)
+- **Prova:** TypeScript clean (no errors in changed files). Import no longer crashes on bad data.
+- **Próximo:** T6-SP-GIS-SCALE (bbox/viewport loading)
+- **Notas:** Pre-existing TS errors in vistorias.integration.spec.ts — not from this change.
+
 ### 2026-04-28 — Claude — FIRST EXECUTION PACKAGE CLOSED + CLEANUP CLASSIFICATION
 - **Status muda:** T1+T2 completo — First Execution Package DONE
 - **Feito:** Re-classificou 30 rotas em `05-CLEANUP-INVENTORY.md` de `FIX`/`KEEP?`/`ARCHIVE?` para `KEEP`/`HIDE`/`FIX` baseado em evidência observada. 22 rotas promoveram para KEEP (provas E2E existem). 5 permanecem FIX (sem prova específica). 1 rota `/app/poc` promovida para HIDE. Atualizado sprint e fila no `03-EXECUTION-PLAN.md`.
