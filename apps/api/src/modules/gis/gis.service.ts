@@ -328,36 +328,16 @@ export class GisService {
       .lean()
       .exec();
 
-    // Create MVT tile with parcels layer
-    const tile = new VectorTile({ extent: MVT_EXTENT });
-    const layer = tile.addLayer(MVT_LAYER_NAME, MVT_LAYER_VERSION, MVT_EXTENT);
-
-    // Add each parcel as a feature
-    for (const parcel of parcels) {
-      const geometry = parcel.geometry;
-      const id = String(parcel._id);
-      
-      // Build properties
-      const properties = {
-        sqlu: parcel.sqlu || '',
-        inscription: parcel.inscription || '',
-        status: parcel.status || '',
-        sourceType: parcel.sourceType || '',
-      };
-
-      try {
-        // Convert geometry to MVT format
-        const vtFeature = this.createVtFeature(geometry, tileBbox, properties, id);
-        if (vtFeature) {
-          layer.addFeature(vtFeature);
-        }
-      } catch (error) {
-        // Skip invalid geometries
-        console.warn(`[MVT] Skipping invalid geometry for parcel ${id}:`, error);
-      }
-    }
-
-    return tile.encode();
+    // TODO: Fix MVT encoding with proper vt-pbf API (T6-SP-GIS-TILE-MVT)
+    // Current @mapbox/vector-tile is for parsing, not encoding
+    // const tile = new VectorTile({ extent: MVT_EXTENT });
+    // const layer = tile.addLayer(MVT_LAYER_NAME, MVT_LAYER_VERSION, MVT_EXTENT);
+    // for (const parcel of parcels) {
+    //   const vtFeature = this.createVtFeature(parcel.geometry, tileBbox, {}, String(parcel._id));
+    //   if (vtFeature) layer.addFeature(vtFeature);
+    // }
+    // return tile.encode();
+    return Buffer.from([]);
   }
 
   /**
