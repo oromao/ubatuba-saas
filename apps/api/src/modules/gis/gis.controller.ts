@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, HttpCode, HttpStatus, Param, Header } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { GisService } from './gis.service';
 import { Coordinate, CoordinateTransformResult } from './gis.service';
@@ -146,5 +146,28 @@ export class GisController {
       bbox: coords,
       limit,
     });
+  }
+
+  // ==========================================================================
+  // T8-GIS-MVT: MVT Vector Tiles
+  // ==========================================================================
+
+  @Get('tiles/:z/:x/:y.pbf')
+  @HttpCode(HttpStatus.OK)
+  @Header('Content-Type', 'application/x-protobuf')
+  @ApiOperation({
+    summary: 'Get MVT vector tile for a given tile coordinate',
+    description: 'Returns a Mapbox Vector Tile (MVT) in protobuf format for the specified tile at zoom level z, and tile coordinates x, y.',
+  })
+  @ApiQuery({ name: 'tenantId', required: true, description: 'Tenant ID' })
+  @ApiQuery({ name: 'projectId', required: true, description: 'Project ID' })
+  async getMvtTile(
+    @Param('z') z: number,
+    @Param('x') x: number,
+    @Param('y') y: number,
+    @Query('tenantId') tenantId: string,
+    @Query('projectId') projectId: string,
+  ): Promise<Buffer> {
+    return this.gisService.getMvtTile(z, x, y, tenantId, projectId);
   }
 }

@@ -1013,7 +1013,7 @@
 
 | # | ID | Título |Esforço|Prioridade|Impacto|Dependências|Status|
 |---|---|---|---|---|---|---|---|
-| 1 | T8-GIS-MVT | MVT Tiles | XL (20d) | **P0** | BLOQUEIO TOTAL | - | `TODO` |
+| 1 | T8-GIS-MVT | MVT Tiles | XL (20d) | **P0** | BLOQUEIO TOTAL | - | `IN_PROGRESS` |
 | 2 | T8-GIS-CRS | CRS Transform | M (3d) | **P0** | BLOQUEIO TOTAL | - | `DONE` |
 | 3 | T8-GIS-BBOX | Bbox Viewport | M (4d) | **P0** | BLOQUEIO TOTAL | - | `DONE` |
 | 4 | T8-GIS-CLUSTER | Supercluster | S (2d) | **P0** | ALTO | T8-GIS-MVT | `TODO` |

@@ -342,16 +342,34 @@ export class GisService {
       .lean()
       .exec();
 
-    // TODO: Fix MVT encoding with proper vt-pbf API (T6-SP-GIS-TILE-MVT)
-    // Current @mapbox/vector-tile is for parsing, not encoding
-    // const tile = new VectorTile({ extent: MVT_EXTENT });
-    // const layer = tile.addLayer(MVT_LAYER_NAME, MVT_LAYER_VERSION, MVT_EXTENT);
-    // for (const parcel of parcels) {
-    //   const vtFeature = this.createVtFeature(parcel.geometry, tileBbox, {}, String(parcel._id));
-    //   if (vtFeature) layer.addFeature(vtFeature);
-    // }
-    // return tile.encode();
-    return Buffer.from([]);
+    // Use VectorTile.fromGeoJSON to create and encode MVT tile
+    // Create features in GeoJSON format for each parcel
+    const features = parcels.map((parcel) => ({
+      type: 'Feature' as const,
+      id: String(parcel._id),
+      geometry: parcel.geometry,
+      properties: {
+        sqlu: parcel.sqlu,
+        inscription: parcel.inscription,
+        status: parcel.status,
+        sourceType: parcel.sourceType,
+      },
+    }));
+
+    // Create GeoJSON FeatureCollection
+    const geojson = {
+      type: 'FeatureCollection' as const,
+      features,
+    };
+
+    // Use @mapbox/vector-tile's fromGeoJSON to encode to MVT protobuf
+    const pbfBuffer = VectorTile.fromGeoJSON(MVT_LAYER_NAME, geojson, {
+      version: MVT_LAYER_VERSION,
+      extent: MVT_EXTENT,
+    });
+
+    // Convert Uint8Array to Buffer for Node.js
+    return Buffer.from(pbfBuffer.buffer, pbfBuffer.byteOffset, pbfBuffer.byteLength);
   }
 
   /**

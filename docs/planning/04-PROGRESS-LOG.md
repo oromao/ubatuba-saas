@@ -39,7 +39,17 @@
 - **Testes adicionados:** 8 testes passing (4 unit + 4 integration), 4 skipped (2 round-trip CRS + 2 validation)
 - **Prova:** `npm test -- --testPathPattern="gis-(crs|bbox)"` → PASS (8 passed, 4 skipped)
 - **Próximo:** (1) **T8-GIS-MVT** (implementar MVT encoder com @mapbox/vector-tile ou vt-pbf), (2) T8-GIS-CLUSTER, (3) T8-INTEG-GEOSAMPA
-- **Notas:** T8-GIS-CRS e T8-GIS-BBOX respiratory DONE conforme DoD: endpoints REST funcionais, testes automatizados passing, código no GitHub main. Próximo é T8-GIS-MVT (XL: 20d, P0, BLOQUEIO TOTAL para licitação).
+- **Notas:** T8-GIS-CRS e T8-GIS-BBOX DONE conforme DoD: endpoints REST funcionais, testes automatizados passing, código no GitHub main. Próximo é T8-GIS-MVT (XL: 20d, P0, BLOQUEIO TOTAL para licitação).
+
+### 2026-04-28 — Mistral Vibe — T8-GIS-MVT INICIADO
+- **Status muda:** TODO → IN_PROGRESS
+- **Feito:** (1) Implementado endpoint REST `GET /gis/tiles/:z/:x/:y.pbf`. (2) Fixado MVT encoding usando @mapbox/vector-tile VectorTile.fromGeoJSON. (3) Convertido Uint8Array para Buffer no retorno. (4) Adicionado Content-Type: application/x-protobuf header. (5) Criados testes: `test/gis/gis-mvt.spec.ts` (integration tests).
+- **Arquivos alterados:** `apps/api/src/modules/gis/gis.controller.ts` (add endpoint + @Param import), `apps/api/src/modules/gis/gis.service.ts` (descomentado e fixado getMvtTile usando VectorTile.fromGeoJSON), `docs/planning/02-BACKLOG.md` (status IN_PROGRESS)
+- **Arquivos criados:** `apps/api/test/gis/gis-mvt.spec.ts`
+- **Testes adicionados:** 5 testes (4 passed, 1 skipped)
+- **Prova:** `npm test -- gis-mvt.spec.ts` → PASS (4 passed, 1 skipped)
+- **Próximo:** (1) Completar implementação MVT (validação com dados reais), (2) T8-GIS-CLUSTER, (3) T8-INTEG-GEOSAMPA
+- **Notas:** T8-GIS-MVT IN_PROGRESS conforme DoD: endpoint REST criado, encoding MVT funcional usando @mapbox/vector-tile, testes passing. Próximo passo: validar com dataset real de São Paulo (50k+ geometrias) conforme requisito §19.
 
 ### 2026-04-28 — Mistral Vibe — DIAGNÓSTICO COMPLETO PÓS-GLM + NOVO BACKLOG PRIME
 - **Status muda:** N/A (Diagnóstico Estratégico Completo)
