@@ -304,9 +304,9 @@ export class PermitsWorksService {
         const applicantName = properties.applicantName || properties.applicant_name || `Importado ${i + 1}`;
         const subjectAddress = properties.subjectAddress || properties.address || `Endereço ${i + 1}`;
 
-        const existing = await this.repo.findOne(tenantId, { applicantName });
+        const existing = await this.repository.findOne(tenantId, { applicantName });
         if (existing) {
-          await this.repo.update(tenantId, existing._id, { applicantName, subjectAddress });
+          await this.repository.update(tenantId, existing._id, { applicantName, subjectAddress });
           updated++;
         } else {
           await this.create(tenantId, { applicantName, subjectAddress }, actorId);
@@ -348,9 +348,9 @@ export class PermitsWorksService {
 
         if (!applicantName) continue;
 
-        const existing = await this.repo.findOne(tenantId, { applicantName });
+        const existing = await this.repository.findOne(tenantId, { applicantName });
         if (existing) {
-          await this.repo.update(tenantId, existing._id, { applicantName, subjectAddress });
+          await this.repository.update(tenantId, existing._id, { applicantName, subjectAddress });
           updated++;
         } else {
           await this.create(tenantId, { applicantName, subjectAddress }, actorId);

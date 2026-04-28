@@ -279,9 +279,9 @@ export class PermitsBusinessService {
         const cnpj = properties.cnpj || properties.CNPJ || `${i}`;
         const activityDescription = properties.activityDescription || properties.activity || 'Importado';
 
-        const existing = await this.repo.findOne(tenantId, { cnpj });
+        const existing = await this.repository.findOne(tenantId, { cnpj });
         if (existing) {
-          await this.repo.update(tenantId, existing._id, { companyName, activityDescription });
+          await this.repository.update(tenantId, existing._id, { companyName, activityDescription });
           updated++;
         } else {
           await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
@@ -329,9 +329,9 @@ export class PermitsBusinessService {
 
         if (!cnpj) continue;
 
-        const existing = await this.repo.findOne(tenantId, { cnpj });
+        const existing = await this.repository.findOne(tenantId, { cnpj });
         if (existing) {
-          await this.repo.update(tenantId, existing._id, { companyName, activityDescription });
+          await this.repository.update(tenantId, existing._id, { companyName, activityDescription });
           updated++;
         } else {
           await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
