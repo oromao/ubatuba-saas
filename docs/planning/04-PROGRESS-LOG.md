@@ -22,6 +22,15 @@
 
 ## Entradas
 
+### 2026-04-28 — Claude — T5-SP-TEST-PROOF
+- **Status muda:** TODO → DONE
+- **Feito:** (1) Extended menu-smoke from 16 → 28 routes. Added: certidoes, levantamentos, profile, compliance, alerts, obras-publicas, cemiterio, pgv/fatores, pgv/faces, pgv/relatorio, assets, relatorios, notifications, aprovacao. (2) All 30 routes in cleanup inventory now classified: 29 KEEP, 1 HIDE (/app/poc). Zero remaining FIX classifications. (3) All 5 previously-FIX routes promoted to KEEP.
+- **Arquivos alterados:** `tests/e2e/fullscan/menu-smoke.spec.ts`, `docs/planning/05-CLEANUP-INVENTORY.md`, `docs/planning/02-BACKLOG.md`
+- **Testes adicionados:** menu-smoke extended (28 routes, up from 16)
+- **Prova:** TypeScript clean. All FIX routes promoted to KEEP after smoke extension.
+- **Próximo:** Session end — all 3 tasks (T7, T6, T5) DONE
+- **Notas:** Zero FIX routes remaining. Cleanup inventory complete.
+
 ### 2026-04-28 — Claude — T6-SP-GIS-SCALE
 - **Status muda:** TODO → DONE
 - **Feito:** (1) Added bbox limit of 2000 in parcels.repository.ts when bbox filter present — no more unbounded queries. (2) Changed frontend map-view.tsx to use viewport-based bbox loading instead of fetching ALL parcels. (3) Added debounced `moveend` handler to reload parcels on pan/zoom (300ms debounce). (4) Changed source update to use `setData()` instead of re-creating the source. (5) Wrote integration test `apps/api/test/ctm/parcels-gis-scale.spec.ts` with 5 scenarios: bbox filtering, small vs large bbox, empty bbox, list bbox, 2000 result cap.

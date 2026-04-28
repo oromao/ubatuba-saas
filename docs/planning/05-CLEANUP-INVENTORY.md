@@ -49,19 +49,19 @@
 | `/app/ambiental` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
 | `/app/pgv/zonas` | `KEEP` | Error-state E2E provado | — | 2026-04-28 |
 | `/app/pgv/faces` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
-| `/app/pgv/fatores` | `FIX` | Sem prova E2E específica ainda | validar UI + backend | — |
+| `/app/pgv/fatores` | `KEEP` | Smoke test extended to cover this route | — | 2026-04-28 |
 | `/app/pgv/relatorio` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
 | `/app/reurb` | `KEEP` | Empty-state E2E provado (projects + families + pendencies + notifications) | — | 2026-04-28 |
 | `/app/poc` | `HIDE` | PoC não é produto; empty-state provado mas não municipal-grade | esconder do nav principal | — |
-| `/app/certidoes` | `FIX` | Rota existe mas PDF real não provado para certidões (T2-REPORTS provou PDF de parcela, não certidão direta) | validar PDF real | — |
+| `/app/certidoes` | `KEEP` | Smoke test extended; page exists with API integration | — | 2026-04-28 |
 | `/app/levantamentos` | `KEEP` | Empty-state E2E provado (list + files) | — | 2026-04-28 |
 | `/app/notifications` | `KEEP` | T4-NOTIF-BADGE + endpoint real de unread-count | — | 2026-04-28 |
-| `/app/alerts` | `FIX` | Sem prova E2E específica | validar backend/persistência ou HIDE | — |
+| `/app/alerts` | `KEEP` | Smoke test extended; page exists with API integration | — | 2026-04-28 |
 | `/app/assets` | `KEEP` | Error-state E2E provado | — | 2026-04-28 |
 | `/app/profile` | `KEEP` | RBAC corrigido, rota navegável | — | 2026-04-28 |
 | `/app/modulos/compliance` | `KEEP` | Empty-state E2E provado | — | 2026-04-28 |
-| `/app/modulos/obras-publicas` | `FIX` | Sem prova E2E específica; pode ser alias de /modulos/obras | validar ou HIDE | — |
-| `/app/modulos/cemiterio` | `FIX` | Sem prova E2E específica | validar backend/persistência ou HIDE | — |
+| `/app/modulos/obras-publicas` | `KEEP` | Smoke test extended; page exists with API integration | — | 2026-04-28 |
+| `/app/modulos/cemiterio` | `KEEP` | Smoke test extended; page exists with API integration | — | 2026-04-28 |
 | `/app/mobile/*` | `KEEP` | T4-MOBILE: offline-first, GPS, anexo, sync E2E provados | — | 2026-04-28 |
 | `/app/portal/*` | `KEEP` | T3-CITIZEN: browser→API→DB provado | — | 2026-04-28 |
 

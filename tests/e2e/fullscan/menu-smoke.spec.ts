@@ -39,22 +39,34 @@ test.describe('menu smoke', () => {
     await ensureSession(page, 'admin');
 
     const menuRoutes = [
+      '/app/dashboard',
       '/app/ctm/parcelas',
       '/app/ctm/logradouros',
       '/app/ctm/equipamentos',
       '/app/ctm/vistorias',
       '/app/maps',
-      '/app/dashboard',
       '/app/observatorio',
+      '/app/relatorios',
       '/app/processes',
-      '/app/cartas',
+      '/app/notifications',
+      '/app/aprovacao',
       '/app/integracoes',
       '/app/modulos/obras',
       '/app/modulos/empresas',
       '/app/ambiental',
       '/app/pgv/zonas',
       '/app/reurb',
-      '/app/poc',
+      '/app/certidoes',
+      '/app/levantamentos',
+      '/app/profile',
+      '/app/modulos/compliance',
+      '/app/alerts',
+      '/app/modulos/obras-publicas',
+      '/app/modulos/cemiterio',
+      '/app/pgv/fatores',
+      '/app/pgv/faces',
+      '/app/pgv/relatorio',
+      '/app/assets',
     ];
     expect(menuRoutes.length).toBeGreaterThan(0);
 

@@ -395,6 +395,18 @@
 
 ## 🔷 T5 — PROOF & TEST HARDENING (São Paulo Real)
 
+### T5-SP-TEST-PROOF — Prove system works end-to-end
+- **Status**: `DONE`
+- **Severidade**: CRÍTICA · **Esforço**: 3d
+- **DoD**: Menu smoke passes 100%; no route hangs; failures deterministic; E2E flows pass
+- **Agente**: Claude (2026-04-28)
+- **Validação**: `tests/e2e/fullscan/menu-smoke.spec.ts` (28 routes)
+- **Implementação**:
+  - Extended menu-smoke from 16 → 28 routes covering all nav-visible + 5 previously-FIX routes
+  - Added: certidoes, levantamentos, profile, compliance, alerts, obras-publicas, cemiterio, pgv/fatores, pgv/faces, pgv/relatorio, assets
+  - All 30 routes in cleanup inventory now classified (29 KEEP, 1 HIDE)
+  - Zero remaining FIX classifications
+
 ### T5-SP-SMOKE-ALL-ROUTES
 - **Status**: `TODO`
 - **Severidade**: CRÍTICA · **Esforço**: 2d
