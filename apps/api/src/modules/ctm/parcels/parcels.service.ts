@@ -1,7 +1,15 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { calculateGeometryArea, isPolygonGeometry, PolygonGeometry } from '../../../common/utils/geo';
+import { calculateGeometryArea, isPolygonGeometry } from '../../../common/utils/geo';
+import * as GeoJSON from 'geojson';
 import { asObjectId } from '../../../common/utils/object-id';
 import { createVectorTile } from '../../../common/utils/mvt.util';
+import {
+  CRS_WGS84,
+  CRS_SIRGAS2000_UTM_23S,
+  CRS_SIRGAS2000_UTM_24S,
+  convertGeometryCoordinates,
+  detectCrsFromCoordinates,
+} from '../../../common/utils/crs';
 import { ProjectsService } from '../../projects/projects.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
@@ -99,7 +107,7 @@ function parseNumber(value: unknown): number | undefined {
   return isNaN(num) ? undefined : num;
 }
 
-function calculateCentroid(geometry: PolygonGeometry): { type: string; coordinates: [number, number] } {
+function calculateCentroid(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): { type: string; coordinates: [number, number] } {
   if (!geometry || !geometry.coordinates || geometry.coordinates.length === 0) {
     return { type: 'Point', coordinates: [0, 0] };
   }
@@ -127,7 +135,7 @@ function calculateCentroid(geometry: PolygonGeometry): { type: string; coordinat
   return { type: 'Point', coordinates: [0, 0] };
 }
 
-function calculateBbox(geometry: PolygonGeometry): { minX: number; minY: number; maxX: number; maxY: number } {
+function calculateBbox(geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon): { minX: number; minY: number; maxX: number; maxY: number } {
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   
   const polygons = geometry.type === 'Polygon' 
@@ -604,6 +612,91 @@ export class ParcelsService {
     };
   }
 
+  /**
+   * Detect and convert CRS for geometry coordinates.
+   * Handles UTM Zone 23S/24S (SIRGAS2000) to WGS84 conversion automatically.
+   */
+  private detectAndConvertCRS(
+    geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon,
+    municipalityName?: string,
+  ): { geometry: GeoJSON.Polygon | GeoJSON.MultiPolygon; transformed: boolean; crsWarnings: string[] } {
+    const crsWarnings: string[] = [];
+
+    // Extract first coordinate for detection
+    // geometry is already validated as Polygon or MultiPolygon by the caller
+    const firstPolygon = geometry.type === 'Polygon' ? geometry.coordinates : geometry.coordinates[0];
+    const firstRing = firstPolygon?.[0];
+    const firstCoord = firstRing?.[0];
+
+    if (!firstCoord || !Array.isArray(firstCoord) || firstCoord.length < 2) {
+      return { geometry, transformed: false, crsWarnings };
+    }
+
+    const [x, y] = firstCoord;
+    if (typeof x !== 'number' || typeof y !== 'number') {
+      return { geometry, transformed: false, crsWarnings };
+    }
+
+    // Check if coordinates look like WGS84
+    const looksLikeWgs84 = Math.abs(x) <= 180 && Math.abs(y) <= 90;
+    
+    if (looksLikeWgs84) {
+      // Already in WGS84 range, validate bounds
+      if (x >= -180 && x <= 180 && y >= -90 && y <= 90) {
+        return { geometry, transformed: false, crsWarnings };
+      }
+    }
+
+    // Coordinates outside WGS84 bounds - likely UTM
+    // Try to detect which UTM zone based on coordinate ranges or municipality
+    let detectedCrs: string | null = null;
+    let zone = 23; // Default for São Paulo
+
+    // Detect from coordinate ranges
+    if (x >= 100000 && x <= 900000 && y >= 7000000 && y <= 11000000) {
+      // UTM coordinates in Brazil range
+      // Zone 23S: central meridian -45°, covers roughly -51° to -45°
+      // Zone 24S: central meridian -51°, covers roughly -45° to -39°
+      // For São Paulo area, can be either depending on exact location
+      zone = x < 500000 ? 23 : 24;
+      detectedCrs = zone === 23 ? CRS_SIRGAS2000_UTM_23S : CRS_SIRGAS2000_UTM_24S;
+    }
+
+    // Override zone detection based on municipality
+    if (municipalityName) {
+      const normalized = municipalityName.toLowerCase();
+      // Most of São Paulo state is in zone 23
+      if (normalized.includes('sao paulo') || normalized.includes('sp') || normalized.includes('paulo')) {
+        zone = 23;
+        detectedCrs = CRS_SIRGAS2000_UTM_23S;
+      }
+    }
+
+    // If we detected UTM, try to convert
+    if (detectedCrs) {
+      const targetCrs = CRS_WGS84;
+      const converted = convertGeometryCoordinates(geometry, detectedCrs, targetCrs);
+
+      if (converted && (converted.type === 'Polygon' || converted.type === 'MultiPolygon')) {
+        crsWarnings.push(`Converted from ${detectedCrs} (Zone ${zone}S) to ${targetCrs} for ${municipalityName || 'unknown municipality'}`);
+        return { geometry: converted, transformed: true, crsWarnings };
+      }
+    }
+
+    // If detection failed but coordinates are out of WGS84 bounds, try zone 23 as fallback
+    if (!looksLikeWgs84 && !detectedCrs) {
+      const fallbackCrs = CRS_SIRGAS2000_UTM_23S;
+      const converted = convertGeometryCoordinates(geometry, fallbackCrs, CRS_WGS84);
+      if (converted && (converted.type === 'Polygon' || converted.type === 'MultiPolygon')) {
+        crsWarnings.push(`Fallback conversion from ${fallbackCrs} to WGS84 (coordinates out of bounds)`);
+        return { geometry: converted, transformed: true, crsWarnings };
+      }
+    }
+
+    // Could not convert, return original
+    return { geometry, transformed: false, crsWarnings };
+  }
+
   async importGeojson(
     tenantId: string,
     projectId: string | undefined,
@@ -677,17 +770,29 @@ export class ParcelsService {
           continue;
         }
 
-        const geo = geometry as PolygonGeometry;
+        let geo: GeoJSON.Polygon | GeoJSON.MultiPolygon = geometry as GeoJSON.Polygon | GeoJSON.MultiPolygon;
         
-        // Validação de coordenadas (WGS84 / EPSG:4326)
-        const firstPolygon = geo.type === 'Polygon' ? geo.coordinates : (geo.coordinates[0] as number[][][]);
+        // CRS Detection and Auto-Conversion
+        // If coordinates are outside WGS84 bounds, attempt to detect and convert from UTM
+        const crsResult = this.detectAndConvertCRS(geo, municipalityName);
+        if (crsResult.transformed) {
+          geo = crsResult.geometry;
+          // Track CRS conversion in batch warnings
+          await this.importBatchRepository.addWarning(
+            batchId,
+            `_row=${i + 1}_FEAT=${featureId}: ${crsResult.crsWarnings.join('; ')}`
+          );
+        }
+
+        // Validate converted coordinates are within WGS84 bounds
+        const firstPolygon = geo.type === 'Polygon' ? geo.coordinates : geo.coordinates[0];
         const firstCoord = firstPolygon?.[0]?.[0];
         if (firstCoord && Array.isArray(firstCoord) && firstCoord.length >= 2) {
           const lng = firstCoord[0];
           const lat = firstCoord[1];
           if (typeof lng === 'number' && typeof lat === 'number' && (Math.abs(lng) > 180 || Math.abs(lat) > 90)) {
             errors++;
-            errorDetails.push({ row: i + 1, featureId: String(featureId), message: `Coordenadas inválidas para WGS84 (Lng: ${lng}, Lat: ${lat}). GeoJSON deve estar em EPSG:4326.`, field: 'geometry' });
+            errorDetails.push({ row: i + 1, featureId: String(featureId), message: `Coordenadas inválidas após conversão CRS (Lng: ${lng}, Lat: ${lat}).`, field: 'geometry' });
             continue;
           }
         }

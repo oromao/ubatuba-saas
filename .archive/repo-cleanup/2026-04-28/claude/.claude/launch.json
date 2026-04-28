@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "API (NestJS dev)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--workspace=apps/api"],
+      "port": 4000
+    },
+    {
+      "name": "Web (Next.js dev)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--workspace=apps/web"],
+      "port": 3000
+    },
+    {
+      "name": "API + Web (ambos)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "Docker infra (dev profile)",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "--profile", "dev", "up", "-d"],
+      "port": 27017
+    }
+  ]
+}

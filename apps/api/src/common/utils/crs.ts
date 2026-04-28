@@ -20,6 +20,35 @@ export interface CoordinateConversionResult {
   error?: string;
 }
 
+// Note: proj4 is an optional dependency for high-precision CRS conversion.
+// If not available, falls back to pure JS implementation with lower precision.
+let proj4InitializationDone = false;
+
+function ensureProj4Initialized(): typeof import('proj4') | null {
+  if (proj4InitializationDone) {
+    try {
+      const p4 = require('proj4');
+      return p4;
+    } catch {
+      return null;
+    }
+  }
+  
+  try {
+    const p4 = require('proj4');
+    // Register SIRGAS2000 UTM zones for Brazil
+    p4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:29194", "+proj=utm +zone=24 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+    proj4InitializationDone = true;
+    return p4;
+  } catch {
+    proj4InitializationDone = true;
+    return null;
+  }
+}
+
 function degreesToRadians(degrees: number): number {
   return degrees * (Math.PI / 180);
 }
@@ -38,7 +67,7 @@ function utmToLatLong(easting: number, northing: number, zoneNumber: number, sou
   const e1 = (1 - Math.sqrt(1 - E * E)) / (1 + Math.sqrt(1 - E * E));
   
   let M = northing;
-  if (!southernHemisphere) {
+  if (southernHemisphere) {
     M = northing - 10000000;
   }
   
@@ -175,6 +204,37 @@ export function convertCoordinate(
     return { success: true, converted: coordinate };
   }
 
+  // Try proj4 first for accurate conversion
+  const p4 = ensureProj4Initialized();
+  if (p4) {
+    try {
+      // proj4 expects [lng, lat] for WGS84
+      let inputCoord = [x, y];
+      let fromProj = fromCrs;
+      let toProj = toCrs;
+      
+      // Map our CRS constants to proj4-compatible strings
+      const crsMap: Record<string, string> = {
+        [CRS_WGS84]: 'EPSG:4326',
+        [CRS_SIRGAS2000_UTM_23S]: 'EPSG:31983',
+        [CRS_SIRGAS2000_UTM_24S]: 'EPSG:31984',
+        [CRS_SAD69_UTM_23S]: 'EPSG:29193',
+        [CRS_SAD69_UTM_24S]: 'EPSG:29194',
+      };
+      
+      const fromProjStr = crsMap[fromCrs] || fromCrs;
+      const toProjStr = crsMap[toCrs] || toCrs;
+      
+      const result = p4(fromProjStr, toProjStr, inputCoord);
+      if (result && result.length === 2) {
+        return { success: true, converted: [result[0], result[1]] };
+      }
+    } catch {
+      // Fall through to pure JS
+    }
+  }
+
+  // Fallback to pure JS implementation
   if (fromCrs === CRS_WGS84 && (toCrs === CRS_SIRGAS2000_UTM_23S || toCrs === CRS_SAD69_UTM_23S)) {
     const result = latLongToUtm(y, x);
     if (result.zoneNumber === 23) {

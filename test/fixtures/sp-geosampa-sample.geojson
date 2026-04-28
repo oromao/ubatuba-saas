@@ -1,0 +1,92 @@
+{
+  "type": "FeatureCollection",
+  "name": "lotes_cadastrais_sp",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6333, -23.5505],
+          [-46.6330, -23.5505],
+          [-46.6330, -23.5502],
+          [-46.6333, -23.5502],
+          [-46.6333, -23.5505]
+        ]]
+      },
+      "properties": {
+        "sqlu": "107290-000-04-04",
+        "inscricao_imobiliaria": "01072-900-000-0-404",
+        "inscricao": "01072-900-000-0-404",
+        "codigo_lote": "107290-000-04-04",
+        "logradouro": "Av. Paulista",
+        "numero": "2100",
+        "bairro": "Bela Vista",
+        "cep": "01310-930",
+        "area_terreno": 892.5,
+        "area_construida": 3568.0,
+        "valor_venal_terreno": 4462500.0,
+        "valor_venal_construcao": 8925000.0,
+        "status_cadastral": "ATIVO",
+        "zoneamento": "ZP-3"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [[
+            [-46.6350, -23.5510],
+            [-46.6348, -23.5510],
+            [-46.6348, -23.5508],
+            [-46.6350, -23.5508],
+            [-46.6350, -23.5510]
+          ]],
+          [[
+            [-46.6345, -23.5512],
+            [-46.6343, -23.5512],
+            [-46.6343, -23.5510],
+            [-46.6345, -23.5510],
+            [-46.6345, -23.5512]
+          ]]
+        ]
+      },
+      "properties": {
+        "sqlu": "107300-001-01-06",
+        "inscricao_imobiliaria": "01073-000-001-0-106",
+        "codigo_lote": "107300-001-01-06",
+        "logradouro": "R. Augusta",
+        "numero": "2555",
+        "bairro": "Consolacao",
+        "cep": "01413-000",
+        "area_terreno": 450.0,
+        "status_cadastral": "ATIVO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-46.6400, -23.5600],
+          [-46.6398, -23.5600],
+          [-46.6398, -23.5598],
+          [-46.6400, -23.5598],
+          [-46.6400, -23.5600]
+        ]]
+      },
+      "properties": {
+        "sqlu": "108220-008-02-05",
+        "inscricao_imobiliaria": "01082-200-008-0-205",
+        "codigo_lote": "108220-008-02-05",
+        "logradouro": "Av. Ipiranga",
+        "numero": "500",
+        "bairro": " República",
+        "cep": "01046-010",
+        "area_terreno": 1200.3,
+        "status_cadastral": "INATIVO"
+      }
+    }
+  ]
+}

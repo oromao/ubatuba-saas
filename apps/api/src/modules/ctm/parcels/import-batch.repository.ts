@@ -40,4 +40,16 @@ export class ImportBatchRepository {
       .skip(options?.skip ?? 0)
       .exec();
   }
+
+  async addWarning(batchId: string, warning: string): Promise<void> {
+    await this.importBatchModel
+      .findByIdAndUpdate(batchId, { $push: { warnings: warning }, $inc: { warningCount: 1 } })
+      .exec();
+  }
+
+  async addError(batchId: string, error: string): Promise<void> {
+    await this.importBatchModel
+      .findByIdAndUpdate(batchId, { $push: { errors: error }, $inc: { errorCount: 1 } })
+      .exec();
+  }
 }
