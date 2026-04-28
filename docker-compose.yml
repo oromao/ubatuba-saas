@@ -184,7 +184,7 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-      target: deps
+      target: builder
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:4000/health', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 10s
@@ -196,7 +196,7 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
-    command: ["npm", "run", "dev"]
+    command: ["node", "dist/main.js"]
     environment:
       NODE_ENV: development
       MONGO_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME:-root}:${MONGO_INITDB_ROOT_PASSWORD:-rootpass}@mongodb:27017/flydea?authSource=admin
