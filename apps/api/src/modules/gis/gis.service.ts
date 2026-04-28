@@ -389,7 +389,7 @@ export class GisService {
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
-            type: 'Polygon',
+            type: 3, // Polygon = 3
             geometry: rings,
           });
         }
@@ -402,7 +402,7 @@ export class GisService {
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
-            type: 'Polygon',
+            type: 3, // Polygon = 3
             geometry: multiRings,
           });
         }
@@ -412,7 +412,7 @@ export class GisService {
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
-            type: 'Point',
+            type: 1, // Point = 1
             geometry: [projectCoords(point)],
           });
         }
@@ -422,7 +422,7 @@ export class GisService {
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
-            type: 'LineString',
+            type: 2, // LineString = 2
             geometry: [line],
           });
         }
@@ -432,7 +432,7 @@ export class GisService {
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
-            type: 'LineString',
+            type: 2, // LineString = 2
             geometry: lines,
           });
         }
