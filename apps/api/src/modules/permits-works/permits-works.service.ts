@@ -306,7 +306,7 @@ export class PermitsWorksService {
 
         const existing = await this.repository.findOne(tenantId, { applicantName });
         if (existing) {
-          await this.repository.update(tenantId, existing._id, { applicantName, subjectAddress });
+          await this.repository.update(tenantId, String(existing._id), { applicantName, subjectAddress });
           updated++;
         } else {
           await this.create(tenantId, { applicantName, subjectAddress }, actorId);
@@ -350,7 +350,7 @@ export class PermitsWorksService {
 
         const existing = await this.repository.findOne(tenantId, { applicantName });
         if (existing) {
-          await this.repository.update(tenantId, existing._id, { applicantName, subjectAddress });
+          await this.repository.update(tenantId, String(existing._id), { applicantName, subjectAddress });
           updated++;
         } else {
           await this.create(tenantId, { applicantName, subjectAddress }, actorId);

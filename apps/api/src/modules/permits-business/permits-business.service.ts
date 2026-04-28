@@ -281,7 +281,7 @@ export class PermitsBusinessService {
 
         const existing = await this.repository.findOne(tenantId, { cnpj });
         if (existing) {
-          await this.repository.update(tenantId, existing._id, { companyName, activityDescription });
+          await this.repository.update(tenantId, String(existing._id), { companyName, activityDescription });
           updated++;
         } else {
           await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
@@ -331,7 +331,7 @@ export class PermitsBusinessService {
 
         const existing = await this.repository.findOne(tenantId, { cnpj });
         if (existing) {
-          await this.repository.update(tenantId, existing._id, { companyName, activityDescription });
+          await this.repository.update(tenantId, String(existing._id), { companyName, activityDescription });
           updated++;
         } else {
           await this.create(tenantId, { companyName, cnpj, activityDescription }, actorId);
