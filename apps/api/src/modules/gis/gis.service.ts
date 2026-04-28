@@ -385,7 +385,7 @@ export class GisService {
       switch (geometry.type) {
         case 'Polygon': {
           // MVT Polygon requires rings (array of coordinate arrays)
-          const rings = geometry.coordinates.map((ring: number[][]) => ring.map(coord => projectCoords(coord as [number, number])));
+          const rings = geometry.coordinates.map((ring: number[][]) => ring.map((coord: number[]) => projectCoords(coord as [number, number])));
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
@@ -397,7 +397,7 @@ export class GisService {
         case 'MultiPolygon': {
           // MVT MultiPolygon: array of polygon rings
           const multiRings = geometry.coordinates.flatMap((polygon: number[][][]) =>
-            polygon.map((ring: number[][]) => ring.map(coord => projectCoords(coord as [number, number]))),
+            polygon.map((ring: number[][]) => ring.map((coord: number[]) => projectCoords(coord as [number, number]))),
           );
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
@@ -418,7 +418,7 @@ export class GisService {
         }
 
         case 'LineString': {
-          const line = geometry.coordinates.map(coord => projectCoords(coord as [number, number]));
+          const line = geometry.coordinates.map((coord: number[]) => projectCoords(coord as [number, number]));
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
@@ -428,7 +428,7 @@ export class GisService {
         }
 
         case 'MultiLineString': {
-          const lines = geometry.coordinates.map((line: number[][]) => line.map(coord => projectCoords(coord as [number, number])));
+          const lines = geometry.coordinates.map((line: number[][]) => line.map((coord: number[]) => projectCoords(coord as [number, number])));
           return new VectorTileFeature({
             id: parseInt(id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0).toString().slice(0, 8), 10) || 0,
             properties,
