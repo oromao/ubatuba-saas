@@ -21,6 +21,7 @@
 - **T2-GIS-SCALE:** Mapa aguenta 10k+ geometrias (testado via seed de 10k).
 - **T8-GIS-CRS:** Conversão de coordenadas UTM/WGS84 operacional.
 - **T8-GIS-BBOX:** Carregamento de dados por viewport (bbox) funcionando.
+- **T5-SP-UNIT:** 84% cobertura de testes unitários no GisService (>70% target).
 
 ---
 

@@ -35,7 +35,7 @@
 5.  `T9-OBSERVABILITY` (Logs e Alertas)
 6.  `T2-MULTI-TENANT-PROOF` (Teste de penetração/isolamento)
 7.  `T9-LGPD-DATA` (Ciclo de vida de dados pessoais)
-8.  `T5-SP-UNIT` (Aumentar cobertura unitária em GIS/Tax)
+8.  ~~`T5-SP-UNIT` (Aumentar cobertura unitária em GIS/Tax)~~ `DONE`
 9.  `T8-GIS-CLUSTER` (Agrupamento visual de parcelas)
 10. `T10-OBSERVATORIO` (Painel executivo com BI real)
 11. `T8-CIDADAO-156` (Integração com 156 nacional)

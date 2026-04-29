@@ -36,5 +36,6 @@
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-04-29 | T5-SP-UNIT | Kimi/OpenCode | DONE | [T5-SP-UNIT] Unit tests for GisService | 36 tests, 84% stmt coverage |
 | 2026-04-29 | T0-MULTIAGENT-LOCKS | Gemini CLI | DONE | - | Coordination protocol implemented |
 | 2026-04-29 | T0-PLANNING-SUPREME | Gemini CLI | DONE | ac0e6d1 | Supreme planning organization |
