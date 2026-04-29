@@ -46,7 +46,40 @@
 
 ---
 
-## 4. Marcos de Entrega (Milestones)
+## 4. Parallel Execution Rules (Multi-agent Coordination)
+
+Para permitir que múltiplas IAs trabalhem em paralelo, as tarefas são classificadas por risco de colisão.
+
+### Safe to parallelize (Independent modules)
+- Documentação isolada (ex: módulos específicos em `docs/`)
+- Testes unitários de módulos diferentes (ex: `parcels.spec.ts` vs `vistorias.spec.ts`)
+- Módulos backend independentes (ex: `citizen-156` vs `pgv`)
+- Módulos frontend independentes (ex: `/app/reurb` vs `/app/ambiental`)
+- Fixtures separadas
+
+### Do NOT parallelize (Global impact)
+- `AGENTS.md`
+- Core planning files (`02-BACKLOG`, `03-EXECUTION-PLAN`, etc. — exceto para registrar sua própria tarefa)
+- `docs/planning/11-ACTIVE-LOCKS.md` (requer acesso atômico)
+- `package.json` e `pnpm-lock.yaml`
+- `docker-compose.yml`
+- Database schemas e migrations
+- Auth/RBAC global
+- `apiFetch` ou global API client
+- Configuração global de navegação (`nav-config.ts`)
+
+## Task claiming protocol
+
+1.  **Check:** Ver próxima tarefa no Execution Plan.
+2.  **Verify:** Consultar `11-ACTIVE-LOCKS.md`.
+3.  **Claim:** Se livre e não houver conflito de arquivos, criar lock.
+4.  **Execute:** Registrar arquivos pretendidos e iniciar.
+5.  **Validation:** Rodar testes e atualizar docs.
+6.  **Release:** Encerrar lock e atualizar planejamento.
+
+---
+
+## 5. Marcos de Entrega (Milestones)
 
 - **Marco A: Demo Controlada (Score > 40)** — Capaz de mostrar um fluxo real em dataset de SP.
 - **Marco B: POC com Prefeitura Pequena (Score > 60)** — Operacional para teste piloto real.

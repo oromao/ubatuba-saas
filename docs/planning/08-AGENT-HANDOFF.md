@@ -38,20 +38,46 @@
 
 ---
 
-## 3. Templates de Prompt / Intenção
+## 3. Parallel Agent Handoff
 
-### Bugfix
-> "Reproduzindo falha no módulo [X]. Criando teste P3 para isolar o problema. Aplicando fix cirúrgico e validando regressão."
+Para sessões paralelas, utilize estes templates no seu log de execução ou handoff direto.
 
-### Feature
-> "Implementando [ID do Backlog]. Seguindo DoD definido no plano de execução. Criando provas P1 e P3. Atualizando documentação da API."
+### Template: Task Claim (Início)
+> **Task Claim**
+> - Task ID: [ID]
+> - Agent: [Nome/Modelo]
+> - Branch: [Nome da branch]
+> - Intended files: [Lista de caminhos ou módulos]
+> - Expected proof: [P1-P8]
+> - Can parallelize: [Sim/Não]
+> - Conflicts checked: [Sim/Não]
+> - Lock created in 11-ACTIVE-LOCKS.md: [Sim/Não]
 
-### Cleanup
-> "Identificando arquivos obsoletos via Cleanup Inventory. Arquivando em `.archive/YYYY-MM-DD/`. Verificando que nenhum import foi quebrado."
+### Template: Task Handoff (Fim)
+> **Handoff**
+> - Task ID: [ID]
+> - Agent: [Nome/Modelo]
+> - Status: [DONE/PARTIAL/BLOCKED]
+> - Files changed: [Lista]
+> - Tests/proof: [Caminho do teste]
+> - Not proven: [O que faltou]
+> - Remaining work: [Próximos passos]
+> - Lock status: [RELEASED/DONE]
+> - Safe for another agent to continue? [Sim/Não]
+
+### Template: Conflict Report
+> **Conflict Report**
+> - Task ID: [Minha Task ID]
+> - Agent: [Meu Nome]
+> - File conflict: [Caminho do arquivo bloqueado]
+> - Existing lock: [ID da outra Task]
+> - My intended change: [Breve descrição]
+> - Action taken: [Pulei tarefa / Mudei escopo / Aguardando]
+> - Decision needed from Paulo: [Sim/Não]
 
 ---
 
-## 4. O que fazer em caso de Blocker?
+## 4. Templates de Prompt / Intenção (Original)
 
 1.  **Não pare:** Tente uma rota alternativa ou reduza o escopo para um "PARTIAL" funcional.
 2.  **Documente:** Se falhar após 3 tentativas, pare e liste as premissas erradas.

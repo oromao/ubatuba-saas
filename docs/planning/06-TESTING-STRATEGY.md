@@ -55,4 +55,14 @@ Um release só vai para staging/prod se:
 
 ---
 
+## 5. Parallel Validation (Multi-agent)
+
+1.  **Scope isolation:** Cada agente deve validar prioritariamente o escopo que alterou.
+2.  **Shared Test Suites:** Antes de rodar suítes globais pesadas (ex: `e2e:smoke`), verifique se outro agente está alterando código no mesmo domínio.
+3.  **Conflict Handling:** Se um teste global falhar devido a mudanças simultâneas de outro agente, registre como `NOT PROVEN` e documente a colisão no `Progress Log`.
+4.  **No Masking:** Não ignore falhas causadas por outro agente; se detectar regressão externa, notifique ou marque como `BLOCKED`.
+5.  **Local vs Global:** Prefira testes focados (`npm test -- <file>`) durante a execução paralela para evitar interferência em outros locks ativos.
+
+---
+
 > Nota: A cobertura de 100% é exigida apenas para helpers de domínio de risco (GIS, Tax, RBAC).

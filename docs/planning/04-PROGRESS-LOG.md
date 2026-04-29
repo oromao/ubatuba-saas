@@ -18,6 +18,16 @@
 - **Notas:** <qualquer coisa relevante para o próximo agente>
 ```
 
+### 2026-04-29 — Gemini CLI — Multiagent locking protocol
+- **Status muda:** T0-MULTIAGENT-LOCKS (TODO→DONE)
+- **Feito:** Implementado protocolo de coordenação para múltiplas IAs rodando em paralelo. Criado sistema de locks para evitar colisão de tarefas e arquivos.
+- **Arquivos alterados:** `AGENTS.md`, `docs/planning/02-BACKLOG.md`, `docs/planning/03-EXECUTION-PLAN.md`, `docs/planning/04-PROGRESS-SUMMARY.md`, `docs/planning/06-TESTING-STRATEGY.md`, `docs/planning/08-AGENT-HANDOFF.md`
+- **Arquivos criados:** `docs/planning/11-ACTIVE-LOCKS.md`, `scripts/check-active-locks.sh`
+- **Testes adicionados:** Script de checagem de locks (`scripts/check-active-locks.sh`).
+- **Prova:** Arquivo de locks criado e referenciado em todos os documentos de controle.
+- **Próximo:** Seguir o fluxo usando `11-ACTIVE-LOCKS.md` para qualquer nova tarefa.
+- **Notas:** Este protocolo permite que 2 ou mais agentes trabalhem em módulos independentes sem risco de "dirty write" no planejamento ou código.
+
 ---
 
 ### 2026-04-29 — Gemini CLI — Planning consolidation + repo cleanup

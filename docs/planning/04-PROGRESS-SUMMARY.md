@@ -67,4 +67,14 @@ Os seguintes domínios foram rebaixados de 4 para 2/1 por não atenderem ao crit
 
 ---
 
+## 8. Multiagent Status (Coordination)
+
+- **Active Locks File:** `docs/planning/11-ACTIVE-LOCKS.md`
+- **Current Rule:** Check and create a lock before writing any code or docs.
+- **Isolation:** One Writer per task; avoid editing locked files/modules.
+- **Stale Lock Threshold:** 4 hours.
+- **Parallel Work:** Safe for independent modules (e.g., CTM vs Reurb).
+
+---
+
 > Nota: Este arquivo é atualizado ao final de cada sprint.

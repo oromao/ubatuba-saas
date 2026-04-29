@@ -54,18 +54,37 @@ Before first write, read in this order:
 2. `docs/planning/00-PROJECT-CONTEXT.md`
 3. `docs/planning/07-DEFINITIONS.md`
 4. `docs/planning/04-PROGRESS-SUMMARY.md`
-5. `docs/planning/01-MATURITY-MATRIX.md`
-6. `docs/planning/02-BACKLOG.md`
-7. `docs/planning/03-EXECUTION-PLAN.md`
-8. `docs/planning/06-TESTING-STRATEGY.md`
-9. `docs/planning/05-CLEANUP-INVENTORY.md` (only if task involves routes/nav/modules)
-
-After the first load: read narrow, per-task. Do NOT re-read the full stack mid-session.
-If Progress Summary, Backlog, and Matrix diverge: verify filesystem/tests before changing status.
+5. `docs/planning/11-ACTIVE-LOCKS.md`
+6. `docs/planning/03-EXECUTION-PLAN.md`
+7. `docs/planning/02-BACKLOG.md`
+8. `docs/planning/01-MATURITY-MATRIX.md`
+9. `docs/planning/06-TESTING-STRATEGY.md`
+10. `docs/planning/05-CLEANUP-INVENTORY.md` (only if task involves routes/nav/modules)
 
 ---
 
-# 4. EXECUTION LOOP
+# 4. MULTIAGENT LOCKING / PARALLEL EXECUTION
+
+To prevent task collision and file corruption when multiple agents run in parallel:
+
+1.  **Check Locks:** Before starting any work, read `docs/planning/11-ACTIVE-LOCKS.md`.
+2.  **Create Lock:** Before initiating a task, create an entry in the "Locks ativos" table.
+    - Status: `CLAIMED`
+    - Specify Task ID, Agent Name, and **Intended Files/Modules**.
+3.  **Conflict Resolution:**
+    - If task is already `CLAIMED`, `IN_PROGRESS`, or `VALIDATING` → Pick another task.
+    - If intended files are already locked by another agent → Pick another task or wait.
+4.  **Update Lock:** As you move from research to execution to validation, update the lock status.
+5.  **One Task per Agent:** One agent instance = one active task lock.
+6.  **Stale Lock Threshold:** If a lock is older than 4 hours without update, mark it `STALE`.
+7.  **Finalize:** Upon task completion:
+    - Update `02-BACKLOG.md`, `03-EXECUTION-PLAN.md`, `04-PROGRESS-SUMMARY.md`, and `04-PROGRESS-LOG.md`.
+    - Move your lock from "Locks ativos" to "Histórico de locks encerrados" in `11-ACTIVE-LOCKS.md`.
+8.  **Shared Files:** Do NOT parallelize edits to global files (e.g., `package.json`, `app.module.ts`) unless coordinated.
+
+---
+
+# 5. EXECUTION LOOP
 
 1. Identify next task from `docs/planning/03-EXECUTION-PLAN.md` (primary source)
 2. If Execution Plan is ambiguous, use `docs/planning/02-BACKLOG.md`

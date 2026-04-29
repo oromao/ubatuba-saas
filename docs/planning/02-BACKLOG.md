@@ -16,25 +16,23 @@
 | `DONE` | Provado por teste + revisão do Paulo |
 | `MERGED` | Duplicado, consolidado em outro ID |
 
-| Prioridade | Domínio |
-|---|---|
-| **T0** | Planejamento & Controle |
-| **T1** | Survival (Critical Fixes) |
-| **T2** | Robustness (Municipal Core) |
-| **T3** | Parity (GeoPixel-class) |
-| **T4** | Differentiation (Advantage) |
-| **T9** | Governance & Compliance |
+### Multi-agent Fields (Opcional)
+- **Owner:** Agente responsável pela tarefa.
+- **Lock:** `livre` | `CLAIMED` | `IN_PROGRESS` | `VALIDATING` | `BLOCKED` | `STALE`.
+- **Parallel:** `sim` | `não` (Indica se pode rodar em paralelo).
+- **Files:** Lista de arquivos/módulos sob lock.
 
 ---
 
 ## 🛠️ T0 — Planning Hygiene / Execution Control
 
-| ID | Título | Status | Prioridade | Esforço |
-|---|---|---|---|---|
-| **T0-BACKLOG-DEDUP** | Deduplicação e normalização do backlog | `DONE` | CRITICAL | S |
-| **T0-STATUS-RECONCILE** | Reconciliar status Matrix vs Backlog vs Filesystem | `IN_PROGRESS` | CRITICAL | S |
-| **T0-DONE-RULES** | Definir critérios de "DONE" Municipal-Grade | `DONE` | CRITICAL | S |
-| **T0-AGENT-HANDOFF** | Normalizar template de handoff entre agentes | `DONE` | HIGH | S |
+| ID | Título | Status | Parallel | Owner | Lock |
+|---|---|---|---|---|---|
+| **T0-BACKLOG-DEDUP** | Deduplicação e normalização do backlog | `DONE` | não | - | - |
+| **T0-STATUS-RECONCILE** | Reconciliar status Matrix vs Backlog vs Filesystem | `IN_PROGRESS` | não | - | `IN_PROGRESS` |
+| **T0-MULTIAGENT-LOCKS** | Implementar protocolo de locks multiagente | `IN_PROGRESS` | não | Gemini CLI | `IN_PROGRESS` |
+| **T0-DONE-RULES** | Definir critérios de "DONE" Municipal-Grade | `DONE` | não | - | - |
+| **T0-AGENT-HANDOFF** | Normalizar template de handoff entre agentes | `DONE` | não | - | - |
 
 ---
 

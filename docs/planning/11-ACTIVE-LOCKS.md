@@ -1,0 +1,40 @@
+# 11 — Active Locks
+
+> Controle de tarefas em execução por agentes de IA.
+> Antes de iniciar qualquer tarefa, o agente deve criar um lock aqui.
+> Ao finalizar, o agente deve marcar DONE/PARTIAL/BLOCKED e liberar ou encerrar o lock.
+> Nunca duas IAs devem trabalhar na mesma task ou nos mesmos arquivos sem coordenação explícita.
+
+## Estados de lock
+
+- **CLAIMED** — tarefa reservada, ainda sem edição relevante
+- **IN_PROGRESS** — tarefa em execução
+- **VALIDATING** — código/docs alterados, rodando provas
+- **DONE** — concluído e registrado
+- **PARTIAL** — parcialmente concluído, precisa continuação
+- **BLOCKED** — bloqueado por motivo real
+- **STALE** — lock antigo (> 4h sem atualização), precisa revisão
+- **RELEASED** — lock liberado sem conclusão
+
+## Regras
+
+1.  **Lock First:** Antes de iniciar qualquer trabalho, criar uma entrada na tabela de "Locks ativos".
+2.  **No Overlap:** Se a task já tiver lock `CLAIMED`, `IN_PROGRESS` ou `VALIDATING`, escolha outra.
+3.  **File Blocking:** Se você pretende editar arquivos que já estão listados em outro lock ativo, NÃO inicie a tarefa. Escolha uma tarefa que toque arquivos independentes.
+4.  **Single Writer:** Um agente físico/processo só pode ter 1 task ativa como Writer por vez.
+5.  **Parallelism:** Tasks podem rodar em paralelo se e somente se os arquivos/módulos afetados forem independentes (ex: Módulo A vs Módulo B, ou Documentação vs Teste isolado).
+6.  **Stale Locks:** Locks sem atualização por mais de 4 horas devem ser marcados como `STALE` e podem ser retomados/limpos após verificação.
+7.  **Handoff:** Ao finalizar, mova a linha para o "Histórico de locks encerrados".
+8.  **Atomic Planning:** Ao atualizar este arquivo, tente ser o mais rápido possível para evitar colisões no próprio arquivo de locks.
+
+## Locks ativos
+
+| Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
+|---|---|---|---|---|---|---|---|---|
+
+## Histórico de locks encerrados
+
+| Data | Task ID | Agente | Resultado | Commit | Observação |
+|---|---|---|---|---|---|
+| 2026-04-29 | T0-MULTIAGENT-LOCKS | Gemini CLI | DONE | - | Coordination protocol implemented |
+| 2026-04-29 | T0-PLANNING-SUPREME | Gemini CLI | DONE | ac0e6d1 | Supreme planning organization |
