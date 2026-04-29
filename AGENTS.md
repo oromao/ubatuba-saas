@@ -53,30 +53,29 @@ Before first write, read in this order:
 1. `AGENTS.md` (this file)
 2. `docs/planning/00-PROJECT-CONTEXT.md`
 3. `docs/planning/07-DEFINITIONS.md`
-4. `docs/planning/01-MATURITY-MATRIX.md`
-5. `docs/planning/02-BACKLOG.md`
-6. `docs/planning/03-EXECUTION-PLAN.md`
-7. Last 10 entries of `docs/planning/04-PROGRESS-LOG.md`
-8. `docs/planning/05-CLEANUP-INVENTORY.md` (status section only)
-9. `docs/planning/06-TESTING-STRATEGY.md`
+4. `docs/planning/04-PROGRESS-SUMMARY.md`
+5. `docs/planning/01-MATURITY-MATRIX.md`
+6. `docs/planning/02-BACKLOG.md`
+7. `docs/planning/03-EXECUTION-PLAN.md`
+8. `docs/planning/06-TESTING-STRATEGY.md`
+9. `docs/planning/05-CLEANUP-INVENTORY.md` (only if task involves routes/nav/modules)
 
 After the first load: read narrow, per-task. Do NOT re-read the full stack mid-session.
+If Progress Summary, Backlog, and Matrix diverge: verify filesystem/tests before changing status.
 
 ---
 
 # 4. EXECUTION LOOP
 
-1. Identify next REAL task from `02-BACKLOG.md` (respect priority T1 → T4)
-2. Read minimal files (filesystem + only the planning file relevant to the task)
-3. Patch code
-4. Validate (test / log / proof)
-5. Update plan (§14)
-6. Continue
+1. Identify next task from `docs/planning/03-EXECUTION-PLAN.md` (primary source)
+2. If Execution Plan is ambiguous, use `docs/planning/02-BACKLOG.md`
+3. Read minimal files (filesystem + only the planning file relevant to the task)
+4. Patch code
+5. Validate (test / log / proof)
+6. Update plan (§14)
+7. Continue
 
-Rules:
-- small, closed tasks
-- one Writer at a time
-- no pause between tasks unless §16 allows
+Files in `docs/planning/reference/` are strategic context, NOT direct sources of execution.
 
 ---
 

@@ -15,8 +15,6 @@ exports.CRS_SAD69_UTM_24S = 'EPSG:29194';
 exports.CRS_WEB_MERCATOR = 'EPSG:3857';
 exports.SIRGAS_2000_UTM_ZONES = [exports.CRS_SIRGAS2000_UTM_23S, exports.CRS_SIRGAS2000_UTM_24S];
 exports.SAD69_UTM_ZONES = [exports.CRS_SAD69_UTM_23S, exports.CRS_SAD69_UTM_24S];
-// Note: proj4 is an optional dependency for high-precision CRS conversion.
-// If not available, falls back to pure JS implementation with lower precision.
 let proj4InitializationDone = false;
 function ensureProj4Initialized() {
     if (proj4InitializationDone) {
@@ -30,7 +28,6 @@ function ensureProj4Initialized() {
     }
     try {
         const p4 = require('proj4');
-        // Register SIRGAS2000 UTM zones for Brazil
         p4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         p4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         p4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
@@ -161,15 +158,12 @@ function convertCoordinate(coordinate, fromCrs, toCrs = exports.CRS_WGS84) {
     if (fromCrs === toCrs) {
         return { success: true, converted: coordinate };
     }
-    // Try proj4 first for accurate conversion
     const p4 = ensureProj4Initialized();
     if (p4) {
         try {
-            // proj4 expects [lng, lat] for WGS84
             let inputCoord = [x, y];
             let fromProj = fromCrs;
             let toProj = toCrs;
-            // Map our CRS constants to proj4-compatible strings
             const crsMap = {
                 [exports.CRS_WGS84]: 'EPSG:4326',
                 [exports.CRS_SIRGAS2000_UTM_23S]: 'EPSG:31983',
@@ -185,10 +179,8 @@ function convertCoordinate(coordinate, fromCrs, toCrs = exports.CRS_WGS84) {
             }
         }
         catch {
-            // Fall through to pure JS
         }
     }
-    // Fallback to pure JS implementation
     if (fromCrs === exports.CRS_WGS84 && (toCrs === exports.CRS_SIRGAS2000_UTM_23S || toCrs === exports.CRS_SAD69_UTM_23S)) {
         const result = latLongToUtm(y, x);
         if (result.zoneNumber === 23) {
@@ -300,3 +292,4 @@ function suggestCrsForBrazil(coordinates) {
     }
     return exports.CRS_WGS84;
 }
+//# sourceMappingURL=crs.js.map

@@ -19,11 +19,13 @@
 
 | Rótulo | Ação |
 |---|---|
-| `KEEP` | Permanece onde está |
-| `FIX` | Endurecer (abrir item no backlog) |
-| `HIDE` | Remover do nav principal, manter código |
-| `ARCHIVE` | Mover para `.archive/` |
-| `DELETE_CANDIDATE` | Candidato a deleção após 2 sprints em `.archive/` sem uso |
+| `KEEP` | Permanece onde está (Vivo/Útil) |
+| `HIDE` | Remover do nav principal/UI, manter código (Provisório) |
+| `MERGE` | Consolidar conteúdo em outro arquivo e arquivar |
+| `ARCHIVE` | Mover para `.archive/` (Legado/Obsoleto) |
+| `REBUILD` | Marcar para reescrita total (Dívida Técnica) |
+| `DELETE_CANDIDATE` | Candidato a deleção após 2 sprints em `.archive/` |
+| `REVIEW` | Necessita análise humana/Paulo |
 
 ---
 
@@ -118,6 +120,15 @@
 | 2026-04-17 | Codex | `docs/CTM_IMPORT_DOCUMENTATION.md` | Conteúdo demo/oficial consolidado | `.archive/2026-04-17/docs/CTM_IMPORT_DOCUMENTATION.md` |
 | 2026-04-17 | Codex | `docs/EXTERNAL_DEMO_IMPORT.md` | Conteúdo demo/import consolidado | `.archive/2026-04-17/docs/EXTERNAL_DEMO_IMPORT.md` |
 | 2026-04-17 | Codex | `GAP_ANALYSIS_EXECUTIVO.md` | Gap analysis útil mas paralelo | `.archive/2026-04-17/GAP_ANALYSIS_EXECUTIVO.md` |
+| 2026-04-29 | Gemini CLI | `06-COMPETITIVE-STRATEGY.md` | Arquivo estratégico movido para reference | `docs/planning/reference/` |
+| 2026-04-29 | Gemini CLI | `08-AUDIT-FINDINGS-SUMMARY.md` | Arquivo estratégico movido para reference | `docs/planning/reference/` |
+| 2026-04-29 | Gemini CLI | `11-GAP-ANALYSIS-PRIME.md` | Arquivo estratégico movido para reference | `docs/planning/reference/` |
+| 2026-04-29 | Gemini CLI | `12-PRIME-STRATEGY.md` | Arquivo estratégico movido para reference | `docs/planning/reference/` |
+| 2026-04-29 | Gemini CLI | `09-MULTIAGENT-HANDOFF.md` | Renomeado para 08-AGENT-HANDOFF.md | `docs/planning/` |
+| 2026-04-29 | Gemini CLI | `*.log` (root) | Removidos logs temporários | N/A (DELETED) |
+| 2026-04-29 | Gemini CLI | `check-geojson-logic.js/ts`, etc. | Scripts de debug arquivados | `.archive/2026-04-29/root/` |
+| 2026-04-29 | Gemini CLI | `.playwright-cli`, `.ai-dispatch` | Logs e traces arquivados | `.archive/2026-04-29/` |
+| 2026-04-29 | Gemini CLI | `SUMARIO_EXECUTIVO_FINAL.md`, etc. | Relatórios movidos para reference | `docs/planning/reference/` |
 
 ## Mesclado de `docs/CTM_IMPORT_DOCUMENTATION.md` em 2026-04-17
 

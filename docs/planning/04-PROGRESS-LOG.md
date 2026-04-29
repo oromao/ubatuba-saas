@@ -20,6 +20,23 @@
 
 ---
 
+### 2026-04-29 — Gemini CLI — Planning consolidation + repo cleanup
+- **Status muda:** N/A (Maturity Matrix recalibrated to 37.4% due to new weights)
+- **Feito:**
+  - Reorganização total da pasta `docs/planning` (separação de `reference/`).
+  - Atualização do `AGENTS.md` com novo read order e execution loop.
+  - Refatoração do `02-BACKLOG.md` (deduplicação e adição de itens de governança).
+  - Criação do `04-PROGRESS-SUMMARY.md` e `09-EDITAL-MATRIX.md`.
+  - Recalibração da `01-MATURITY-MATRIX.md` com pesos governamentais.
+  - Limpeza de arquivos temporários e arquivamento de documentos obsoletos.
+- **Arquivos alterados:** `AGENTS.md`, `docs/planning/*`
+- **Testes adicionados:** Nenhum (tarefa de governança/limpeza)
+- **Prova:** Estrutura de arquivos validada via `ls -R`.
+- **Próximo:** `T0-STATUS-RECONCILE` (Reconciliar Matrix vs Backlog vs Filesystem)
+- **Notas:** Sistema agora possui uma fonte única de verdade para execução (`03-EXECUTION-PLAN.md`).
+
+---
+
 ## Entradas
 
 ### 2026-04-28 — Mistral Vibe — EXECUÇÃO ONDA 0 INICIADA (T8-GIS-CRS, T8-GIS-BBOX)

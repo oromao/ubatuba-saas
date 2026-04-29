@@ -25,7 +25,9 @@ Entregar a prefeituras brasileiras uma plataforma SaaS govtech **operacionalment
 
 ## 3. Entidade central: a parcela
 
-**Regra arquitetural não negociável:** toda funcionalidade do sistema deve, direta ou indiretamente, se conectar à parcela. A parcela é o "grafo único de verdade municipal" e deve aparecer coerentemente em:
+**Regra arquitetural não negociável:** a parcela/lote é a entidade operacional central quando aplicável. O território é o eixo do produto.
+
+A parcela é o "grafo único de verdade municipal" e deve aparecer coerentemente em:
 
 ```
         mapa
@@ -35,9 +37,30 @@ tributo ── parcela ── vistoria
       relatório / processo
 ```
 
-Se um módulo não se conecta à parcela, justifique por escrito em `02-BACKLOG.md` antes de construir.
+Módulos que não se conectam diretamente à parcela precisam se conectar a: tenant, território, logradouro, cidadão, processo, documento, auditoria ou integração operacional.
 
-## 4. Arquitetura de alto nível
+## 4. Princípios de Decisão
+
+1.  **Dados reais vencem mocks.** Demo pode ser controlada, mas não pode mentir sobre capacidade de produção.
+2.  **Prova automatizada vence opinião.** Se não há teste, não é REAL.
+3.  **Fluxo municipal completo vence tela isolada.** O objetivo é a jornada do servidor/cidadão.
+4.  **Segurança, auditoria e multi-tenant são base, não acabamento.** Inegociáveis desde o dia 1.
+5.  **GIS em escala é requisito de produto, não otimização futura.** Handling de grandes volumes é core.
+6.  **Feature sem evidência fica PARTIAL, nunca DONE.**
+7.  **Toda decisão deve fortalecer o eixo território → parcela → tributo/processo/documento.**
+
+## 5. Ambientes Oficiais
+
+| Ambiente | Propósito | Critério de "DONE" |
+|---|---|---|
+| **local-dev** | Desenvolvimento rápido | Passa em lint/unit |
+| **docker-dev** | Validação de integração/infra | Passa em integration/E2E smoke |
+| **staging** | Homologação com dados reais | Passa em E2E full flows + real data proof |
+| **production** | Uso real municipal | Estável, auditado, backup ok |
+
+Regra: **DONE só vale no ambiente exigido pelo DoD da tarefa.**
+
+## 6. Arquitetura de alto nível
 
 ### Frontend
 - **Next.js (App Router)**, rotas em `app/*`.

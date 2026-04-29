@@ -46,7 +46,6 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
         tipo: 'LEVANTAMENTO',
         parcelId,
         status: 'PENDENTE',
-        observacao: `Test vistoria ${Date.now()}`,
       };
 
       const response = await request(app.getHttpServer())
@@ -63,11 +62,9 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
 
     it('02 - List vistorias for parcel', async () => {
       if (!parcelId) return;
-      }
 
       const response = await request(app.getHttpServer())
         .get('/ctm/vistorias')
-        .set('Authorization', `Bearer ${accessToken}`)
         .query({ parcelId })
         .expect(200);
 
@@ -81,7 +78,6 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
 
     it('03 - Get vistoria detail', async () => {
       if (!vistoriaId) return;
-      }
 
       const response = await request(app.getHttpServer())
         .get(`/ctm/vistorias/${vistoriaId}`)
@@ -95,7 +91,6 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
 
     it('04 - Transition vistoria status', async () => {
       if (!vistoriaId) return;
-      }
 
       const statusTransition = {
         status: 'EM_VALIDACAO',
@@ -114,7 +109,6 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
 
     it('05 - Verify status persisted (reload)', async () => {
       if (!vistoriaId) return;
-      }
 
       const response = await request(app.getHttpServer())
         .get(`/ctm/vistorias/${vistoriaId}`)
@@ -126,7 +120,6 @@ describe('CTM Vistorias/Inspections Integration (T2-INSPECT-E2E backend)', () =>
 
     it('06 - Get vistoria history', async () => {
       if (!vistoriaId) return;
-      }
 
       const response = await request(app.getHttpServer())
         .get(`/ctm/vistorias/${vistoriaId}/history`)
