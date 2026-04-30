@@ -16,6 +16,7 @@ type PublicCreateCallDto = {
   reporterName?: string;
   reporterContact?: string;
   address?: string;
+  attachmentKeys?: string[];
 };
 
 @ApiTags('public')
@@ -70,7 +71,7 @@ export class PublicCallsController {
       {
         ...rest,
         title,
-        attachmentKeys: [],
+        attachmentKeys: body.attachmentKeys || [],
       },
       'CIDADAO',
     );

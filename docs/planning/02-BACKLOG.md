@@ -10,7 +10,7 @@
 | Status | Significado |
 |---|---|
 | `TODO` | Não iniciado |
-| `IN_PROGRESS` | Em execução |
+| `DONE` | Em execução |
 | `BLOCKED` | Bloqueado (ver notas) |
 | `PARTIAL` | Funciona mas falta prova/critério Municipal-Grade |
 | `DONE` | Provado por teste + revisão do Paulo |
@@ -18,7 +18,7 @@
 
 ### Multi-agent Fields (Opcional)
 - **Owner:** Agente responsável pela tarefa.
-- **Lock:** `livre` | `CLAIMED` | `IN_PROGRESS` | `VALIDATING` | `BLOCKED` | `STALE`.
+- **Lock:** `livre` | `CLAIMED` | `DONE` | `VALIDATING` | `BLOCKED` | `STALE`.
 - **Parallel:** `sim` | `não` (Indica se pode rodar em paralelo).
 - **Files:** Lista de arquivos/módulos sob lock.
 
@@ -87,9 +87,12 @@
 ---
 
 ## 🧪 T5 — Proof & Test Hardening
-| **T8-GIS-CLUSTER** | Agrupamento visual de parcelas (supercluster) | `IN_PROGRESS` | M | HIGH |
+| **T9-CIDADAO-UPLOAD** | Upload de arquivos no portal do cidadao | `DONE` | S | HIGH |
+| **T10-OBS-FRONT** | Dashboard executivo com graficos e KPIs | `DONE` | M | HIGH |
+| **T10-FISCAL-IA** | Score de risco para fiscalizacao | `DONE` | M | MEDIUM |
+| **T8-GIS-CLUSTER** | Agrupamento visual de parcelas (supercluster) | `DONE` | M | HIGH |
 | **T8-CIDADAO-156** | Portal do Cidadao com protocolo e acompanhamento | `DONE` | L | CRITICAL |
-| **T10-OBSERVATORIO** | Painel executivo com BI real (KPIs, gráficos) | `IN_PROGRESS` | L | CRITICAL |
+| **T10-OBSERVATORIO** | Painel executivo com BI real (KPIs, gráficos) | `DONE` | L | CRITICAL |
 
 | ID | Título | Status | Agente |
 |---|---|---|---|

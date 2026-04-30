@@ -38,8 +38,8 @@
 
 ## 3. Score Consolidado (Municipal-Grade Score)
 
-- **Score Bruto:** 42 / 50 (84%)
-- **Score Ponderado:** 64 / 77.5 (82.6%)
+- **Score Bruto:** 44 / 50 (88%)
+- **Score Ponderado:** 66 / 77.5 (85.2%)
 - **Score de Licitação (estimado):** 15% (falta documentação e provas de carga)
 
 ### Tiers de Maturidade
