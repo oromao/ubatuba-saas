@@ -87,6 +87,7 @@
 ---
 
 ## 🧪 T5 — Proof & Test Hardening
+| **T10-OBSERVATORIO** | Painel executivo com BI real (KPIs, gráficos) | `IN_PROGRESS` | L | CRITICAL |
 
 | ID | Título | Status | Agente |
 |---|---|---|---|
