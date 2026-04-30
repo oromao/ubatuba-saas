@@ -40,6 +40,7 @@ const pgv_controller_1 = require("./pgv.controller");
 const projects_module_1 = require("../projects/projects.module");
 const ctm_module_1 = require("../ctm/ctm.module");
 const tenants_module_1 = require("../tenants/tenants.module");
+const parcel_schema_1 = require("../ctm/parcels/parcel.schema");
 const pgv_scenarios_repository_1 = require("./simulations/pgv-scenarios.repository");
 const pgv_simulations_service_1 = require("./simulations/pgv-simulations.service");
 const pgv_simulations_controller_1 = require("./simulations/pgv-simulations.controller");
@@ -55,6 +56,7 @@ exports.PgvModule = PgvModule = __decorate([
             ctm_module_1.CtmModule,
             tenants_module_1.TenantsModule,
             mongoose_1.MongooseModule.forFeature([
+                { name: parcel_schema_1.Parcel.name, schema: parcel_schema_1.ParcelSchema },
                 { name: zone_schema_1.PgvZone.name, schema: zone_schema_1.PgvZoneSchema },
                 { name: face_schema_1.PgvFace.name, schema: face_schema_1.PgvFaceSchema },
                 { name: factor_schema_1.PgvFactor.name, schema: factor_schema_1.PgvFactorSchema },
