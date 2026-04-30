@@ -26,6 +26,11 @@ __decorate([
 ], CreatePermitWorkDto.prototype, "subjectAddress", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreatePermitWorkDto.prototype, "parcelId", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], CreatePermitWorkDto.prototype, "requirements", void 0);

@@ -45,6 +45,8 @@ export declare class PermitWorkRequest {
         createdAt: string;
     }>;
     decisionPdfKey?: string;
+    parcelId?: Types.ObjectId;
+    validUntil?: Date;
     decision?: {
         kind: 'DEFERIDO' | 'INDEFERIDO' | 'DEVOLVIDO';
         reason?: string;

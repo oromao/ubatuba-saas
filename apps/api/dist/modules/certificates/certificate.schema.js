@@ -63,6 +63,26 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Certificate.prototype, "issuedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Certificate.prototype, "signature", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Certificate.prototype, "signatureAlgorithm", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Certificate.prototype, "signedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Certificate.prototype, "publicKeyHash", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Certificate.prototype, "qrCodeUrl", void 0);
 exports.Certificate = Certificate = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true, collection: 'certificates' })
 ], Certificate);

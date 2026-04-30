@@ -18,4 +18,10 @@ export declare class TenantsRepository {
     }> & {
         __v: number;
     }) | null>;
+    save(doc: TenantDocument): Promise<TenantDocument>;
+    updateConfig(tenantId: string, municipalConfig: Record<string, unknown>): Promise<(import("mongoose").Document<unknown, {}, TenantDocument, {}, {}> & Tenant & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
 }

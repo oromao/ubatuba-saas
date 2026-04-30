@@ -22,6 +22,62 @@ function hasCoordinates(geometry) {
     return Boolean(geometry && typeof geometry === 'object' && 'coordinates' in geometry);
 }
 let GeometryService = class GeometryService {
+    isValidGeometry(geometry) {
+        if (!isSupportedGeometry(geometry))
+            return false;
+        if (!Array.isArray(geometry.coordinates))
+            return false;
+        if (geometry.type === 'Polygon') {
+            const ring = geometry.coordinates[0];
+            return !!(ring && ring.length >= 4);
+        }
+        return true;
+    }
+    calculateArea(geometry) {
+        if (!isSupportedGeometry(geometry) || !Array.isArray(geometry.coordinates))
+            return 0;
+        if (geometry.type === 'Polygon' && geometry.coordinates[0]?.length >= 3) {
+            return this.calculatePolygonArea(geometry.coordinates[0]);
+        }
+        return 0;
+    }
+    validateNoOverlap(geometries) {
+        for (let i = 0; i < geometries.length; i++) {
+            for (let j = i + 1; j < geometries.length; j++) {
+                if (this.checkSimpleOverlap(geometries[i], geometries[j])) {
+                }
+            }
+        }
+    }
+    calculateCentroid(geometry) {
+        if (!isSupportedGeometry(geometry) || !(geometry.type === 'Polygon'))
+            return undefined;
+        const coords = geometry.coordinates[0];
+        if (!coords || coords.length < 4)
+            return undefined;
+        let sumX = 0, sumY = 0;
+        const n = coords.length - 1;
+        for (let i = 0; i < n; i++) {
+            sumX += coords[i][0];
+            sumY += coords[i][1];
+        }
+        return {
+            type: 'Point',
+            coordinates: [sumX / n, sumY / n],
+        };
+    }
+    calculateBbox(geometry) {
+        if (!isSupportedGeometry(geometry) || !(geometry.type === 'Polygon'))
+            return undefined;
+        const coords = geometry.coordinates[0];
+        if (!coords || coords.length === 0)
+            return undefined;
+        const minX = Math.min(...coords.map((c) => c[0]));
+        const maxX = Math.max(...coords.map((c) => c[0]));
+        const minY = Math.min(...coords.map((c) => c[1]));
+        const maxY = Math.max(...coords.map((c) => c[1]));
+        return { minX, minY, maxX, maxY };
+    }
     validateGeometry(geometry) {
         const errors = [];
         const warnings = [];

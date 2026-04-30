@@ -22,6 +22,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true, unique: true, lowercase: true }),
     __metadata("design:type", String)
 ], Tenant.prototype, "slug", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], Tenant.prototype, "municipalConfig", void 0);
 exports.Tenant = Tenant = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Tenant);

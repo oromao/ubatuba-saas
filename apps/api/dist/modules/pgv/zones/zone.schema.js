@@ -60,6 +60,10 @@ __decorate([
     __metadata("design:type", Number)
 ], PgvZone.prototype, "valorBaseConstrucaoM2", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: 0.005 }),
+    __metadata("design:type", Number)
+], PgvZone.prototype, "aliquotaIptu", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: Object, required: true }),
     __metadata("design:type", Object)
 ], PgvZone.prototype, "geometry", void 0);

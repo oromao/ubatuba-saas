@@ -42,6 +42,10 @@ const vistoria_schema_1 = require("./vistoria.schema");
 const vistorias_service_1 = require("./vistorias.service");
 const vistorias_controller_1 = require("./vistorias.controller");
 const geometry_service_1 = require("./geometry.service");
+const parcel_subdivision_schema_1 = require("./parcels/parcel-subdivision.schema");
+const parcel_subdivision_repository_1 = require("./parcels/parcel-subdivision.repository");
+const parcel_subdivision_service_1 = require("./parcels/parcel-subdivision.service");
+const parcel_subdivision_controller_1 = require("./parcels/parcel-subdivision.controller");
 let CtmModule = class CtmModule {
 };
 exports.CtmModule = CtmModule;
@@ -61,6 +65,7 @@ exports.CtmModule = CtmModule = __decorate([
                 { name: parcel_socioeconomic_schema_1.ParcelSocioeconomic.name, schema: parcel_socioeconomic_schema_1.ParcelSocioeconomicSchema },
                 { name: parcel_infrastructure_schema_1.ParcelInfrastructure.name, schema: parcel_infrastructure_schema_1.ParcelInfrastructureSchema },
                 { name: urban_furniture_schema_1.UrbanFurniture.name, schema: urban_furniture_schema_1.UrbanFurnitureSchema },
+                { name: parcel_subdivision_schema_1.ParcelSubdivision.name, schema: parcel_subdivision_schema_1.ParcelSubdivisionSchema },
             ]),
         ],
         controllers: [
@@ -69,6 +74,7 @@ exports.CtmModule = CtmModule = __decorate([
             logradouros_controller_1.LogradourosController,
             urban_furniture_controller_1.UrbanFurnitureController,
             vistorias_controller_1.VistoriasController,
+            parcel_subdivision_controller_1.ParcelSubdivisionController,
         ],
         providers: [
             parcels_repository_1.ParcelsRepository,
@@ -87,6 +93,8 @@ exports.CtmModule = CtmModule = __decorate([
             urban_furniture_service_1.UrbanFurnitureService,
             parcel_audit_repository_1.ParcelAuditRepository,
             geometry_service_1.GeometryService,
+            parcel_subdivision_repository_1.ParcelSubdivisionRepository,
+            parcel_subdivision_service_1.ParcelSubdivisionService,
         ],
         exports: [
             parcels_repository_1.ParcelsRepository,
@@ -97,6 +105,7 @@ exports.CtmModule = CtmModule = __decorate([
             parcels_service_1.ParcelsService,
             geometry_service_1.GeometryService,
             parcel_audit_repository_1.ParcelAuditRepository,
+            parcel_subdivision_service_1.ParcelSubdivisionService,
         ],
     })
 ], CtmModule);

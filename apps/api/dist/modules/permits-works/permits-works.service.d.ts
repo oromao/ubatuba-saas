@@ -1,6 +1,7 @@
 import { CacheService } from '../shared/cache.service';
 import { ObjectStorageService } from '../shared/object-storage.service';
 import { ProjectsService } from '../projects/projects.service';
+import { CertificatesService } from '../certificates/certificates.service';
 import { CreatePermitWorkDto } from './dto/create-permit-work.dto';
 import { UpdatePermitWorkDto } from './dto/update-permit-work.dto';
 import { PermitsWorksRepository } from './permits-works.repository';
@@ -10,7 +11,8 @@ export declare class PermitsWorksService {
     private readonly projectsService;
     private readonly storage;
     private readonly cacheService;
-    constructor(repository: PermitsWorksRepository, projectsService: ProjectsService, storage: ObjectStorageService, cacheService: CacheService);
+    private readonly certificatesService;
+    constructor(repository: PermitsWorksRepository, projectsService: ProjectsService, storage: ObjectStorageService, cacheService: CacheService, certificatesService: CertificatesService);
     list(tenantId: string): Promise<(import("mongoose").Document<unknown, {}, PermitWorkRequestDocument, {}, {}> & import("./permit-work.schema").PermitWorkRequest & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

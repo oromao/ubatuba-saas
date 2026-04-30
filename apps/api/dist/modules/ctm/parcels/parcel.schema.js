@@ -211,6 +211,22 @@ __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Parcel.prototype, "faceId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Parcel.prototype, "parentParcelId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Parcel.prototype, "subdivisionRequestId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Parcel.prototype, "originType", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Date)
+], Parcel.prototype, "subdivisionDate", void 0);
 exports.Parcel = Parcel = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true, collection: 'parcels' })
 ], Parcel);
@@ -228,4 +244,6 @@ exports.ParcelSchema.index({ statusIPTU: 1 });
 exports.ParcelSchema.index({ zoneamento: 1 });
 exports.ParcelSchema.index({ municipalityName: 1 });
 exports.ParcelSchema.index({ setor: 1, quadra: 1, lote: 1 });
+exports.ParcelSchema.index({ tenantId: 1, parentParcelId: 1 });
+exports.ParcelSchema.index({ tenantId: 1, subdivisionRequestId: 1 });
 //# sourceMappingURL=parcel.schema.js.map

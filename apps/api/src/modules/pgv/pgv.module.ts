@@ -31,6 +31,7 @@ import { PgvController } from './pgv.controller';
 import { ProjectsModule } from '../projects/projects.module';
 import { CtmModule } from '../ctm/ctm.module';
 import { TenantsModule } from '../tenants/tenants.module';
+import { Parcel, ParcelSchema } from '../ctm/parcels/parcel.schema';
 import { PgvScenariosRepository } from './simulations/pgv-scenarios.repository';
 import { PgvSimulationsService } from './simulations/pgv-simulations.service';
 import { PgvSimulationsController } from './simulations/pgv-simulations.controller';
@@ -43,6 +44,7 @@ import { IptuController } from './iptu/iptu.controller';
     CtmModule,
     TenantsModule,
     MongooseModule.forFeature([
+      { name: Parcel.name, schema: ParcelSchema },
       { name: PgvZone.name, schema: PgvZoneSchema },
       { name: PgvFace.name, schema: PgvFaceSchema },
       { name: PgvFactor.name, schema: PgvFactorSchema },

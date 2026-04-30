@@ -12,6 +12,7 @@ type EnderecoPrincipal = {
     cidade?: string;
     uf?: string;
 };
+export type OriginType = 'ORIGINAL' | 'SUBDIVIDED' | 'MERGED';
 export declare class Parcel {
     tenantId: Types.ObjectId;
     projectId: Types.ObjectId;
@@ -70,6 +71,10 @@ export declare class Parcel {
     logradouroId?: Types.ObjectId;
     zoneId?: Types.ObjectId;
     faceId?: Types.ObjectId;
+    parentParcelId?: Types.ObjectId;
+    subdivisionRequestId?: Types.ObjectId;
+    originType?: OriginType;
+    subdivisionDate?: Date;
 }
 export type ParcelDocument = Parcel & Document;
 export declare const ParcelSchema: import("mongoose").Schema<Parcel, import("mongoose").Model<Parcel, any, any, any, Document<unknown, any, Parcel, any, {}> & Parcel & {

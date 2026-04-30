@@ -87,6 +87,9 @@ let Citizen156Service = class Citizen156Service {
             anexos: items.reduce((acc, item) => acc + (item.attachmentKeys?.length ?? 0), 0),
         };
     }
+    async findByProtocol(protocolNumber) {
+        return this.repository.findByProtocol(protocolNumber);
+    }
 };
 exports.Citizen156Service = Citizen156Service;
 exports.Citizen156Service = Citizen156Service = __decorate([

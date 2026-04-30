@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenantsController = void 0;
 const common_1 = require("@nestjs/common");
 const create_tenant_dto_1 = require("./dto/create-tenant.dto");
+const update_municipal_config_dto_1 = require("./dto/update-municipal-config.dto");
 const tenants_service_1 = require("./tenants.service");
 const roles_decorator_1 = require("../../common/guards/roles.decorator");
 const roles_guard_1 = require("../../common/guards/roles.guard");
@@ -27,10 +28,19 @@ let TenantsController = class TenantsController {
         return this.tenantsService.create(dto);
     }
     async getMe(req) {
-        if (!req.tenantId) {
+        if (!req.tenantId)
             return null;
-        }
         return this.tenantsService.findById(req.tenantId);
+    }
+    async getMunicipalConfig(req) {
+        if (!req.tenantId)
+            return {};
+        return this.tenantsService.getMunicipalConfig(req.tenantId);
+    }
+    async updateMunicipalConfig(req, dto) {
+        if (!req.tenantId)
+            throw new Error('Tenant nao identificado');
+        return this.tenantsService.updateMunicipalConfig(req.tenantId, dto);
     }
 };
 exports.TenantsController = TenantsController;
@@ -50,6 +60,23 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TenantsController.prototype, "getMe", null);
+__decorate([
+    (0, common_1.Get)('municipal-config'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TenantsController.prototype, "getMunicipalConfig", null);
+__decorate([
+    (0, common_1.Put)('municipal-config'),
+    (0, common_2.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, update_municipal_config_dto_1.UpdateMunicipalConfigDto]),
+    __metadata("design:returntype", Promise)
+], TenantsController.prototype, "updateMunicipalConfig", null);
 exports.TenantsController = TenantsController = __decorate([
     (0, common_1.Controller)('tenants'),
     __metadata("design:paramtypes", [tenants_service_1.TenantsService])

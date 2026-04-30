@@ -1,6 +1,7 @@
 import { CacheService } from '../shared/cache.service';
 import { ObjectStorageService } from '../shared/object-storage.service';
 import { ProcessesRepository } from '../processes/processes.repository';
+import { DigitalSignatureService } from '../../common/services/digital-signature.service';
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { CertificatesRepository } from './certificates.repository';
 export declare class CertificatesService {
@@ -8,7 +9,8 @@ export declare class CertificatesService {
     private readonly processesRepository;
     private readonly objectStorageService;
     private readonly cacheService;
-    constructor(repository: CertificatesRepository, processesRepository: ProcessesRepository, objectStorageService: ObjectStorageService, cacheService: CacheService);
+    private readonly signatureService;
+    constructor(repository: CertificatesRepository, processesRepository: ProcessesRepository, objectStorageService: ObjectStorageService, cacheService: CacheService, signatureService: DigitalSignatureService);
     list(tenantId: string): Promise<(import("mongoose").Document<unknown, {}, import("./certificate.schema").CertificateDocument, {}, {}> & import("./certificate.schema").Certificate & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {
@@ -34,6 +36,11 @@ export declare class CertificatesService {
         status: "EMITIDA" | "CANCELADA";
         issuedBy?: string;
         issuedAt: string;
+        signature?: string;
+        signatureAlgorithm?: string;
+        signedAt?: string;
+        publicKeyHash?: string;
+        qrCodeUrl?: string;
         _id: import("mongoose").Types.ObjectId;
         $locals: Record<string, unknown>;
         $op: "save" | "validate" | "remove" | null;
@@ -49,6 +56,7 @@ export declare class CertificatesService {
     }>;
     validatePublic(tenantId: string, validationCode: string): Promise<{
         valid: boolean;
+        signatureValid: boolean;
         certificate: import("mongoose").Document<unknown, {}, import("./certificate.schema").CertificateDocument, {}, {}> & import("./certificate.schema").Certificate & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {

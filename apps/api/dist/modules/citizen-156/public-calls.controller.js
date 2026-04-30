@@ -18,11 +18,21 @@ const swagger_1 = require("@nestjs/swagger");
 const public_decorator_1 = require("../../common/guards/public.decorator");
 const citizen_156_service_1 = require("./citizen-156.service");
 const tenants_service_1 = require("../tenants/tenants.service");
+const cache_service_1 = require("../shared/cache.service");
 const mongoose_1 = require("mongoose");
 let PublicCallsController = class PublicCallsController {
-    constructor(service, tenantsService) {
+    constructor(service, tenantsService, cacheService) {
         this.service = service;
         this.tenantsService = tenantsService;
+        this.cacheService = cacheService;
+    }
+    async checkRateLimit(ip) {
+        const key = `rate-limit:citizen:${ip}`;
+        const count = (await this.cacheService.get(key)) || 0;
+        if (count >= 10) {
+            throw new common_1.BadRequestException('Muitas solicitacoes. Tente novamente mais tarde.');
+        }
+        await this.cacheService.set(key, count + 1, 60);
     }
     async resolveTenantId(dto) {
         if (dto.tenantSlug) {
@@ -43,14 +53,16 @@ let PublicCallsController = class PublicCallsController {
             return demoTenant._id.toString();
         throw new common_1.BadRequestException('Tenant público não encontrado.');
     }
-    async createPublicCall(body) {
+    async createPublicCall(body, req) {
+        const ip = req.headers['x-forwarded-for'] || req.ip || 'unknown';
+        await this.checkRateLimit(ip);
         const tenantId = await this.resolveTenantId(body);
         const { description: _description, address, tenantSlug: _tenantSlug, tenantId: _tenantId, ...rest } = body;
         const title = address ? `${rest.title} — ${address}` : rest.title;
         const created = await this.service.create(tenantId, {
             ...rest,
             title,
-            attachmentKeys: [],
+            attachmentKeys: body.attachmentKeys || [],
         }, 'CIDADAO');
         return {
             protocolNumber: created.protocolNumber,
@@ -58,11 +70,27 @@ let PublicCallsController = class PublicCallsController {
             message: `Chamado registrado com sucesso. Protocolo: ${created.protocolNumber}`,
         };
     }
-    async createCitizenRequest(body) {
-        return this.createPublicCall(body);
+    async createCitizenRequest(body, req) {
+        return this.createPublicCall(body, req);
     }
-    async getCallStatus(_protocol) {
-        return { message: 'Use o protocolo com o município para consultar o status.' };
+    async getCallStatus(protocol) {
+        const call = await this.service.findByProtocol(protocol);
+        if (!call) {
+            return { found: false, message: 'Protocolo nao encontrado. Verifique o numero e tente novamente.' };
+        }
+        return {
+            found: true,
+            protocolNumber: call.protocolNumber,
+            status: call.status,
+            category: call.category,
+            title: call.title,
+            createdAt: call.createdAt,
+            history: (call.history || []).map((h) => ({
+                status: h.status,
+                message: h.message,
+                date: h.createdAt,
+            })),
+        };
     }
 };
 exports.PublicCallsController = PublicCallsController;
@@ -70,16 +98,18 @@ __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('calls'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PublicCallsController.prototype, "createPublicCall", null);
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('cidadao/solicitacoes'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PublicCallsController.prototype, "createCitizenRequest", null);
 __decorate([
@@ -94,6 +124,7 @@ exports.PublicCallsController = PublicCallsController = __decorate([
     (0, swagger_1.ApiTags)('public'),
     (0, common_1.Controller)('public'),
     __metadata("design:paramtypes", [citizen_156_service_1.Citizen156Service,
-        tenants_service_1.TenantsService])
+        tenants_service_1.TenantsService,
+        cache_service_1.CacheService])
 ], PublicCallsController);
 //# sourceMappingURL=public-calls.controller.js.map

@@ -53,6 +53,9 @@ let GisController = class GisController {
             limit,
         });
     }
+    async queryClusters(tenantId, projectId, minLng, minLat, maxLng, maxLat, zoom) {
+        return this.gisService.queryClusters([minLng, minLat, maxLng, maxLat], zoom, tenantId, projectId);
+    }
     async getMvtTile(z, x, y, tenantId, projectId) {
         return this.gisService.getMvtTile(z, x, y, tenantId, projectId);
     }
@@ -157,6 +160,31 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Number]),
     __metadata("design:returntype", Promise)
 ], GisController.prototype, "queryViewport", null);
+__decorate([
+    (0, common_1.Get)('clusters'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get parcel clusters for a viewport',
+        description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Groups parcels into cells based on zoom level.',
+    }),
+    (0, swagger_1.ApiQuery)({ name: 'tenantId', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'projectId', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'minLng', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'minLat', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'maxLng', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'maxLat', required: true }),
+    (0, swagger_1.ApiQuery)({ name: 'zoom', required: true, description: 'Map zoom level (0-22)' }),
+    __param(0, (0, common_1.Query)('tenantId')),
+    __param(1, (0, common_1.Query)('projectId')),
+    __param(2, (0, common_1.Query)('minLng')),
+    __param(3, (0, common_1.Query)('minLat')),
+    __param(4, (0, common_1.Query)('maxLng')),
+    __param(5, (0, common_1.Query)('maxLat')),
+    __param(6, (0, common_1.Query)('zoom')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Number, Number, Number, Number, Number]),
+    __metadata("design:returntype", Promise)
+], GisController.prototype, "queryClusters", null);
 __decorate([
     (0, common_1.Get)('tiles/:z/:x/:y.pbf'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),

@@ -12,6 +12,11 @@ export declare class Certificate {
     status: 'EMITIDA' | 'CANCELADA';
     issuedBy?: string;
     issuedAt: string;
+    signature?: string;
+    signatureAlgorithm?: string;
+    signedAt?: string;
+    publicKeyHash?: string;
+    qrCodeUrl?: string;
 }
 export type CertificateDocument = Certificate & Document;
 export declare const CertificateSchema: import("mongoose").Schema<Certificate, import("mongoose").Model<Certificate, any, any, any, Document<unknown, any, Certificate, any, {}> & Certificate & {

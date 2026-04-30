@@ -39,9 +39,12 @@ const assessments_repository_1 = require("./assessments/assessments.repository")
 const pgv_controller_1 = require("./pgv.controller");
 const projects_module_1 = require("../projects/projects.module");
 const ctm_module_1 = require("../ctm/ctm.module");
+const tenants_module_1 = require("../tenants/tenants.module");
 const pgv_scenarios_repository_1 = require("./simulations/pgv-scenarios.repository");
 const pgv_simulations_service_1 = require("./simulations/pgv-simulations.service");
 const pgv_simulations_controller_1 = require("./simulations/pgv-simulations.controller");
+const iptu_service_1 = require("./iptu/iptu.service");
+const iptu_controller_1 = require("./iptu/iptu.controller");
 let PgvModule = class PgvModule {
 };
 exports.PgvModule = PgvModule;
@@ -50,6 +53,7 @@ exports.PgvModule = PgvModule = __decorate([
         imports: [
             projects_module_1.ProjectsModule,
             ctm_module_1.CtmModule,
+            tenants_module_1.TenantsModule,
             mongoose_1.MongooseModule.forFeature([
                 { name: zone_schema_1.PgvZone.name, schema: zone_schema_1.PgvZoneSchema },
                 { name: face_schema_1.PgvFace.name, schema: face_schema_1.PgvFaceSchema },
@@ -70,6 +74,7 @@ exports.PgvModule = PgvModule = __decorate([
             valuations_controller_1.ValuationsController,
             pgv_controller_1.PgvController,
             pgv_simulations_controller_1.PgvSimulationsController,
+            iptu_controller_1.IptuController,
         ],
         providers: [
             zones_repository_1.ZonesRepository,
@@ -87,8 +92,9 @@ exports.PgvModule = PgvModule = __decorate([
             assessments_repository_1.AssessmentsRepository,
             pgv_scenarios_repository_1.PgvScenariosRepository,
             pgv_simulations_service_1.PgvSimulationsService,
+            iptu_service_1.IptuService,
         ],
-        exports: [valuations_service_1.ValuationsService],
+        exports: [valuations_service_1.ValuationsService, iptu_service_1.IptuService],
     })
 ], PgvModule);
 //# sourceMappingURL=pgv.module.js.map

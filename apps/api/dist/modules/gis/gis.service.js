@@ -18,7 +18,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const parcel_schema_1 = require("../ctm/parcels/parcel.schema");
 const object_id_1 = require("../../common/utils/object-id");
-const vtpbf = require("vt-pbf");
+const mvt_util_1 = require("../../common/utils/mvt.util");
 const EPSG_WGS84 = 4326;
 const EPSG_UTM_23S = 31983;
 const MVT_EXTENT = 4096;
@@ -197,44 +197,24 @@ let GisService = class GisService {
             .select('geometry sqlu inscription status sourceType')
             .lean()
             .exec();
-        const vectorTile = require('@mapbox/vector-tile');
-        const Pbf = require('pbf');
-        const tile = new vectorTile.VectorTile(new Pbf());
-        const layer = new vectorTile.VectorTileLayer({
-            name: MVT_LAYER_NAME,
-            version: MVT_LAYER_VERSION,
-            extent: MVT_EXTENT,
-        });
-        parcels.forEach((parcel) => {
-            const geom = parcel.geometry;
-            const feature = new vectorTile.VectorTileFeature({
-                id: parseInt(String(parcel._id).slice(-8), 10) || 1,
+        if (!parcels || parcels.length === 0) {
+            return Buffer.from('');
+        }
+        const featureCollection = {
+            type: 'FeatureCollection',
+            features: parcels.map((parcel) => ({
+                type: 'Feature',
+                id: String(parcel._id),
+                geometry: parcel.geometry,
                 properties: {
                     sqlu: parcel.sqlu || '',
                     inscription: parcel.inscription || '',
                     status: parcel.status || '',
                     sourceType: parcel.sourceType || '',
                 },
-            });
-            const bbox = tileBbox;
-            if (geom.type === 'Polygon') {
-                const projected = this.projectPolygonToTile(geom.coordinates, bbox);
-                feature.loadGeometry(projected);
-            }
-            else if (geom.type === 'MultiPolygon') {
-                const projected = this.projectMultiPolygonToTile(geom.coordinates, bbox);
-                if (projected.length > 0) {
-                    feature.loadGeometry(projected[0]);
-                }
-            }
-            else if (geom.type === 'Point') {
-                const projected = this.projectCoordinateToTile(geom.coordinates, bbox);
-                feature.loadGeometry([[projected]]);
-            }
-            layer.addFeature(feature);
-        });
-        tile.addLayer(layer);
-        return Buffer.from(vtpbf.fromVectorTileJs(tile));
+            })),
+        };
+        return (0, mvt_util_1.createVectorTile)(featureCollection, z, x, y);
     }
     projectCoordinateToTile(coord, bbox) {
         const [minX, minY, maxX, maxY] = bbox;
@@ -289,6 +269,59 @@ let GisService = class GisService {
             }
         }
         return tiles;
+    }
+    async queryClusters(bbox, zoom, tenantId, projectId, limit = 5000) {
+        const [minLng, minLat, maxLng, maxLat] = bbox;
+        const parcels = await this.model.find({
+            tenantId: (0, object_id_1.asObjectId)(tenantId),
+            projectId: (0, object_id_1.asObjectId)(projectId),
+            geometry: { $geoIntersects: { $geometry: { type: 'Polygon', coordinates: [[[minLng, minLat], [minLng, maxLat], [maxLng, maxLat], [maxLng, minLat], [minLng, minLat]]] } } },
+        }).select('centroid sqlu geometry').limit(limit).lean().exec();
+        if (parcels.length === 0)
+            return { type: 'FeatureCollection', features: [], zoom, bbox };
+        const cellSize = Math.pow(2, 18 - Math.min(zoom, 18)) / 100000;
+        const grid = new Map();
+        for (const p of parcels) {
+            const c = p.centroid?.coordinates || this.getCenter(p.geometry);
+            if (!c)
+                continue;
+            const k = `${Math.floor(c[0] / cellSize)}:${Math.floor(c[1] / cellSize)}`;
+            const e = grid.get(k);
+            if (e) {
+                e.coords.push(c);
+                e.sqlus.push(p.sqlu || '');
+            }
+            else
+                grid.set(k, { coords: [c], sqlus: [p.sqlu || ''] });
+        }
+        const features = [];
+        for (const [, cell] of grid) {
+            if (cell.coords.length === 1) {
+                features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: cell.coords[0] }, properties: { cluster: false, count: 1, sqlu_list: cell.sqlus } });
+            }
+            else {
+                const ax = cell.coords.reduce((s, c) => s + c[0], 0) / cell.coords.length;
+                const ay = cell.coords.reduce((s, c) => s + c[1], 0) / cell.coords.length;
+                features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [ax, ay] }, properties: { cluster: true, count: cell.coords.length, sqlu_list: cell.sqlus.slice(0, 10) } });
+            }
+        }
+        return { type: 'FeatureCollection', features, zoom, bbox };
+    }
+    getCenter(geom) {
+        if (!geom)
+            return null;
+        try {
+            if (geom.type === 'Point')
+                return geom.coordinates;
+            const ring = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
+            if (!ring)
+                return null;
+            const sx = ring.reduce((s, c) => s + c[0], 0), sy = ring.reduce((s, c) => s + c[1], 0);
+            return [sx / ring.length, sy / ring.length];
+        }
+        catch {
+            return null;
+        }
     }
 };
 exports.GisService = GisService;

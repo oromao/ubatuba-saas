@@ -84,8 +84,8 @@ export class PublicCallsController {
 
   @Public()
   @Post('cidadao/solicitacoes')
-  async createCitizenRequest(@Body() body: PublicCreateCallDto) {
-    return this.createPublicCall(body);
+  async createCitizenRequest(@Body() body: PublicCreateCallDto, @Req() req: Request) {
+    return this.createPublicCall(body, req);
   }
 
   @Public()

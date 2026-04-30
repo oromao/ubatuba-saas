@@ -12,6 +12,7 @@ export declare class PgvZone {
     valorBaseTerrenoM2?: number;
     baseConstructionValue: number;
     valorBaseConstrucaoM2?: number;
+    aliquotaIptu: number;
     geometry: PolygonGeometry;
     createdBy?: Types.ObjectId;
     updatedBy?: Types.ObjectId;

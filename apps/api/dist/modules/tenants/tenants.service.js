@@ -25,6 +25,28 @@ let TenantsService = class TenantsService {
     findBySlug(slug) {
         return this.tenantsRepository.findBySlug(slug);
     }
+    async getMunicipalConfig(tenantId) {
+        const tenant = await this.tenantsRepository.findById(tenantId);
+        if (!tenant)
+            throw new common_1.NotFoundException('Tenant nao encontrado');
+        return tenant.municipalConfig || {};
+    }
+    async updateMunicipalConfig(tenantId, dto) {
+        const tenant = await this.tenantsRepository.findById(tenantId);
+        if (!tenant)
+            throw new common_1.NotFoundException('Tenant nao encontrado');
+        const config = tenant.municipalConfig || {};
+        const merged = { ...config, ...dto };
+        tenant.municipalConfig = merged;
+        await this.tenantsRepository.save(tenant);
+        return tenant.municipalConfig || {};
+    }
+    async getAliquotasPadrao(tenantId) {
+        const tenant = await this.tenantsRepository.findById(tenantId);
+        if (!tenant)
+            return {};
+        return tenant.municipalConfig?.aliquotasPadrao || {};
+    }
 };
 exports.TenantsService = TenantsService;
 exports.TenantsService = TenantsService = __decorate([

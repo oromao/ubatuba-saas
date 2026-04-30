@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-interface Endereco {
+export interface Endereco {
   logradouro?: string;
   numero?: string;
   complemento?: string;
@@ -14,7 +14,7 @@ interface Endereco {
   website?: string;
 }
 
-interface Aliquotas {
+export interface Aliquotas {
   iptuResidencial?: number;
   iptuComercial?: number;
   iptuIndustrial?: number;
@@ -24,7 +24,7 @@ interface Aliquotas {
   taxaIluminacao?: number;
 }
 
-interface Lei {
+export interface Lei {
   numero: string;
   ano: number;
   titulo: string;
@@ -32,7 +32,7 @@ interface Lei {
   tipo?: 'LEI_MUNICIPAL' | 'DECRETO' | 'PORTARIA' | 'INSTRUCAO_NORMATIVA';
 }
 
-interface ModulosHabilitados {
+export interface ModulosHabilitados {
   ctm?: boolean;
   pgv?: boolean;
   reurb?: boolean;
@@ -45,7 +45,7 @@ interface ModulosHabilitados {
   observatorio?: boolean;
 }
 
-interface MunicipalConfig {
+export interface MunicipalConfig {
   brasao?: string;
   logo?: string;
   cnpjMunicipio?: string;

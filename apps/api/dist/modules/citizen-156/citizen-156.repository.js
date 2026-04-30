@@ -46,6 +46,9 @@ let Citizen156Repository = class Citizen156Repository {
     save(doc) {
         return doc.save();
     }
+    findByProtocol(protocolNumber) {
+        return this.model.findOne({ protocolNumber }).exec();
+    }
 };
 exports.Citizen156Repository = Citizen156Repository;
 exports.Citizen156Repository = Citizen156Repository = __decorate([

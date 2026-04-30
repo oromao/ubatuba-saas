@@ -16,6 +16,19 @@ const MVT_LAYER_VERSION = 2;
 
 export type Bbox = [number, number, number, number]; // [minLng, minLat, maxLng, maxLat]
 
+export interface ClusterFeature {
+  type: 'Feature';
+  geometry: { type: 'Point'; coordinates: [number, number] };
+  properties: { cluster: boolean; count: number; sqlu_list?: string[] };
+}
+
+export interface ClusterResult {
+  type: 'FeatureCollection';
+  features: ClusterFeature[];
+  zoom: number;
+  bbox: Bbox;
+}
+
 export interface Coordinate {
   x: number;
   y: number;
@@ -465,19 +478,55 @@ export class GisService {
 
     return tiles;
   }
-}
-export interface ClusterFeature {
-  type: 'Feature';
-  geometry: { type: 'Point'; coordinates: [number, number] };
-  properties: {
-    cluster: boolean;
-    count: number;
-    sqlu_list?: string[];
-  };
-}
-export interface ClusterResult {
-  type: 'FeatureCollection';
-  features: ClusterFeature[];
-  zoom: number;
-  bbox: Bbox;
+
+  async queryClusters(
+    bbox: Bbox,
+    zoom: number,
+    tenantId: string,
+    projectId: string,
+    limit = 5000,
+  ): Promise<ClusterResult> {
+    const [minLng, minLat, maxLng, maxLat] = bbox;
+    const parcels = await this.model.find({
+      tenantId: asObjectId(tenantId),
+      projectId: asObjectId(projectId),
+      geometry: { $geoIntersects: { $geometry: { type: 'Polygon', coordinates: [[[minLng, minLat],[minLng, maxLat],[maxLng, maxLat],[maxLng, minLat],[minLng, minLat]]] } } },
+    }).select('centroid sqlu geometry').limit(limit).lean().exec();
+
+    if (parcels.length === 0) return { type: 'FeatureCollection', features: [], zoom, bbox };
+
+    const cellSize = Math.pow(2, 18 - Math.min(zoom, 18)) / 100000;
+    const grid = new Map<string, { coords: [number, number][]; sqlus: string[] }>();
+    for (const p of parcels) {
+      const c = p.centroid?.coordinates || this.getCenter(p.geometry);
+      if (!c) continue;
+      const k = `${Math.floor(c[0]/cellSize)}:${Math.floor(c[1]/cellSize)}`;
+      const e = grid.get(k);
+      if (e) { e.coords.push(c); e.sqlus.push(p.sqlu||''); }
+      else grid.set(k, { coords: [c], sqlus: [p.sqlu||''] });
+    }
+
+    const features: ClusterFeature[] = [];
+    for (const [, cell] of grid) {
+      if (cell.coords.length === 1) {
+        features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: cell.coords[0] }, properties: { cluster: false, count: 1, sqlu_list: cell.sqlus } });
+      } else {
+        const ax = cell.coords.reduce((s,c)=>s+c[0],0)/cell.coords.length;
+        const ay = cell.coords.reduce((s,c)=>s+c[1],0)/cell.coords.length;
+        features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [ax,ay] }, properties: { cluster: true, count: cell.coords.length, sqlu_list: cell.sqlus.slice(0,10) } });
+      }
+    }
+    return { type: 'FeatureCollection', features, zoom, bbox };
+  }
+
+  private getCenter(geom: any): [number, number] | null {
+    if (!geom) return null;
+    try {
+      if (geom.type === 'Point') return geom.coordinates;
+      const ring = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
+      if (!ring) return null;
+      const sx = ring.reduce((s:number,c:[number,number])=>s+c[0],0), sy = ring.reduce((s:number,c:[number,number])=>s+c[1],0);
+      return [sx/ring.length, sy/ring.length];
+    } catch { return null; }
+  }
 }

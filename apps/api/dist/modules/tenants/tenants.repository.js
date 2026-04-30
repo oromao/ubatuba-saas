@@ -30,6 +30,12 @@ let TenantsRepository = class TenantsRepository {
     findBySlug(slug) {
         return this.model.findOne({ slug }).exec();
     }
+    save(doc) {
+        return doc.save();
+    }
+    updateConfig(tenantId, municipalConfig) {
+        return this.model.findByIdAndUpdate(tenantId, { $set: { municipalConfig } }, { new: true }).exec();
+    }
 };
 exports.TenantsRepository = TenantsRepository;
 exports.TenantsRepository = TenantsRepository = __decorate([

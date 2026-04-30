@@ -14,6 +14,7 @@ export declare class CertificatesController {
         headers: Record<string, string | string[] | undefined>;
     }, code: string, tenantId?: string): Promise<{
         valid: boolean;
+        signatureValid: boolean;
         certificate: import("mongoose").Document<unknown, {}, import("./certificate.schema").CertificateDocument, {}, {}> & import("./certificate.schema").Certificate & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
@@ -24,6 +25,7 @@ export declare class CertificatesController {
         headers: Record<string, string | string[] | undefined>;
     }, code: string, tenantId?: string): Promise<{
         valid: boolean;
+        signatureValid: boolean;
         certificate: import("mongoose").Document<unknown, {}, import("./certificate.schema").CertificateDocument, {}, {}> & import("./certificate.schema").Certificate & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
             _id: import("mongoose").Types.ObjectId;
         }> & {
@@ -57,6 +59,11 @@ export declare class CertificatesController {
         status: "EMITIDA" | "CANCELADA";
         issuedBy?: string;
         issuedAt: string;
+        signature?: string;
+        signatureAlgorithm?: string;
+        signedAt?: string;
+        publicKeyHash?: string;
+        qrCodeUrl?: string;
         _id: import("mongoose").Types.ObjectId;
         $locals: Record<string, unknown>;
         $op: "save" | "validate" | "remove" | null;

@@ -1,4 +1,5 @@
 import { CreateTenantDto } from './dto/create-tenant.dto';
+import { UpdateMunicipalConfigDto } from './dto/update-municipal-config.dto';
 import { TenantsService } from './tenants.service';
 export declare class TenantsController {
     private readonly tenantsService;
@@ -15,4 +16,10 @@ export declare class TenantsController {
     }> & {
         __v: number;
     }) | null>;
+    getMunicipalConfig(req: {
+        tenantId?: string;
+    }): Promise<import("./tenant.schema").MunicipalConfig>;
+    updateMunicipalConfig(req: {
+        tenantId?: string;
+    }, dto: UpdateMunicipalConfigDto): Promise<import("./tenant.schema").MunicipalConfig>;
 }

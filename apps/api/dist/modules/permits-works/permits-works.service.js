@@ -15,6 +15,7 @@ const crypto_1 = require("crypto");
 const cache_service_1 = require("../shared/cache.service");
 const object_storage_service_1 = require("../shared/object-storage.service");
 const projects_service_1 = require("../projects/projects.service");
+const certificates_service_1 = require("../certificates/certificates.service");
 const permits_works_repository_1 = require("./permits-works.repository");
 const WORK_STAGE_TO_STATUS = {
     ABERTURA: 'ABERTO',
@@ -67,11 +68,12 @@ function buildSimplePdf(title, lines) {
     ].join('\n'));
 }
 let PermitsWorksService = class PermitsWorksService {
-    constructor(repository, projectsService, storage, cacheService) {
+    constructor(repository, projectsService, storage, cacheService, certificatesService) {
         this.repository = repository;
         this.projectsService = projectsService;
         this.storage = storage;
         this.cacheService = cacheService;
+        this.certificatesService = certificatesService;
     }
     list(tenantId) {
         return this.repository.list(tenantId);
@@ -88,6 +90,7 @@ let PermitsWorksService = class PermitsWorksService {
             protocolNumber,
             applicantName: dto.applicantName,
             subjectAddress: dto.subjectAddress,
+            parcelId: dto.parcelId,
             status: 'ABERTO',
             currentStage: 'ABERTURA',
             responsibleDepartment: 'Urbanismo / Obras',
@@ -214,6 +217,17 @@ let PermitsWorksService = class PermitsWorksService {
         if (decision === 'DEFERIDO') {
             this.transition(request, request.currentStage === 'EMISSAO' ? 'ENCERRAMENTO' : 'EMISSAO', reason ?? 'Processo deferido', actorId, true);
             request.status = 'CONCLUIDO';
+            request.validUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+            try {
+                await this.certificatesService.issue(tenantId, {
+                    type: 'ALVARA_OBRAS',
+                    subjectName: request.applicantName,
+                    subjectDocument: request.protocolNumber,
+                    processId: undefined,
+                }, actorId);
+            }
+            catch {
+            }
         }
         else if (decision === 'INDEFERIDO') {
             this.transition(request, 'INDEFERIDO', reason ?? 'Processo indeferido', actorId, true);
@@ -365,6 +379,7 @@ exports.PermitsWorksService = PermitsWorksService = __decorate([
     __metadata("design:paramtypes", [permits_works_repository_1.PermitsWorksRepository,
         projects_service_1.ProjectsService,
         object_storage_service_1.ObjectStorageService,
-        cache_service_1.CacheService])
+        cache_service_1.CacheService,
+        certificates_service_1.CertificatesService])
 ], PermitsWorksService);
 //# sourceMappingURL=permits-works.service.js.map

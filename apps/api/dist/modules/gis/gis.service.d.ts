@@ -1,6 +1,24 @@
 import { Model } from 'mongoose';
 import { ParcelDocument } from '../ctm/parcels/parcel.schema';
 export type Bbox = [number, number, number, number];
+export interface ClusterFeature {
+    type: 'Feature';
+    geometry: {
+        type: 'Point';
+        coordinates: [number, number];
+    };
+    properties: {
+        cluster: boolean;
+        count: number;
+        sqlu_list?: string[];
+    };
+}
+export interface ClusterResult {
+    type: 'FeatureCollection';
+    features: ClusterFeature[];
+    zoom: number;
+    bbox: Bbox;
+}
 export interface Coordinate {
     x: number;
     y: number;
@@ -50,4 +68,6 @@ export declare class GisService {
         x: number;
         y: number;
     }>;
+    queryClusters(bbox: Bbox, zoom: number, tenantId: string, projectId: string, limit?: number): Promise<ClusterResult>;
+    private getCenter;
 }

@@ -68,6 +68,14 @@ __decorate([
     __metadata("design:type", String)
 ], PermitWorkRequest.prototype, "decisionPdfKey", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], PermitWorkRequest.prototype, "parcelId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Date)
+], PermitWorkRequest.prototype, "validUntil", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: Object }),
     __metadata("design:type", Object)
 ], PermitWorkRequest.prototype, "decision", void 0);
@@ -76,4 +84,5 @@ exports.PermitWorkRequest = PermitWorkRequest = __decorate([
 ], PermitWorkRequest);
 exports.PermitWorkRequestSchema = mongoose_1.SchemaFactory.createForClass(PermitWorkRequest);
 exports.PermitWorkRequestSchema.index({ tenantId: 1, protocolNumber: 1 }, { unique: true });
+exports.PermitWorkRequestSchema.index({ tenantId: 1, parcelId: 1 });
 //# sourceMappingURL=permit-work.schema.js.map

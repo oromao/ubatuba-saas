@@ -15,6 +15,7 @@ const crypto_1 = require("crypto");
 const cache_service_1 = require("../shared/cache.service");
 const object_storage_service_1 = require("../shared/object-storage.service");
 const processes_repository_1 = require("../processes/processes.repository");
+const digital_signature_service_1 = require("../../common/services/digital-signature.service");
 const certificates_repository_1 = require("./certificates.repository");
 function buildMinimalPdf(params) {
     const lines = [params.title, ...params.bodyLines].map((line) => line.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)'));
@@ -45,11 +46,12 @@ function buildMinimalPdf(params) {
     return Buffer.from(text, 'utf8');
 }
 let CertificatesService = class CertificatesService {
-    constructor(repository, processesRepository, objectStorageService, cacheService) {
+    constructor(repository, processesRepository, objectStorageService, cacheService, signatureService) {
         this.repository = repository;
         this.processesRepository = processesRepository;
         this.objectStorageService = objectStorageService;
         this.cacheService = cacheService;
+        this.signatureService = signatureService;
     }
     list(tenantId) {
         return this.repository.list(tenantId);
@@ -73,13 +75,21 @@ let CertificatesService = class CertificatesService {
             issuedBy: issuedBy ?? null,
         };
         const hashSha256 = (0, crypto_1.createHash)('sha256').update(JSON.stringify(payload)).digest('hex');
+        const validationUrl = `/certificates/validate/${validationCode}`;
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(validationUrl)}`;
+        const signed = this.signatureService.signPayload(payload);
+        const publicKeyHash = (0, crypto_1.createHash)('sha256').update(signed.publicKeyPem).digest('hex').slice(0, 16);
         const pdfBuffer = buildMinimalPdf({
             title: `Certidao ${dto.type}`,
             bodyLines: [
                 `Titular: ${dto.subjectName}`,
                 `Tipo: ${dto.type}`,
                 `Codigo: ${validationCode}`,
-                `Hash: ${hashSha256}`,
+                `Hash SHA-256: ${hashSha256}`,
+                `Assinatura Digital: ${signed.signature.slice(0, 40)}...`,
+                `Algoritmo: ${signed.algorithm}`,
+                `Assinado em: ${signed.signedAt}`,
+                `Chave Publica Hash: ${publicKeyHash}`,
             ],
         });
         const pdfKey = `certificates/${tenantId}/${validationCode}.pdf`;
@@ -101,6 +111,11 @@ let CertificatesService = class CertificatesService {
             status: 'EMITIDA',
             issuedBy,
             issuedAt: payload.issuedAt,
+            signature: signed.signature,
+            signatureAlgorithm: signed.algorithm,
+            signedAt: signed.signedAt,
+            publicKeyHash,
+            qrCodeUrl,
         });
         await this.cacheService.invalidateByPrefix(`certificates:${tenantId}`);
         return {
@@ -114,8 +129,26 @@ let CertificatesService = class CertificatesService {
         if (!certificate) {
             throw new common_1.NotFoundException('Certidao nao encontrada');
         }
+        const isValid = certificate.status === 'EMITIDA';
+        let signatureValid = false;
+        if (certificate.signature && certificate.payloadJson) {
+            try {
+                const payload = JSON.parse(certificate.payloadJson);
+                signatureValid = this.signatureService.verifySignature({
+                    payload,
+                    signature: certificate.signature,
+                    algorithm: certificate.signatureAlgorithm || 'RSA-SHA256',
+                    signedAt: certificate.signedAt || '',
+                    publicKeyPem: '',
+                });
+            }
+            catch {
+                signatureValid = false;
+            }
+        }
         return {
-            valid: certificate.status === 'EMITIDA',
+            valid: isValid,
+            signatureValid,
             certificate,
         };
     }
@@ -126,6 +159,7 @@ exports.CertificatesService = CertificatesService = __decorate([
     __metadata("design:paramtypes", [certificates_repository_1.CertificatesRepository,
         processes_repository_1.ProcessesRepository,
         object_storage_service_1.ObjectStorageService,
-        cache_service_1.CacheService])
+        cache_service_1.CacheService,
+        digital_signature_service_1.DigitalSignatureService])
 ], CertificatesService);
 //# sourceMappingURL=certificates.service.js.map

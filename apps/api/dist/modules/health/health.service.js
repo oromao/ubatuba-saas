@@ -23,12 +23,38 @@ let HealthService = class HealthService {
         this.redisService = redisService;
     }
     async check() {
+        const results = {};
+        let overall = 'ok';
+        const mongoStart = Date.now();
         const mongoOk = this.connection.readyState === 1;
-        const redis = await this.redisService.status();
+        results.mongodb = {
+            status: mongoOk ? 'ok' : 'down',
+            latencyMs: Date.now() - mongoStart,
+        };
+        if (!mongoOk)
+            overall = 'degraded';
+        try {
+            const redisStart = Date.now();
+            const redisStatus = await this.redisService.status();
+            results.redis = {
+                status: redisStatus.status === 'connected' ? 'ok' : 'degraded',
+                latencyMs: Date.now() - redisStart,
+            };
+            if (redisStatus.status !== 'connected')
+                overall = 'degraded';
+        }
+        catch (e) {
+            results.redis = { status: 'down', error: String(e) };
+            overall = 'degraded';
+        }
+        const memUsage = process.memoryUsage();
+        results.memory = {
+            status: memUsage.heapUsed / memUsage.heapTotal > 0.95 ? 'degraded' : 'ok',
+        };
         return {
-            status: mongoOk ? 'ok' : 'degraded',
-            mongo: mongoOk ? 'ok' : 'down',
-            redis: redis.status,
+            status: overall,
+            components: results,
+            uptimeSeconds: Math.floor(process.uptime()),
             timestamp: new Date().toISOString(),
         };
     }

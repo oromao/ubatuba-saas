@@ -1,5 +1,6 @@
 import { TenantsRepository } from './tenants.repository';
 import { CreateTenantDto } from './dto/create-tenant.dto';
+import { UpdateMunicipalConfigDto } from './dto/update-municipal-config.dto';
 export declare class TenantsService {
     private readonly tenantsRepository;
     constructor(tenantsRepository: TenantsRepository);
@@ -18,4 +19,7 @@ export declare class TenantsService {
     }> & {
         __v: number;
     }) | null>;
+    getMunicipalConfig(tenantId: string): Promise<import("./tenant.schema").MunicipalConfig>;
+    updateMunicipalConfig(tenantId: string, dto: UpdateMunicipalConfigDto): Promise<import("./tenant.schema").MunicipalConfig>;
+    getAliquotasPadrao(tenantId: string): Promise<import("./tenant.schema").Aliquotas>;
 }

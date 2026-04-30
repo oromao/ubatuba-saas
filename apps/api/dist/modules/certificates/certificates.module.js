@@ -14,6 +14,7 @@ const processes_module_1 = require("../processes/processes.module");
 const cache_service_1 = require("../shared/cache.service");
 const object_storage_service_1 = require("../shared/object-storage.service");
 const redis_service_1 = require("../shared/redis.service");
+const digital_signature_service_1 = require("../../common/services/digital-signature.service");
 const certificate_schema_1 = require("./certificate.schema");
 const certificates_controller_1 = require("./certificates.controller");
 const certificates_repository_1 = require("./certificates.repository");
@@ -31,7 +32,7 @@ exports.CertificatesModule = CertificatesModule = __decorate([
             ]),
         ],
         controllers: [certificates_controller_1.CertificatesController],
-        providers: [certificates_repository_1.CertificatesRepository, certificates_service_1.CertificatesService, cache_service_1.CacheService, redis_service_1.RedisService, object_storage_service_1.ObjectStorageService],
+        providers: [certificates_repository_1.CertificatesRepository, certificates_service_1.CertificatesService, digital_signature_service_1.DigitalSignatureService, cache_service_1.CacheService, redis_service_1.RedisService, object_storage_service_1.ObjectStorageService],
         exports: [certificates_service_1.CertificatesService],
     })
 ], CertificatesModule);
