@@ -80,7 +80,7 @@
 | **T9-API-CONTRACT** | Documentação OpenAPI (Swagger) completa | `DONE` | M | Doc |
 | **T9-OBSERVABILITY** | Logs centralizados, métricas e alertas | `DONE` | M | Ops |
 | **T9-LGPD-DATA** | Ciclo de vida de dados e trilha de auditoria | `TODO` | L | Legal |
-| **T9-TENANT-ONBOARD** | Fluxo automatizado de criação de nova prefeitura | `TODO` | M | SaaS |
+| **T9-TENANT-ONBOARD** | Fluxo automatizado de criação de nova prefeitura | `DONE` | M | SaaS |
 | **T9-EDITAL-MATRIX** | Matriz de aderência a editais típicos | `DONE` | S | Product |
 | **T9-RBAC-ACTIONS** | Permissões granulares por ação/botão | `TODO` | M | Sec |
 
