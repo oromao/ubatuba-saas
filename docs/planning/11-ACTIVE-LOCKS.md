@@ -31,6 +31,7 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|---|---|
+| T9-RBAC-ACTIONS | OpenCode | IN_PROGRESS | apps/api/src/common/guards/*, apps/api/src/modules/auth/* | 2026-04-30 | 2026-04-30 | main | Unit tests for RBAC guards | Granular permissions per action |
 
 ## Histórico de locks encerrados
 
