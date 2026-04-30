@@ -5,6 +5,9 @@ module.exports = {
   transform: {
     '^.+\\.ts$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(geojson-vt|vt-pbf|@mapbox)/)',
+  ],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
   collectCoverageFrom: ['src/**/*.ts'],
   coverageDirectory: './coverage',
