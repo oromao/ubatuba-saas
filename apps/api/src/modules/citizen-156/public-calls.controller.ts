@@ -1,8 +1,10 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { Public } from '../../common/guards/public.decorator';
 import { Citizen156Service } from './citizen-156.service';
 import { TenantsService } from '../tenants/tenants.service';
+import { CacheService } from '../shared/cache.service';
 import { Types } from 'mongoose';
 
 type PublicCreateCallDto = {
@@ -22,7 +24,17 @@ export class PublicCallsController {
   constructor(
     private readonly service: Citizen156Service,
     private readonly tenantsService: TenantsService,
+    private readonly cacheService: CacheService,
   ) {}
+
+  private async checkRateLimit(ip: string): Promise<void> {
+    const key = `rate-limit:citizen:${ip}`;
+    const count = (await this.cacheService.get<number>(key)) || 0;
+    if (count >= 10) {
+      throw new BadRequestException('Muitas solicitacoes. Tente novamente mais tarde.');
+    }
+    await this.cacheService.set(key, count + 1, 60); // 10 per minute
+  }
 
   private async resolveTenantId(dto: PublicCreateCallDto) {
     if (dto.tenantSlug) {
@@ -46,7 +58,9 @@ export class PublicCallsController {
 
   @Public()
   @Post('calls')
-  async createPublicCall(@Body() body: PublicCreateCallDto) {
+  async createPublicCall(@Body() body: PublicCreateCallDto, @Req() req: Request) {
+    const ip = (req.headers['x-forwarded-for'] as string) || req.ip || 'unknown';
+    await this.checkRateLimit(ip);
     const tenantId = await this.resolveTenantId(body);
     const { description: _description, address, tenantSlug: _tenantSlug, tenantId: _tenantId, ...rest } = body;
     // Augment title with address if provided
@@ -75,7 +89,23 @@ export class PublicCallsController {
 
   @Public()
   @Get('calls/:protocol/status')
-  async getCallStatus(@Param('protocol') _protocol: string) {
-    return { message: 'Use o protocolo com o município para consultar o status.' };
+  async getCallStatus(@Param('protocol') protocol: string) {
+    const call = await this.service.findByProtocol(protocol);
+    if (!call) {
+      return { found: false, message: 'Protocolo nao encontrado. Verifique o numero e tente novamente.' };
+    }
+    return {
+      found: true,
+      protocolNumber: call.protocolNumber,
+      status: call.status,
+      category: call.category,
+      title: call.title,
+      createdAt: (call as any).createdAt,
+      history: (call.history || []).map((h: any) => ({
+        status: h.status,
+        message: h.message,
+        date: h.createdAt,
+      })),
+    };
   }
 }

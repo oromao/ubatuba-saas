@@ -35,4 +35,8 @@ export class Citizen156Repository {
   save(doc: CitizenCallDocument) {
     return doc.save();
   }
+
+  findByProtocol(protocolNumber: string) {
+    return this.model.findOne({ protocolNumber }).exec();
+  }
 }
