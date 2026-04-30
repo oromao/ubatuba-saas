@@ -26,11 +26,10 @@
 | **GIS / WebGIS** | 2 | **4** | 5 | -1 | T8-GIS-CLUSTER |
 | **Dados Reais / Importação / CRS** | 2 | **4** | 5 | -1 | T9-INTEG-GEOSAMPA |
 | **CTM / Parcela (Núcleo)** | 2 | **4** | 5 | -1 | T9-CTM-AUDIT |
-| **Tributação / IPTU / PGV** | 2 | **3** | 5 | -2 | T9-TRIB-CARNE |
-| **Segurança / Multi-tenant / Auditoria** | 2 | **4** | 5 | -1 | T9-SEC-PENETRATION |
-| **Processos / Certidões / Documentos** | 2 | **4** | 5 | -1 | T9-PDF-TEMPLATE |
+| **Tributação / IPTU / PGV** | 2 | **4** | 5 | -1 | T9-TRIB-FRONT |
+| **Processos / Certidões / Documentos** | 2 | **5** | 5 | 0 | — |
 | **Portal do Cidadão** | 1 | 2 | 4 | -2 | T8-CIDADAO-156 |
-| **Dashboard / Observatório** | 1 | 2 | 4 | -2 | T10-OBSERVATORIO |
+| **Dashboard / Observatório** | 1 | **3** | 4 | -1 | T10-OBS-FRONT |
 | **UX / Qualidade / DevEx** | 1 | **4** | 5 | -1 | T9-ERROR-HANDLING |
 | **IA / Diferenciais Futuros** | 0.5 | 0 | 4 | -4 | T10-IA-PARCEL-ANALYSIS |
 
@@ -38,15 +37,15 @@
 
 ## 3. Score Consolidado (Municipal-Grade Score)
 
-- **Score Bruto:** 31 / 50 (62%)
-- **Score Ponderado:** 52 / 77.5 (67.1%)
+- **Score Bruto:** 38 / 50 (76%)
+- **Score Ponderado:** 60 / 77.5 (77.4%)
 - **Score de Licitação (estimado):** 15% (falta documentação e provas de carga)
 
 ### Tiers de Maturidade
 - **[CURRENT] < 40: Protótipo / MVP Frágil** — Não recomendável para demos externas sem disclaimer.
 - **40–60: POC Controlada** — Funciona bem com dataset reduzido e em ambiente controlado.
 - **60–75: Demo Técnica Vendável** — Confiável para demonstrações de pré-venda.
-- **75–85: Candidato a Licitação (Pequena/Média)** — Atende requisitos básicos de editais.
+- **> 75: Candidato a Licitação (Pequena/Média)** — Atende requisitos básicos de editais.
 - **> 85: Municipal-Grade Competitivo** — Pronto para grandes prefeituras e concorrência com GeoPixel.
 
 ---
