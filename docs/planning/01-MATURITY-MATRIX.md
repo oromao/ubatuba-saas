@@ -23,10 +23,11 @@
 
 | Domínio | Peso | Agora | Alvo | Gap | Próxima Ação |
 |---|:---:|:---:|:---:|:---:|---|
-| **GIS / WebGIS** | 2 | **4** | 5 | -1 | T8-GIS-CLUSTER |
+| **GIS / WebGIS** | 2 | **5** | 5 | 0 | — |
 | **Dados Reais / Importação / CRS** | 2 | **4** | 5 | -1 | T9-INTEG-GEOSAMPA |
-| **CTM / Parcela (Núcleo)** | 2 | **4** | 5 | -1 | T9-CTM-AUDIT |
+| **CTM / Parcela (Núcleo)** | 2 | **5** | 5 | 0 | — |
 | **Tributação / IPTU / PGV** | 2 | **4** | 5 | -1 | T9-TRIB-FRONT |
+| **Segurança / Multi-tenant / Auditoria** | 2 | **4** | 5 | -1 | T9-SEC-PENETRATION |
 | **Processos / Certidões / Documentos** | 2 | **5** | 5 | 0 | — |
 | **Portal do Cidadão** | 1 | **3** | 4 | -1 | T9-CIDADAO-UPLOAD |
 | **Dashboard / Observatório** | 1 | **3** | 4 | -1 | T10-OBS-FRONT |
@@ -37,8 +38,8 @@
 
 ## 3. Score Consolidado (Municipal-Grade Score)
 
-- **Score Bruto:** 39 / 50 (78%)
-- **Score Ponderado:** 61 / 77.5 (78.7%)
+- **Score Bruto:** 42 / 50 (84%)
+- **Score Ponderado:** 64 / 77.5 (82.6%)
 - **Score de Licitação (estimado):** 15% (falta documentação e provas de carga)
 
 ### Tiers de Maturidade
