@@ -31,7 +31,6 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|---|---|
-| T9-TENANT-ONBOARD | OpenCode | IN_PROGRESS | apps/api/src/seed/*, apps/api/scripts/* | 2026-04-30 | 2026-04-30 | main | Bootstrap script creates tenant + project + admin | Onboarding automatizado |
 
 ## Histórico de locks encerrados
 

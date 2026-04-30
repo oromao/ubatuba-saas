@@ -50,11 +50,11 @@
 
 | ID | Título | Status | Esforço | Domínio |
 |---|---|---|---|---|
-| **T2-PARCEL-E2E** | Prova real Search/Detail/Update SP-compatible | `PARTIAL` | M | CTM |
-| **T2-DATA-RECONCILE** | Conciliação de dados reais (GeoSampa vs IPTU) | `TODO` | L | Dados |
+| **T2-PARCEL-E2E** | Prova real Search/Detail/Update SP-compatible | `DONE` | M | CTM |
+| **T2-DATA-RECONCILE** | Conciliação de dados reais (GeoSampa vs IPTU) | `DONE` | L | Dados |
 | **T2-GIS-SCALE** | Estabilidade de mapa com 10k+ geometrias | `DONE` | M | GIS |
-| **T2-MULTI-TENANT** | Prova de isolamento total de dados entre tenants | `PARTIAL` | M | Segurança |
-| **T2-MIGRATIONS** | Sistema de migrações de banco (T9-DB-MIGRATIONS) | `TODO` | M | Infra |
+| **T2-MULTI-TENANT** | Prova de isolamento total de dados entre tenants | `DONE` | M | Segurança |
+| **T2-MIGRATIONS** | Sistema de migrações de banco (T9-DB-MIGRATIONS) | `DONE` | M | Infra |
 
 ---
 
@@ -67,7 +67,7 @@
 | **T8-GIS-BBOX** | Carregamento por Viewport (BBOX) | `DONE` | M | CRITICAL |
 | **T8-CTM-COMPLETO** | Workflow de Desmembramento/Loteamento | `DONE` | L | CRITICAL |
 | **T8-TRIB-IPTU** | Engine de Cálculo IPTU real (Planta de Valores) | `DONE` | L | CRITICAL |
-| **T8-PROCESS-ALVARA** | Módulo de Alvarás e Licenciamento Obras | `PARTIAL` | XL | CRITICAL |
+| **T8-PROCESS-ALVARA** | Módulo de Alvarás e Licenciamento Obras | `DONE` | XL | CRITICAL |
 | **T8-CERT-SIGN** | Assinatura Digital em Certidões (T8-DOC-SIGNATURE) | `DONE` | M | CRITICAL |
 | **T8-MUNICIPAL-CFG** | Configurações Municipais (Brasão, Leis, Alíquotas) | `DONE` | M | HIGH |
 
@@ -79,7 +79,7 @@
 |---|---|---|---|---|
 | **T9-API-CONTRACT** | Documentação OpenAPI (Swagger) completa | `DONE` | M | Doc |
 | **T9-OBSERVABILITY** | Logs centralizados, métricas e alertas | `DONE` | M | Ops |
-| **T9-LGPD-DATA** | Ciclo de vida de dados e trilha de auditoria | `TODO` | L | Legal |
+| **T9-LGPD-DATA** | Ciclo de vida de dados e trilha de auditoria | `DONE` | L | Legal |
 | **T9-TENANT-ONBOARD** | Fluxo automatizado de criação de nova prefeitura | `DONE` | M | SaaS |
 | **T9-EDITAL-MATRIX** | Matriz de aderência a editais típicos | `DONE` | S | Product |
 | **T9-RBAC-ACTIONS** | Permissões granulares por ação/botão | `TODO` | M | Sec |
@@ -92,7 +92,7 @@
 |---|---|---|---|
 | **T5-SP-SMOKE** | Smoke test em 30+ rotas com dados reais | `DONE` | Claude |
 | **T5-SP-UNIT** | >70% coverage em módulos críticos (CRS, Geom) | `DONE` | Kimi/OpenCode |
-| **T5-STABLE-CI** | Zero flakiness em CI com Playwright | `PARTIAL` | - |
+| **T5-STABLE-CI** | Zero flakiness em CI com Playwright | `DONE` | - |
 
 ---
 

@@ -23,23 +23,23 @@
 
 | Domínio | Peso | Agora | Alvo | Gap | Próxima Ação |
 |---|:---:|:---:|:---:|:---:|---|
-| **GIS / WebGIS** | 2 | **3** | 5 | -2 | T8-GIS-CLUSTER, T9-GIS-PERF |
-| **Dados Reais / Importação / CRS** | 2 | **3** | 5 | -2 | T8-INTEG-GEOSAMPA |
-| **CTM / Parcela (Núcleo)** | 2 | **4** | 5 | -1 | T8-CTM-AUDIT, T9-CTM-FRONTEND |
-| **Tributação / IPTU / PGV** | 2 | **2** | 5 | -3 | T8-TRIB-PLANTA, T9-TRIB-CARNE |
-| **Segurança / Multi-tenant / Auditoria** | 2 | 2 | 5 | -3 | T9-MULTI-TENANT-PROOF, T9-SEC-AUDIT |
-| **Processos / Certidões / Documentos** | 2 | **3** | 5 | -2 | T8-ALVARA-FRONT, T9-PDF-TEMPLATE |
+| **GIS / WebGIS** | 2 | **4** | 5 | -1 | T8-GIS-CLUSTER |
+| **Dados Reais / Importação / CRS** | 2 | **4** | 5 | -1 | T9-INTEG-GEOSAMPA |
+| **CTM / Parcela (Núcleo)** | 2 | **4** | 5 | -1 | T9-CTM-AUDIT |
+| **Tributação / IPTU / PGV** | 2 | **3** | 5 | -2 | T9-TRIB-CARNE |
+| **Segurança / Multi-tenant / Auditoria** | 2 | **4** | 5 | -1 | T9-SEC-PENETRATION |
+| **Processos / Certidões / Documentos** | 2 | **4** | 5 | -1 | T9-PDF-TEMPLATE |
 | **Portal do Cidadão** | 1 | 2 | 4 | -2 | T8-CIDADAO-156 |
 | **Dashboard / Observatório** | 1 | 2 | 4 | -2 | T10-OBSERVATORIO |
-| **UX / Qualidade / DevEx** | 1 | 3 | 5 | -2 | T9-ERROR-HANDLING, T5-SP-UNIT-CRITICAL |
+| **UX / Qualidade / DevEx** | 1 | **4** | 5 | -1 | T9-ERROR-HANDLING |
 | **IA / Diferenciais Futuros** | 0.5 | 0 | 4 | -4 | T10-IA-PARCEL-ANALYSIS |
 
 ---
 
 ## 3. Score Consolidado (Municipal-Grade Score)
 
-- **Score Bruto:** 24 / 50 (48%)
-- **Score Ponderado:** 40 / 77.5 (51.6%)
+- **Score Bruto:** 31 / 50 (62%)
+- **Score Ponderado:** 52 / 77.5 (67.1%)
 - **Score de Licitação (estimado):** 15% (falta documentação e provas de carga)
 
 ### Tiers de Maturidade
