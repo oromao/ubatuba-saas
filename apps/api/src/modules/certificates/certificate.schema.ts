@@ -38,6 +38,21 @@ export class Certificate {
 
   @Prop({ required: true })
   issuedAt!: string;
+
+  @Prop()
+  signature?: string;
+
+  @Prop()
+  signatureAlgorithm?: string;
+
+  @Prop()
+  signedAt?: string;
+
+  @Prop()
+  publicKeyHash?: string;
+
+  @Prop()
+  qrCodeUrl?: string;
 }
 
 export type CertificateDocument = Certificate & Document;

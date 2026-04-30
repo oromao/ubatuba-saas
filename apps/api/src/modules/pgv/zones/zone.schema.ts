@@ -37,6 +37,9 @@ export class PgvZone {
   @Prop()
   valorBaseConstrucaoM2?: number;
 
+  @Prop({ default: 0.005 })
+  aliquotaIptu!: number;
+
   @Prop({ type: Object, required: true })
   geometry!: PolygonGeometry;
 

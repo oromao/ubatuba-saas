@@ -1,13 +1,13 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-04-29` por `Gemini CLI (Cleanup Phase)`
+> ÚLTIMA REVISÃO: `2026-04-30` por `OpenCode (T8-GIS-MVT + T8-TRIB-IPTU)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 37.4% (Tier: Protótipo / MVP Frágil)
+- **Maturidade (Weighted):** 51.6% (Tier: POC Controlada → próximo: 60% Demo)
 - **Backlog Status:** T1 (Survival) concluído; T2 (Robustness) em progresso.
 - **Blockers:** Falta de escala GIS (MVT), falta de cálculo real de IPTU, falta de fluxos de alvará.
 - **Infra:** Docker-dev estabilizado; Playwright smoke test cobrindo 30+ rotas.
@@ -18,11 +18,11 @@
 
 | ID | Tarefa | Objetivo | Impacto |
 |---|---|---|---|
-| **T0-STATUS-RECONCILE** | Reconciliar Status | Alinhar Matrix, Backlog e Código real. | Governança |
-| **T2-DATA-RECONCILE** | Conciliação de Dados | Provar integração GeoSampa (mapa) vs IPTU (tributo). | Produto |
-| **T8-GIS-MVT** | Implementar MVT Tiles | Permitir escala de 100k+ parcelas sem crash. | Técnico |
-| **T8-CTM-COMPLETO** | Workflow Desmembramento | Sair de CRUD simples para gestão territorial real. | Produto |
-| **T8-TRIB-IPTU** | Engine de Cálculo IPTU | Substituir mocks por lógica real baseada em PGV. | Produto |
+| **T9-API-CONTRACT** | Documentação OpenAPI | Swagger completo para todos os endpoints. | Governança |
+| **T9-OBSERVABILITY** | Logs e Alertas | Logs centralizados, métricas, alertas. | Infra |
+| **T8-GIS-CLUSTER** | Cluster visual de parcelas | Agrupamento em zoom baixo para 100k+. | Técnico |
+| **T9-RBAC-ACTIONS** | Permissões granulares | Controle por ação/botão. | Segurança |
+| **T9-LGPD-DATA** | Ciclo de vida de dados | Trilha de auditoria e LGPD. | Legal |
 
 ---
 

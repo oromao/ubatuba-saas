@@ -3,6 +3,7 @@ import { createHash, randomUUID } from 'crypto';
 import { CacheService } from '../shared/cache.service';
 import { ObjectStorageService } from '../shared/object-storage.service';
 import { ProcessesRepository } from '../processes/processes.repository';
+import { DigitalSignatureService } from '../../common/services/digital-signature.service';
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { CertificatesRepository } from './certificates.repository';
 
@@ -44,6 +45,7 @@ export class CertificatesService {
     private readonly processesRepository: ProcessesRepository,
     private readonly objectStorageService: ObjectStorageService,
     private readonly cacheService: CacheService,
+    private readonly signatureService: DigitalSignatureService,
   ) {}
 
   list(tenantId: string) {
@@ -71,13 +73,24 @@ export class CertificatesService {
       issuedBy: issuedBy ?? null,
     };
     const hashSha256 = createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+    const validationUrl = `/certificates/validate/${validationCode}`;
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(validationUrl)}`;
+
+    // Digital signature (RSA-SHA256)
+    const signed = this.signatureService.signPayload(payload);
+    const publicKeyHash = createHash('sha256').update(signed.publicKeyPem).digest('hex').slice(0, 16);
+
     const pdfBuffer = buildMinimalPdf({
       title: `Certidao ${dto.type}`,
       bodyLines: [
         `Titular: ${dto.subjectName}`,
         `Tipo: ${dto.type}`,
         `Codigo: ${validationCode}`,
-        `Hash: ${hashSha256}`,
+        `Hash SHA-256: ${hashSha256}`,
+        `Assinatura Digital: ${signed.signature.slice(0, 40)}...`,
+        `Algoritmo: ${signed.algorithm}`,
+        `Assinado em: ${signed.signedAt}`,
+        `Chave Publica Hash: ${publicKeyHash}`,
       ],
     });
     const pdfKey = `certificates/${tenantId}/${validationCode}.pdf`;
@@ -99,7 +112,12 @@ export class CertificatesService {
       status: 'EMITIDA',
       issuedBy,
       issuedAt: payload.issuedAt,
-    });
+      signature: signed.signature,
+      signatureAlgorithm: signed.algorithm,
+      signedAt: signed.signedAt,
+      publicKeyHash,
+      qrCodeUrl,
+    } as any);
     await this.cacheService.invalidateByPrefix(`certificates:${tenantId}`);
     return {
       ...created.toObject(),
@@ -113,8 +131,29 @@ export class CertificatesService {
     if (!certificate) {
       throw new NotFoundException('Certidao nao encontrada');
     }
+
+    const isValid = certificate.status === 'EMITIDA';
+
+    // Verify digital signature if present
+    let signatureValid = false;
+    if (certificate.signature && certificate.payloadJson) {
+      try {
+        const payload = JSON.parse(certificate.payloadJson);
+        signatureValid = this.signatureService.verifySignature({
+          payload,
+          signature: certificate.signature,
+          algorithm: certificate.signatureAlgorithm || 'RSA-SHA256',
+          signedAt: certificate.signedAt || '',
+          publicKeyPem: '', // verified against internal key pair
+        });
+      } catch {
+        signatureValid = false;
+      }
+    }
+
     return {
-      valid: certificate.status === 'EMITIDA',
+      valid: isValid,
+      signatureValid,
       certificate,
     };
   }

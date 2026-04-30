@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { CacheService } from '../shared/cache.service';
 import { ObjectStorageService } from '../shared/object-storage.service';
 import { ProjectsService } from '../projects/projects.service';
+import { CertificatesService } from '../certificates/certificates.service';
 import { CreatePermitWorkDto } from './dto/create-permit-work.dto';
 import { UpdatePermitWorkDto } from './dto/update-permit-work.dto';
 import { PermitsWorksRepository } from './permits-works.repository';
@@ -70,6 +71,7 @@ export class PermitsWorksService {
     private readonly projectsService: ProjectsService,
     private readonly storage: ObjectStorageService,
     private readonly cacheService: CacheService,
+    private readonly certificatesService: CertificatesService,
   ) {}
 
   list(tenantId: string) {
@@ -89,6 +91,7 @@ export class PermitsWorksService {
       protocolNumber,
       applicantName: dto.applicantName,
       subjectAddress: dto.subjectAddress,
+      parcelId: dto.parcelId as any,
       status: 'ABERTO',
       currentStage: 'ABERTURA',
       responsibleDepartment: 'Urbanismo / Obras',
@@ -219,6 +222,19 @@ export class PermitsWorksService {
     if (decision === 'DEFERIDO') {
       this.transition(request, request.currentStage === 'EMISSAO' ? 'ENCERRAMENTO' : 'EMISSAO', reason ?? 'Processo deferido', actorId, true);
       request.status = 'CONCLUIDO';
+      request.validUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // 1 year validity
+
+      // Auto-generate linked certificate
+      try {
+        await this.certificatesService.issue(tenantId, {
+          type: 'ALVARA_OBRAS',
+          subjectName: request.applicantName,
+          subjectDocument: request.protocolNumber,
+          processId: undefined,
+        }, actorId);
+      } catch {
+        // Certificate generation is best-effort; don't block approval
+      }
     } else if (decision === 'INDEFERIDO') {
       this.transition(request, 'INDEFERIDO', reason ?? 'Processo indeferido', actorId, true);
     } else {

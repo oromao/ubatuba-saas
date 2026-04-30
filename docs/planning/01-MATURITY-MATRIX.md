@@ -23,12 +23,12 @@
 
 | Domínio | Peso | Agora | Alvo | Gap | Próxima Ação |
 |---|:---:|:---:|:---:|:---:|---|
-| **GIS / WebGIS** | 2 | 2 | 5 | -3 | T8-GIS-MVT, T8-GIS-BBOX |
-| **Dados Reais / Importação / CRS** | 2 | 2 | 5 | -3 | T8-INTEG-GEOSAMPA, T8-GIS-CRS |
-| **CTM / Parcela (Núcleo)** | 2 | 3 | 5 | -2 | T8-CTM-DESMEMB, T8-CTM-COMPLETO |
-| **Tributação / IPTU / PGV** | 2 | 1 | 5 | -4 | T8-TRIB-IPTU, T8-TRIB-PLANTA |
+| **GIS / WebGIS** | 2 | **3** | 5 | -2 | T8-GIS-CLUSTER, T9-GIS-PERF |
+| **Dados Reais / Importação / CRS** | 2 | **3** | 5 | -2 | T8-INTEG-GEOSAMPA |
+| **CTM / Parcela (Núcleo)** | 2 | **4** | 5 | -1 | T8-CTM-AUDIT, T9-CTM-FRONTEND |
+| **Tributação / IPTU / PGV** | 2 | **2** | 5 | -3 | T8-TRIB-PLANTA, T9-TRIB-CARNE |
 | **Segurança / Multi-tenant / Auditoria** | 2 | 2 | 5 | -3 | T9-MULTI-TENANT-PROOF, T9-SEC-AUDIT |
-| **Processos / Certidões / Documentos** | 2 | 1 | 5 | -4 | T8-PROCESS-ALVARA, T8-CERTIDAO-OFICIAL |
+| **Processos / Certidões / Documentos** | 2 | **3** | 5 | -2 | T8-ALVARA-FRONT, T9-PDF-TEMPLATE |
 | **Portal do Cidadão** | 1 | 2 | 4 | -2 | T8-CIDADAO-156 |
 | **Dashboard / Observatório** | 1 | 2 | 4 | -2 | T10-OBSERVATORIO |
 | **UX / Qualidade / DevEx** | 1 | 3 | 5 | -2 | T9-ERROR-HANDLING, T5-SP-UNIT-CRITICAL |
@@ -38,8 +38,8 @@
 
 ## 3. Score Consolidado (Municipal-Grade Score)
 
-- **Score Bruto:** 18 / 50 (36%)
-- **Score Ponderado:** 29 / 77.5 (37.4%)
+- **Score Bruto:** 24 / 50 (48%)
+- **Score Ponderado:** 40 / 77.5 (51.6%)
 - **Score de Licitação (estimado):** 15% (falta documentação e provas de carga)
 
 ### Tiers de Maturidade
@@ -65,6 +65,9 @@ Muitos itens que antes eram considerados "3" ou "4" foram rebaixados para "1" ou
 
 | Data | Agente | Mudança | Motivo |
 |---|---|---|---|
+| 2026-04-30 | OpenCode | Processos 2→3 | T8-CERT-SIGN DONE (assinatura digital RSA-SHA256) |
+| 2026-04-30 | OpenCode | Processos 1→2 | T8-PROCESS-ALVARA PARTIAL: parcelId + certidão auto + validUntil + 13 tests |
+| 2026-04-30 | OpenCode | GIS 2→3, Trib 1→2 | T8-GIS-MVT DONE (MVT tiles), T8-TRIB-IPTU DONE (engine IPTU) |
 | 2026-04-29 | Gemini CLI | Recalibração | Implementação de pesos governamentais e tiers de maturidade. |
 | 2026-04-28 | Mistral Vibe | Reavaliação | Diagnóstico de gap vs GeoPixel (-2.8 pts). |
 | 2026-04-21 | Codex | CTM 3→4 | Persistência real de edição de parcela validada. |

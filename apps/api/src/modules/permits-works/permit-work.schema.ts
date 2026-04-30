@@ -93,6 +93,12 @@ export class PermitWorkRequest {
   @Prop()
   decisionPdfKey?: string;
 
+  @Prop({ type: Types.ObjectId })
+  parcelId?: Types.ObjectId;
+
+  @Prop()
+  validUntil?: Date;
+
   @Prop({ type: Object })
   decision?: {
     kind: 'DEFERIDO' | 'INDEFERIDO' | 'DEVOLVIDO';
@@ -106,3 +112,4 @@ export type PermitWorkRequestDocument = PermitWorkRequest & Document;
 
 export const PermitWorkRequestSchema = SchemaFactory.createForClass(PermitWorkRequest);
 PermitWorkRequestSchema.index({ tenantId: 1, protocolNumber: 1 }, { unique: true });
+PermitWorkRequestSchema.index({ tenantId: 1, parcelId: 1 });

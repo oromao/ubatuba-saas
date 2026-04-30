@@ -2,7 +2,7 @@
 
 > Resumo consolidado do progresso real. Use este arquivo para uma visão rápida.
 > O log detalhado histórico continua em `04-PROGRESS-LOG.md`.
-> ÚLTIMA ATUALIZAÇÃO: `2026-04-29` por `Gemini CLI (Cleanup Phase)`
+> ÚLTIMA ATUALIZAÇÃO: `2026-04-30` por `OpenCode (T0-RECONCILE + T8-GIS-MVT)`
 
 ---
 
@@ -22,6 +22,9 @@
 - **T8-GIS-CRS:** Conversão de coordenadas UTM/WGS84 operacional.
 - **T8-GIS-BBOX:** Carregamento de dados por viewport (bbox) funcionando.
 - **T5-SP-UNIT:** 84% cobertura de testes unitários no GisService (>70% target).
+- **T8-GIS-MVT:** MVT Vector Tiles implementado com geojson-vt + vt-pbf. 7 testes.
+- **T8-TRIB-IPTU:** Engine de cálculo IPTU: valor venal (PGV) × alíquota (zona). 8 testes.
+- **T8-PROCESS-ALVARA:** Alvarás com parcelId, certidão auto, 13 testes. PARTIAL (falta assinatura digital).
 
 ---
 
@@ -52,11 +55,11 @@ Os seguintes domínios foram rebaixados de 4 para 2/1 por não atenderem ao crit
 
 ## 6. Próximos 5 Itens (Short-term focus)
 
-1. `T0-STATUS-RECONCILE`
-2. `T2-DATA-RECONCILE`
-3. `T8-GIS-MVT`
-4. `T8-CTM-COMPLETO`
-5. `T8-TRIB-IPTU`
+1. `T8-PROCESS-ALVARA` (Módulo de Alvarás e Licenciamento)
+2. `T8-MUNICIPAL-CFG` (Configurações de tenant/prefeitura)
+3. `T9-API-CONTRACT` (Documentação OpenAPI/Swagger)
+4. `T9-OBSERVABILITY` (Logs centralizados e Alertas)
+5. `T8-GIS-CLUSTER` (Agrupamento visual de parcelas)
 
 ---
 

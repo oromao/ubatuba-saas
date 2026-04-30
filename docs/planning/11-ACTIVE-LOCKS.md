@@ -30,12 +30,19 @@
 ## Locks ativos
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
-|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Histórico de locks encerrados
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-04-30 | T8-CERT-SIGN | OpenCode | DONE | [T8-CERT-SIGN] RSA digital signature + 9 tests | DigitalSignatureService + schema updates |
+| 2026-04-30 | T8-MUNICIPAL-CFG | OpenCode | DONE | [T8-MUNICIPAL-CFG] Tenant municipalConfig + 11 tests | Schema + service + controller + IPTU fallback |
+| 2026-04-30 | T8-PROCESS-ALVARA | OpenCode | PARTIAL | [T8-PROCESS-ALVARA] parcelId + certidão auto + 13 tests | Alvara linkage + tests done; pending: sign, full PDF |
+| 2026-04-30 | T8-CTM-COMPLETO | OpenCode | DONE | [T8-CTM-COMPLETO] Subdivision workflow + 11 tests | Schema + Service + Controller |
+| 2026-04-30 | T8-TRIB-IPTU | OpenCode | DONE | [T8-TRIB-IPTU] IPTU engine + 8 unit tests | IptuService + IptuController + aliquotaIptu |
+| 2026-04-30 | T8-GIS-MVT | OpenCode | DONE | [T8-GIS-MVT] MVT tile generation + 7 unit tests | 43/43 tests passing |
+| 2026-04-30 | T0-STATUS-RECONCILE | OpenCode | DONE | - | 3 backlog fixes + GIS verification |
 | 2026-04-29 | T5-SP-UNIT | Kimi/OpenCode | DONE | [T5-SP-UNIT] Unit tests for GisService | 36 tests, 84% stmt coverage |
 | 2026-04-29 | T0-MULTIAGENT-LOCKS | Gemini CLI | DONE | - | Coordination protocol implemented |
 | 2026-04-29 | T0-PLANNING-SUPREME | Gemini CLI | DONE | ac0e6d1 | Supreme planning organization |

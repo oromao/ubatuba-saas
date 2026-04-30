@@ -18,4 +18,12 @@ export class TenantsRepository {
   findBySlug(slug: string) {
     return this.model.findOne({ slug }).exec();
   }
+
+  save(doc: TenantDocument) {
+    return doc.save();
+  }
+
+  updateConfig(tenantId: string, municipalConfig: Record<string, unknown>) {
+    return this.model.findByIdAndUpdate(tenantId, { $set: { municipalConfig } }, { new: true }).exec();
+  }
 }

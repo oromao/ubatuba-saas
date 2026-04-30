@@ -4,6 +4,194 @@
 
 ---
 
+## 2026-04-30 — T8-CERT-SIGN (OpenCode)
+
+**Task:** Assinatura Digital RSA-SHA256 em Certidões  
+**Status:** DONE  
+**Feito:**
+- Criado `DigitalSignatureService`: `signPayload()`, `verifySignature()`, `hashPayload()`
+- RSA 2048-bit key pair, assinatura SHA-256, formato base64
+- Adicionados campos `signature`, `signatureAlgorithm`, `signedAt`, `publicKeyHash`, `qrCodeUrl` ao Certificate schema
+- `issue()` assina o payload, inclui QR code URL para validação pública
+- `validatePublic()` verifica assinatura digital + status da certidão
+- `CertificatesModule` registra `DigitalSignatureService`
+
+**Arquivos:**
+- `common/services/digital-signature.service.ts` (NEW)
+- `certificate.schema.ts` (+5 campos de assinatura)
+- `certificates.service.ts` (+assinatura no issue(), +verificação no validatePublic())
+- `certificates.module.ts` (+DigitalSignatureService)
+- `test/digital-signature.unit.spec.ts` (NEW — 9 tests)
+
+**Prova:** 95/95 testes (43 GIS + 8 IPTU + 11 CTM + 13 Permits + 11 Tenants + 9 Signature)
+
+---
+
+## 2026-04-30 — T8-MUNICIPAL-CFG (OpenCode)
+
+**Task:** Configurações Municipais — tenant brasao, leis, aliquotas, modulos
+**Status:** DONE  
+**Feito:**
+- Expandido `Tenant` schema com `municipalConfig` (70+ campos: brasao, cnpjMunicipio, ibgeCode, uf, endereco, aliquotasPadrao, leis, modulosHabilitados, pgvPadrao, configuracaoRegional)
+- `TenantsService`: +getMunicipalConfig, +updateMunicipalConfig, +getAliquotasPadrao
+- `TenantsController`: +GET/PUT `/tenants/municipal-config` (ADMIN/GESTOR)
+- IPTU service usa `tenantsService.getAliquotasPadrao()` como fallback quando zona não tem alíquota
+- `PgvModule` importa `TenantsModule`
+
+**Arquivos:**
+- `tenant.schema.ts` (+municipalConfig embedded object)
+- `tenants.service.ts` (+3 methods)
+- `tenants.controller.ts` (+2 endpoints)
+- `tenants.repository.ts` (+save, updateConfig)
+- `dto/update-municipal-config.dto.ts` (NEW)
+- `pgv.module.ts` (+TenantsModule)
+- `iptu.service.ts` (+TenantsService, fallback aliquota)
+- `test/tenants-municipal-config.unit.spec.ts` (NEW — 11 tests)
+
+**Prova:** 86/86 testes (43 GIS + 8 IPTU + 11 CTM + 13 Permits + 11 Tenants)
+
+---
+
+## 2026-04-30 — T8-PROCESS-ALVARA (OpenCode)
+
+**Task:** Integrar Alvarás com parcela + certidão automática  
+**Status:** PARTIAL (core linkage done; pending: digital signature, full PDF)  
+**Feito:**
+- Adicionado `parcelId` e `validUntil` ao `PermitWorkRequest` schema
+- `decide(DEFERIDO)` gera certidão automaticamente via `CertificatesService.issue()`
+- `decide(DEFERIDO)` define `validUntil = 1 ano` e é resilient a falha na certidão
+- Escritos 13 testes unitários: create, transições, approve/reject, evidences, requirements, PDF
+
+**Arquivos:**
+- `permit-work.schema.ts` (+parcelId, validUntil, index)
+- `permits-works.module.ts` (+CertificatesModule)
+- `permits-works.service.ts` (+certificatesService, certidão auto, validUntil)
+- `dto/create-permit-work.dto.ts` (+parcelId)
+- `test/permits-works.unit.spec.ts` (NEW — 13 tests)
+
+**Prova:** 75/75 testes (43 GIS + 8 IPTU + 11 CTM + 13 Permits)
+
+**NOT PROVEN:** Assinatura digital, PDF template completo, integração GIS, portal cidadão
+
+---
+
+## 2026-04-30 — T8-TRIB-IPTU (OpenCode)
+
+**Task:** Implementar engine de cálculo IPTU real (valor venal × alíquota)  
+**Status:** DONE  
+**Agent:** OpenCode  
+**Feito:**
+- Adicionado campo `aliquotaIptu` ao schema `PgvZone` (zona define alíquota do IPTU)
+- Criado `IptuService` (`pgv/iptu/iptu.service.ts`):
+  - `calculateForParcel()`: executa valuation PGV, consulta alíquota da zona, computa IPTU = venal × aliquota
+  - `calculateBatch()`: cálculo em lote para todas as parcelas do projeto
+  - `getAliquota()`: consulta alíquota efetiva por parcela
+- Criado `IptuController` (`pgv/iptu/iptu.controller.ts`):
+  - `POST /iptu/calcular` — cálculo individual
+  - `POST /iptu/calcular/lote` — cálculo em lote
+  - `GET /iptu/aliquota` — consulta de alíquota
+- Registrado IptuService e IptuController no PgvModule
+- Criado teste unitário: 8 testes (single parcel, aliquota default, zone override, batch, not found, PGV integration)
+
+**Arquivos alterados/criados:**
+- `apps/api/src/modules/pgv/zones/zone.schema.ts` (+aliquotaIptu)
+- `apps/api/src/modules/pgv/pgv.module.ts` (+IptuService, IptuController)
+- `apps/api/src/modules/pgv/iptu/iptu.service.ts` (NEW)
+- `apps/api/src/modules/pgv/iptu/iptu.controller.ts` (NEW)
+- `apps/api/test/iptu-service.unit.spec.ts` (NEW — 8 tests)
+
+**Prova:** 8/8 testes unitários passando. 51/51 total (GIS 43 + IPTU 8)
+
+**Notas:** Faltam: carnê de pagamento, tracking de pagamento, ciclo fiscal, seed data PGV. Estes estão no escopo T9.
+
+**Próximo:** T8-CTM-COMPLETO — Workflow de Desmembramento/Loteamento
+
+---
+
+## 2026-04-30 — T8-CTM-COMPLETO (OpenCode)
+
+**Task:** Implementar workflow de Desmembramento/Loteamento  
+**Status:** DONE  
+**Agent:** OpenCode  
+**Feito:**
+- Adicionados campos `parentParcelId`, `subdivisionRequestId`, `originType`, `subdivisionDate` ao Parcel schema
+- Criado schema `ParcelSubdivision` (collection `subdivision_requests`) com tipo, status, childDefinitions, etc.
+- Criado `ParcelSubdivisionService` com fluxo completo:
+  - `createRequest()` — criar solicitação com validação de geometrias
+  - `listRequests()` / `getRequest()` — listar/detalhar
+  - `updateRequest()` — transições de status (RASCUNHO → PROTOCOLADO → EM_ANALISE → APROVADO/REJEITADO)
+  - `approve()` — executar desmembramento: criar parcels filhas, arquivar pai
+  - `reject()` / `cancel()` — rejeitar ou cancelar
+  - `getChildren()` / `getParentChain()` — navegar linhagem
+- Criado `ParcelSubdivisionController` com 9 endpoints REST
+- Adicionados `isValidGeometry`, `calculateArea`, `calculateCentroid`, `calculateBbox`, `validateNoOverlap` ao GeometryService
+- Criados DTOs `CreateSubdivisionDto`, `UpdateSubdivisionDto`
+
+**Arquivos:**
+- `parcel.schema.ts` (+4 campos de linhagem + 2 indexes)
+- `parcel-subdivision.schema.ts` (NEW)
+- `parcel-subdivision.repository.ts` (NEW)
+- `parcel-subdivision.service.ts` (NEW)
+- `parcel-subdivision.controller.ts` (NEW)
+- `geometry.service.ts` (+5 métodos públicos)
+- `ctm.module.ts` (registrados schema, service, controller)
+- `dto/create-subdivision.dto.ts` (NEW)
+- `dto/update-subdivision.dto.ts` (NEW)
+- `test/ctm-subdivision.unit.spec.ts` (NEW — 11 tests)
+
+**Prova:** 62/62 testes (43 GIS + 8 IPTU + 11 Subdivision)
+
+**Próximo:** T8-PROCESS-ALVARA (Módulo de Alvarás)
+
+---
+
+**Task:** Implementar MVT Vector Tiles funcional com testes  
+**Status:** DONE  
+**Agent:** OpenCode  
+**Feito:**
+- Corrigido `mvt.util.ts`: import ESM default + formato `vt-pbf.fromGeojsonVt` (`{ parcels: tile }` em vez de `{ layer: tile }`)
+- Reescrevido `gis.service.ts:getMvtTile`: removido `require()` dinâmico, usa `createVectorTile` do mvt.util
+- Removido mock obsoleto do `jest-setup.ts` que sempre retornava Buffer vazio
+- Criado `__mocks__/geojson-vt.js`: mock manual CJS que implementa geração de tiles para testes
+- Instaladas dependências `vt-pbf` e `geojson-vt` (listadas no package.json mas ausentes do node_modules)
+- Adicionados 7 testes unitários para MVT: single parcel, empty, Polygon, MultiPolygon, Point, múltiplos parcels, zoom levels
+
+**Arquivos alterados:**
+- `apps/api/src/common/utils/mvt.util.ts` (fix imports + vt-pbf call)
+- `apps/api/src/modules/gis/gis.service.ts` (rewrite getMvtTile)
+- `apps/api/jest-setup.ts` (remove stale mock)
+- `apps/api/__mocks__/geojson-vt.js` (NEW - CJS-compatible mock)
+- `apps/api/test/gis/gis-service.unit.spec.ts` (+7 MVT tests)
+
+**Prova:** 43/43 testes passando (36 existentes + 7 MVT novos)
+
+**Próximo:** T8-TRIB-IPTU — Engine de cálculo IPTU real
+
+---
+
+## 2026-04-30 — T0-STATUS-RECONCILE (OpenCode)
+
+**Task:** Reconciliar status Matrix vs Backlog vs Filesystem  
+**Status:** DONE  
+**Agent:** OpenCode  
+**Feito:**
+- Corrigido T5-SP-UNIT no backlog: TODO → DONE (84% coverage já provado)
+- Corrigido T0-MULTIAGENT-LOCKS no backlog: IN_PROGRESS → DONE (já concluído pelo Gemini CLI)
+- Corrigido T8-GIS-MVT no backlog: TODO → PARTIAL (código existe: gis.service.ts:309, controller rota, mas sem testes e deps podem estar ausentes)
+- Verificado GIS service: 36 testes passando
+- Identificado que `vt-pbf` e `geojson-vt` não estão instalados em node_modules (listados no package.json)
+
+**Arquivos alterados:**
+- `docs/planning/02-BACKLOG.md` (3 status updates)
+- `docs/planning/11-ACTIVE-LOCKS.md` (lock entry)
+- `docs/planning/04-PROGRESS-LOG.md` (this entry)
+
+**Prova:** 36/36 GIS unit tests passando, inconsistências corrigidas
+
+**Próximo:** T8-GIS-MVT — implementar testes para getMvtTile e validar dependências
+
+---
+
 ## 2026-04-29 — T5-SP-UNIT (Kimi/OpenCode)
 
 **Task:** Unit test coverage >70% in critical GIS modules  

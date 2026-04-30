@@ -30,14 +30,18 @@ import { AssessmentsRepository } from './assessments/assessments.repository';
 import { PgvController } from './pgv.controller';
 import { ProjectsModule } from '../projects/projects.module';
 import { CtmModule } from '../ctm/ctm.module';
+import { TenantsModule } from '../tenants/tenants.module';
 import { PgvScenariosRepository } from './simulations/pgv-scenarios.repository';
 import { PgvSimulationsService } from './simulations/pgv-simulations.service';
 import { PgvSimulationsController } from './simulations/pgv-simulations.controller';
+import { IptuService } from './iptu/iptu.service';
+import { IptuController } from './iptu/iptu.controller';
 
 @Module({
   imports: [
     ProjectsModule,
     CtmModule,
+    TenantsModule,
     MongooseModule.forFeature([
       { name: PgvZone.name, schema: PgvZoneSchema },
       { name: PgvFace.name, schema: PgvFaceSchema },
@@ -58,6 +62,7 @@ import { PgvSimulationsController } from './simulations/pgv-simulations.controll
     ValuationsController,
     PgvController,
     PgvSimulationsController,
+    IptuController,
   ],
   providers: [
     ZonesRepository,
@@ -75,7 +80,8 @@ import { PgvSimulationsController } from './simulations/pgv-simulations.controll
     AssessmentsRepository,
     PgvScenariosRepository,
     PgvSimulationsService,
+    IptuService,
   ],
-  exports: [ValuationsService],
+  exports: [ValuationsService, IptuService],
 })
 export class PgvModule {}

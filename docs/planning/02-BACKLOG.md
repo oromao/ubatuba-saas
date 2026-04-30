@@ -1,7 +1,7 @@
 # 02 — Backlog Priorizado
 
 > Backlog organizado por tier de prioridade e domínio governamental.
-> ÚLTIMA REVISÃO: `2026-04-29` por `Gemini CLI (Consolidação & Deduplicação)`
+> ÚLTIMA REVISÃO: `2026-04-30` por `OpenCode (T8 sprint)`
 
 ---
 
@@ -29,8 +29,8 @@
 | ID | Título | Status | Parallel | Owner | Lock |
 |---|---|---|---|---|---|
 | **T0-BACKLOG-DEDUP** | Deduplicação e normalização do backlog | `DONE` | não | - | - |
-| **T0-STATUS-RECONCILE** | Reconciliar status Matrix vs Backlog vs Filesystem | `IN_PROGRESS` | não | - | `IN_PROGRESS` |
-| **T0-MULTIAGENT-LOCKS** | Implementar protocolo de locks multiagente | `IN_PROGRESS` | não | Gemini CLI | `IN_PROGRESS` |
+| **T0-STATUS-RECONCILE** | Reconciliar status Matrix vs Backlog vs Filesystem | `DONE` | não | OpenCode | — |
+| **T0-MULTIAGENT-LOCKS** | Implementar protocolo de locks multiagente | `DONE` | não | Gemini CLI | — |
 | **T0-DONE-RULES** | Definir critérios de "DONE" Municipal-Grade | `DONE` | não | - | - |
 | **T0-AGENT-HANDOFF** | Normalizar template de handoff entre agentes | `DONE` | não | - | - |
 
@@ -62,14 +62,14 @@
 
 | ID | Título | Status | Esforço | Impacto |
 |---|---|---|---|---|
-| **T8-GIS-MVT** | Implementar Vector Tiles (MVT) para 50k+ | `TODO` | XL | CRITICAL |
+| **T8-GIS-MVT** | Implementar Vector Tiles (MVT) para 50k+ | `DONE` | XL | CRITICAL |
 | **T8-GIS-CRS** | Conversão CRS UTM (31983) ↔ WGS84 | `DONE` | M | CRITICAL |
 | **T8-GIS-BBOX** | Carregamento por Viewport (BBOX) | `DONE` | M | CRITICAL |
-| **T8-CTM-COMPLETO** | Workflow de Desmembramento/Loteamento | `TODO` | L | CRITICAL |
-| **T8-TRIB-IPTU** | Engine de Cálculo IPTU real (Planta de Valores) | `TODO` | L | CRITICAL |
-| **T8-PROCESS-ALVARA** | Módulo de Alvarás e Licenciamento Obras | `TODO` | XL | CRITICAL |
-| **T8-CERT-SIGN** | Assinatura Digital em Certidões (T8-DOC-SIGNATURE) | `TODO` | M | CRITICAL |
-| **T8-MUNICIPAL-CFG** | Configurações Municipais (Brasão, Leis, Alíquotas) | `TODO` | M | HIGH |
+| **T8-CTM-COMPLETO** | Workflow de Desmembramento/Loteamento | `DONE` | L | CRITICAL |
+| **T8-TRIB-IPTU** | Engine de Cálculo IPTU real (Planta de Valores) | `DONE` | L | CRITICAL |
+| **T8-PROCESS-ALVARA** | Módulo de Alvarás e Licenciamento Obras | `PARTIAL` | XL | CRITICAL |
+| **T8-CERT-SIGN** | Assinatura Digital em Certidões (T8-DOC-SIGNATURE) | `DONE` | M | CRITICAL |
+| **T8-MUNICIPAL-CFG** | Configurações Municipais (Brasão, Leis, Alíquotas) | `DONE` | M | HIGH |
 
 ---
 
@@ -91,7 +91,7 @@
 | ID | Título | Status | Agente |
 |---|---|---|---|
 | **T5-SP-SMOKE** | Smoke test em 30+ rotas com dados reais | `DONE` | Claude |
-| **T5-SP-UNIT** | >70% coverage em módulos críticos (CRS, Geom) | `TODO` | - |
+| **T5-SP-UNIT** | >70% coverage em módulos críticos (CRS, Geom) | `DONE` | Kimi/OpenCode |
 | **T5-STABLE-CI** | Zero flakiness em CI com Playwright | `PARTIAL` | - |
 
 ---

@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Parcel, ParcelDocument } from '../ctm/parcels/parcel.schema';
 import { asObjectId } from '../../common/utils/object-id';
-import * as vtpbf from 'vt-pbf';
+import { createVectorTile } from '../../common/utils/mvt.util';
 
 // EPSG codes for São Paulo
 const EPSG_WGS84 = 4326; // WGS84
@@ -295,9 +295,10 @@ export class GisService {
   }
 
   /**
-   * T6-SP-GIS-TILE-MVT: Generate MVT vector tile for a given tile coordinate.
-   * Uses MongoDB $geoIntersects with tile bbox to fetch parcels in the tile extent.
-   * Encodes features to Mapbox Vector Tile (MVT) protobuf format using vt-pbf.
+   * T8-GIS-MVT: Generate MVT vector tile for a given tile coordinate.
+   * Queries parcels intersecting the tile bbox via MongoDB $geoIntersects,
+   * converts to GeoJSON FeatureCollection, and encodes as MVT protobuf
+   * using geojson-vt + vt-pbf.
    * 
    * @param z - Zoom level
    * @param x - Tile X coordinate
@@ -313,9 +314,8 @@ export class GisService {
     tenantId: string,
     projectId: string,
   ): Promise<Buffer> {
-    // Calculate tile bbox in WGS84
     const tileBbox = this.tileToBbox(z, x, y);
-    
+
     // Fetch parcels intersecting this tile
     const parcels = await this.model
       .find({
@@ -342,67 +342,28 @@ export class GisService {
       .lean()
       .exec();
 
-    // Convert parcels to vt-pbf feature format (geojson-vt style)
-    // vt-pbf.fromGeojsonVt expects layers created by geojson-vt library
-    // Since we don't have geojson-vt, we'll use a simplified approach
-    // For now, use vector-tile-js directly through vt-pbf.fromVectorTileJs
-    
-    // Import dynamically to avoid build-time dependency
-    const vectorTile = require('@mapbox/vector-tile');
-    const Pbf = require('pbf');
-    
-    // Create a vector tile object manually
-    const tile = new vectorTile.VectorTile(new Pbf());
-    const layer = new vectorTile.VectorTileLayer({
-      name: MVT_LAYER_NAME,
-      version: MVT_LAYER_VERSION,
-      extent: MVT_EXTENT,
-    });
-    
-    // Add each parcel as a feature
-    parcels.forEach((parcel) => {
-      const geom = parcel.geometry;
-      const feature = new vectorTile.VectorTileFeature({
-        id: parseInt(String(parcel._id).slice(-8), 10) || 1,
+    if (!parcels || parcels.length === 0) {
+      return Buffer.from('');
+    }
+
+    // Convert parcels to GeoJSON FeatureCollection
+    const featureCollection = {
+      type: 'FeatureCollection' as const,
+      features: parcels.map((parcel) => ({
+        type: 'Feature' as const,
+        id: String(parcel._id),
+        geometry: parcel.geometry,
         properties: {
           sqlu: parcel.sqlu || '',
           inscription: parcel.inscription || '',
           status: parcel.status || '',
           sourceType: parcel.sourceType || '',
         },
-      });
-      
-      // Project geometry and load into feature
-      // Using any for geometry to avoid type complexity with vector-tile
-      const bbox = tileBbox;
-      
-      if (geom.type === 'Polygon') {
-        // @ts-ignore - complex geometry type handling
-        const projected = this.projectPolygonToTile(geom.coordinates, bbox);
-        // @ts-ignore
-        feature.loadGeometry(projected);
-      } else if (geom.type === 'MultiPolygon') {
-        // @ts-ignore
-        const projected = this.projectMultiPolygonToTile(geom.coordinates, bbox);
-        // For MultiPolygon, use first polygon only for simplicity
-        if (projected.length > 0) {
-          // @ts-ignore
-          feature.loadGeometry(projected[0]);
-        }
-      } else if (geom.type === 'Point') {
-        // @ts-ignore
-        const projected = this.projectCoordinateToTile(geom.coordinates, bbox);
-        // @ts-ignore
-        feature.loadGeometry([[projected]]);
-      }
-      
-      layer.addFeature(feature);
-    });
-    
-    tile.addLayer(layer);
-    
-    // Convert to buffer using vt-pbf
-    return Buffer.from(vtpbf.fromVectorTileJs(tile));
+      })),
+    };
+
+    // Use shared geojson-vt + vt-pbf pipeline
+    return createVectorTile(featureCollection, z, x, y);
   }
 
   /**

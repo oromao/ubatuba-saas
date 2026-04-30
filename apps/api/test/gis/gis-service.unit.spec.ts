@@ -1,3 +1,9 @@
+// Mock geojson-vt for Jest (ESM module incompatible with ts-jest)
+jest.mock('geojson-vt', () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require('../helpers/geojson-vt-mock.cjs');
+});
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -464,6 +470,167 @@ describe('GisService - Unit Tests (T5-SP-UNIT)', () => {
       const result = serviceAny.projectCoordinateToTile([0, 0], bbox);
       expect(result[0]).toBe(0);
       expect(result[1]).toBe(4096); // Y is flipped
+    });
+  });
+
+  // ==========================================================================
+  // T8-GIS-MVT: MVT Tile Generation Tests
+  // ==========================================================================
+
+  // SP tile coords at zoom 10: (376, 580) covers lon ~-47.5, lat ~-23.55
+  const SP_TILE = { z: 10, x: 376, y: 580 };
+  const TID = '507f1f77bcf86cd799439011';
+  const PID = '507f1f77bcf86cd799439012';
+
+  describe('getMvtTile (MVT vector tiles)', () => {
+    const mockParcel = (overrides = {}) => ({
+      _id: '507f1f77bcf86cd799439011',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[
+          [-47.5, -23.55],
+          [-47.5, -23.54],
+          [-47.49, -23.54],
+          [-47.49, -23.55],
+          [-47.5, -23.55],
+        ]],
+      },
+      sqlu: '12345',
+      inscription: 'INS-001',
+      status: 'active',
+      sourceType: 'import',
+      ...overrides,
+    });
+
+    it('should return a Buffer for a tile with parcels', async () => {
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([mockParcel()]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it('should return an empty Buffer when no parcels in tile', async () => {
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+    });
+
+    it('should handle Polygon geometry in MVT tile', async () => {
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([mockParcel()]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it('should handle MultiPolygon geometry in MVT tile', async () => {
+      const multiPolygonParcel = mockParcel({
+        geometry: {
+          type: 'MultiPolygon',
+          coordinates: [[[[
+            -47.5, -23.55,
+          ], [
+            -47.5, -23.54,
+          ], [
+            -47.49, -23.54,
+          ], [
+            -47.49, -23.55,
+          ], [
+            -47.5, -23.55,
+          ]]]],
+        },
+      });
+
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([multiPolygonParcel]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+    });
+
+    it('should handle Point geometry in MVT tile', async () => {
+      const pointParcel = mockParcel({
+        geometry: {
+          type: 'Point',
+          coordinates: [-47.5, -23.55],
+        },
+      });
+
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([pointParcel]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+    });
+
+    it('should handle multiple parcels in a single tile', async () => {
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([
+          mockParcel({ _id: '507f1f77bcf86cd799439011', sqlu: '001' }),
+          mockParcel({ _id: '507f1f77bcf86cd799439012', sqlu: '002' }),
+          mockParcel({ _id: '507f1f77bcf86cd799439013', sqlu: '003' }),
+        ]),
+      });
+
+      const result = await service.getMvtTile(
+        SP_TILE.z, SP_TILE.x, SP_TILE.y, TID, PID,
+      );
+
+      expect(Buffer.isBuffer(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it('should handle different zoom levels consistently', async () => {
+      mockParcelModel.find.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValue([mockParcel()]),
+      });
+
+      const zoom0 = await service.getMvtTile(0, 0, 0, TID, PID);
+      const zoom10 = await service.getMvtTile(10, 376, 580, TID, PID);
+      const zoom14 = await service.getMvtTile(14, 6024, 9637, TID, PID);
+
+      expect(Buffer.isBuffer(zoom0)).toBe(true);
+      expect(Buffer.isBuffer(zoom10)).toBe(true);
+      expect(Buffer.isBuffer(zoom14)).toBe(true);
     });
   });
 });

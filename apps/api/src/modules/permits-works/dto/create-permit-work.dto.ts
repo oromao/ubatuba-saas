@@ -10,6 +10,10 @@ export class CreatePermitWorkDto {
   subjectAddress!: string;
 
   @IsOptional()
+  @IsString()
+  parcelId?: string;
+
+  @IsOptional()
   @IsArray()
   requirements?: string[];
 }

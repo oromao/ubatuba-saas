@@ -16,6 +16,8 @@ type EnderecoPrincipal = {
   uf?: string;
 };
 
+export type OriginType = 'ORIGINAL' | 'SUBDIVIDED' | 'MERGED';
+
 @Schema({ timestamps: true, collection: 'parcels' })
 export class Parcel {
   @Prop({ required: true, type: Types.ObjectId })
@@ -164,6 +166,18 @@ export class Parcel {
 
   @Prop({ type: Types.ObjectId })
   faceId?: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId })
+  parentParcelId?: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId })
+  subdivisionRequestId?: Types.ObjectId;
+
+  @Prop()
+  originType?: OriginType;
+
+  @Prop()
+  subdivisionDate?: Date;
 }
 
 export type ParcelDocument = Parcel & Document;
@@ -182,3 +196,5 @@ ParcelSchema.index({ statusIPTU: 1 });
 ParcelSchema.index({ zoneamento: 1 });
 ParcelSchema.index({ municipalityName: 1 });
 ParcelSchema.index({ setor: 1, quadra: 1, lote: 1 });
+ParcelSchema.index({ tenantId: 1, parentParcelId: 1 });
+ParcelSchema.index({ tenantId: 1, subdivisionRequestId: 1 });

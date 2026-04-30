@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
 import { CreateTenantDto } from './dto/create-tenant.dto';
+import { UpdateMunicipalConfigDto } from './dto/update-municipal-config.dto';
 import { TenantsService } from './tenants.service';
 import { Roles } from '../../common/guards/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -18,9 +19,21 @@ export class TenantsController {
 
   @Get('me')
   async getMe(@Req() req: { tenantId?: string }) {
-    if (!req.tenantId) {
-      return null;
-    }
+    if (!req.tenantId) return null;
     return this.tenantsService.findById(req.tenantId);
+  }
+
+  @Get('municipal-config')
+  async getMunicipalConfig(@Req() req: { tenantId?: string }) {
+    if (!req.tenantId) return {};
+    return this.tenantsService.getMunicipalConfig(req.tenantId);
+  }
+
+  @Put('municipal-config')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  async updateMunicipalConfig(@Req() req: { tenantId?: string }, @Body() dto: UpdateMunicipalConfigDto) {
+    if (!req.tenantId) throw new Error('Tenant nao identificado');
+    return this.tenantsService.updateMunicipalConfig(req.tenantId, dto);
   }
 }

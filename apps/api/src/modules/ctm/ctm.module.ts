@@ -45,6 +45,10 @@ import { Vistoria, VistoriaSchema } from './vistoria.schema';
 import { VistoriasService } from './vistorias.service';
 import { VistoriasController } from './vistorias.controller';
 import { GeometryService } from './geometry.service';
+import { ParcelSubdivision, ParcelSubdivisionSchema } from './parcels/parcel-subdivision.schema';
+import { ParcelSubdivisionRepository } from './parcels/parcel-subdivision.repository';
+import { ParcelSubdivisionService } from './parcels/parcel-subdivision.service';
+import { ParcelSubdivisionController } from './parcels/parcel-subdivision.controller';
 
 @Module({
   imports: [
@@ -61,6 +65,7 @@ import { GeometryService } from './geometry.service';
       { name: ParcelSocioeconomic.name, schema: ParcelSocioeconomicSchema },
       { name: ParcelInfrastructure.name, schema: ParcelInfrastructureSchema },
       { name: UrbanFurniture.name, schema: UrbanFurnitureSchema },
+      { name: ParcelSubdivision.name, schema: ParcelSubdivisionSchema },
     ]),
   ],
   controllers: [
@@ -69,6 +74,7 @@ import { GeometryService } from './geometry.service';
     LogradourosController,
     UrbanFurnitureController,
     VistoriasController,
+    ParcelSubdivisionController,
   ],
   providers: [
     ParcelsRepository,
@@ -87,6 +93,8 @@ import { GeometryService } from './geometry.service';
     UrbanFurnitureService,
     ParcelAuditRepository,
     GeometryService,
+    ParcelSubdivisionRepository,
+    ParcelSubdivisionService,
   ],
   exports: [
     ParcelsRepository,
@@ -97,6 +105,7 @@ import { GeometryService } from './geometry.service';
     ParcelsService,
     GeometryService,
     ParcelAuditRepository,
+    ParcelSubdivisionService,
   ],
 })
 export class CtmModule {}

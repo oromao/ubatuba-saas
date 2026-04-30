@@ -1,5 +1,7 @@
-import geojsonvt from 'geojson-vt';
+import geojsonvtDefault from 'geojson-vt';
 import * as vtpbf from 'vt-pbf';
+
+const geojsonvt = (geojsonvtDefault as any)?.default || geojsonvtDefault;
 
 type GeoJsonFeatureCollection = {
   type: 'FeatureCollection';
@@ -7,6 +9,10 @@ type GeoJsonFeatureCollection = {
 };
 
 export function createVectorTile(geojson: GeoJsonFeatureCollection, z: number, x: number, y: number): Buffer {
+  if (!geojson.features || geojson.features.length === 0) {
+    return Buffer.from('');
+  }
+
   const tileIndex = geojsonvt(geojson as unknown as Parameters<typeof geojsonvt>[0], {
     maxZoom: 24,
     tolerance: 3,
@@ -23,10 +29,9 @@ export function createVectorTile(geojson: GeoJsonFeatureCollection, z: number, x
   const tile = tileIndex.getTile(z, x, y);
 
   if (!tile) {
-    // Return empty protocol buffer
     return Buffer.from('');
   }
 
-  const buff = vtpbf.fromGeojsonVt({ layer: tile as unknown as ReturnType<typeof geojsonvt> });
+  const buff = vtpbf.fromGeojsonVt({ parcels: tile } as any, { version: 2 });
   return Buffer.from(buff);
 }
