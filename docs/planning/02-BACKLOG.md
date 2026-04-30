@@ -87,6 +87,7 @@
 ---
 
 ## 🧪 T5 — Proof & Test Hardening
+| **T8-GIS-CLUSTER** | Agrupamento visual de parcelas (supercluster) | `IN_PROGRESS` | M | HIGH |
 | **T8-CIDADAO-156** | Portal do Cidadao com protocolo e acompanhamento | `DONE` | L | CRITICAL |
 | **T10-OBSERVATORIO** | Painel executivo com BI real (KPIs, gráficos) | `IN_PROGRESS` | L | CRITICAL |
 

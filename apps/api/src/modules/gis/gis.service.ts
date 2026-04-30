@@ -466,3 +466,18 @@ export class GisService {
     return tiles;
   }
 }
+export interface ClusterFeature {
+  type: 'Feature';
+  geometry: { type: 'Point'; coordinates: [number, number] };
+  properties: {
+    cluster: boolean;
+    count: number;
+    sqlu_list?: string[];
+  };
+}
+export interface ClusterResult {
+  type: 'FeatureCollection';
+  features: ClusterFeature[];
+  zoom: number;
+  bbox: Bbox;
+}

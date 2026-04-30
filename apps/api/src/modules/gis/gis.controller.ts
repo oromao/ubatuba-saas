@@ -149,6 +149,40 @@ export class GisController {
   }
 
   // ==========================================================================
+  // T8-GIS-CLUSTER: Parcel Clustering
+  // ==========================================================================
+
+  @Get('clusters')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get parcel clusters for a viewport',
+    description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Groups parcels into cells based on zoom level.',
+  })
+  @ApiQuery({ name: 'tenantId', required: true })
+  @ApiQuery({ name: 'projectId', required: true })
+  @ApiQuery({ name: 'minLng', required: true })
+  @ApiQuery({ name: 'minLat', required: true })
+  @ApiQuery({ name: 'maxLng', required: true })
+  @ApiQuery({ name: 'maxLat', required: true })
+  @ApiQuery({ name: 'zoom', required: true, description: 'Map zoom level (0-22)' })
+  async queryClusters(
+    @Query('tenantId') tenantId: string,
+    @Query('projectId') projectId: string,
+    @Query('minLng') minLng: number,
+    @Query('minLat') minLat: number,
+    @Query('maxLng') maxLng: number,
+    @Query('maxLat') maxLat: number,
+    @Query('zoom') zoom: number,
+  ) {
+    return this.gisService.queryClusters(
+      [minLng, minLat, maxLng, maxLat] as [number, number, number, number],
+      zoom,
+      tenantId,
+      projectId,
+    );
+  }
+
+  // ==========================================================================
   // T8-GIS-MVT: MVT Vector Tiles
   // ==========================================================================
 
