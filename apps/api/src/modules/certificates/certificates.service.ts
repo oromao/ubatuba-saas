@@ -7,32 +7,58 @@ import { DigitalSignatureService } from '../../common/services/digital-signature
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { CertificatesRepository } from './certificates.repository';
 
-function buildMinimalPdf(params: { title: string; bodyLines: string[] }) {
-  const lines = [params.title, ...params.bodyLines].map((line) =>
+function buildMinimalPdf(params: { title: string; bodyLines: string[]; tenantName?: string }) {
+  const header = params.tenantName || 'FlyDea Municipal';
+  const safe = [header, params.title, ...params.bodyLines].map((line) =>
     line.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
   );
+
+  // Multi-font, multi-size PDF with header, body, and signature block
   const text = [
     '%PDF-1.4',
     '1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj',
     '2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj',
-    '3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj',
+    '3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 6 0 R >> >> /Contents 5 0 R >> endobj',
     '4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj',
-    `5 0 obj << /Length ${Math.max(1, lines.join('\n').length + 80)} >> stream`,
-    'BT /F1 16 Tf 50 780 Td',
-    lines.map((line, index) => `${index === 0 ? '' : '0 -22 Td '}(${line}) Tj`).join('\n'),
+    '6 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> endobj',
+    `5 0 obj << /Length ${Math.max(1, safe.join('\n').length + 300)} >> stream`,
+    // Municipal header
+    'BT /F2 18 Tf 50 790 Td',
+    `(${header}) Tj`,
+    'ET',
+    // Divider line
+    'BT /F1 10 Tf 50 775 Td',
+    '(-----------------------------------------------------------------) Tj',
+    'ET',
+    // Title
+    'BT /F2 14 Tf 50 755 Td',
+    `(${params.title}) Tj`,
+    'ET',
+    // Body lines
+    `BT /F1 11 Tf 50 720 Td`,
+    safe.slice(2).map((line, index) =>
+      index === 0 ? `(${line}) Tj` : `0 -18 Td (${line}) Tj`
+    ).join('\n'),
+    'ET',
+    // Signature block
+    'BT /F1 10 Tf 50 380 Td',
+    '(__________________________________________) Tj',
+    '0 -15 Td (Assinatura Digital - RSA-SHA256) Tj',
+    '0 -12 Td (Documento assinado digitalmente conforme MP 2.200-2/2001) Tj',
     'ET',
     'endstream endobj',
     'xref',
-    '0 6',
+    '0 7',
     '0000000000 65535 f ',
     '0000000010 00000 n ',
     '0000000063 00000 n ',
     '0000000120 00000 n ',
     '0000000240 00000 n ',
-    '0000000310 00000 n ',
-    'trailer << /Size 6 /Root 1 0 R >>',
+    '0000000380 00000 n ',
+    '0000000450 00000 n ',
+    'trailer << /Size 7 /Root 1 0 R >>',
     'startxref',
-    '380',
+    '520',
     '%%EOF',
   ].join('\n');
   return Buffer.from(text, 'utf8');
@@ -82,6 +108,7 @@ export class CertificatesService {
 
     const pdfBuffer = buildMinimalPdf({
       title: `Certidao ${dto.type}`,
+      tenantName: 'Prefeitura Municipal',
       bodyLines: [
         `Titular: ${dto.subjectName}`,
         `Tipo: ${dto.type}`,
