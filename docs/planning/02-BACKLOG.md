@@ -90,9 +90,9 @@
 
 | ID | Título | Status | Esforço | Domínio |
 |---|---|---|---|---|
-| **T10-GEOSAMPA-IMPORT** | Importar lotes reais via WFS GeoSampa | `IN_PROGRESS` | M | Dados |
-| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados (UI mudou) | `TODO` | S | Testes |
-| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `TODO` | M | Documentos |
+| **T10-GEOSAMPA-IMPORT | Importar lotes reais via WFS GeoSampa | DONE | M | Dados` | M | Dados |
+| **T10-PLAYWRIGHT-FIX | Corrigir 3 testes E2E quebrados | DONE | S | Testes` | S | Testes |
+| **T10-PDF-TEMPLATE | PDF templates oficiais com PDFKit | DONE | M | Documentos` | M | Documentos |
 | **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `TODO` | M | Frontend |
 | **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
 
