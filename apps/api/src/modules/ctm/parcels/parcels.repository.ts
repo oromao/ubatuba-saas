@@ -61,11 +61,19 @@ export class ParcelsRepository {
     if (filters.bbox) {
       const [minLng, minLat, maxLng, maxLat] = filters.bbox.split(',').map(Number);
       query.geometry = {
-        $geoWithin: {
-          $box: [
-            [minLng, minLat],
-            [maxLng, maxLat],
-          ],
+        $geoIntersects: {
+          $geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [minLng, minLat],
+                [minLng, maxLat],
+                [maxLng, maxLat],
+                [maxLng, minLat],
+                [minLng, minLat],
+              ],
+            ],
+          },
         },
       };
     }
