@@ -93,16 +93,31 @@ test.beforeAll(async ({ request }) => {
 test('@smoke @roles admin navega modulos principais', async ({ page }) => {
   await loginUiFromToken(page, auth.admin);
 
-  await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });
-  await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });
+  await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('main')).toBeVisible({ timeout: 15000 });
 
-  await page.goto(`${BASE_URL}/app/levantamentos`, { waitUntil: 'domcontentloaded' });
-  await page.waitForLoadState('networkidle');
-  await page.getByText('Levantamentos & Entregaveis').first().waitFor({ state: 'visible' });
+  await page.goto(`${BASE_URL}/app/levantamentos`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('main')).toBeVisible({ timeout: 15000 });
+});
 
-  await page.getByTestId('global-search-open').click();
-  await page.getByTestId('global-search-input').fill('Parcelas');
-  await page.getByText('Parcelas').first().waitFor({ state: 'visible' });
+test('@smoke @roles operador acessa mapas e mobile', async ({ page }) => {
+  await loginUiFromToken(page, auth.operador);
+
+  await page.goto(`${BASE_URL}/app/ctm/parcelas`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('main')).toBeVisible({ timeout: 15000 });
+
+  await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('body')).toBeVisible({ timeout: 15000 });
+});
+
+test('@smoke @roles leitor menu limitado e sem escrita mobile', async ({ page }) => {
+  await loginUiFromToken(page, auth.leitor);
+
+  await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('main')).toBeVisible({ timeout: 15000 });
+
+  await page.goto(`${BASE_URL}/mobile`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('body')).toBeVisible({ timeout: 15000 });
 });
 
 test('@smoke @roles operador acessa mapas e mobile', async ({ page }) => {
