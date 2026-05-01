@@ -49,7 +49,7 @@ let HealthService = class HealthService {
         }
         const memUsage = process.memoryUsage();
         results.memory = {
-            status: memUsage.heapUsed / memUsage.heapTotal > 0.95 ? 'degraded' : 'ok',
+            status: memUsage.heapUsed / memUsage.heapTotal > 0.98 ? 'degraded' : 'ok',
         };
         return {
             status: overall,

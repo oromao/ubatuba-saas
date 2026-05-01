@@ -60,6 +60,9 @@ export class PublicCallsController {
   @Public()
   @Post('calls')
   async createPublicCall(@Body() body: PublicCreateCallDto, @Req() req: Request) {
+    if (!body.title || !body.category) {
+      throw new BadRequestException('Titulo e categoria sao obrigatorios');
+    }
     const ip = (req.headers['x-forwarded-for'] as string) || req.ip || 'unknown';
     await this.checkRateLimit(ip);
     const tenantId = await this.resolveTenantId(body);

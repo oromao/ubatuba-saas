@@ -32,6 +32,9 @@ let IptuService = class IptuService {
     }
     async calculateForParcel(input) {
         const year = input.year || new Date().getFullYear();
+        if (!input.parcelId || input.parcelId.length !== 24) {
+            throw new Error('ID de parcela invalido');
+        }
         const parcel = await this.parcelModel.findById(input.parcelId).lean().exec();
         if (!parcel) {
             throw new Error(`Parcel ${input.parcelId} not found`);

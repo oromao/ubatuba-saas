@@ -54,6 +54,9 @@ let PublicCallsController = class PublicCallsController {
         throw new common_1.BadRequestException('Tenant público não encontrado.');
     }
     async createPublicCall(body, req) {
+        if (!body.title || !body.category) {
+            throw new common_1.BadRequestException('Titulo e categoria sao obrigatorios');
+        }
         const ip = req.headers['x-forwarded-for'] || req.ip || 'unknown';
         await this.checkRateLimit(ip);
         const tenantId = await this.resolveTenantId(body);

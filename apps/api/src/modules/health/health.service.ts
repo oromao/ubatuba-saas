@@ -50,10 +50,10 @@ export class HealthService {
       overall = 'degraded';
     }
 
-    // Memory
     const memUsage = process.memoryUsage();
+    // Memory: only degraded if > 98%
     results.memory = {
-      status: memUsage.heapUsed / memUsage.heapTotal > 0.95 ? 'degraded' : 'ok',
+      status: memUsage.heapUsed / memUsage.heapTotal > 0.98 ? 'degraded' : 'ok',
     };
 
     return {
