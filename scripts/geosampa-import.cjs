@@ -16,50 +16,21 @@ const http = require('http');
 const fs = require('fs');
 const crypto = require('crypto');
 
-// WGS84 UTM conversion constants
-const WGS84_A = 6378137.0;
-const WGS84_F = 1 / 298.257223563;
-const K0 = 0.9996;
-
 function utmToWgs84(easting, northing, zone, southern) {
   const centralMeridian = (zone - 1) * 6 - 180 + 3;
-  let nAdj = northing;
-  if (southern) nAdj -= 10000000.0;
+  const x = easting - 500000;
+  let y = northing;
+  if (southern) y -= 10000000;
 
-  const x = easting - 500000.0;
-  const y = nAdj;
-  const M = y / K0;
-  const mu = M / (WGS84_A * (1 - WGS84_F * (1 / 4 + WGS84_F * (3 / 64 + 5 * WGS84_F / 256))));
-
-  const e1 = (1 - Math.sqrt(1 - 2 * WGS84_F + WGS84_F * WGS84_F)) / (1 + Math.sqrt(1 - 2 * WGS84_F + WGS84_F * WGS84_F));
-
-  const J1 = (3 * e1 / 2 - 27 * e1 * e1 * e1 / 32);
-  const J2 = (21 * e1 * e1 / 16 - 55 * e1 * e1 * e1 * e1 / 32);
-  const J3 = (151 * e1 * e1 * e1 / 96);
-  const J4 = (1097 * e1 * e1 * e1 * e1 / 512);
-
-  const fp = mu + J1 * Math.sin(2 * mu) + J2 * Math.sin(4 * mu) + J3 * Math.sin(6 * mu) + J4 * Math.sin(8 * mu);
-
-  const C1 = (2 * WGS84_F - WGS84_F * WGS84_F) * (Math.cos(fp) * Math.cos(fp));
-  const T1 = Math.tan(fp) * Math.tan(fp);
-  const R1 = WGS84_A * (1 - 2 * WGS84_F + WGS84_F * WGS84_F) / Math.pow(1 - (2 * WGS84_F - WGS84_F * WGS84_F) * Math.sin(fp) * Math.sin(fp), 1.5);
-  const N1 = WGS84_A / Math.sqrt(1 - (2 * WGS84_F - WGS84_F * WGS84_F) * Math.sin(fp) * Math.sin(fp));
-  const D = x / (N1 * K0);
-
-  const Q1 = N1 * Math.tan(fp) / R1;
-  const Q2 = (D * D) / 2;
-  const Q3 = (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * (2 * WGS84_F - WGS84_F * WGS84_F)) * (D * D * D * D) / 24;
-  const Q4 = (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 3 * C1 * C1 - 252 * (2 * WGS84_F - WGS84_F * WGS84_F)) * (D * D * D * D * D * D) / 720;
-
-  const lat = fp - Q1 * (Q2 - Q3 + Q4);
-  const Q5 = D;
-  const Q6 = (1 + 2 * T1 + C1) * (D * D * D) / 6;
-  const Q7 = (5 - 2 * C1 + 28 * T1 - 3 * C1 * C1 + 8 * (2 * WGS84_F - WGS84_F * WGS84_F) + 24 * T1 * T1) * (D * D * D * D * D) / 120;
-  const lon = centralMeridian + (Q5 - Q6 + Q7) / Math.cos(fp);
+  // WGS84 degrees per meter at approximate latitude
+  const latDeg = y / 111319.9;
+  const latRad = latDeg * Math.PI / 180;
+  const metersPerDegLon = 111319.9 * Math.cos(latRad);
+  const lonDeg = centralMeridian + x / metersPerDegLon;
 
   return [
-    Math.round(lon * 1000000) / 1000000,
-    Math.round(lat * 180 / Math.PI * 1000000) / 1000000
+    Math.round(lonDeg * 1000000) / 1000000,
+    Math.round(latDeg * 1000000) / 1000000,
   ];
 }
 
@@ -96,7 +67,7 @@ async function main() {
   const API_URL = process.env.API_URL || 'http://localhost:4000';
   const TOKEN = process.env.TOKEN || '';
   const TENANT_ID = process.env.TENANT_ID || '69e10f36b2c066ab8f80b2c3';
-  const PROJECT_ID = process.env.PROJECT_ID || '69cd5dc642c8e2d7bd230acf';
+  const PROJECT_ID = process.env.PROJECT_ID || '69e10f36b2c066ab8f80b303';
 
   console.log(`=== GeoSampa Import: Setores ${startSetor}-${endSetor} ===`);
   console.log(`API: ${API_URL}`);
