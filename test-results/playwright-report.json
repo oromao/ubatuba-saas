@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/paulo/Documents/ubatuba-saas/playwright.config.js",
-    "rootDir": "/Users/paulo/Documents/ubatuba-saas",
+    "configFile": "/root/ubatuba-saas/playwright.config.js",
+    "rootDir": "/root/ubatuba-saas",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/root/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -24,15 +24,15 @@
         },
         "id": "default",
         "name": "default",
-        "testDir": "/Users/paulo/Documents/ubatuba-saas/poc/checks",
+        "testDir": "/root/ubatuba-saas/poc/checks",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.js"
         ],
-        "timeout": 90000
+        "timeout": 120000
       },
       {
-        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/root/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -40,15 +40,15 @@
         },
         "id": "human",
         "name": "human",
-        "testDir": "/Users/paulo/Documents/ubatuba-saas/tests/e2e/fullscan",
+        "testDir": "/root/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
         ],
-        "timeout": 1200000
+        "timeout": 120000
       },
       {
-        "outputDir": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts",
+        "outputDir": "/root/ubatuba-saas/test-results/artifacts",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -56,12 +56,12 @@
         },
         "id": "scan",
         "name": "scan",
-        "testDir": "/Users/paulo/Documents/ubatuba-saas/tests/e2e/fullscan",
+        "testDir": "/root/ubatuba-saas/tests/e2e/fullscan",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
         ],
-        "timeout": 1200000
+        "timeout": 120000
       }
     ],
     "quiet": false,
@@ -88,13 +88,12 @@
       "max": 5,
       "threshold": 300000
     },
-    "runAgents": "none",
     "shard": null,
     "tags": [],
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
-    "version": "1.58.2",
-    "workers": 4,
+    "version": "1.59.1",
+    "workers": 2,
     "webServer": null
   },
   "suites": [
@@ -113,7 +112,7 @@
           ],
           "tests": [
             {
-              "timeout": 90000,
+              "timeout": 120000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "default",
@@ -123,48 +122,58 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 54425,
+                  "duration": 18201,
                   "error": {
-                    "message": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/login\", waiting until \"domcontentloaded\"\u001b[22m\n",
-                    "stack": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/login\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:45:14)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:94:9",
+                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n\n    at loginUiFromToken (/root/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:94:3",
                     "location": {
-                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                      "column": 14,
-                      "line": 45
+                      "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 52,
+                      "line": 54
                     },
-                    "snippet": "  43 |\n  44 | async function loginUiFromToken(page, tokens) {\n> 45 |   await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded' });\n     |              ^\n  46 |   await page.evaluate((value) => {\n  47 |     window.localStorage.setItem('accessToken', value.accessToken);\n  48 |     window.localStorage.setItem('refreshToken', value.refreshToken);"
+                    "snippet": "  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {"
                   },
                   "errors": [
                     {
                       "location": {
-                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                        "column": 14,
-                        "line": 45
+                        "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 52,
+                        "line": 54
                       },
-                      "message": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/login\", waiting until \"domcontentloaded\"\u001b[22m\n\n\n  43 |\n  44 | async function loginUiFromToken(page, tokens) {\n> 45 |   await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded' });\n     |              ^\n  46 |   await page.evaluate((value) => {\n  47 |     window.localStorage.setItem('accessToken', value.accessToken);\n  48 |     window.localStorage.setItem('refreshToken', value.refreshToken);\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:45:14)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:94:9"
+                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n\n\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {\n    at loginUiFromToken (/root/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:94:3"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-17T21:36:54.950Z",
+                  "startTime": "2026-05-01T13:53:31.879Z",
                   "annotations": [],
                   "attachments": [
                     {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/test-failed-1.png"
+                    },
+                    {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/video.webm"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/trace.zip"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-admin-navega-modulos-principais-default/trace.zip"
                     }
                   ],
                   "errorLocation": {
-                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                    "column": 14,
-                    "line": 45
+                    "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 52,
+                    "line": 54
                   }
                 }
               ],
@@ -185,7 +194,7 @@
           ],
           "tests": [
             {
-              "timeout": 90000,
+              "timeout": 120000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "default",
@@ -195,48 +204,58 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 74624,
+                  "duration": 18053,
                   "error": {
-                    "message": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n",
-                    "stack": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:51:14)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:109:3",
+                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n\n    at loginUiFromToken (/root/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:109:3",
                     "location": {
-                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                      "column": 14,
-                      "line": 51
+                      "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 52,
+                      "line": 54
                     },
-                    "snippet": "  49 |     window.localStorage.setItem('tenantId', value.tenantId);\n  50 |   }, tokens);\n> 51 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n     |              ^\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n  54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });"
+                    "snippet": "  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {"
                   },
                   "errors": [
                     {
                       "location": {
-                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                        "column": 14,
-                        "line": 51
+                        "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 52,
+                        "line": 54
                       },
-                      "message": "TimeoutError: page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n\n\n  49 |     window.localStorage.setItem('tenantId', value.tenantId);\n  50 |   }, tokens);\n> 51 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n     |              ^\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n  54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:51:14)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:109:3"
+                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\u001b[2m    - waiting for\" http://172.233.188.166:3000/login\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"http://172.233.188.166:3000/login\"\u001b[22m\n\n\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {\n    at loginUiFromToken (/root/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:109:3"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-17T21:38:08.759Z",
+                  "startTime": "2026-05-01T13:53:52.030Z",
                   "annotations": [],
                   "attachments": [
                     {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/test-failed-1.png"
+                    },
+                    {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/video.webm"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/trace.zip"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-operador-acessa-mapas-e-mobile-default/trace.zip"
                     }
                   ],
                   "errorLocation": {
-                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                    "column": 14,
-                    "line": 51
+                    "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 52,
+                    "line": 54
                   }
                 }
               ],
@@ -257,7 +276,7 @@
           ],
           "tests": [
             {
-              "timeout": 90000,
+              "timeout": 120000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "default",
@@ -267,58 +286,58 @@
                   "workerIndex": 2,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 45340,
+                  "duration": 2871,
                   "error": {
-                    "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n",
-                    "stack": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:122:3",
+                    "message": "Error: page.goto: net::ERR_ABORTED at http://172.233.188.166:3000/app/dashboard\nCall log:\n\u001b[2m  - navigating to \"http://172.233.188.166:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n",
+                    "stack": "Error: page.goto: net::ERR_ABORTED at http://172.233.188.166:3000/app/dashboard\nCall log:\n\u001b[2m  - navigating to \"http://172.233.188.166:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:124:14",
                     "location": {
-                      "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                      "column": 52,
-                      "line": 54
+                      "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                      "column": 14,
+                      "line": 124
                     },
-                    "snippet": "  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {"
+                    "snippet": "  122 |   await loginUiFromToken(page, auth.leitor);\n  123 |\n> 124 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n      |              ^\n  125 |   await page.waitForLoadState('networkidle');\n  126 |   await page.getByTestId('global-search-open').click();\n  127 |   await page.getByTestId('global-search-input').fill('Parcelas');"
                   },
                   "errors": [
                     {
                       "location": {
-                        "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                        "column": 52,
-                        "line": 54
+                        "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                        "column": 14,
+                        "line": 124
                       },
-                      "message": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Painel Executivo').first() to be visible\u001b[22m\n\n\n  52 |   await page.waitForURL('**/app/dashboard');\n  53 |   await page.waitForLoadState('networkidle');\n> 54 |   await page.getByText('Painel Executivo').first().waitFor({ state: 'visible' });\n     |                                                    ^\n  55 | }\n  56 |\n  57 | test.beforeAll(async ({ request }) => {\n    at loginUiFromToken (/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:54:52)\n    at /Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js:122:3"
+                      "message": "Error: page.goto: net::ERR_ABORTED at http://172.233.188.166:3000/app/dashboard\nCall log:\n\u001b[2m  - navigating to \"http://172.233.188.166:3000/app/dashboard\", waiting until \"domcontentloaded\"\u001b[22m\n\n\n  122 |   await loginUiFromToken(page, auth.leitor);\n  123 |\n> 124 |   await page.goto(`${BASE_URL}/app/dashboard`, { waitUntil: 'domcontentloaded' });\n      |              ^\n  125 |   await page.waitForLoadState('networkidle');\n  126 |   await page.getByTestId('global-search-open').click();\n  127 |   await page.getByTestId('global-search-input').fill('Parcelas');\n    at /root/ubatuba-saas/poc/checks/roles-smoke.spec.js:124:14"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-17T21:39:44.841Z",
+                  "startTime": "2026-05-01T13:54:12.408Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/test-failed-1.png"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/test-failed-1.png"
                     },
                     {
                       "name": "video",
                       "contentType": "video/webm",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/video.webm"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/video.webm"
                     },
                     {
                       "name": "error-context",
                       "contentType": "text/markdown",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/error-context.md"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/error-context.md"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "/Users/paulo/Documents/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/trace.zip"
+                      "path": "/root/ubatuba-saas/test-results/artifacts/roles-smoke--smoke-roles-l-d819c-mitado-e-sem-escrita-mobile-default/trace.zip"
                     }
                   ],
                   "errorLocation": {
-                    "file": "/Users/paulo/Documents/ubatuba-saas/poc/checks/roles-smoke.spec.js",
-                    "column": 52,
-                    "line": 54
+                    "file": "/root/ubatuba-saas/poc/checks/roles-smoke.spec.js",
+                    "column": 14,
+                    "line": 124
                   }
                 }
               ],
@@ -335,8 +354,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-04-17T21:36:51.224Z",
-    "duration": 231773.06199999998,
+    "startTime": "2026-05-01T13:53:30.991Z",
+    "duration": 45983.068,
     "expected": 0,
     "skipped": 0,
     "unexpected": 3,
