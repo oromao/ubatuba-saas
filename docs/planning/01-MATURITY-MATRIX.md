@@ -53,11 +53,11 @@
 
 ## 4. Notas de Rebaixamento (Critério Municipal-Grade)
 
-Muitos itens que antes eram considerados "3" ou "4" foram rebaixados para "1" ou "2" devido à mudança de critério para **Municipal-Grade**:
-1.  **GIS**: Rebaixado de 4 para 2 porque não suporta MVT/Clustering necessário para 50k+ parcelas.
-2.  **Tributação**: Rebaixado de 4 para 1 porque o cálculo era baseado em mocks e não em planta de valores real.
-3.  **Processos**: Rebaixado para 1 por falta de validade jurídica/assinatura digital nos documentos gerados.
-4.  **Segurança**: Rebaixado para 2 até que o isolamento multi-tenant seja provado via testes de penetração/vazamento.
+Os seguintes itens foram rebaixados em auditorias anteriores e posteriormente recuperados:
+1.  **GIS**: Rebaixado 4→2 (sem MVT) → **Recuperado 5/5** com MVT + Clustering.
+2.  **Tributação**: Rebaixado 4→1 (mock) → **Recuperado 4/5** com IPTU engine + carnê.
+3.  **Processos**: Rebaixado 4→1 (sem assinatura) → **Recuperado 5/5** com RSA-SHA256.
+4.  **Segurança**: Rebaixado 4→2 (sem prova de isolamento) → **Recuperado 4/5** com testes.
 
 ---
 

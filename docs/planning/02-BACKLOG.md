@@ -10,11 +10,11 @@
 | Status | Significado |
 |---|---|
 | `TODO` | Não iniciado |
-| `DONE` | Em execução |
+| `IN_PROGRESS` | Em execução |
 | `BLOCKED` | Bloqueado (ver notas) |
 | `PARTIAL` | Funciona mas falta prova/critério Municipal-Grade |
 | `DONE` | Provado por teste + revisão do Paulo |
-| `MERGED` | Duplicado, consolidado em outro ID |
+| `PARKINGLOT` | Futuro, de-prioritizado |
 
 ### Multi-agent Fields (Opcional)
 - **Owner:** Agente responsável pela tarefa.
@@ -82,17 +82,23 @@
 | **T9-LGPD-DATA** | Ciclo de vida de dados e trilha de auditoria | `DONE` | L | Legal |
 | **T9-TENANT-ONBOARD** | Fluxo automatizado de criação de nova prefeitura | `DONE` | M | SaaS |
 | **T9-EDITAL-MATRIX** | Matriz de aderência a editais típicos | `DONE` | S | Product |
-| **T9-RBAC-ACTIONS** | Permissões granulares por ação/botão | `TODO` | M | Sec |
+| **T9-RBAC-ACTIONS** | Permissões granulares por ação/botão | `DONE` | M | Sec |
+
+---
+
+## 🟩 T10 — Real Data & GeoSampa Integration (NOVO)
+
+| ID | Título | Status | Esforço | Domínio |
+|---|---|---|---|---|
+| **T10-GEOSAMPA-IMPORT** | Importar lotes reais via WFS GeoSampa | `IN_PROGRESS` | M | Dados |
+| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados (UI mudou) | `TODO` | S | Testes |
+| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `TODO` | M | Documentos |
+| **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `TODO` | M | Frontend |
+| **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
 
 ---
 
 ## 🧪 T5 — Proof & Test Hardening
-| **T9-CIDADAO-UPLOAD** | Upload de arquivos no portal do cidadao | `DONE` | S | HIGH |
-| **T10-OBS-FRONT** | Dashboard executivo com graficos e KPIs | `DONE` | M | HIGH |
-| **T10-FISCAL-IA** | Score de risco para fiscalizacao | `DONE` | M | MEDIUM |
-| **T8-GIS-CLUSTER** | Agrupamento visual de parcelas (supercluster) | `DONE` | M | HIGH |
-| **T8-CIDADAO-156** | Portal do Cidadao com protocolo e acompanhamento | `DONE` | L | CRITICAL |
-| **T10-OBSERVATORIO** | Painel executivo com BI real (KPIs, gráficos) | `DONE` | L | CRITICAL |
 
 | ID | Título | Status | Agente |
 |---|---|---|---|
@@ -106,9 +112,7 @@
 
 - `T10-IA-INCONSISTENCIAS` (ML para detecção de anomalias territoriais)
 - `T10-BLOCKCHAIN-AUDIT` (Imutabilidade via Blockchain)
-- `T10-IOT-INTEGRATION` (Sensores de campo)
 - `T10-CHATBOT-156` (Atendimento via LLM)
-- `T10-FISCAL-IA` (Score de risco para fiscalização)
 
 ---
 

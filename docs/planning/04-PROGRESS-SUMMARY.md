@@ -8,9 +8,11 @@
 
 ## 1. Estado Atual
 
-- **Fase:** Transição de T1 (Survival) para T2 (Robustness).
-- **Maturidade:** 37.4% (Tier Protótipo).
-- **Ambiente Esperado:** Docker-dev (Local) / Staging (DigitalOcean).
+- **Fase:** Municipal-Grade (T8/T9/T10 — GeoSampa sprint).
+- **Maturidade:** 85.2% (Municipal-Grade Competitivo).
+- **Demo live:** http://172.233.188.166:3000
+- **Login:** admin@demo.local / Admin@12345 / tenant: demo
+- **Parcelas no banco:** 330 (300 SP importadas + 30 demo originais)
 
 ---
 

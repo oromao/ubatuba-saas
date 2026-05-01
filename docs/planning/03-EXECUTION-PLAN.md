@@ -1,16 +1,17 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-04-30` por `OpenCode (T8-GIS-MVT + T8-TRIB-IPTU)`
+> ÚLTIMA REVISÃO: `2026-05-01` por `OpenCode (GeoSampa sprint)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 51.6% (Tier: POC Controlada → próximo: 60% Demo)
-- **Backlog Status:** T1 (Survival) concluído; T2 (Robustness) em progresso.
-- **Blockers:** Falta de escala GIS (MVT), falta de cálculo real de IPTU, falta de fluxos de alvará.
-- **Infra:** Docker-dev estabilizado; Playwright smoke test cobrindo 30+ rotas.
+- **Maturidade (Weighted):** 85.2% (Tier: Municipal-Grade Competitivo)
+- **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
+- **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
+- **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
+- **Demo live:** http://172.233.188.166:3000 — login: admin@demo.local / Admin@12345
 
 ---
 
@@ -18,11 +19,11 @@
 
 | ID | Tarefa | Objetivo | Impacto |
 |---|---|---|---|
-| **T9-API-CONTRACT** | Documentação OpenAPI | Swagger completo para todos os endpoints. | Governança |
-| **T9-OBSERVABILITY** | Logs e Alertas | Logs centralizados, métricas, alertas. | Infra |
-| **T8-GIS-CLUSTER** | Cluster visual de parcelas | Agrupamento em zoom baixo para 100k+. | Técnico |
-| **T9-RBAC-ACTIONS** | Permissões granulares | Controle por ação/botão. | Segurança |
-| **T9-LGPD-DATA** | Ciclo de vida de dados | Trilha de auditoria e LGPD. | Legal |
+| **T10-GEOSAMPA-IMPORT** | Importar lotes reais GeoSampa via WFS | Substituir dados sintéticos por lotes fiscais reais de SP. | CRÍTICO |
+| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | CI verde, demo validada automaticamente. | HIGH |
+| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | Certidões com formatação profissional (brasão, QR code). | HIGH |
+| **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard | KPIs visuais para demo de prefeitura. | MEDIUM |
+| **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras. | MEDIUM |
 
 ---
 
