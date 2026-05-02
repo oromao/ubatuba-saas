@@ -90,9 +90,9 @@
 
 | ID | Título | Status | Esforço | Domínio |
 |---|---|---|---|---|
-| **T10-GEOSAMPA-IMPORT | Importar lotes reais via WFS GeoSampa | DONE | M | Dados` | M | Dados |
-| **T10-PLAYWRIGHT-FIX | Corrigir 3 testes E2E quebrados | DONE | S | Testes` | S | Testes |
-| **T10-PDF-TEMPLATE | PDF templates oficiais com PDFKit | DONE | M | Documentos` | M | Documentos |
+| **T10-GEOSAMPA-IMPORT** | Importar lotes reais via WFS GeoSampa | `DONE` | M | Dados |
+| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | `DONE` | S | Testes |
+| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `DONE` | M | Documentos |
 | **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `TODO` | M | Frontend |
 | **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
 
@@ -129,3 +129,26 @@
 ---
 
 > Notas: A prioridade atual é fechar o **T2 Robustness** e avançar no **T8 GIS (MVT)** para garantir escala municipal.
+
+---
+
+## 🔴 QA — Bugs Encontrados (Audit 2026-05-01)
+
+| ID | Título | Severidade | Status | Esforço |
+|---|---|---|---|---|
+| **QA-001** | Dashboard KPIs retorna {} vazio | CRÍTICA | `TODO` | 1h |
+| **QA-002** | Vistorias: 0 registros — sem dados na demo | CRÍTICA | `TODO` | 1h |
+| **QA-003** | IPTU 500 com parcelId inválido (CastError) | CRÍTICA | `DONE` | 30min |
+| **QA-004** | Parcels detail 500 com ID inválido (CastError) | CRÍTICA | `TODO` | 30min |
+| **QA-005** | 8+ módulos sem dados (empty state na demo) | ALTA | `TODO` | 3h |
+| **QA-006** | Health constantemente "degraded" | ALTA | `DONE` | 10min |
+| **QA-007** | Erro 500 genérico para inputs inválidos | ALTA | `DONE` | 30min |
+| **QA-008** | GeoJSON bbox inválido → 500 | MÉDIA | `TODO` | 30min |
+| **QA-009** | Citizen call sem campos → 500 | MÉDIA | `DONE` | 30min |
+| **QA-010** | PGV Zones lista vazia (3 no banco) | MÉDIA | `TODO` | 30min |
+| **QA-011** | Observatory: 2% coverage de valuations | MÉDIA | `TODO` | 2h |
+| **QA-012** | Playwright 3 testes smoke quebrados | BAIXA | `DONE` | 1h |
+| **QA-013** | Health memory threshold restritivo | BAIXA | `DONE` | 10min |
+| **QA-014** | Inverted bbox retorna 0 sem feedback | BAIXA | `TODO` | 15min |
+
+**Resumo QA: 14 bugs encontrados, 7 corrigidos, 7 pendentes**
