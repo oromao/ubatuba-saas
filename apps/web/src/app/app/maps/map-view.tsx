@@ -458,14 +458,23 @@ export default function DynamicMapViewer() {
 
     const ZOOM_THRESHOLD = 12;
 
+    const showParcels = (show: boolean) => {
+      ["builtin-parcels-fill", "builtin-parcels-line", "builtin-parcels-label"].forEach(l => {
+        if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", show ? "visible" : "none");
+      });
+    };
+    const showClusters = (show: boolean) => {
+      [CLUSTER_CIRCLE, CLUSTER_COUNT].forEach(l => {
+        if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", show ? "visible" : "none");
+      });
+    };
+
     const loadClusters = () => {
       const bounds = map.getBounds();
       const zoom = Math.floor(map.getZoom());
       if (zoom >= ZOOM_THRESHOLD) {
-        if (map.getLayer(CLUSTER_CIRCLE)) {
-          map.setLayoutProperty(CLUSTER_CIRCLE, "visibility", "none");
-          map.setLayoutProperty(CLUSTER_COUNT, "visibility", "none");
-        }
+        showClusters(false);
+        showParcels(true);
         return;
       }
       const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
@@ -510,13 +519,8 @@ export default function DynamicMapViewer() {
             });
           }
 
-          map.setLayoutProperty(CLUSTER_CIRCLE, "visibility", "visible");
-          map.setLayoutProperty(CLUSTER_COUNT, "visibility", "visible");
-
-          if (map.getLayer("builtin-parcels-fill")) {
-            map.setLayoutProperty("builtin-parcels-fill", "visibility", "none");
-            map.setLayoutProperty("builtin-parcels-line", "visibility", "none");
-          }
+          showClusters(true);
+          showParcels(false);
         })
         .catch(() => {});
     };
@@ -534,17 +538,21 @@ export default function DynamicMapViewer() {
         map.addSource("builtin-parcels", { type: "geojson", data: geojson as maplibregl.GeoJSONSourceSpecification["data"] });
         map.addLayer({ id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels", paint: { "fill-color": ["match", ["get", "statusCadastral"], "CONFLITO", "#f97316", "INATIVO", "#94a3b8", "#2dd4bf"], "fill-opacity": 0.12 } });
         map.addLayer({ id: "builtin-parcels-line", type: "line", source: "builtin-parcels", paint: { "line-color": "#0f766e", "line-width": 2, "line-opacity": 0.8 } });
-        map.addLayer({ id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels", minzoom: 15, layout: { "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""], "text-size": 9, "text-anchor": "center" }, paint: { "text-color": "#0f766e", "text-halo-color": "#fff", "text-halo-width": 1 } });
+        map.addLayer({ id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels", minzoom: 13, layout: { "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""], "text-size": 10, "text-anchor": "center", "text-allow-overlap": false }, paint: { "text-color": "#0f766e", "text-halo-color": "#fff", "text-halo-width": 2 } });
         map.on("mouseenter", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = "pointer"; });
         map.on("mouseleave", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = ""; });
         map.on("click", "builtin-parcels-fill", (e) => {
           const feat = e.features?.[0];
           if (!feat) return;
           const p = feat.properties ?? {};
-          const parcelId = typeof p._id === "string" ? p._id : typeof p.id === "string" ? p.id : "";
-          new maplibregl.Popup({ closeButton: true, maxWidth: "280px" })
+          const parcelId = typeof p.parcelId === "string" ? p.parcelId : typeof p._id === "string" ? p._id : typeof p.id === "string" ? p.id : "";
+          const sqlu = p.sqlu || p.inscricaoImobiliaria || "—";
+          const address = p.mainAddress || p.address || p.inscricaoImobiliaria || "";
+          const area = p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—";
+          const status = p.workflowStatus || p.statusCadastral || p.status || "—";
+          new maplibregl.Popup({ closeButton: true, maxWidth: "300px" })
             .setLngLat(e.lngLat)
-            .setHTML(`<div style="font-family:sans-serif;line-height:1.5"><strong>${p.sqlu ?? "—"}</strong><br/><span style="color:#555;font-size:11px">${p.mainAddress ?? p.inscricaoImobiliaria ?? ""}</span><hr style="margin:4px 0"/><div style="font-size:11px"><b>Status:</b> ${p.statusCadastral ?? "—"}<br/><b>Area:</b> ${p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—"}</div>${parcelId ? `<div style="margin-top:8px"><a href="/app/ctm/parcelas/${parcelId}" style="display:inline-block;padding:6px 10px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-size:11px">Abrir detalhe</a></div>` : ""}</div>`)
+            .setHTML(`<div style="font-family:sans-serif;line-height:1.5;min-width:200px"><div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:14px">${sqlu}</strong><span style="font-size:10px;padding:2px 8px;border-radius:99px;background:#dcfce7;color:#166534">${status}</span></div><div style="color:#555;font-size:11px;margin-top:4px">${address}</div><hr style="margin:6px 0;border:none;border-top:1px solid #e5e7eb"/><div style="font-size:12px;display:grid;grid-template-columns:auto 1fr;gap:2px 8px"><b>Area:</b><span>${area}</span></div>${parcelId ? `<div style="margin-top:8px"><a href="/app/ctm/parcelas/${parcelId}" style="display:block;text-align:center;padding:8px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-size:12px">Abrir detalhe completo</a></div>` : ""}</div>`)
             .addTo(map);
         });
 
