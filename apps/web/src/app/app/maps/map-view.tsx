@@ -138,9 +138,6 @@ export default function DynamicMapViewer() {
       .then((data) => {
         if (!mounted) return;
         setLayers(data);
-        if (useMapStore.getState().activeLayers.length === 0) {
-          setActiveLayers(data.filter((layer) => layer.visible !== false).map((layer) => layer.id));
-        }
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
