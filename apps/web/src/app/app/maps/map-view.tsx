@@ -583,7 +583,7 @@ export default function DynamicMapViewer() {
 
     return () => {
       map.off("moveend", onMove);
-      map.off("click", CLUSTER_CIRCLE);
+      map.off("click", CLUSTER_CIRCLE, undefined as any);
     };
   }, [mapReady, projectId]);
 
