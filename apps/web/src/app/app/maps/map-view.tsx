@@ -431,7 +431,7 @@ export default function DynamicMapViewer() {
         return;
       }
       const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
-      apiFetch<unknown>(`/gis/clusters?tenantId=default&projectId=${projectId ? encodeURIComponent(projectId) : ""}&minLng=${bounds.getWest()}&minLat=${bounds.getSouth()}&maxLng=${bounds.getEast()}&maxLat=${bounds.getNorth()}&zoom=${zoom}`)
+      apiFetch<unknown>(`/gis/clusters?tenantId=${sessionStorage.getItem("tenantId") || "default"}&projectId=${projectId ? encodeURIComponent(projectId) : ""}&minLng=${bounds.getWest()}&minLat=${bounds.getSouth()}&maxLng=${bounds.getEast()}&maxLat=${bounds.getNorth()}&zoom=${zoom}`)
         .then((data) => {
           if (!map || !mapConfig.current) return;
           if (!map.getSource(CLUSTER_SOURCE)) {
