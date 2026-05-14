@@ -491,11 +491,11 @@ export default function DynamicMapViewer() {
               source: CLUSTER_SOURCE,
               filter: ["has", "count"],
               paint: {
-                "circle-color": ["case", ["get", "cluster"], "#0f766e", "#2dd4bf"],
-                "circle-radius": ["case", ["get", "cluster"], ["*", ["sqrt", ["get", "count"]], 3], 6],
-                "circle-opacity": 0.8,
+                "circle-color": ["case", ["get", "cluster"], "#0f766e", "#0891b2"],
+                "circle-radius": ["case", ["get", "cluster"], ["max", ["*", ["sqrt", ["get", "count"]], 4], 10], 7],
+                "circle-opacity": 0.85,
                 "circle-stroke-color": "#fff",
-                "circle-stroke-width": 2,
+                "circle-stroke-width": 3,
               },
             });
           }
@@ -507,12 +507,10 @@ export default function DynamicMapViewer() {
               filter: ["has", "count"],
               layout: {
                 "text-field": ["get", "count"],
-                "text-size": 11,
+                "text-size": 12,
                 "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
               },
-              paint: {
-                "text-color": "#fff",
-              },
+              paint: { "text-color": "#fff" },
             });
           }
 
@@ -533,9 +531,35 @@ export default function DynamicMapViewer() {
       loadParcels().then((geojson) => {
         if (!map || !mapConfig.current) return;
         map.addSource("builtin-parcels", { type: "geojson", data: geojson as maplibregl.GeoJSONSourceSpecification["data"] });
-        map.addLayer({ id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels", paint: { "fill-color": ["match", ["get", "statusCadastral"], "CONFLITO", "#f97316", "INATIVO", "#94a3b8", "#2dd4bf"], "fill-opacity": 0.12 } });
-        map.addLayer({ id: "builtin-parcels-line", type: "line", source: "builtin-parcels", paint: { "line-color": "#0f766e", "line-width": 2, "line-opacity": 0.8 } });
-        map.addLayer({ id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels", minzoom: 13, layout: { "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""], "text-size": 10, "text-anchor": "center", "text-allow-overlap": false }, paint: { "text-color": "#0f766e", "text-halo-color": "#fff", "text-halo-width": 2 } });
+        map.addLayer({
+          id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels",
+          paint: {
+            "fill-color": [
+              "case",
+              ["==", ["get", "statusIPTU"], "INADIMPLENTE"], "#fca5a5",
+              ["==", ["get", "statusIPTU"], "EM_ABERTO"], "#fde68a",
+              ["==", ["get", "statusCadastral"], "CONFLITO"], "#f97316",
+              ["==", ["get", "statusCadastral"], "INATIVO"], "#e2e8f0",
+              ["==", ["get", "situacaoOcupacao"], "VAZIO"], "#fef3c7",
+              ["==", ["get", "situacaoOcupacao"], "EM_CONSTRUCAO"], "#dbeafe",
+              "#dcfce7"
+            ],
+            "fill-opacity": 0.3,
+          }
+        });
+        map.addLayer({
+          id: "builtin-parcels-line", type: "line", source: "builtin-parcels",
+          paint: { "line-color": "#475569", "line-width": 1.5, "line-opacity": 0.7 }
+        });
+        map.addLayer({
+          id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels",
+          minzoom: 15,
+          layout: {
+            "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""],
+            "text-size": 9, "text-anchor": "center", "text-allow-overlap": false
+          },
+          paint: { "text-color": "#1e293b", "text-halo-color": "#fff", "text-halo-width": 2 }
+        });
         map.on("mouseenter", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = "pointer"; });
         map.on("mouseleave", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = ""; });
         map.on("click", "builtin-parcels-fill", (e) => {
