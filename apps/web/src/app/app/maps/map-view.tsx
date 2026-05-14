@@ -566,7 +566,9 @@ export default function DynamicMapViewer() {
       const props = feat.properties ?? {};
       if (props.cluster) {
         const expansionZoom = props.expansion_zoom ?? map.getZoom() + 2;
-        map.flyTo({ center: (feat.geometry as { coordinates: [number, number] }).coordinates, zoom: expansionZoom });
+        const geom = feat.geometry as any;
+        const center = geom?.coordinates || [0, 0];
+        map.flyTo({ center, zoom: expansionZoom });
       }
     });
 
