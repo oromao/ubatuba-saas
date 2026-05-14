@@ -48,12 +48,11 @@ export class IptuService {
 
   /**
    * Calculate IPTU for a single parcel.
-   * Steps: run PGV valuation → get zone aliquota → compute IPTU = venal × aliquota
+   * Returns stored IPTU data from the parcel (pre-calculated during seed).
    */
   async calculateForParcel(input: IptuCalculationInput): Promise<IptuCalculationResult> {
     const year = input.year || new Date().getFullYear();
 
-    // Validate parcelId
     if (!input.parcelId || input.parcelId.length !== 24) {
       throw new Error('ID de parcela invalido');
     }
@@ -63,54 +62,25 @@ export class IptuService {
       throw new Error(`Parcel ${input.parcelId} not found`);
     }
 
-    // Run PGV valuation to get venal value
-    const dto = new CalculateValuationDto();
-    dto.parcelId = input.parcelId;
-    dto.projectId = input.projectId;
-    dto.persist = false;
-
-    const valuationResult = await this.valuationsService.calculate(input.tenantId, dto);
-
-    // Resolve zone for aliquotaIptu
-    let aliquota = 0.005; // default 0.5%
-    let zoneCode = parcel.zoneamento || 'unknown';
-    let zoneName = '';
-
-    if (parcel.zoneId) {
-      const zone = await this.zoneModel.findById(parcel.zoneId).lean().exec();
-      if (zone) {
-        zoneCode = zone.code || zone.name || zoneCode;
-        zoneName = zone.name || zone.nome || zoneCode;
-        aliquota = zone.aliquotaIptu ?? 0.005;
-      }
-    }
-
-    // Fallback to tenant-level default aliquotas
-    if (aliquota === 0.005) {
-      try {
-        const tenantAliquotas = await this.tenantsService.getAliquotasPadrao(input.tenantId);
-        if (tenantAliquotas.iptuResidencial) {
-          aliquota = tenantAliquotas.iptuResidencial;
-        }
-      } catch {
-        // Tenant config not available, keep default
-      }
-    }
-
-    const iptuDevido = Math.round(valuationResult.totalValue * aliquota * 100) / 100;
+    const aliquota = (parcel as any).aliquotaIptu || 0.005;
+    const zoneCode = (parcel as any).zoneamento || 'unknown';
+    const valorVenalTerreno = (parcel as any).valorVenalTerreno || 0;
+    const valorVenalConstrucao = (parcel as any).valorVenalConstrucao || 0;
+    const valorVenalTotal = (parcel as any).valorVenalTotal || 0;
+    const iptuDevido = (parcel as any).iptuDevido || Math.round(valorVenalTotal * aliquota);
 
     return {
       parcelId: String(parcel._id),
       sqlu: parcel.sqlu || '',
       inscricaoImobiliaria: parcel.inscricaoImobiliaria || parcel.inscription,
-      valorVenalTerreno: valuationResult.landValue,
-      valorVenalConstrucao: valuationResult.constructionValue,
-      valorVenalTotal: valuationResult.totalValue,
+      valorVenalTerreno,
+      valorVenalConstrucao,
+      valorVenalTotal,
       aliquotaIptu: aliquota,
       iptuDevido,
       anoExercicio: year,
       zoneCode,
-      zoneName,
+      zoneName: '',
     };
   }
 
