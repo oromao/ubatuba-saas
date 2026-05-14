@@ -15,14 +15,16 @@ import { fetchMapFeaturesGeojson } from "../../../lib/map-features";
 type LayerItem = {
   id: string;
   name: string;
-  type: "raster" | "vector" | "basemap" | "mvt";
-  source: "geoserver" | "api" | "external";
+  group?: string;
+  type: "raster" | "vector" | "basemap" | "mvt" | "geojson" | "external";
+  source: "geoserver" | "api" | "external" | string;
   visible?: boolean;
   opacity?: number;
   order?: number;
   tileUrl?: string;
   dataUrl?: string;
-  geometryType?: "line" | "polygon" | "point";
+  url?: string;
+  geometryType?: "line" | "polygon" | "point" | "fill" | "circle";
   style?: {
     fillColor?: string;
     lineColor?: string;
@@ -360,6 +362,42 @@ export default function DynamicMapViewer() {
         continue;
       }
 
+      // geojson type layers (sp-mapas repo, external GeoJSON URLs)
+      if ((layer.type === "geojson" || layer.type === "external") && (layer.url || layer.dataUrl)) {
+        const sourceUrl = layer.url || layer.dataUrl || "";
+        if (layer.source === "geoserver" && isUnavailableTileUrl(sourceUrl)) {
+          hasUnavailableGeoServer = true;
+          if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", "none");
+          continue;
+        }
+        if (!map.getSource(sourceId)) {
+          fetch(sourceUrl)
+            .then(r => r.json())
+            .then(geojson => {
+              if (!map || !mapConfig.current) return;
+              if (!map.getSource(sourceId)) {
+                map.addSource(sourceId, { type: "geojson", data: geojson });
+              }
+              const geomType = layer.geometryType || "fill";
+              const type = geomType === "point" || geomType === "circle" ? "circle" : geomType === "line" ? "line" : "fill";
+              if (!map.getLayer(layerId)) {
+                try {
+                  map.addLayer({
+                    id: layerId, type, source: sourceId,
+                    paint: type === "fill"
+                      ? { "fill-color": layer.style?.fillColor || "#2dd4bf", "fill-opacity": layer.opacity ?? 0.15, "fill-outline-color": layer.style?.lineColor || "#0f766e" }
+                      : type === "line"
+                        ? { "line-color": layer.style?.lineColor || "#0f766e", "line-width": layer.style?.lineWidth || 2 }
+                        : { "circle-color": layer.style?.fillColor || "#0f766e", "circle-radius": 4 },
+                  } as any);
+                } catch (err) { console.warn("[Mapa] Falha ao adicionar camada", layer.name, err); }
+              }
+            })
+            .catch(err => console.warn("[Mapa] Falha ao carregar GeoJSON externo", layer.name, err.message));
+        }
+        continue;
+      }
+
       if (layer.type === "vector" && layer.dataUrl) {
         if (!map.getSource(sourceId)) {
           const isExternalUrl = layer.dataUrl.startsWith("http");
@@ -418,7 +456,7 @@ export default function DynamicMapViewer() {
     const CLUSTER_CIRCLE = "parcel-clusters-circle";
     const CLUSTER_COUNT = "parcel-clusters-count";
 
-    const ZOOM_THRESHOLD = 14;
+    const ZOOM_THRESHOLD = 12;
 
     const loadClusters = () => {
       const bounds = map.getBounds();
@@ -494,8 +532,8 @@ export default function DynamicMapViewer() {
       loadParcels().then((geojson) => {
         if (!map || !mapConfig.current) return;
         map.addSource("builtin-parcels", { type: "geojson", data: geojson as maplibregl.GeoJSONSourceSpecification["data"] });
-        map.addLayer({ id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels", paint: { "fill-color": ["match", ["get", "statusCadastral"], "CONFLITO", "#f97316", "INATIVO", "#94a3b8", "#2dd4bf"], "fill-opacity": 0.22 } });
-        map.addLayer({ id: "builtin-parcels-line", type: "line", source: "builtin-parcels", paint: { "line-color": "#0f766e", "line-width": 1.2 } });
+        map.addLayer({ id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels", paint: { "fill-color": ["match", ["get", "statusCadastral"], "CONFLITO", "#f97316", "INATIVO", "#94a3b8", "#2dd4bf"], "fill-opacity": 0.12 } });
+        map.addLayer({ id: "builtin-parcels-line", type: "line", source: "builtin-parcels", paint: { "line-color": "#0f766e", "line-width": 2, "line-opacity": 0.8 } });
         map.addLayer({ id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels", minzoom: 15, layout: { "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""], "text-size": 9, "text-anchor": "center" }, paint: { "text-color": "#0f766e", "text-halo-color": "#fff", "text-halo-width": 1 } });
         map.on("mouseenter", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = "pointer"; });
         map.on("mouseleave", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = ""; });
