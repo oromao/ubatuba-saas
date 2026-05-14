@@ -1,10 +1,11 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Req, ForbiddenException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Public } from '../../common/guards/public.decorator';
 import { Citizen156Service } from './citizen-156.service';
 import { TenantsService } from '../tenants/tenants.service';
 import { CacheService } from '../shared/cache.service';
+import { LgpdAuditService } from '../../common/services/lgpd-audit.service';
 import { Types } from 'mongoose';
 
 type PublicCreateCallDto = {
@@ -17,6 +18,8 @@ type PublicCreateCallDto = {
   reporterContact?: string;
   address?: string;
   attachmentKeys?: string[];
+  lgpdConsent?: boolean;
+  lgpdConsentVersion?: string;
 };
 
 @ApiTags('public')
@@ -26,6 +29,7 @@ export class PublicCallsController {
     private readonly service: Citizen156Service,
     private readonly tenantsService: TenantsService,
     private readonly cacheService: CacheService,
+    private readonly lgpdAudit: LgpdAuditService,
   ) {}
 
   private async checkRateLimit(ip: string): Promise<void> {
@@ -63,11 +67,19 @@ export class PublicCallsController {
     if (!body.title || !body.category) {
       throw new BadRequestException('Titulo e categoria sao obrigatorios');
     }
+
+    if (body.reporterName || body.reporterContact) {
+      if (!body.lgpdConsent) {
+        throw new ForbiddenException(
+          'Consentimento LGPD obrigatório para fornecimento de dados pessoais. Marque a caixa de consentimento.',
+        );
+      }
+    }
+
     const ip = (req.headers['x-forwarded-for'] as string) || req.ip || 'unknown';
     await this.checkRateLimit(ip);
     const tenantId = await this.resolveTenantId(body);
-    const { description: _description, address, tenantSlug: _tenantSlug, tenantId: _tenantId, ...rest } = body;
-    // Augment title with address if provided
+    const { description: _description, address, tenantSlug: _tenantSlug, tenantId: _tenantId, lgpdConsent: _lc, lgpdConsentVersion: _lcv, ...rest } = body;
     const title = address ? `${rest.title} — ${address}` : rest.title;
     const created = await this.service.create(
       tenantId,
@@ -75,9 +87,24 @@ export class PublicCallsController {
         ...rest,
         title,
         attachmentKeys: body.attachmentKeys || [],
+        lgpdConsentAt: new Date(),
+        lgpdConsentVersion: body.lgpdConsentVersion || 'v1.0-2026-05',
+        lgpdConsentId: `consent-${Date.now().toString(36)}`,
       },
       'CIDADAO',
     );
+
+    await this.lgpdAudit.logAccess({
+      tenantId,
+      action: 'CONSENT_RECORDED',
+      resourceType: 'CITIZEN_CALL',
+      resourceId: String((created as any)._id || (created as any).protocolNumber),
+      fields: body.reporterName ? ['reporterName', 'reporterContact'] : undefined,
+      ipAddress: ip,
+      reason: 'Consentimento explicito para coleta de dados pessoais (art. 7 LGPD)',
+      consentId: body.lgpdConsentVersion || 'v1.0-2026-05',
+    });
+
     return {
       protocolNumber: (created as any).protocolNumber,
       status: (created as any).status,

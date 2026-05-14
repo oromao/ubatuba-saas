@@ -13,6 +13,8 @@ import dynamic from "next/dynamic";
 
 const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false });
 
+import { IptuBarChart, CtmStatusPie, SecretariaChart, SatelliteHealthChart, ReadinessChart } from "@/components/dashboard/dashboard-charts";
+
 type WidgetConfig = { id: string; visible: boolean; order: number };
 
 const WIDGET_LABELS: Record<string, { title: string; description: string }> = {
@@ -250,37 +252,15 @@ export default function DashboardPage() {
                 </div>
               </div>
               {executiveQuery.data.ctm.totalIptuLancado > 0 && (
-                <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Lançado</p>
-                    <p className="mt-1 text-lg font-semibold">
-                      {executiveQuery.data.ctm.totalIptuLancado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Pago</p>
-                    <p className="mt-1 text-lg font-semibold text-green-600">
-                      {executiveQuery.data.ctm.totalIptuPago.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">Em Aberto</p>
-                    <p className="mt-1 text-lg font-semibold text-amber-600">
-                      {executiveQuery.data.ctm.totalIptuEmAberto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
-                <div className="mt-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted mb-2">Status IPTU</p>
-                  <div className="flex flex-wrap gap-2">
-                    {Object.entries(executiveQuery.data.ctm.porStatus).map(([status, count]) => (
-                      <span key={status} className="rounded-full border px-3 py-1 text-xs">
-                        {status}: <strong>{count as number}</strong>
-                      </span>
-                    ))}
-                  </div>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1.5fr]">
+                  <IptuBarChart
+                    lancado={executiveQuery.data.ctm.totalIptuLancado}
+                    pago={executiveQuery.data.ctm.totalIptuPago}
+                    aberto={executiveQuery.data.ctm.totalIptuEmAberto}
+                  />
+                  {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
+                    <CtmStatusPie data={executiveQuery.data.ctm.porStatus} />
+                  )}
                 </div>
               )}
             </CardContent>
@@ -321,18 +301,10 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Visão por secretaria</CardTitle>
                   <CardDescription>Consolida operação urbana, atendimento e fiscalização.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-3">
+                <CardContent>
                   {executiveQuery.isLoading
                     ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                    : executiveQuery.data?.secretarias.map((item) => (
-                        <div key={item.name} className="flex items-center justify-between rounded-md border border-outline bg-surface-elevated p-3">
-                          <div>
-                            <p className="font-medium text-on-surface">{item.name}</p>
-                            <p className="text-xs text-on-surface-muted">{item.status}</p>
-                          </div>
-                          <Badge variant="outline">{item.total}</Badge>
-                        </div>
-                      ))}
+                    : executiveQuery.data?.secretarias && <SecretariaChart data={executiveQuery.data.secretarias} />}
                 </CardContent>
               </Card>
             ) : null}
@@ -366,22 +338,10 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Saúde dos módulos satélite</CardTitle>
                   <CardDescription>Leitura rápida de 156, ambiental, obras públicas e cemitério.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-3">
+                <CardContent>
                   {executiveQuery.isLoading
-                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                    : executiveQuery.data?.satelliteHealth.map((item) => (
-                        <div key={item.id} className="rounded-md border border-outline bg-surface-elevated p-3">
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="font-medium text-on-surface">{item.label}</p>
-                              <p className="text-xs text-on-surface-muted">
-                                {item.open} abertos · {item.inProgress} em andamento · {item.closed} encerrados
-                              </p>
-                            </div>
-                            <Badge variant="outline">{item.total}</Badge>
-                          </div>
-                        </div>
-                      ))}
+                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)
+                    : executiveQuery.data?.satelliteHealth && <SatelliteHealthChart data={executiveQuery.data.satelliteHealth} />}
                 </CardContent>
               </Card>
             ) : null}
@@ -392,18 +352,10 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Sinais de prontidão</CardTitle>
                   <CardDescription>Resume o estado institucional para auditoria e governança.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent>
                   {executiveQuery.isLoading
-                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-10 w-full" />)
-                    : executiveQuery.data?.readinessSignals.map((item) => (
-                        <div key={item.label} className="flex items-center justify-between rounded-md border border-outline bg-surface-elevated p-3">
-                          <div>
-                            <span className="text-sm text-on-surface">{item.label}</span>
-                            <p className="mt-1 text-xs text-on-surface-muted">{item.note}</p>
-                          </div>
-                          <Badge variant={item.value > 0 ? "info" : "outline"}>{item.value > 0 ? "OK" : "PENDENTE"}</Badge>
-                        </div>
-                      ))}
+                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)
+                    : executiveQuery.data?.readinessSignals && <ReadinessChart data={executiveQuery.data.readinessSignals} />}
                 </CardContent>
               </Card>
             ) : null}

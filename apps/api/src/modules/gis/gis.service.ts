@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Parcel, ParcelDocument } from '../ctm/parcels/parcel.schema';
 import { asObjectId } from '../../common/utils/object-id';
 import { createVectorTile } from '../../common/utils/mvt.util';
+import { parseBbox } from '../../common/utils/bbox';
 
 // EPSG codes for São Paulo
 const EPSG_WGS84 = 4326; // WGS84
@@ -19,7 +20,13 @@ export type Bbox = [number, number, number, number]; // [minLng, minLat, maxLng,
 export interface ClusterFeature {
   type: 'Feature';
   geometry: { type: 'Point'; coordinates: [number, number] };
-  properties: { cluster: boolean; count: number; sqlu_list?: string[] };
+  properties: {
+    cluster: boolean;
+    count: number;
+    sqlu_list?: string[];
+    cluster_id?: string;
+    expansion_zoom?: number;
+  };
 }
 
 export interface ClusterResult {
@@ -72,7 +79,8 @@ export class GisService {
   async queryBboxViewport(params: GisBboxQuery): Promise<GisBboxResult> {
     const { tenantId, projectId, bbox, limit = 1000 } = params;
     
-    const [minLng, minLat, maxLng, maxLat] = bbox;
+    const parsed = parseBbox(bbox);
+    const { minLng, minLat, maxLng, maxLat } = parsed;
     
     // Build geoIntersects query for viewport
     const query = {
@@ -486,7 +494,9 @@ export class GisService {
     projectId: string,
     limit = 5000,
   ): Promise<ClusterResult> {
-    const [minLng, minLat, maxLng, maxLat] = bbox;
+    const parsed = parseBbox(bbox);
+    const { minLng, minLat, maxLng, maxLat } = parsed;
+
     const parcels = await this.model.find({
       tenantId: asObjectId(tenantId),
       projectId: asObjectId(projectId),
@@ -495,38 +505,69 @@ export class GisService {
 
     if (parcels.length === 0) return { type: 'FeatureCollection', features: [], zoom, bbox };
 
-    const cellSize = Math.pow(2, 18 - Math.min(zoom, 18)) / 100000;
-    const grid = new Map<string, { coords: [number, number][]; sqlus: string[] }>();
+    const safeZoom = Math.max(0, Math.min(zoom, 22));
+    const clusterRadius = Math.max(1, 80 - safeZoom * 3);
+    const cellSize = clusterRadius * 0.00001 * Math.pow(2, Math.max(0, 18 - safeZoom));
+
+    const grid = new Map<string, { coords: [number, number][]; sqlus: string[]; cellX: number; cellY: number }>();
     for (const p of parcels) {
-      const c = p.centroid?.coordinates || this.getCenter(p.geometry);
+      const c = this.getParcelCenter(p);
       if (!c) continue;
-      const k = `${Math.floor(c[0]/cellSize)}:${Math.floor(c[1]/cellSize)}`;
+      const cellX = Math.floor(c[0] / Math.max(cellSize, 0.000001));
+      const cellY = Math.floor(c[1] / Math.max(cellSize, 0.000001));
+      const k = `${cellX}:${cellY}`;
       const e = grid.get(k);
-      if (e) { e.coords.push(c); e.sqlus.push(p.sqlu||''); }
-      else grid.set(k, { coords: [c], sqlus: [p.sqlu||''] });
+      if (e) { e.coords.push(c); e.sqlus.push(p.sqlu || ''); }
+      else grid.set(k, { coords: [c], sqlus: [p.sqlu || ''], cellX, cellY });
     }
 
     const features: ClusterFeature[] = [];
     for (const [, cell] of grid) {
       if (cell.coords.length === 1) {
-        features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: cell.coords[0] }, properties: { cluster: false, count: 1, sqlu_list: cell.sqlus } });
+        features.push({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: cell.coords[0] },
+          properties: { cluster: false, count: 1, sqlu_list: cell.sqlus },
+        });
       } else {
-        const ax = cell.coords.reduce((s,c)=>s+c[0],0)/cell.coords.length;
-        const ay = cell.coords.reduce((s,c)=>s+c[1],0)/cell.coords.length;
-        features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [ax,ay] }, properties: { cluster: true, count: cell.coords.length, sqlu_list: cell.sqlus.slice(0,10) } });
+        const ax = cell.coords.reduce((s, c) => s + c[0], 0) / cell.coords.length;
+        const ay = cell.coords.reduce((s, c) => s + c[1], 0) / cell.coords.length;
+        features.push({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [ax, ay] },
+          properties: {
+            cluster: true,
+            cluster_id: `c_${cell.cellX}_${cell.cellY}`,
+            count: cell.coords.length,
+            expansion_zoom: Math.min(safeZoom + 2, 22),
+            sqlu_list: cell.sqlus.slice(0, 10),
+          },
+        });
       }
     }
+
     return { type: 'FeatureCollection', features, zoom, bbox };
   }
 
-  private getCenter(geom: any): [number, number] | null {
+  private getParcelCenter(p: any): [number, number] | null {
+    if (!p) return null;
+    if (p.centroid?.coordinates) return p.centroid.coordinates;
+    if (p.geometry) return this.getGeometryCenter(p.geometry);
+    return null;
+  }
+
+  private getGeometryCenter(geom: any): [number, number] | null {
     if (!geom) return null;
     try {
       if (geom.type === 'Point') return geom.coordinates;
-      const ring = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
-      if (!ring) return null;
-      const sx = ring.reduce((s:number,c:[number,number])=>s+c[0],0), sy = ring.reduce((s:number,c:[number,number])=>s+c[1],0);
-      return [sx/ring.length, sy/ring.length];
+      const coords = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
+      if (!coords || coords.length < 3) return null;
+      let sx = 0, sy = 0, count = 0;
+      for (const c of coords) {
+        if (Array.isArray(c) && c.length >= 2) { sx += c[0]; sy += c[1]; count++; }
+      }
+      if (count === 0) return null;
+      return [sx / count, sy / count];
     } catch { return null; }
   }
 }

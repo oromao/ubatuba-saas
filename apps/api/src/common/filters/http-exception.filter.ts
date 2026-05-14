@@ -4,13 +4,18 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { LoggerService } from '../logger/logger.service';
+import { ErrorLogService } from '../services/error-log.service';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  constructor(private readonly logger: LoggerService) {}
+  constructor(
+    private readonly logger: LoggerService,
+    private readonly errorLogService?: ErrorLogService,
+  ) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -41,7 +46,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? HttpStatus[status]
         : 'Internal Server Error';
 
-    // Extract error code if available, or generate from error type
     let errorCode = 'INTERNAL_ERROR';
     if (typeof exceptionResponse === 'object' && exceptionResponse !== null && 'error' in exceptionResponse) {
       errorCode = String((exceptionResponse as { error?: unknown }).error);
@@ -62,6 +66,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
       userId: request.user?.sub ?? null,
       detail,
     };
+
+    // Persist errors to MongoDB (self-hosted error monitoring, 100% free)
+    if (this.errorLogService && status >= 400) {
+      this.errorLogService.log({
+        status,
+        method: request.method,
+        url: request.url,
+        detail,
+        trace: status >= 500 && exception instanceof Error ? exception.stack : undefined,
+        errorCode,
+        tenantId: request.tenantId ?? undefined,
+        userId: request.user?.sub ?? undefined,
+        correlationId: request.correlationId ?? undefined,
+      }).catch(() => {});
+    }
+
     if (status >= 500) {
       this.logger.errorWithContext('http_exception', {
         ...payload,

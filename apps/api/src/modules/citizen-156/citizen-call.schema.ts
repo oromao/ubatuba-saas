@@ -49,6 +49,24 @@ export class CitizenCall {
     createdAt: string;
     actorId?: string;
   }>;
+
+  @Prop({ default: null })
+  lgpdConsentAt?: Date;
+
+  @Prop({ default: null })
+  lgpdConsentVersion?: string;
+
+  @Prop({ default: false })
+  lgpdAnonymized!: boolean;
+
+  @Prop({ default: null })
+  lgpdAnonymizedAt?: Date;
+
+  @Prop()
+  lgpdAnonymizedBy?: string;
+
+  @Prop()
+  lgpdConsentId?: string;
 }
 
 export type CitizenCallDocument = CitizenCall & Document;

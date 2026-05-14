@@ -156,7 +156,7 @@ export class GisController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get parcel clusters for a viewport',
-    description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Groups parcels into cells based on zoom level.',
+    description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Below zoom 14, returns clusters. At zoom 14+, returns individual parcels. Expansion zoom is included for cluster drill-down.',
   })
   @ApiQuery({ name: 'tenantId', required: true })
   @ApiQuery({ name: 'projectId', required: true })

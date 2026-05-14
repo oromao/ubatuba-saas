@@ -410,207 +410,137 @@ export default function DynamicMapViewer() {
     setGeoserverUnavailable(hasUnavailableGeoServer);
   }, [activeLayers, mapReady, orderedLayers]);
 
-  // Always load CTM parcels as a built-in layer from map-features API
+  // Cluster source: clusters at low zoom, individual parcels at high zoom
   useEffect(() => {
     if (!mapReady || !mapConfig.current) return;
     const map = mapConfig.current;
-    const SOURCE = "builtin-parcels";
-    const FILL_LAYER = "builtin-parcels-fill";
-    const LINE_LAYER = "builtin-parcels-line";
-    const LABEL_LAYER = "builtin-parcels-label";
+    const CLUSTER_SOURCE = "parcel-clusters";
+    const CLUSTER_CIRCLE = "parcel-clusters-circle";
+    const CLUSTER_COUNT = "parcel-clusters-count";
 
-    if (map.getSource(SOURCE)) return; // already loaded — layers added below
+    const ZOOM_THRESHOLD = 14;
 
-    // Viewport-based loading: fetch only parcels within current map bounds
-    const loadParcelsInViewport = () => {
+    const loadClusters = () => {
       const bounds = map.getBounds();
+      const zoom = Math.floor(map.getZoom());
+      if (zoom >= ZOOM_THRESHOLD) {
+        if (map.getLayer(CLUSTER_CIRCLE)) {
+          map.setLayoutProperty(CLUSTER_CIRCLE, "visibility", "none");
+          map.setLayoutProperty(CLUSTER_COUNT, "visibility", "none");
+        }
+        return;
+      }
       const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
-      return apiFetch<unknown>(`/ctm/parcels/geojson?bbox=${bbox}${projectId ? `&projectId=${encodeURIComponent(projectId)}` : ""}`).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.warn("[Mapa] CTM parcels indisponiveis, fallback map-features ativado", error);
-        return fetchMapFeaturesGeojson("parcel", "", projectId);
-      });
-    };
-
-    // Debounced reload on pan/zoom for viewport-based loading
-    let moveTimeout: ReturnType<typeof setTimeout>;
-    const onMoveEnd = () => {
-      clearTimeout(moveTimeout);
-      moveTimeout = setTimeout(() => {
-        loadParcelsInViewport().then((geojson) => {
+      apiFetch<unknown>(`/gis/clusters?tenantId=default&projectId=${projectId ? encodeURIComponent(projectId) : ""}&minLng=${bounds.getWest()}&minLat=${bounds.getSouth()}&maxLng=${bounds.getEast()}&maxLat=${bounds.getNorth()}&zoom=${zoom}`)
+        .then((data) => {
           if (!map || !mapConfig.current) return;
-          const source = map.getSource(SOURCE);
-          if (source) {
-            (source as maplibregl.GeoJSONSource).setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
+          if (!map.getSource(CLUSTER_SOURCE)) {
+            map.addSource(CLUSTER_SOURCE, { type: "geojson", data: data as maplibregl.GeoJSONSourceSpecification["data"] });
+          } else {
+            (map.getSource(CLUSTER_SOURCE) as maplibregl.GeoJSONSource).setData(data as maplibregl.GeoJSONSourceSpecification["data"]);
           }
-          if (typeof window !== "undefined") {
-            const probeWindow = window as Window & { __gisScaleProbe?: { builtInParcelFeatures: number } };
-            if (probeWindow.__gisScaleProbe) {
-              const features = Array.isArray((geojson as { features?: unknown[] })?.features)
-                ? ((geojson as { features?: unknown[] }).features as unknown[]).length
-                : 0;
-              probeWindow.__gisScaleProbe.builtInParcelFeatures = features;
-            }
+
+          if (!map.getLayer(CLUSTER_CIRCLE)) {
+            map.addLayer({
+              id: CLUSTER_CIRCLE,
+              type: "circle",
+              source: CLUSTER_SOURCE,
+              filter: ["has", "count"],
+              paint: {
+                "circle-color": ["case", ["get", "cluster"], "#0f766e", "#2dd4bf"],
+                "circle-radius": ["case", ["get", "cluster"], ["*", ["sqrt", ["get", "count"]], 3], 6],
+                "circle-opacity": 0.8,
+                "circle-stroke-color": "#fff",
+                "circle-stroke-width": 2,
+              },
+            });
           }
-        }).catch(() => {});
-      }, 300);
+          if (!map.getLayer(CLUSTER_COUNT)) {
+            map.addLayer({
+              id: CLUSTER_COUNT,
+              type: "symbol",
+              source: CLUSTER_SOURCE,
+              filter: ["has", "count"],
+              layout: {
+                "text-field": ["get", "count"],
+                "text-size": 11,
+                "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+              },
+              paint: {
+                "text-color": "#fff",
+              },
+            });
+          }
+
+          map.setLayoutProperty(CLUSTER_CIRCLE, "visibility", "visible");
+          map.setLayoutProperty(CLUSTER_COUNT, "visibility", "visible");
+
+          if (map.getLayer("builtin-parcels-fill")) {
+            map.setLayoutProperty("builtin-parcels-fill", "visibility", "none");
+            map.setLayoutProperty("builtin-parcels-line", "visibility", "none");
+          }
+        })
+        .catch(() => {});
     };
-    map.on("moveend", onMoveEnd);
 
-    loadParcelsInViewport()
-      .then((geojson) => {
-        // Verify map still exists before using it (async callback could complete after cleanup)
+    if (!map.getSource("builtin-parcels")) {
+      const loadParcels = () => {
+        const bounds = map.getBounds();
+        const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+        return apiFetch<unknown>(`/ctm/parcels/geojson?bbox=${bbox}${projectId ? `&projectId=${encodeURIComponent(projectId)}` : ""}`)
+          .catch(() => fetchMapFeaturesGeojson("parcel", "", projectId));
+      };
+
+      loadParcels().then((geojson) => {
         if (!map || !mapConfig.current) return;
-
-        const features = Array.isArray((geojson as { features?: Array<{ id?: string; properties?: Record<string, unknown> | null }> })?.features)
-          ? (geojson as { features: Array<{ id?: string; properties?: Record<string, unknown> | null }> }).features
-          : [];
-        if (highlightedSqlu) {
-          const match = features.find((feature) => {
-            const props = feature.properties ?? {};
-            const sqlu = typeof props.sqlu === "string" ? props.sqlu : "";
-            return sqlu === highlightedSqlu;
-          });
-          const props = match?.properties ?? {};
-          const parcelId = typeof props._id === "string" ? props._id : typeof props.id === "string" ? props.id : typeof match?.id === "string" ? match.id : undefined;
-          if (match) {
-            setHighlightedParcel({ sqlu: highlightedSqlu, id: parcelId });
-          }
-        } else {
-          setHighlightedParcel(null);
-        }
-
-        if (!map.getSource(SOURCE)) {
-          map.addSource(SOURCE, {
-            type: "geojson",
-            data: geojson as maplibregl.GeoJSONSourceSpecification["data"],
-          });
-        } else {
-          (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(geojson as maplibregl.GeoJSONSourceSpecification["data"]);
-        }
-        if (!map.getLayer(FILL_LAYER)) {
-          map.addLayer({
-            id: FILL_LAYER,
-            type: "fill",
-            source: SOURCE,
-            paint: {
-              "fill-color": [
-                "match", ["get", "statusCadastral"],
-                "CONFLITO", "#f97316",
-                "INATIVO",  "#94a3b8",
-                /* default ATIVO */ "#2dd4bf",
-              ],
-              "fill-opacity": 0.22,
-            },
-          });
-        }
-        if (!map.getLayer(LINE_LAYER)) {
-          map.addLayer({
-            id: LINE_LAYER,
-            type: "line",
-            source: SOURCE,
-            paint: {
-              "line-color": "#0f766e",
-              "line-width": 1.2,
-            },
-          });
-        }
-        if (!map.getLayer(LABEL_LAYER)) {
-          map.addLayer({
-            id: LABEL_LAYER,
-            type: "symbol",
-            source: SOURCE,
-            minzoom: 15,
-            layout: {
-              "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""],
-              "text-size": 9,
-              "text-anchor": "center",
-              "text-allow-overlap": false,
-            },
-            paint: {
-              "text-color": "#0f766e",
-              "text-halo-color": "#fff",
-              "text-halo-width": 1,
-            },
-          });
-        }
-
-        if (typeof window !== "undefined") {
-          const probeWindow = window as Window & {
-            __gisScaleProbe?: {
-              fitBoundsCalls: number;
-              lastBounds: [[number, number], [number, number]] | null;
-              builtInParcelFeatures: number;
-              builtInParcelSourceReady: boolean;
-            };
-          };
-          if (probeWindow.__gisScaleProbe) {
-            const features = Array.isArray((geojson as { features?: unknown[] })?.features)
-              ? ((geojson as { features?: unknown[] }).features as unknown[]).length
-              : 0;
-            probeWindow.__gisScaleProbe.builtInParcelFeatures = features;
-            probeWindow.__gisScaleProbe.builtInParcelSourceReady = features > 0;
-          }
-        }
-
-        // Cursor pointer ao passar sobre lote
-        map.on("mouseenter", FILL_LAYER, () => { map.getCanvas().style.cursor = "pointer"; });
-        map.on("mouseleave", FILL_LAYER, () => { map.getCanvas().style.cursor = ""; });
-
-        // Popup ao clicar no lote
-        map.on("click", FILL_LAYER, (e) => {
+        map.addSource("builtin-parcels", { type: "geojson", data: geojson as maplibregl.GeoJSONSourceSpecification["data"] });
+        map.addLayer({ id: "builtin-parcels-fill", type: "fill", source: "builtin-parcels", paint: { "fill-color": ["match", ["get", "statusCadastral"], "CONFLITO", "#f97316", "INATIVO", "#94a3b8", "#2dd4bf"], "fill-opacity": 0.22 } });
+        map.addLayer({ id: "builtin-parcels-line", type: "line", source: "builtin-parcels", paint: { "line-color": "#0f766e", "line-width": 1.2 } });
+        map.addLayer({ id: "builtin-parcels-label", type: "symbol", source: "builtin-parcels", minzoom: 15, layout: { "text-field": ["coalesce", ["get", "sqlu"], ["get", "inscricaoImobiliaria"], ""], "text-size": 9, "text-anchor": "center" }, paint: { "text-color": "#0f766e", "text-halo-color": "#fff", "text-halo-width": 1 } });
+        map.on("mouseenter", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "builtin-parcels-fill", () => { map.getCanvas().style.cursor = ""; });
+        map.on("click", "builtin-parcels-fill", (e) => {
           const feat = e.features?.[0];
           if (!feat) return;
           const p = feat.properties ?? {};
           const parcelId = typeof p._id === "string" ? p._id : typeof p.id === "string" ? p.id : "";
-          const html = `
-            <div style="font-family:sans-serif;line-height:1.5">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                <strong style="font-size:13px">${p.sqlu ?? "—"}</strong>
-                <span style="font-size:10px;padding:2px 6px;border-radius:99px;background:${p.sourceType === 'OFFICIAL_IMPORT' ? '#dcfce7' : p.sourceType?.startsWith('DEMO') ? '#fee2e2' : '#f1f5f9'};color:${p.sourceType === 'OFFICIAL_IMPORT' ? '#166534' : p.sourceType?.startsWith('DEMO') ? '#991b1b' : '#475569'}">
-                  ${p.sourceType === 'OFFICIAL_IMPORT' ? 'OFICIAL' : p.sourceType === 'DEMO_EXTERNAL' ? 'DEMO EXT' : p.sourceType === 'DEMO' ? 'DEMO' : p.sourceType ?? 'OUTRO'}
-                </span>
-              </div>
-              <span style="color:#555;font-size:11px">${p.mainAddress ?? p.inscricaoImobiliaria ?? ""}</span><br/>
-              <hr style="margin:4px 0;border:none;border-top:1px solid #e5e7eb"/>
-              <div style="font-size:11px;display:grid;grid-template-cols:auto 1fr;gap:2px 8px">
-                <b>Inscrição:</b> <span>${p.inscricaoImobiliaria ?? "—"}</span>
-                <b>Status:</b> <span>${p.statusCadastral ?? "—"}</span>
-                <b>Área:</b> <span>${p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—"}</span>
-                <b>Zoneamento:</b> <span>${p.zoneamento ?? "—"}</span>
-              </div>
-              ${parcelId ? `<div style="margin-top:8px"><a href="/app/ctm/parcelas/${parcelId}" style="display:inline-block;padding:6px 10px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-size:11px">Abrir detalhe</a></div>` : ""}
-            </div>`;
           new maplibregl.Popup({ closeButton: true, maxWidth: "280px" })
             .setLngLat(e.lngLat)
-            .setHTML(html)
+            .setHTML(`<div style="font-family:sans-serif;line-height:1.5"><strong>${p.sqlu ?? "—"}</strong><br/><span style="color:#555;font-size:11px">${p.mainAddress ?? p.inscricaoImobiliaria ?? ""}</span><hr style="margin:4px 0"/><div style="font-size:11px"><b>Status:</b> ${p.statusCadastral ?? "—"}<br/><b>Area:</b> ${p.areaTerreno ? Number(p.areaTerreno).toFixed(0) + " m²" : "—"}</div>${parcelId ? `<div style="margin-top:8px"><a href="/app/ctm/parcelas/${parcelId}" style="display:inline-block;padding:6px 10px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-size:11px">Abrir detalhe</a></div>` : ""}</div>`)
             .addTo(map);
         });
 
-        // Fit map to parcels extent
         const fc = geojson as { features?: Array<{ geometry?: { type: string; coordinates: any } }> };
         const bounds = computeGeometryBounds(fc.features ?? []);
-        if (bounds) {
-            const probeWindow = typeof window !== "undefined"
-              ? (window as Window & {
-                  __gisScaleProbe?: {
-                    fitBoundsCalls: number;
-                    lastBounds: [[number, number], [number, number]] | null;
-                  };
-                })
-              : null;
-            if (probeWindow?.__gisScaleProbe) {
-              probeWindow.__gisScaleProbe.fitBoundsCalls += 1;
-              probeWindow.__gisScaleProbe.lastBounds = bounds;
-            }
-            map.fitBounds(bounds, { padding: 60, maxZoom: 18 });
-          }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.warn("[Mapa] Falha ao carregar parcels built-in", error);
-      });
-  }, [highlightedSqlu, mapReady, projectId]);
+        if (bounds) map.fitBounds(bounds, { padding: 60, maxZoom: 18 });
+      }).catch(() => {});
+    }
+
+    // Cluster click: zoom in
+    map.on("click", CLUSTER_CIRCLE, (e) => {
+      const feat = e.features?.[0];
+      if (!feat) return;
+      const props = feat.properties ?? {};
+      if (props.cluster) {
+        const expansionZoom = props.expansion_zoom ?? map.getZoom() + 2;
+        map.flyTo({ center: (feat.geometry as { coordinates: [number, number] }).coordinates, zoom: expansionZoom });
+      }
+    });
+
+    let moveTimeout: ReturnType<typeof setTimeout>;
+    const onMove = () => {
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(loadClusters, 300);
+    };
+    map.on("moveend", onMove);
+
+    loadClusters();
+
+    return () => {
+      map.off("moveend", onMove);
+      map.off("click", CLUSTER_CIRCLE);
+    };
+  }, [mapReady, projectId]);
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#e5e7eb] font-sans">

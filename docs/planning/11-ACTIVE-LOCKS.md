@@ -30,9 +30,18 @@
 ## Locks ativos
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
-|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 
 ## Histórico de locks encerrados
+
+| Data | Task ID | Agente | Resultado | Commit | Observação |
+|---|---|---|---|---|---|
+| 2026-05-14 | T-MATURITY-BOOST-F0 | OpenCode | DONE | — | FASE 0: MongoDB port fix + backup script + SSL setup + CI/CD + nginx prod |
+
+| Data | Task ID | Agente | Resultado | Commit | Observação |
+|---|---|---|---|---|---|
+| 2026-05-13 | T10-DASHBOARD-GRAPHS | OpenCode | DONE | — | recharts + 5 chart components. TSC clean |
+| 2026-05-13 | T-HARNESS-BUS-QUEUES | OpenCode | DONE | — | Bus+queues+planning bridge+17 tests. Harness REAL 5/5 |
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|

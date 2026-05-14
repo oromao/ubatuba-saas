@@ -90,6 +90,49 @@ const pgvValuationSchema = new mongoose.Schema(
   { timestamps: true, collection: 'pgv_valuations' },
 );
 
+const pgvZoneSchema = new mongoose.Schema(
+  {
+    tenantId: { type: Types.ObjectId, required: true },
+    projectId: { type: Types.ObjectId, required: true },
+    code: { type: String, required: true },
+    name: String,
+    description: String,
+    baseLandValue: Number,
+    baseConstructionValue: Number,
+    aliquotaIptu: { type: Number, default: 0.005 },
+    geometry: { type: Object, required: true },
+  },
+  { timestamps: true, collection: 'pgv_zones' },
+);
+
+const pgvFaceSchema = new mongoose.Schema(
+  {
+    tenantId: { type: Types.ObjectId, required: true },
+    projectId: { type: Types.ObjectId, required: true },
+    code: { type: String, required: true },
+    logradouro: String,
+    zoneCode: String,
+    landValuePerSqm: Number,
+    geometry: { type: Object, required: true },
+  },
+  { timestamps: true, collection: 'pgv_faces' },
+);
+
+const vistoriaSchema = new mongoose.Schema(
+  {
+    tenantId: { type: Types.ObjectId, required: true },
+    parcelId: Types.ObjectId,
+    tipo: { type: String, enum: ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'], required: true },
+    data: { type: Date, required: true },
+    observacoes: String,
+    status: { type: String, enum: ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA', 'CANCELADA'], default: 'RASCUNHO' },
+    fotos: [String],
+    historico: [{ status: String, observacao: String, userId: String, timestamp: Date }],
+    operadorId: String,
+  },
+  { timestamps: true, collection: 'vistorias' },
+);
+
 // ---- Data generators ----
 
 const BAIRROS = ['Centro', 'Maracanã', 'Itaguá', 'Perequê-Açu', 'Tenório', 'Santa Cruz', 'Praia Grande', 'Sapê'];
@@ -125,12 +168,18 @@ async function seed() {
   const SurveyModel = mongoose.model('DemoSurvey', surveySchema);
   const ReurbFamilyModel = mongoose.model('DemoReurbFamily', reurbFamilySchema);
   const PgvValuationModel = mongoose.model('DemoPgvValuation', pgvValuationSchema);
+  const PgvZoneModel = mongoose.model('DemoPgvZone', pgvZoneSchema);
+  const PgvFaceModel = mongoose.model('DemoPgvFace', pgvFaceSchema);
+  const VistoriaModel = mongoose.model('DemoVistoria', vistoriaSchema);
 
   // Clear existing demo data
   await ParcelModel.deleteMany({ tenantId: TENANT_OID });
   await SurveyModel.deleteMany({ tenantId: TENANT_OID });
   await ReurbFamilyModel.deleteMany({ tenantId: TENANT_OID });
   await PgvValuationModel.deleteMany({ tenantId: TENANT_OID });
+  await PgvZoneModel.deleteMany({ tenantId: TENANT_OID });
+  await PgvFaceModel.deleteMany({ tenantId: TENANT_OID });
+  await VistoriaModel.deleteMany({ tenantId: TENANT_OID });
   console.log('Cleared existing demo data.');
 
   // ---- 200 Parcelas ----
@@ -246,6 +295,86 @@ async function seed() {
   });
   await PgvValuationModel.insertMany(pgvValues);
   console.log(`Inserted ${pgvValues.length} valores PGV.`);
+
+  // ---- 3 Zonas PGV (QA-010 fix) ----
+  const ZONAS = [
+    { code: 'ZR1', name: 'Zona Residencial 1', desc: 'Residencial de baixa densidade', baseLand: 400, baseConst: 800, aliquota: 0.004, lat: -23.43, lng: -45.08 },
+    { code: 'ZCC', name: 'Zona Central Comercial', desc: 'Comércio e serviços central', baseLand: 1200, baseConst: 2000, aliquota: 0.006, lat: -23.44, lng: -45.06 },
+    { code: 'ZR2', name: 'Zona Residencial 2', desc: 'Residencial de média densidade', baseLand: 600, baseConst: 1000, aliquota: 0.005, lat: -23.45, lng: -45.10 },
+  ];
+  const zones: any[] = ZONAS.map((z, i) => ({
+    tenantId: TENANT_OID,
+    projectId: DEMO_PROJECT_ID,
+    code: z.code,
+    name: z.name,
+    description: z.desc,
+    baseLandValue: z.baseLand,
+    baseConstructionValue: z.baseConst,
+    aliquotaIptu: z.aliquota,
+    geometry: makeBbox(z.lat, z.lng, 0.02),
+  }));
+  await PgvZoneModel.insertMany(zones);
+  console.log(`Inserted ${zones.length} zonas PGV.`);
+
+  // ---- Faces PGV (logradouro segments) ----
+  const faces: any[] = [];
+  for (let i = 0; i < 12; i++) {
+    const zone = ZONAS[i % ZONAS.length];
+    const lat = zone.lat + (i * 0.003);
+    const lng = zone.lng + (i * 0.002);
+    faces.push({
+      tenantId: TENANT_OID,
+      projectId: DEMO_PROJECT_ID,
+      code: `FACE-${pad(i + 1, 3)}`,
+      logradouro: randomFrom(LOGRADOUROS),
+      zoneCode: zone.code,
+      landValuePerSqm: zone.baseLand + randomInt(-50, 150),
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [lng, lat],
+          [lng + 0.005, lat + 0.003],
+        ],
+      },
+    });
+  }
+  await PgvFaceModel.insertMany(faces);
+  console.log(`Inserted ${faces.length} faces PGV.`);
+
+  // ---- 35 Vistorias (Inspections) ----
+  const TIPOS = ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'];
+  const STATUSES = ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA'];
+  const OBSERVACOES = [
+    'Imóvel em conformidade com o cadastro.',
+    'Pendência de documentação do proprietário.',
+    'Construção irregular identificada.',
+    'Vistoria realizada sem intercorrências.',
+    'Necessário agendamento de reinspenção.',
+    'Divergência na metragem do terreno.',
+  ];
+  const vistorias: any[] = [];
+  for (let i = 0; i < 35; i++) {
+    const parcel = parcels[i % parcels.length];
+    const tipo = randomFrom(TIPOS);
+    const status = randomFrom(STATUSES);
+    const data = new Date(2024, randomInt(0, 11), randomInt(1, 28));
+    vistorias.push({
+      tenantId: TENANT_OID,
+      parcelId: parcel._id ?? parcel.sqlu,
+      tipo,
+      data,
+      observacoes: randomFrom(OBSERVACOES),
+      status,
+      fotos: i % 3 === 0 ? [`foto_${i}_1.jpg`, `foto_${i}_2.jpg`] : [],
+      historico: [
+        { status: 'RASCUNHO', observacao: 'Vistoria criada', userId: 'seed', timestamp: new Date(data.getTime() - 86400000) },
+        { status, observacao: `Vistoria ${status.toLowerCase()}`, userId: 'seed', timestamp: data },
+      ],
+      operadorId: 'seed',
+    });
+  }
+  await VistoriaModel.insertMany(vistorias);
+  console.log(`Inserted ${vistorias.length} vistorias.`);
 
   await mongoose.disconnect();
   console.log('Done. Demo seed complete.');

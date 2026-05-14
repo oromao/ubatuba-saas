@@ -9,7 +9,7 @@
 ## 1. Estado Atual
 
 - **Fase:** Municipal-Grade (T8/T9/T10 — GeoSampa sprint).
-- **Maturidade:** 85.2% (Municipal-Grade Competitivo).
+- **Maturidade real estimada:** ~73% (reajustado em 2026-05-14 — peso de segurança/infra estava sub-representado). Harness 5/5.
 - **Demo live:** http://172.233.188.166:3000
 - **Login:** admin@demo.local / Admin@12345 / tenant: demo
 - **Parcelas no banco:** 330 (300 SP importadas + 30 demo originais)
@@ -80,6 +80,17 @@ Os seguintes domínios foram rebaixados de 4 para 2/1 por não atenderem ao crit
 - **Isolation:** One Writer per task; avoid editing locked files/modules.
 - **Stale Lock Threshold:** 4 hours.
 - **Parallel Work:** Safe for independent modules (e.g., CTM vs Reurb).
+
+## 9. Harness Status (AI Coordination Layer)
+
+- **Maturity:** REAL (5/5) — 11 agentes, 7 queues, 12 pipelines, cobertura total de domínios
+- **Agentes:** 3 domínios novos — GIS Guardian, DevOps Guardian, Compliance Guardian
+- **Bus CLI:** `.ai/harness.sh` — start, agent, send, queue, pipeline, status, validate
+- **Queues:** 7 (pipeline.default, alerts, tasks, planning.sync, gis.operations, infra.deploy, compliance.audit)
+- **Pipelines:** 12 (inclui GIS: deploy, CRS; Infra: deploy, rollback; Compliance: audit, LGPD clean)
+- **Planning Bridge:** `.ai/runtime/planning-bridge.sh` — sync harness events ↔ planning docs
+- **DLQ:** Dead Letter Queue automática para mensagens não processadas
+- **Cobertura:** Governance + GIS + DevOps + Compliance + Negócio + Execução + QA
 
 ---
 

@@ -35,7 +35,9 @@ export class DashboardService {
   async getKpis(tenantId: string) {
     const cacheKey = `dashboard:${tenantId}:kpis`;
     const cached = await this.cacheService.get<unknown>(cacheKey);
-    if (cached) return cached;
+    if (cached && typeof cached === 'object' && 'processes' in cached && 'alerts' in cached && 'assets' in cached) {
+      return cached;
+    }
 
     const [processes, alerts, assets] = await Promise.all([
       this.processesService.list(tenantId),
@@ -56,7 +58,9 @@ export class DashboardService {
   async getExecutive(tenantId: string, userId: string) {
     const cacheKey = `dashboard:${tenantId}:executive:${userId}`;
     const cached = await this.cacheService.get<unknown>(cacheKey);
-    if (cached) return cached;
+    if (cached && typeof cached === 'object' && 'summary' in cached && 'secretarias' in cached) {
+      return cached;
+    }
 
     const [
       processes,

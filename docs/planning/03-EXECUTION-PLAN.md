@@ -7,7 +7,8 @@
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 85.2% (Tier: Municipal-Grade Competitivo)
+- **Maturidade (Weighted):** 73% (reajustado — superestimativa anterior de segurança/infra)
+- **Harness Maturity:** REAL (5/5) — 11 agentes (gov+GIS+devops+compliance), 7 queues, 12 pipelines, 17 testes
 - **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
 - **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
 - **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
@@ -18,12 +19,13 @@
 ## 2. Próximos 5 Itens Obrigatórios (Top Priority)
 
 | ID | Tarefa | Objetivo | Impacto |
-|---|---|---|---|
-| **T10-GEOSAMPA-IMPORT** | Importar lotes reais GeoSampa via WFS | Substituir dados sintéticos por lotes fiscais reais de SP. | CRÍTICO |
-| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | CI verde, demo validada automaticamente. | HIGH |
-| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | Certidões com formatação profissional (brasão, QR code). | HIGH |
-| **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard | KPIs visuais para demo de prefeitura. | MEDIUM |
-| **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras. | MEDIUM |
+|---|---|---|---|---|
+| ~~**T11-F1-QA**~~ | ~~QA bugs pendentes (QA-005 seed data, QA-008, QA-010, QA-011, QA-014)~~ | ✅ `DONE` | CRÍTICO |
+| ~~**T11-F2-SHP**~~ | ~~T10-SHP-IMPORT (Shapefile .shp)~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F2-CLUSTER**~~ | ~~T8-GIS-CLUSTER (Supercluster)~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F3-LGPD**~~ | ~~LGPD consent + direito ao esquecimento~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F3-TESTS**~~ | ~~Playwright coverage + testes módulos críticos~~ | ✅ `DONE` (29 novos testes, 7 suites) | MEDIUM |
+| ~~**T11-F3-SENTRY**~~ | ~~ErrorLog MongoDB (free)~~ | ✅ `DONE` | MEDIUM |
 
 ---
 

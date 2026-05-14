@@ -44,6 +44,8 @@ import { CemeteryModule } from './modules/cemetery/cemetery.module';
 import { ObservatoryModule } from './modules/observatory/observatory.module';
 import { IntegrationHubModule } from './modules/integration-hub/integration-hub.module';
 import { ReportsModule } from './modules/reports/reports.module';
+import { LgpdModule } from './modules/lgpd/lgpd.module';
+import { ErrorLogModule } from './modules/error-log/error-log.module';
 
 @Module({
   imports: [
@@ -95,6 +97,8 @@ import { ReportsModule } from './modules/reports/reports.module';
     Citizen156Module,
     ReportsModule,
     PublicWorksModule,
+    LgpdModule,
+    ErrorLogModule,
     CemeteryModule,
     ObservatoryModule,
     IntegrationHubModule,
