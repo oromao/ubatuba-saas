@@ -224,8 +224,8 @@ async function seed() {
       isOfficial: false,
     });
   }
-  await ParcelModel.insertMany(parcels);
-  console.log(`Inserted ${parcels.length} parcelas.`);
+  const insertedParcels = await ParcelModel.insertMany(parcels);
+  console.log(`Inserted ${insertedParcels.length} parcelas.`);
 
   // ---- 50 Levantamentos (Surveys) ----
   const surveys: any[] = [];
@@ -281,10 +281,11 @@ async function seed() {
   console.log(`Inserted ${families.length} famílias REURB.`);
 
   // ---- PGV Values for each parcel ----
-  const pgvValues: any[] = parcels.map((p) => ({
+  const pgvValues: any[] = insertedParcels.map((p) => ({
     tenantId: TENANT_OID,
     projectId: DEMO_PROJECT_ID,
     sqlu: p.sqlu,
+    parcelId: p._id,
     valorTerreno: parseFloat((p.area * randomInt(200, 800)).toFixed(2)),
     valorConstrucao: parseFloat((p.area * randomInt(100, 500)).toFixed(2)),
     valorTotal: 0,
@@ -354,13 +355,13 @@ async function seed() {
   ];
   const vistorias: any[] = [];
   for (let i = 0; i < 35; i++) {
-    const parcel = parcels[i % parcels.length];
+    const parcel = insertedParcels[i % insertedParcels.length];
     const tipo = randomFrom(TIPOS);
     const status = randomFrom(STATUSES);
     const data = new Date(2024, randomInt(0, 11), randomInt(1, 28));
     vistorias.push({
       tenantId: TENANT_OID,
-      parcelId: parcel._id ?? parcel.sqlu,
+      parcelId: parcel._id,
       tipo,
       data,
       observacoes: randomFrom(OBSERVACOES),
