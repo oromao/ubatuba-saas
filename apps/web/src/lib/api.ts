@@ -7,7 +7,7 @@ const rawValid = rawApiUrl && rawApiUrl !== "undefined" && rawApiUrl.trim().leng
 
 export const API_URL =
   isBrowser
-    ? window.location.origin
+    ? window.location.origin + "/api"
     : rawValid
       ? rawApiUrl
       : "http://localhost:4000";
