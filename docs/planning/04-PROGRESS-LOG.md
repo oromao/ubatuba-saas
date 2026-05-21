@@ -4,6 +4,36 @@
 
 ---
 
+## 2026-05-21 — T10-OVERVIEW-PDF-PROD (Antigravity)
+
+**Task:** Captura de Screenshots de Produção (São Paulo) & Compilação do PDF Oficial  
+**Status:** DONE  
+**Feito:**
+- Realizado login sequencial programático e seguro no tenant de produção de São Paulo (`saopaulo`) utilizando as credenciais administrativas em `https://labspaulo.site`.
+- Capturado 11 screenshots de alta fidelidade visual, contendo dados cadastrais e geográficos integrados reais a partir do banco de produção (incluindo o CTM real da parcela `6a061d4154c005ba0e958eac` com mini mapa e gráficos fiscais dinâmicos).
+- Compilado com sucesso absoluto o PDF comercial/técnico diagramado premium `docs/flydea-govtech-overview.pdf` integrando as 11 imagens de alta fidelidade de produção sem quebra de margens.
+- Escritos e sincronizados os artefatos obrigatórios do Obsidian Vault (`task.md`, `implementation_plan.md` e `walkthrough.md`) em conformidade com as preferências do usuário Paulo.
+
+**Arquivos:**
+- `docs/screenshots/govtech/*.png` (UPDATED - 11 capturas de tela reais de produção do tenant de São Paulo)
+- `docs/flydea-govtech-overview.pdf` (UPDATED - PDF compilado com as novas screenshots de produção)
+
+## 2026-05-21 — T9-OVERVIEW-PDF (Antigravity)
+
+**Task:** Visão Geral do Sistema (PDF e Screenshots em Produção)  
+**Status:** DONE  
+**Feito:**
+- Mapeado todo o ecossistema FlyDea GovTech de ponta a ponta (Portal Público, CTM, GIS, Vistorias, Alvarás, Tributação e Relatórios).
+- Resolvido bug sintático no gerador de PDF de string template literal em `scripts/generate-pdf.mjs`.
+- Desenvolvido e compilado o documento PDF institucional/técnico premium `docs/flydea-govtech-overview.pdf` com alta fidelidade visual, sumário, capa e badges especiais.
+- Integrado o ambiente de produção ativo no município no domínio `http://labspaulo.site/` nas descrições de tela e na capa do PDF.
+- Atualizados os artefatos de planejamento no Obsidian Vault e no diretório local.
+
+**Arquivos:**
+- `docs/flydea-govtech-overview.md` (UPDATED - URL de produção live demo e legendas ajustadas)
+- `docs/flydea-govtech-overview.pdf` (NEW - compilação A4 premium com screenshots e links integrados)
+- `scripts/generate-pdf.mjs` (UPDATED - correção de bug sintático de crase e adição de live demo badge)
+
 ## 2026-04-30 — T8-CERT-SIGN (OpenCode)
 
 **Task:** Assinatura Digital RSA-SHA256 em Certidões  

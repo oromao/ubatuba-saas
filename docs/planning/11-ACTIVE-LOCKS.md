@@ -30,12 +30,16 @@
 ## Locks ativos
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
-|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|
+
+
 
 ## Histórico de locks encerrados
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-21 | T10-OVERVIEW-PDF-PROD | Antigravity | DONE | [T10-OVERVIEW-PDF-PROD] Screenshots of production (São Paulo) compiled into official PDF | docs/flydea-govtech-overview.pdf compiled from active production labspaulo.site |
+| 2026-05-21 | T9-OVERVIEW-PDF | Antigravity | DONE | [T9-OVERVIEW-PDF] Overview PDF digital compiled | docs/flydea-govtech-overview.pdf compiled with success |
 | 2026-04-30 | T8-CERT-SIGN | OpenCode | DONE | [T8-CERT-SIGN] RSA digital signature + 9 tests | DigitalSignatureService + schema updates |
 | 2026-04-30 | T8-MUNICIPAL-CFG | OpenCode | DONE | [T8-MUNICIPAL-CFG] Tenant municipalConfig + 11 tests | Schema + service + controller + IPTU fallback |
 | 2026-04-30 | T8-PROCESS-ALVARA | OpenCode | PARTIAL | [T8-PROCESS-ALVARA] parcelId + certidão auto + 13 tests | Alvara linkage + tests done; pending: sign, full PDF |

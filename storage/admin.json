@@ -2,19 +2,15 @@
   "cookies": [],
   "origins": [
     {
-      "origin": "http://localhost:3000",
+      "origin": "https://labspaulo.site",
       "localStorage": [
         {
-          "name": "accessToken",
-          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWUxMGYzNmIyYzA2NmFiOGY4MGIyYzYiLCJ0ZW5hbnRJZCI6IjY5ZTEwZjM2YjJjMDY2YWI4ZjgwYjJjMyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3NzY0MzU5OCwiZXhwIjoxNzc3NjQ0NDk4fQ.Zody2SG7kmvRY839FHv-teuF_CjLc7p-97Jr6B3yK9A"
+          "name": "lastTenantSlug",
+          "value": "saopaulo"
         },
         {
-          "name": "refreshToken",
-          "value": "c2fea1a71bc3fdc900a2e511a13fc40f508b8009526265b1ed294a3d415abdfbacede2bd936614a7d79ed08223380350"
-        },
-        {
-          "name": "tenantId",
-          "value": "69e10f36b2c066ab8f80b2c3"
+          "name": "projectId",
+          "value": "69fccfd3a879f453c03f146f"
         }
       ]
     }

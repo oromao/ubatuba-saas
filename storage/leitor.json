@@ -6,15 +6,15 @@
       "localStorage": [
         {
           "name": "accessToken",
-          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWY0YjA0ZWJjMzA5NWI5MWMzNWRjZGIiLCJ0ZW5hbnRJZCI6IjY5ZTEwZjM2YjJjMDY2YWI4ZjgwYjJjMyIsInJvbGUiOiJMRUlUT1IiLCJpYXQiOjE3Nzc2NDM2MDAsImV4cCI6MTc3NzY0NDUwMH0.rJYxRDVg3Mkw8XLg3RvhPNexJxCitAF7GAQH8UGKn7s"
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTBmMDU0NmRlN2JjMWNkZDMyZThiYzEiLCJ0ZW5hbnRJZCI6IjY5Y2Q1ZGM2NDJjOGUyZDdiZDIzMGE4ZiIsInJvbGUiOiJMRUlUT1IiLCJpYXQiOjE3NzkzNjkyOTMsImV4cCI6MTc3OTM3MDE5M30.Swrm1tUSbPQtumh7X623H07JRWhgKzDnMtaiLzEP4Ec"
         },
         {
           "name": "refreshToken",
-          "value": "577fe84948223bf0f186149618930cc2547f2ab4f8005a9c9851d82ac03810b4136e2ce588aad27467eeda68eb5ada39"
+          "value": "6299a227fe7c6acb83b3c8d8e601e3074748e9e86b4f8dd8704eabd272c262f81abed2adcc3d44b0ca0d1f51a29a6365"
         },
         {
           "name": "tenantId",
-          "value": "69e10f36b2c066ab8f80b2c3"
+          "value": "69cd5dc642c8e2d7bd230a8f"
         }
       ]
     }

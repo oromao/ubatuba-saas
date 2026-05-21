@@ -10,7 +10,7 @@
 
 - **Fase:** Municipal-Grade (T8/T9/T10 — GeoSampa sprint).
 - **Maturidade:** 85.2% (Municipal-Grade Competitivo).
-- **Demo live:** http://172.233.188.166:3000
+- **Demo live:** http://labspaulo.site/
 - **Login:** admin@demo.local / Admin@12345 / tenant: demo
 - **Parcelas no banco:** 330 (300 SP importadas + 30 demo originais)
 
@@ -27,6 +27,7 @@
 - **T8-GIS-MVT:** MVT Vector Tiles implementado com geojson-vt + vt-pbf. 7 testes.
 - **T8-TRIB-IPTU:** Engine de cálculo IPTU: valor venal (PGV) × alíquota (zona). 8 testes.
 - **T8-PROCESS-ALVARA:** Alvarás com parcelId, certidão auto, 13 testes. PARTIAL (falta assinatura digital).
+- **T9-OVERVIEW-PDF:** Documento comercial/técnico premium compilado em PDF com screenshots de alta fidelidade obtidos em http://labspaulo.site/.
 
 ---
 

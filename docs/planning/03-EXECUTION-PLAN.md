@@ -11,7 +11,7 @@
 - **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
 - **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
 - **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
-- **Demo live:** http://172.233.188.166:3000 — login: admin@demo.local / Admin@12345
+- **Demo live:** http://labspaulo.site/ — login: admin@demo.local / Admin@12345
 
 ---
 

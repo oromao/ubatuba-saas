@@ -83,6 +83,7 @@
 | **T9-TENANT-ONBOARD** | Fluxo automatizado de criação de nova prefeitura | `DONE` | M | SaaS |
 | **T9-EDITAL-MATRIX** | Matriz de aderência a editais típicos | `DONE` | S | Product |
 | **T9-RBAC-ACTIONS** | Permissões granulares por ação/botão | `DONE` | M | Sec |
+| **T9-OVERVIEW-PDF** | Visão Geral do Sistema (PDF e Screenshots em produção http://labspaulo.site/) | `DONE` | M | Doc |
 
 ---
 
