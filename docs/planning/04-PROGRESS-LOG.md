@@ -4,6 +4,47 @@
 
 ---
 
+## 2026-05-21 — T10-PDF-V2-REWRITE (Antigravity)
+
+**Task:** Reescrita Completa do PDF Comercial FlyDea v2.0 com 14 Melhorias Estruturais
+**Status:** DONE
+**Feito:**
+- Reescrito integralmente o documento `docs/flydea-govtech-overview-v2.md` com estrutura de 18 páginas: capa, sumário executivo, problema, solução, arquitetura, módulos, status operacional, modelo de implantação, valor por ator (prefeito/servidor/fiscal/cidadão), diferenciais competitivos, 11 telas com título/legenda/benefício/usuário, 2 casos de uso com linguagem defensável, e página de próximos passos.
+- Criado novo script `scripts/generate-pdf-v2.mjs` com HTML/CSS puro (sem Tailwind) otimizado para Chromium headless: design tokens internos, tipografia Inter/Outfit, layout A4 (794×1122px) sem vácuos, footer em todas as páginas.
+- Substituídas afirmações absolutas ("reduz 90%", "conformidade total", "controle absoluto") por linguagem defensável e verificável ("aumenta rastreabilidade", "apoia processos de conformidade", "pode reduzir significativamente... dependendo do nível de integração").
+- Inseridas as 4 novas seções obrigatórias: Status Operacional da Plataforma (com tabelas por categoria), Modelo de Implantação (6 fases com estimativas), Valor para a Prefeitura (por ator municipal), Diferenciais Competitivos (8 itens).
+- Adicionada página final "Próximos Passos" com 5 etapas de engajamento e CTA institucional.
+- Cada print agora tem: título curto, subtítulo, descrição objetiva, benefício prático e badge de usuário principal.
+- Adicionado Checklist de Ajustes Antes de Enviar para Parceiros (14 itens em 4 categorias).
+- PDF gerado com sucesso: `docs/flydea-govtech-overview-v2.pdf` (4.6 MB, 18 páginas, todas as 11 imagens em Base64).
+
+**Arquivos:**
+- `docs/flydea-govtech-overview-v2.md` (NEW - documento revisado completo)
+- `scripts/generate-pdf-v2.mjs` (NEW - script de geração v2)
+- `docs/flydea-govtech-overview-v2.pdf` (NEW - PDF final 4.6MB)
+- `docs/planning/11-ACTIVE-LOCKS.md` (UPDATED - locks fechados)
+
+**Proof:** `docs/flydea-govtech-overview-v2.pdf` gerado em 32s sem erros
+
+---
+
+## 2026-05-21 — T10-PDF-REFORMAT-FINE-TUNING (Antigravity)
+
+**Task:** Reformatação e Fine-Tuning do PDF Comercial/Técnico de Produção  
+**Status:** DONE  
+**Feito:**
+- Habilitada com sucesso a aceleração de hardware e o motor WebGL SwiftShader no Playwright Headless para capturar perfeitamente todas as parcelas e polígonos reais de São Paulo no mapa e no mini mapa cadastral.
+- Otimizados os tempos de acomodação do WebGIS (8s de espera extra) com probe dinâmico de hidratação vetorial no cliente, eliminando mapas vazios.
+- Compactado o layout vertical para o formato A4 restrito de 794px x 1122px, ajustando contêineres de imagem para a altura máxima proporcional de `380px` e mitigando vazios.
+- Removido o quadrado branco na capa através da substituição das sombras/blurs complexos do Tailwind por gradientes puros que renderizam perfeitamente no Chromium headless.
+- Limpos todos os asteriscos cru de Markdown (`**`) no texto do PDF através de marcações semânticas de HTML (`<strong>`).
+- Embutidas em Base64 todas as 11 screenshots de alta fidelidade visual capturadas da produção no tenant `saopaulo` de `https://labspaulo.site`, tornando o arquivo `docs/flydea-govtech-overview.pdf` totalmente autônomo e de visual premium.
+
+**Arquivos:**
+- `scripts/capture-govtech.mjs` (UPDATED - motor de captura com WebGL acelerado e probe de carregamento)
+- `scripts/generate-pdf.mjs` (UPDATED - diagramação A4 compactada, Base64 e remoção de asteriscos cru)
+- `docs/flydea-govtech-overview.pdf` (NEW - PDF final corporativo/técnico premium em Base64 de 3.0 MB)
+
 ## 2026-05-21 — T10-PDF-REFORMAT (Antigravity)
 
 **Task:** Correção Visual, Imagens e Formatação do PDF Premium  

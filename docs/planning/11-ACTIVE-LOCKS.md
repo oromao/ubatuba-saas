@@ -31,6 +31,7 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — | Nenhum lock ativo no momento |
 
 
 
@@ -38,6 +39,8 @@
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-21 | T10-PDF-V2-REWRITE | Antigravity | DONE | [T10-PDF-V2-REWRITE] Reescrita completa do PDF comercial v2.0 com 14 melhorias estruturais | docs/flydea-govtech-overview-v2.pdf (4.6MB, 18 págs, novo script generate-pdf-v2.mjs) |
+| 2026-05-21 | T10-PDF-REFORMAT-FINE-TUNING | Antigravity | DONE | [T10-PDF-REFORMAT-FINE-TUNING] Fine-tuning do PDF: espaçamento, WebGIS prints, Base64, asteriscos | docs/flydea-govtech-overview.pdf compilado com capturas perfeitas de produção |
 | 2026-05-21 | T10-PDF-REFORMAT | Antigravity | DONE | [T10-PDF-REFORMAT] Reorganização do PDF comercial, correção da capa e renderização de imagens Base64 | docs/flydea-govtech-overview.pdf compilado com sucesso e imagens Base64 |
 | 2026-05-21 | T10-OVERVIEW-PDF-PROD | Antigravity | DONE | [T10-OVERVIEW-PDF-PROD] Screenshots of production (São Paulo) compiled into official PDF | docs/flydea-govtech-overview.pdf compiled from active production labspaulo.site |
 | 2026-05-21 | T9-OVERVIEW-PDF | Antigravity | DONE | [T9-OVERVIEW-PDF] Overview PDF digital compiled | docs/flydea-govtech-overview.pdf compiled with success |
