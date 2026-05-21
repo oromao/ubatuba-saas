@@ -38,6 +38,7 @@
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-21 | T10-PDF-REFORMAT | Antigravity | DONE | [T10-PDF-REFORMAT] Reorganização do PDF comercial, correção da capa e renderização de imagens Base64 | docs/flydea-govtech-overview.pdf compilado com sucesso e imagens Base64 |
 | 2026-05-21 | T10-OVERVIEW-PDF-PROD | Antigravity | DONE | [T10-OVERVIEW-PDF-PROD] Screenshots of production (São Paulo) compiled into official PDF | docs/flydea-govtech-overview.pdf compiled from active production labspaulo.site |
 | 2026-05-21 | T9-OVERVIEW-PDF | Antigravity | DONE | [T9-OVERVIEW-PDF] Overview PDF digital compiled | docs/flydea-govtech-overview.pdf compiled with success |
 | 2026-04-30 | T8-CERT-SIGN | OpenCode | DONE | [T8-CERT-SIGN] RSA digital signature + 9 tests | DigitalSignatureService + schema updates |

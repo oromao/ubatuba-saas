@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-05-21 — T10-PDF-REFORMAT (Antigravity)
+
+**Task:** Correção Visual, Imagens e Formatação do PDF Premium  
+**Status:** DONE  
+**Feito:**
+- Resolvido o problema de exibição de imagens quebradas no PDF convertendo de forma assíncrona todas as 11 imagens de alta fidelidade para strings Base64 Data URI antes de injetar na página, contornando a restrição de sandbox do Chromium.
+- Removido o quadrado branco na capa (Página 1) limpando os efeitos complexos de blur/sombras CSS do Tailwind que causavam bugs de impressão no motor Chromium headless e mantendo um fundo de gradiente uniforme de alta qualidade.
+- Eliminados os caracteres de asterisco literal `**` de marcação Markdown expostos ao longo de todo o documento, substituindo por elementos HTML `<strong>` adequados para negrito.
+- Consolidado layout e paginação rígidos A4 (794px x 1120px com `page-break-after: always`) garantindo que as 15 páginas do documento sejam compiladas de forma pixel-perfect e contínua sem quebras acidentais.
+- Executado o script de geração e gerado o PDF premium atualizado e sem falhas em `docs/flydea-govtech-overview.pdf`.
+
+**Arquivos:**
+- `scripts/generate-pdf.mjs` (LIDO/CONSOLIDADO - confirmação de injeção em base64 e remoção de blurs)
+- `docs/flydea-govtech-overview.pdf` (UPDATED - PDF compilado com absoluto sucesso e alta fidelidade visual, contendo todas as imagens e negritos ajustados, 3.0 MB)
+
 ## 2026-05-21 — T10-OVERVIEW-PDF-PROD (Antigravity)
 
 **Task:** Captura de Screenshots de Produção (São Paulo) & Compilação do PDF Oficial  
