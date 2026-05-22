@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Parcel, ParcelDocument } from './parcel.schema';
-import { ParcelSubdivision, ParcelSubdivisionDocument, ChildDefinition } from './parcel-subdivision.schema';
+import { ParcelSubdivision, ParcelSubdivisionDocument } from './parcel-subdivision.schema';
 import { ParcelSubdivisionRepository } from './parcel-subdivision.repository';
 import { ParcelsRepository } from './parcels.repository';
 import { GeometryService } from '../geometry.service';
@@ -56,7 +56,6 @@ export class ParcelSubdivisionService {
     }));
 
     const totalChildArea = childrenWithArea.reduce((sum, c) => sum + c.area, 0);
-    const parentArea = parent.areaTerreno || parent.area || 1;
     childrenWithArea.forEach((c) => {
       c.areaPercent = Math.round((c.area / totalChildArea) * 10000) / 100;
     });

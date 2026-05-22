@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber, ValidateNested, IsArray, IsBoolean, IsEnum } from 'class-validator';
+import { IsString, IsOptional, ValidateNested, IsArray, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class EnderecoDto {

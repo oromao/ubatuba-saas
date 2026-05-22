@@ -1,7 +1,7 @@
 import {
   Controller, Get, Post, Patch, Param, Query, Body, HttpCode, HttpStatus,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ParcelSubdivisionService } from './parcel-subdivision.service';
 import { CreateSubdivisionDto } from './dto/create-subdivision.dto';
 import { UpdateSubdivisionDto } from './dto/update-subdivision.dto';

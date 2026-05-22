@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Parcel, ParcelDocument } from '../ctm/parcels/parcel.schema';
@@ -12,8 +12,6 @@ const EPSG_UTM_23S = 31983; // UTM zone 23S (São Paulo)
 
 // MVT configuration
 const MVT_EXTENT = 4096;
-const MVT_LAYER_NAME = 'parcels';
-const MVT_LAYER_VERSION = 2;
 
 export type Bbox = [number, number, number, number]; // [minLng, minLat, maxLng, maxLat]
 
@@ -238,7 +236,6 @@ export class GisService {
     const A = (lonRad - lon0Rad) * Math.cos(latRad);
     const T = Math.tan(latRad) * Math.tan(latRad);
     const C = ((f / (1 - f)) * (2 * T)) / (1 + T);
-    const V = (N / (1 + T)) * (1 + C);
     
     // Calculate easting
     const M = this.meridionalArc(latRad, a, f);
@@ -262,7 +259,6 @@ export class GisService {
     const n = f / (2 - f);
     const A = a * (1 + n) * (1 + (n * n) / 4) * (1 + (n * n) / 64);
     const alpha = ['', '1/2', '-1/24', '-1/720', '-1/4480'];
-    const beta = ['', '-1/2', '-1/24', '-1/720', '-1/4480'];
     
     let sum = 0;
     for (let i = 1; i <= 4; i++) {
@@ -286,7 +282,6 @@ export class GisService {
     const k0 = 0.9996;
     
     const centralMeridian = (zone - 1) * 6 - 180 + 3;
-    const centralMeridianRad = centralMeridian * (Math.PI / 180);
     
     let northingAdj = northing;
     if (southernHemisphere) {
@@ -308,7 +303,7 @@ export class GisService {
   /**
    * Approximation correction for latitude in UTM inverse
    */
-  private approxLatCorrection(y: number, x: number, N: number, f: number, k0: number): number {
+  private approxLatCorrection(y: number, x: number, N: number, _f: number, _k0: number): number {
     // Simple approximation - for better accuracy use iterative method
     const term1 = (3 * y * x) / (2 * N * N);
     const term2 = (3 * y * y * y) / (2 * N * N * N);

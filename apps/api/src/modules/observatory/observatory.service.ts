@@ -174,7 +174,6 @@ export class ObservatoryService {
 
     const filteredParcelIds = new Set(filteredParcels.map((parcel: any) => String(parcel.id)));
     const filteredValuations = valuations.filter((item: any) => filteredParcelIds.has(String(item.parcelId)));
-    const parcelMap = new Map(filteredParcels.map((parcel: any) => [String(parcel.id), parcel]));
 
     const totalValue = filteredValuations.reduce((acc, item) => acc + Number(item.totalValue ?? 0), 0);
     const avgValue = filteredValuations.length ? totalValue / filteredValuations.length : 0;

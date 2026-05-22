@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from '@nes
 import { Types } from 'mongoose';
 import { calculateGeometryArea, isPolygonGeometry } from '../../../common/utils/geo';
 import * as GeoJSON from 'geojson';
+import PDFDocument from 'pdfkit';
 import { asObjectId } from '../../../common/utils/object-id';
 import { createVectorTile } from '../../../common/utils/mvt.util';
 import {
@@ -9,7 +10,6 @@ import {
   CRS_SIRGAS2000_UTM_23S,
   CRS_SIRGAS2000_UTM_24S,
   convertGeometryCoordinates,
-  detectCrsFromCoordinates,
 } from '../../../common/utils/crs';
 import { ProjectsService } from '../../projects/projects.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
@@ -1006,7 +1006,7 @@ export class ParcelsService {
     sourceType: string = 'CSV_ENRICHMENT',
     fileName?: string,
     columnMapping?: Record<string, string>,
-    userId?: string,
+    _userId?: string,
   ): Promise<{ batchId: string | null; processed: number; updated: number; notFound: number; errors: number; errorDetails: Array<{ row: number; message: string }> }> {
     const lines = csvContent.split('\n').map((l) => l.trim()).filter(Boolean);
     if (lines.length < 2) {
@@ -1179,7 +1179,6 @@ export class ParcelsService {
     if (!parcel) throw new NotFoundException('Lote não encontrado');
 
     return new Promise((resolve, reject) => {
-      const PDFDocument = require('pdfkit') as typeof import('pdfkit');
       const doc = new PDFDocument({ margin: 50, size: 'A4' });
       const chunks: Buffer[] = [];
       doc.on('data', (c: Buffer) => chunks.push(c));

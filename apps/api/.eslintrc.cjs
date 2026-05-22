@@ -10,9 +10,19 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-var-requires": "warn",
-    "@typescript-eslint/ban-ts-comment": "warn",
-    "prefer-const": "warn"
-  }
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/ban-ts-comment": "error",
+    "prefer-const": "error",
+  },
+  overrides: [
+    {
+      files: ["test/**/*.ts"],
+      rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-var-requires": "off",
+      },
+    },
+  ],
 };

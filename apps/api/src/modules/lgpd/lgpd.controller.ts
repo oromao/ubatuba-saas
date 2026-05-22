@@ -55,7 +55,7 @@ export class LgpdController {
   @Get('audit/:tenantId')
   async getAuditTrail(
     @Param('tenantId') tenantId: string,
-    @Req() req: TenantRequest,
+    @Req() _req: TenantRequest,
   ) {
     const entries = await this.audit.query({ tenantId });
     return { tenantId, entries, total: entries.length };

@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, IsArray, IsObject, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsArray, IsObject } from 'class-validator';
 
 export class UpdateMunicipalConfigDto {
   @IsOptional() @IsString() brasao?: string;

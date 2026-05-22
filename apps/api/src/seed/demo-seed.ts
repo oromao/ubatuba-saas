@@ -6,7 +6,6 @@
 import mongoose, { Types } from 'mongoose';
 
 const MONGO_URL = process.env.MONGO_URL ?? 'mongodb://localhost:27017/flydea';
-const TENANT_ID = 'demo-tenant';
 
 // ---- Helpers ----
 function randomInt(min: number, max: number) {
@@ -778,7 +777,7 @@ async function seed() {
     { code: 'ZCC', name: 'Zona Central Comercial', desc: 'Comércio e serviços central', baseLand: 1200, baseConst: 2000, aliquota: 0.006, lat: -23.44, lng: -45.06 },
     { code: 'ZR2', name: 'Zona Residencial 2', desc: 'Residencial de média densidade', baseLand: 600, baseConst: 1000, aliquota: 0.005, lat: -23.45, lng: -45.10 },
   ];
-  const zones: any[] = ZONAS.map((z, i) => ({
+  const zones: any[] = ZONAS.map((z) => ({
     tenantId: TENANT_OID,
     projectId: DEMO_PROJECT_ID,
     code: z.code,

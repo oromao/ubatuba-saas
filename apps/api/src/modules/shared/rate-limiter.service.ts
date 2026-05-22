@@ -103,7 +103,7 @@ export class RateLimiterService {
    * @param points - Points to consume (default: 1)
    * @throws HttpException (429) if limit exceeded
    */
-  async consume(userId: string, role: string = 'ANONYMOUS', points = 1): Promise<void> {
+  async consume(userId: string, role: string = 'ANONYMOUS', _points = 1): Promise<void> {
     // Validate role and get appropriate limiter
     const limiter = this.limiters.get(role.toUpperCase());
 
@@ -178,7 +178,6 @@ export class RateLimiterService {
   async reset(userId: string, role: string = 'ANONYMOUS'): Promise<void> {
     const limiter = this.limiters.get(role.toUpperCase());
     if (limiter) {
-      // @ts-ignore - direct API access for admin reset
       await limiter.delete(userId);
       this.logger.log(`Rate limit reset for ${role} user ${userId}`);
     }

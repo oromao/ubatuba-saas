@@ -6,7 +6,6 @@ import { PgvZone, PgvZoneDocument } from '../zones/zone.schema';
 import { PgvValuation, PgvValuationDocument } from '../valuations/valuation.schema';
 import { ValuationsService } from '../valuations/valuations.service';
 import { TenantsService } from '../../tenants/tenants.service';
-import { CalculateValuationDto } from '../valuations/dto/calculate-valuation.dto';
 
 export interface IptuCalculationInput {
   parcelId: string;

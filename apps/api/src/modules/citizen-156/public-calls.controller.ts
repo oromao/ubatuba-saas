@@ -79,7 +79,7 @@ export class PublicCallsController {
     const ip = (req.headers['x-forwarded-for'] as string) || req.ip || 'unknown';
     await this.checkRateLimit(ip);
     const tenantId = await this.resolveTenantId(body);
-    const { description: _description, address, tenantSlug: _tenantSlug, tenantId: _tenantId, lgpdConsent: _lc, lgpdConsentVersion: _lcv, ...rest } = body;
+    const { address, ...rest } = body;
     const title = address ? `${rest.title} — ${address}` : rest.title;
     const created = await this.service.create(
       tenantId,

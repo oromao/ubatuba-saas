@@ -20,41 +20,29 @@ export interface CoordinateConversionResult {
   error?: string;
 }
 
-// Note: proj4 is an optional dependency for high-precision CRS conversion.
-// If not available, falls back to pure JS implementation with lower precision.
+import proj4 from 'proj4';
+
 let proj4InitializationDone = false;
 
-function ensureProj4Initialized(): typeof import('proj4') | null {
-  if (proj4InitializationDone) {
+function ensureProj4Initialized(): typeof proj4 | null {
+  if (!proj4InitializationDone) {
     try {
-      const p4 = require('proj4');
-      return p4;
+      proj4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+      proj4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+      proj4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+      proj4.defs("EPSG:29194", "+proj=utm +zone=24 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+      proj4InitializationDone = true;
+      return proj4;
     } catch {
+      proj4InitializationDone = true;
       return null;
     }
   }
-  
-  try {
-    const p4 = require('proj4');
-    // Register SIRGAS2000 UTM zones for Brazil
-    p4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-    p4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-    p4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
-    p4.defs("EPSG:29194", "+proj=utm +zone=24 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
-    proj4InitializationDone = true;
-    return p4;
-  } catch {
-    proj4InitializationDone = true;
-    return null;
-  }
+  return proj4;
 }
 
 function degreesToRadians(degrees: number): number {
   return degrees * (Math.PI / 180);
-}
-
-function radiansToDegrees(radians: number): number {
-  return radians * (180 / Math.PI);
 }
 
 const A = 6378137.0;
@@ -83,7 +71,7 @@ function utmToLatLong(easting: number, northing: number, zoneNumber: number, sou
   const R1 = A * (1 - E * E) / Math.pow(1 - E * E * Math.sin(phi1) * Math.sin(phi1), 1.5);
   const D = easting / (N1 * K0);
   
-  let lat = phi1 - (N1 * Math.tan(phi1) / R1) * (
+  const lat = phi1 - (N1 * Math.tan(phi1) / R1) * (
     D * D / 2 - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * E_PRIME_SQ) * D * D * D * D / 24 +
     (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * E_PRIME_SQ - 3 * C1 * C1) * D * D * D * D * D * D / 720
   );
@@ -114,7 +102,7 @@ function latLongToUtm(lat: number, lng: number): { easting: number; northing: nu
     (15 * E * E * E * E / 256 + 45 * E * E * E * E * E * E / 1024) * Math.sin(4 * latRad) -
     (35 * E * E * E * E * E * E / 3072) * Math.sin(6 * latRad));
   
-  let easting = K0 * N * (A_coord + (1 - T + C) * A_coord * A_coord * A_coord / 6 +
+  const easting = K0 * N * (A_coord + (1 - T + C) * A_coord * A_coord * A_coord / 6 +
     (5 - 18 * T + T * T + 72 * C - 58 * E_PRIME_SQ) * A_coord * A_coord * A_coord * A_coord * A_coord / 120) + 500000;
   
   let northing = K0 * (M + N * Math.tan(latRad) * (A_coord * A_coord / 2 +
@@ -209,9 +197,7 @@ export function convertCoordinate(
   if (p4) {
     try {
       // proj4 expects [lng, lat] for WGS84
-      let inputCoord = [x, y];
-      let fromProj = fromCrs;
-      let toProj = toCrs;
+      const inputCoord = [x, y];
       
       // Map our CRS constants to proj4-compatible strings
       const crsMap: Record<string, string> = {
