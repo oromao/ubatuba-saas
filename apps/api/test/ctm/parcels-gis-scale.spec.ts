@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { JwtService } from '@nestjs/jwt';
 import { Types } from 'mongoose';
+import { ProjectsService } from '../../src/modules/projects/projects.service';
 
 describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () => {
   let app: INestApplication;
@@ -13,6 +14,7 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
   beforeAll(async () => {
     tenantId = new Types.ObjectId().toHexString();
     accessToken = 'test-token-placeholder';
+    const projectId = new Types.ObjectId();
 
     const jwtServiceMock = {
       verify: () => {
@@ -20,11 +22,17 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       },
     };
 
+    const projectsServiceMock = {
+      resolveProjectId: jest.fn().mockResolvedValue(projectId),
+    };
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
       .overrideProvider(JwtService)
       .useValue(jwtServiceMock)
+      .overrideProvider(ProjectsService)
+      .useValue(projectsServiceMock)
       .compile();
 
     app = moduleFixture.createNestApplication();
