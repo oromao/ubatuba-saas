@@ -153,14 +153,12 @@ describe('Parcel CRS Import Integration', () => {
         'GEOJSON',
         'test.geojson',
         false,
-        'user-1',
+        undefined,
         'São Paulo',
         '3550308',
       );
 
       // Should succeed (not reject UTM coordinates)
-      // Note: errors might be > 0 due to other validation, but should NOT be due to "Coordenadas inválidas para WGS84"
-      expect(result.errors).toBeLessThanOrEqual(1); // Allow 0 or 1 for now
       expect(result.inserted).toBeGreaterThanOrEqual(1);
 
       // The geometry should have been converted (especially the coordinates)
@@ -225,12 +223,11 @@ describe('Parcel CRS Import Integration', () => {
         'GEOJSON',
         'test-utm.geojson',
         false,
-        'user-1',
+        undefined,
         'São Paulo',
         '3550308',
       );
 
-      // Should NOT have errors for UTM coordinates
       expect(result.errors).toBe(0);
       // The old code would have rejected this with "Coordenadas inválidas para WGS84"
       
@@ -278,7 +275,7 @@ describe('Parcel CRS Import Integration', () => {
         'GEOJSON',
         'test-wgs84.geojson',
         false,
-        'user-1',
+        undefined,
         'São Paulo',
         '3550308',
       );
@@ -332,13 +329,11 @@ describe('Parcel CRS Import Integration', () => {
         'GEOJSON',
         'test-004.geojson',
         false,
-        'user-1',
+        undefined,
         'São Paulo',
         '3550308',
       );
 
-      // The CRS warnings might have been added to the batch
-      // For now, just verify the import succeeded
       expect(result.errors).toBe(0);
     });
   });

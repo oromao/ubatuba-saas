@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { JwtService } from '@nestjs/jwt';
+import { Types } from 'mongoose';
 
 describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () => {
   let app: INestApplication;
@@ -9,9 +11,21 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
   let accessToken: string;
 
   beforeAll(async () => {
+    tenantId = new Types.ObjectId().toHexString();
+    accessToken = 'test-token-placeholder';
+
+    const jwtServiceMock = {
+      verify: () => {
+        return { sub: new Types.ObjectId().toHexString(), role: 'ADMIN', tenantId };
+      },
+    };
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(JwtService)
+      .useValue(jwtServiceMock)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
