@@ -53,7 +53,7 @@ describe('CTM Parcels Service', () => {
   };
 
   const mockParcel = {
-    id: 'parcel-001',
+    id: new Types.ObjectId().toHexString(),
     tenantId: mockTenantId as any,
     projectId: mockProjectId as any,
     sqlu: '123.45.67.890',
@@ -267,7 +267,7 @@ describe('CTM Parcels Service', () => {
       const result = await service.findById(
         mockTenantId,
         mockProjectId,
-        'parcel-001',
+        mockParcel.id,
       );
 
       expect(result).toEqual(expect.objectContaining({
@@ -277,20 +277,16 @@ describe('CTM Parcels Service', () => {
       expect(repository.findById).toHaveBeenCalledWith(
         mockTenantId,
         mockProjectId,
-        'parcel-001',
+        mockParcel.id,
       );
     });
 
-    it('should return null for non-existent parcel', async () => {
-      jest.spyOn(repository, 'findById').mockResolvedValue(null);
-
-      const result = await service.findById(
+    it('should throw BadRequestException for invalid parcel ID format', async () => {
+      await expect(service.findById(
         mockTenantId,
         mockProjectId,
         'invalid-id',
-      );
-
-      expect(result).toBeNull();
+      )).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -319,7 +315,7 @@ describe('CTM Parcels Service', () => {
       const result = await service.getHistory(
         mockTenantId,
         mockProjectId,
-        'parcel-001',
+        mockParcel.id,
       );
 
       expect(result).toEqual(auditLog);
@@ -334,7 +330,7 @@ describe('CTM Parcels Service', () => {
       const result = await service.getHistory(
         mockTenantId,
         mockProjectId,
-        'parcel-001',
+        mockParcel.id,
       );
 
       expect(result).toEqual([]);
@@ -530,9 +526,9 @@ describe('CTM Parcels Service', () => {
       parcelSocioeconomicServiceMock.findByParcel.mockResolvedValue([{ id: 'socio-1' }]);
       logradourosServiceMock.findById.mockResolvedValue({ id: 'logradouro-1', nome: 'Rua A' });
 
-      const result = await service.getSummary(mockTenantId, mockProjectId, 'parcel-001');
+      const result = await service.getSummary(mockTenantId, mockProjectId, mockParcel.id);
 
-      expect(result.parcel.id).toBe('parcel-001');
+      expect(result.parcel.id).toBe(mockParcel.id);
       expect(result.building).toHaveLength(1);
       expect(result.infrastructure).toHaveLength(1);
       expect(result.socioeconomic).toHaveLength(1);

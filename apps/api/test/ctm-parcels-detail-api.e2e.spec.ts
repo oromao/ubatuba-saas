@@ -12,6 +12,7 @@ import { ParcelBuildingsService } from '../src/modules/ctm/parcel-buildings/parc
 import { ParcelSocioeconomicService } from '../src/modules/ctm/parcel-socioeconomic/parcel-socioeconomic.service';
 import { ParcelInfrastructureService } from '../src/modules/ctm/parcel-infrastructure/parcel-infrastructure.service';
 import { GeometryService } from '../src/modules/ctm/geometry.service';
+import { ShapefileImportService } from '../src/modules/ctm/parcels/shapefile-import.service';
 
 describe('ParcelsController detail smoke', () => {
   let app: INestApplication;
@@ -49,6 +50,7 @@ describe('ParcelsController detail smoke', () => {
         { provide: ParcelSocioeconomicService, useValue: { upsert: jest.fn() } },
         { provide: ParcelInfrastructureService, useValue: { upsert: jest.fn() } },
         { provide: GeometryService, useValue: { validateGeometry: jest.fn().mockReturnValue({ valid: true }) } },
+        { provide: ShapefileImportService, useValue: { parseShpZip: jest.fn() } },
       ],
     }).compile();
 
