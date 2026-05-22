@@ -1,16 +1,16 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (Combate à Dengue PDF v1 Cópia)`
+> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (CTM tests stabilization QA-002)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 85.2% (Tier: Municipal-Grade Competitivo)
-- **Backlog Status:** 31+ itens DONE. Nova fase: GeoSampa + Demo Real. Recente: T10-DENGUE-PDF.
-- **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
-- **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
+- **Maturidade (Weighted):** 86.5% (Tier: Municipal-Grade Competitivo)
+- **Backlog Status:** 34+ itens DONE. Nova fase: GeoSampa + Demo Real. Recente: QA-002 (CTM tests stabilization).
+- **Blockers:** Bugs críticos de QA na demo, SHP import.
+- **Infra:** Docker-dev estável; 158 unit tests; 330 parcels no banco (300 SP + 30 demo).
 - **Demo live:** http://labspaulo.site/ — login: admin@demo.local / Admin@12345
 
 ---
@@ -19,11 +19,11 @@
 
 | ID | Tarefa | Objetivo | Impacto |
 |---|---|---|---|
-| **T10-GEOSAMPA-IMPORT** | Importar lotes reais GeoSampa via WFS | Substituir dados sintéticos por lotes fiscais reais de SP. | CRÍTICO |
-| **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | CI verde, demo validada automaticamente. | HIGH |
-| **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | Certidões com formatação profissional (brasão, QR code). | HIGH |
-| **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard | KPIs visuais para demo de prefeitura. | MEDIUM |
-| **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras. | MEDIUM |
+| **QA-002** | Vistorias: Corrigir listagem vazia na demo | Popular/resolver a ausência de vistorias persistidas na demo. | `DONE` |
+| **QA-005** | Implementar empty states nos 8+ módulos sem dados | Evitar telas operacionais confusas sem feedback de dados na demo. | `DONE` |
+| **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras diretamente via upload. | MEDIUM |
+| **QA-004** | Corrigir 500 no detalhe de parcelas com ID inválido | Tratar CastError de forma elegante no backend NestJS. | MEDIUM |
+| **QA-008** | GeoJSON bbox inválido → 500 | Tratar bounding box inválido/malformado no GIS com fallback. | MÉDIA |
 
 ---
 

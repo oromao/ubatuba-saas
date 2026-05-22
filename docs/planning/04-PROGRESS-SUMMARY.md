@@ -2,7 +2,7 @@
 
 > Resumo consolidado do progresso real. Use este arquivo para uma visão rápida.
 > O log detalhado histórico continua em `04-PROGRESS-LOG.md`.
-> ÚLTIMA ATUALIZAÇÃO: `2026-04-30` por `OpenCode (T0-RECONCILE + T8-GIS-MVT)`
+> Última atualização: `2026-05-22` por `Antigravity (Demo Seed Ingestion QA-005)`
 
 ---
 
@@ -18,6 +18,9 @@
 
 ## 2. Itens DONE (Confiáveis / Municipal-Grade)
 
+- **QA-005-DEMO-SEED-INGESTION:** Ingestao de dados reais consistentes e geograficamente coerentes para 18 colecoes sob o tenant demo no MongoDB, eliminando "empty states" e alimentando as telas de 8+ modulos adicionais na demonstracao.
+- **QA-001-DASHBOARD-RESILIENCE:** Blindagem total a falhas concorrentes e timeouts nos stubs/queries das APIs de KPIs do Dashboard no NestJS, e correção cirúrgica de tipos TypeScript no `permits-works`. 5 testes unitários Jest verdes comprovando resiliência.
+- **T10-DASHBOARD-GRAPHS:** Componentes dinâmicos e responsivos `<DonutChart />` e `<HorizontalBarChart />` desenvolvidos usando SVG puro e Tailwind (zero libs externas pesadas) e integrados com sucesso ao painel executivo (CTM, secretarias e saúde de satélites).
 - **T1-AUDIT-FIXES:** Botões de vistorias, rotas 404 e redirecionamentos corrigidos e provados via Playwright.
 - **T1-HYDRATION:** Eliminação de telas brancas e loaders infinitos no menu principal.
 - **T2-GIS-SCALE:** Mapa aguenta 10k+ geometrias (testado via seed de 10k).

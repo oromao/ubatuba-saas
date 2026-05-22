@@ -30,13 +30,16 @@
 ## Locks ativos
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
-|---|---|---|---|---|---|---|---|---|---|
-
+|---|---|---|---|---|---|---|---|---|
 
 ## Histórico de locks encerrados
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-22 | QA-005 | Antigravity | DONE | [QA-005] 8+ modulos sem dados na demo populados com sucesso | Populados dados consistentes de demo em 18 colecoes, preenchendo todos os empty states do frontend de forma realista e geograficamente consistente. |
+| 2026-05-22 | QA-002 | Antigravity | DONE | [QA-002] CTM integration tests stabilized & seeds populated | Corrigidocertificates.service mock, JwtService sub hex hex valid, ProjectsService inject dynamic na parcel seed. Vistorias e parcelas 100% testadas e verdes. |
+| 2026-05-22 | QA-001 | Antigravity | DONE | [QA-001] Corrigido retorno resiliente de KPIs do Dashboard sob estresse e TS2532 | Tratamento de erros concorrentes e cache robusto implementados no backend NestJS com 3 novos testes unitários passando. |
+| 2026-05-22 | T10-DASHBOARD-GRAPHS | Antigravity | DONE | [T10-DASHBOARD-GRAPHS] Gráficos interativos animados e responsivos integrados | Componentes Donut e Barras Horizontais desenvolvidos e build frontend validado sem erros. |
 | 2026-05-22 | T10-DENGUE-PDF | Antigravity | DONE | [T10-DENGUE-PDF] Módulo Combate à Dengue no PDF institucional v1 (Cópia) | docs/flydea-govtech-overview-dengue.pdf gerado com sucesso contendo 16 páginas |
 | 2026-05-21 | T10-PDF-V2-REWRITE | Antigravity | DONE | [T10-PDF-V2-REWRITE] Reescrita completa do PDF comercial v2.0 com 14 melhorias estruturais | docs/flydea-govtech-overview-v2.pdf (4.6MB, 18 págs, novo script generate-pdf-v2.mjs) |
 | 2026-05-21 | T10-PDF-REFORMAT-FINE-TUNING | Antigravity | DONE | [T10-PDF-REFORMAT-FINE-TUNING] Fine-tuning do PDF: espaçamento, WebGIS prints, Base64, asteriscos | docs/flydea-govtech-overview.pdf compilado com capturas perfeitas de produção |
