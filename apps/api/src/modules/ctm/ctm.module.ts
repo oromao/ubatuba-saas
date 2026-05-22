@@ -100,6 +100,7 @@ import { ShapefileImportService } from './parcels/shapefile-import.service';
     ParcelSubdivisionRepository,
     ParcelSubdivisionService,
     ShapefileService,
+    ShapefileImportService,
   ],
   exports: [
     ParcelsRepository,
