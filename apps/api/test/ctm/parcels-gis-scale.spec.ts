@@ -37,9 +37,6 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
 
     app = moduleFixture.createNestApplication();
     await app.init();
-
-    tenantId = 'sp-gis-test-' + Date.now();
-    accessToken = 'test-token-placeholder';
   });
 
   afterAll(async () => {
