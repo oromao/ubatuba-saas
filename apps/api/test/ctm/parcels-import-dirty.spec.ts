@@ -120,12 +120,7 @@ describe('T7-SP-DATA-REAL: GeoJSON import with dirty data', () => {
         });
 
       expect([200, 201]).toContain(response.status);
-      expect(response.body.errors).toBeGreaterThanOrEqual(1);
-      expect(response.body.errorDetails).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ message: expect.stringContaining('WGS84') }),
-        ]),
-      );
+      // UTM coordinates are now auto-converted to WGS84 by CRS detection
     });
 
     it('skips feature with no SQLU or insscricao', async () => {

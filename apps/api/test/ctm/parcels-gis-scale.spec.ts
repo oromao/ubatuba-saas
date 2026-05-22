@@ -46,6 +46,7 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       const response = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
         .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId)
         .query({ bbox });
 
       expect(response.status).toBe(200);
@@ -61,11 +62,13 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       const bboxResponse = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
         .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId)
         .query({ bbox: tinyBbox });
 
       const allResponse = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
-        .set('Authorization', `Bearer ${accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId);
 
       expect(bboxResponse.status).toBe(200);
       expect(allResponse.status).toBe(200);
@@ -81,6 +84,7 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       const response = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
         .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId)
         .query({ bbox: oceanBbox });
 
       expect(response.status).toBe(200);
@@ -93,6 +97,7 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       const response = await request(app.getHttpServer())
         .get('/ctm/parcels')
         .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId)
         .query({ bbox });
 
       expect(response.status).toBe(200);
@@ -104,7 +109,8 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
     it('geojson endpoint responds successfully (index functional)', async () => {
       const response = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
-        .set('Authorization', `Bearer ${accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId);
 
       expect(response.status).toBe(200);
       expect(response.body.type).toBe('FeatureCollection');
@@ -119,6 +125,7 @@ describe('T6-SP-GIS-SCALE: Viewport-based bbox loading and 2dsphere index', () =
       const response = await request(app.getHttpServer())
         .get('/ctm/parcels/geojson')
         .set('Authorization', `Bearer ${accessToken}`)
+        .set('x-tenant-id', tenantId)
         .query({ bbox: largeBbox });
 
       expect(response.status).toBe(200);
