@@ -31,14 +31,13 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — | — | Nenhum lock ativo no momento |
-
 
 
 ## Histórico de locks encerrados
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-22 | T10-DENGUE-PDF | Antigravity | DONE | [T10-DENGUE-PDF] Módulo Combate à Dengue no PDF institucional v1 (Cópia) | docs/flydea-govtech-overview-dengue.pdf gerado com sucesso contendo 16 páginas |
 | 2026-05-21 | T10-PDF-V2-REWRITE | Antigravity | DONE | [T10-PDF-V2-REWRITE] Reescrita completa do PDF comercial v2.0 com 14 melhorias estruturais | docs/flydea-govtech-overview-v2.pdf (4.6MB, 18 págs, novo script generate-pdf-v2.mjs) |
 | 2026-05-21 | T10-PDF-REFORMAT-FINE-TUNING | Antigravity | DONE | [T10-PDF-REFORMAT-FINE-TUNING] Fine-tuning do PDF: espaçamento, WebGIS prints, Base64, asteriscos | docs/flydea-govtech-overview.pdf compilado com capturas perfeitas de produção |
 | 2026-05-21 | T10-PDF-REFORMAT | Antigravity | DONE | [T10-PDF-REFORMAT] Reorganização do PDF comercial, correção da capa e renderização de imagens Base64 | docs/flydea-govtech-overview.pdf compilado com sucesso e imagens Base64 |

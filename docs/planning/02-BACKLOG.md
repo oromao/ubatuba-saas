@@ -94,6 +94,7 @@
 | **T10-GEOSAMPA-IMPORT** | Importar lotes reais via WFS GeoSampa | `DONE` | M | Dados |
 | **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | `DONE` | S | Testes |
 | **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `DONE` | M | Documentos |
+| **T10-DENGUE-PDF** | Módulo Combate à Dengue no PDF institucional v1 (Cópia) | `DONE` | S | Documentos |
 | **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `TODO` | M | Frontend |
 | **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
 

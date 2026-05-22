@@ -1,14 +1,14 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-05-01` por `OpenCode (GeoSampa sprint)`
+> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (Combate à Dengue PDF v1 Cópia)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
 - **Maturidade (Weighted):** 85.2% (Tier: Municipal-Grade Competitivo)
-- **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
+- **Backlog Status:** 31+ itens DONE. Nova fase: GeoSampa + Demo Real. Recente: T10-DENGUE-PDF.
 - **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
 - **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
 - **Demo live:** http://labspaulo.site/ — login: admin@demo.local / Admin@12345

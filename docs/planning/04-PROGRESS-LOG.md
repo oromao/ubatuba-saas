@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-05-22 — T10-DENGUE-PDF (Antigravity)
+
+**Task:** Módulo Combate à Dengue no PDF institucional v1 (Cópia)
+**Status:** DONE
+**Feito:**
+- Criada cópia independente do script de geração de PDF v1 em `scripts/generate-pdf-dengue.mjs` para evitar qualquer impacto nos fluxos originais.
+- Injetada a nova Página 8: Módulos de Saúde Pública (Combate à Dengue) com design premium, detalhando as 5 partes fundamentais do fluxo: (1) Mapa de risco, (2) Denúncias da população, (3) Planejamento da ação, (4) Operação com drone e (5) Relatório automático.
+- Adicionado diagrama em formato de grafo conectando o combate à dengue com o ecossistema FlyDea (Portal do Cidadão -> Mapa/CTM -> Vistorias -> Ordens de Serviço -> Módulo de Drone -> Relatórios).
+- Reajustada toda a numeração de páginas subsequentes no HTML e rodapés (Páginas 8-15 viraram 9-16).
+- Atualizado o Sumário Executivo na Página 2 para incluir o novo módulo.
+- PDF gerado com sucesso em `docs/flydea-govtech-overview-dengue.pdf` (4.5 MB, 16 páginas, imagens em Base64).
+
+**Arquivos:**
+- `scripts/generate-pdf-dengue.mjs` (NEW - script de geração da cópia com Dengue)
+- `docs/flydea-govtech-overview-dengue.pdf` (NEW - PDF final gerado)
+- `docs/planning/02-BACKLOG.md` (UPDATED - backlog com T10-DENGUE-PDF DONE)
+- `docs/planning/11-ACTIVE-LOCKS.md` (UPDATED - locks fechados)
+
 ## 2026-05-21 — T10-PDF-V2-REWRITE (Antigravity)
 
 **Task:** Reescrita Completa do PDF Comercial FlyDea v2.0 com 14 Melhorias Estruturais
