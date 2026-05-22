@@ -23,6 +23,7 @@
 
 | Domínio | Peso | Agora | Alvo | Gap | Próxima Ação |
 |---|:---:|:---:|:---:|:---:|---|
+| **Multi-Agent / Harness (Coordination)** | 1 | **5** | 5 | 0 | — |
 | **GIS / WebGIS** | 2 | **5** | 5 | 0 | — |
 | **Dados Reais / Importação / CRS** | 2 | **4** | 5 | -1 | T9-INTEG-GEOSAMPA |
 | **CTM / Parcela (Núcleo)** | 2 | **5** | 5 | 0 | — |
@@ -64,7 +65,11 @@ Os seguintes itens foram rebaixados em auditorias anteriores e posteriormente re
 ## 5. Histórico de Mudanças
 
 | Data | Agente | Mudança | Motivo |
-|---|---|---|---|
+|---|---|---|---|---|
+| 2026-05-14 | OpenCode | Segurança/Infra 4→2 | Brainstorm revelou MongoDB sem auth, sem backup, sem CI/CD, sem SSL auto-renew |
+| 2026-05-14 | OpenCode | LGPD/Compliance 4→2 | Sem consentimento, sem direito ao esquecimento, audit trail incompleto |
+| 2026-05-14 | OpenCode | Maturidade geral 85.2%→73% | Recalibração com pesos reais de segurança/infra/testes |
+| 2026-05-13 | OpenCode | Harness 4→5 | 3 novos agentes (GIS, DevOps, Compliance), 7 queues, 12 pipelines, cobertura total de domínios |
 | 2026-04-30 | OpenCode | Processos 2→3 | T8-CERT-SIGN DONE (assinatura digital RSA-SHA256) |
 | 2026-04-30 | OpenCode | Processos 1→2 | T8-PROCESS-ALVARA PARTIAL: parcelId + certidão auto + validUntil + 13 tests |
 | 2026-04-30 | OpenCode | GIS 2→3, Trib 1→2 | T8-GIS-MVT DONE (MVT tiles), T8-TRIB-IPTU DONE (engine IPTU) |

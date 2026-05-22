@@ -29,4 +29,15 @@ export class CreateCitizenCallDto {
   @IsArray()
   @IsString({ each: true })
   attachmentKeys?: string[];
+
+  @IsOptional()
+  lgpdConsentAt?: Date;
+
+  @IsOptional()
+  @IsString()
+  lgpdConsentVersion?: string;
+
+  @IsOptional()
+  @IsString()
+  lgpdConsentId?: string;
 }

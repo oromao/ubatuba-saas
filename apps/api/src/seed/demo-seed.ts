@@ -95,127 +95,19 @@ const pgvValuationSchema = new mongoose.Schema(
   { timestamps: true, collection: 'pgv_valuations' },
 );
 
-const pgvVersionSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: { type: Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    year: { type: Number, required: true },
-    isActive: { type: Boolean, default: false },
-    createdBy: Types.ObjectId,
-  },
-  { timestamps: true, collection: 'pgv_versions' },
-);
-
-const vistoriaSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    parcelId: { type: Types.ObjectId, required: true },
-    tipo: { type: String, required: true, enum: ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'] },
-    data: { type: Date, required: true },
-    observacoes: { type: String, default: '' },
-    status: { type: String, enum: ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA', 'CANCELADA'], default: 'RASCUNHO' },
-    fotos: { type: [String], default: [] },
-    historico: { type: [Object], default: [] },
-    operadorId: { type: Types.ObjectId },
-  },
-  { timestamps: true, collection: 'vistorias' },
-);
-
-const cemeteryPlotSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    cemeteryName: { type: String, required: true },
-    block: { type: String, required: true },
-    row: { type: String, required: true },
-    plot: { type: String, required: true },
-    status: { type: String, required: true, default: 'LIVRE' },
-    ownerName: String,
-    occupantName: String,
-    locationCode: String,
-    documentKeys: { type: [String], default: [] },
-    history: { type: [Object], default: [] },
-  },
-  { timestamps: true, collection: 'cemetery_plots' }
-);
-
-const environmentCaseSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: Types.ObjectId,
-    protocolNumber: { type: String, required: true },
-    title: { type: String, required: true },
-    category: { type: String, required: true, enum: ['APP', 'PODA', 'ARVORE', 'LAUDO', 'OS', 'LICENCA'] },
-    status: { type: String, required: true },
-    history: { type: [Object], default: [] },
-    evidenceKeys: { type: [String], default: [] },
-    tasks: { type: [Object], default: [] },
-    reportPdfKey: String,
-  },
-  { timestamps: true, collection: 'environment_cases' }
-);
-
-const permitWorkRequestSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: Types.ObjectId,
-    protocolNumber: { type: String, required: true },
-    applicantName: { type: String, required: true },
-    subjectAddress: { type: String, required: true },
-    status: { type: String, required: true, default: 'ABERTO' },
-    currentStage: { type: String, required: true, default: 'ABERTURA' },
-    responsibleDepartment: String,
-    history: { type: [Object], default: [] },
-    requirements: { type: [Object], default: [] },
-    evidences: { type: [Object], default: [] },
-    invoices: { type: [Object], default: [] },
-    decisionPdfKey: String,
-    parcelId: Types.ObjectId,
-    validUntil: Date,
-    decision: Object,
-  },
-  { timestamps: true, collection: 'permit_work_requests' }
-);
-
-const permitBusinessRequestSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: Types.ObjectId,
-    protocolNumber: { type: String, required: true },
-    companyName: { type: String, required: true },
-    cnpj: { type: String, required: true },
-    activityDescription: { type: String, required: true },
-    status: { type: String, required: true, default: 'ABERTO' },
-    currentStage: { type: String, required: true, default: 'ABERTURA' },
-    responsibleDepartment: String,
-    history: { type: [Object], default: [] },
-    taxes: { type: [Object], default: [] },
-    evidences: { type: [Object], default: [] },
-    permitPdfKey: String,
-    decision: Object,
-  },
-  { timestamps: true, collection: 'permit_business_requests' }
-);
-
 const pgvZoneSchema = new mongoose.Schema(
   {
     tenantId: { type: Types.ObjectId, required: true },
     projectId: { type: Types.ObjectId, required: true },
     code: { type: String, required: true },
-    name: { type: String, required: true },
-    nome: String,
+    name: String,
     description: String,
-    descricao: String,
-    baseLandValue: { type: Number, required: true },
-    valorBaseTerrenoM2: Number,
-    baseConstructionValue: { type: Number, required: true },
-    valorBaseConstrucaoM2: Number,
+    baseLandValue: Number,
+    baseConstructionValue: Number,
     aliquotaIptu: { type: Number, default: 0.005 },
     geometry: { type: Object, required: true },
-    createdBy: Types.ObjectId,
-    updatedBy: Types.ObjectId,
   },
-  { timestamps: true, collection: 'pgv_zones' }
+  { timestamps: true, collection: 'pgv_zones' },
 );
 
 const pgvFaceSchema = new mongoose.Schema(
@@ -223,130 +115,27 @@ const pgvFaceSchema = new mongoose.Schema(
     tenantId: { type: Types.ObjectId, required: true },
     projectId: { type: Types.ObjectId, required: true },
     code: { type: String, required: true },
-    logradouroId: Types.ObjectId,
-    zoneId: Types.ObjectId,
-    zonaValorId: Types.ObjectId,
-    landValuePerSqm: { type: Number, required: true },
-    valorTerrenoM2: Number,
-    metadados: Object,
+    logradouro: String,
+    zoneCode: String,
+    landValuePerSqm: Number,
     geometry: { type: Object, required: true },
-    createdBy: Types.ObjectId,
-    updatedBy: Types.ObjectId,
   },
-  { timestamps: true, collection: 'pgv_faces' }
+  { timestamps: true, collection: 'pgv_faces' },
 );
 
-const urbanFurnitureSchema = new mongoose.Schema(
+const vistoriaSchema = new mongoose.Schema(
   {
     tenantId: { type: Types.ObjectId, required: true },
-    projectId: { type: Types.ObjectId, required: true },
-    type: { type: String, required: true },
-    tipo: String,
-    location: { type: Object, required: true },
-    geometry: Object,
-    condition: String,
-    estadoConservacao: String,
-    notes: String,
-    observacao: String,
-    photoUrl: String,
-    fotoUrl: String,
-    createdBy: Types.ObjectId,
-    updatedBy: Types.ObjectId,
+    parcelId: Types.ObjectId,
+    tipo: { type: String, enum: ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'], required: true },
+    data: { type: Date, required: true },
+    observacoes: String,
+    status: { type: String, enum: ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA', 'CANCELADA'], default: 'RASCUNHO' },
+    fotos: [String],
+    historico: [{ status: String, observacao: String, userId: String, timestamp: Date }],
+    operadorId: String,
   },
-  { timestamps: true, collection: 'urban_furniture' }
-);
-
-const complianceProfileSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: { type: Types.ObjectId, required: true },
-    company: Object,
-    technicalResponsibles: { type: [Object], default: [] },
-    artsRrts: { type: [Object], default: [] },
-    cats: { type: [Object], default: [] },
-    team: { type: [Object], default: [] },
-    checklist: { type: [Object], default: [] },
-    auditLog: { type: [Object], default: [] },
-  },
-  { timestamps: true, collection: 'compliance_profiles' }
-);
-
-const publicWorkSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: Types.ObjectId,
-    protocolNumber: { type: String, required: true },
-    title: { type: String, required: true },
-    department: { type: String, required: true },
-    location: { type: String, required: true },
-    contractor: String,
-    status: { type: String, required: true, default: 'PLANEJADA' },
-    stage: { type: String, required: true, default: 'CADASTRO' },
-    progress: { type: Number, default: 0 },
-    budget: Number,
-    startDate: String,
-    endDate: String,
-    evidenceKeys: { type: [String], default: [] },
-    measurements: { type: [Object], default: [] },
-    history: { type: [Object], default: [] },
-  },
-  { timestamps: true, collection: 'public_works' }
-);
-
-const assetSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    category: { type: String, required: true },
-    status: { type: String, required: true },
-    location: { type: Object, required: true },
-  },
-  { timestamps: true, collection: 'assets' }
-);
-
-const environmentalAlertSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    title: { type: String, required: true },
-    level: { type: String, required: true },
-    status: { type: String, required: true },
-    stage: { type: String, required: true, default: 'TRIAGEM' },
-    evidenceKeys: { type: [String], default: [] },
-    assignedTo: String,
-    resolvedAt: String,
-    timeline: { type: [Object], default: [] },
-    location: { type: Object, required: true },
-  },
-  { timestamps: true, collection: 'environmentalalerts' }
-);
-
-const letterTemplateSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: { type: Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    version: { type: Number, required: true },
-    html: { type: String, required: true },
-    variables: { type: [String], default: [] },
-    isActive: { type: Boolean, default: true },
-  },
-  { timestamps: true, collection: 'letter_templates' }
-);
-
-const letterBatchSchema = new mongoose.Schema(
-  {
-    tenantId: { type: Types.ObjectId, required: true },
-    projectId: { type: Types.ObjectId, required: true },
-    templateId: { type: Types.ObjectId, required: true },
-    templateName: { type: String, required: true },
-    templateVersion: { type: Number, required: true },
-    protocol: { type: String, required: true },
-    status: { type: String, required: true },
-    filter: Object,
-    letters: { type: [Object], default: [] },
-    createdBy: Types.ObjectId,
-  },
-  { timestamps: true, collection: 'letter_batches' }
+  { timestamps: true, collection: 'vistorias' },
 );
 
 // ---- Data generators ----
@@ -384,42 +173,18 @@ async function seed() {
   const SurveyModel = mongoose.model('DemoSurvey', surveySchema);
   const ReurbFamilyModel = mongoose.model('DemoReurbFamily', reurbFamilySchema);
   const PgvValuationModel = mongoose.model('DemoPgvValuation', pgvValuationSchema);
-  const PgvVersionModel = mongoose.model('DemoPgvVersion', pgvVersionSchema);
+  const PgvZoneModel = mongoose.model('DemoPgvZone', pgvZoneSchema);
+  const PgvFaceModel = mongoose.model('DemoPgvFace', pgvFaceSchema);
   const VistoriaModel = mongoose.model('DemoVistoria', vistoriaSchema);
-  const CemeteryPlotModel = mongoose.model('CemeteryPlot', cemeteryPlotSchema);
-  const EnvironmentCaseModel = mongoose.model('EnvironmentCase', environmentCaseSchema);
-  const PermitWorkRequestModel = mongoose.model('PermitWorkRequest', permitWorkRequestSchema);
-  const PermitBusinessRequestModel = mongoose.model('PermitBusinessRequest', permitBusinessRequestSchema);
-  const PgvZoneModel = mongoose.model('PgvZone', pgvZoneSchema);
-  const PgvFaceModel = mongoose.model('PgvFace', pgvFaceSchema);
-  const UrbanFurnitureModel = mongoose.model('UrbanFurniture', urbanFurnitureSchema);
-  const ComplianceProfileModel = mongoose.model('ComplianceProfile', complianceProfileSchema);
-  const PublicWorkModel = mongoose.model('PublicWork', publicWorkSchema);
-  const AssetModel = mongoose.model('Asset', assetSchema);
-  const EnvironmentalAlertModel = mongoose.model('EnvironmentalAlert', environmentalAlertSchema);
-  const LetterTemplateModel = mongoose.model('LetterTemplate', letterTemplateSchema);
-  const LetterBatchModel = mongoose.model('LetterBatch', letterBatchSchema);
 
   // Clear existing demo data
   await ParcelModel.deleteMany({ tenantId: TENANT_OID });
   await SurveyModel.deleteMany({ tenantId: TENANT_OID });
   await ReurbFamilyModel.deleteMany({ tenantId: TENANT_OID });
   await PgvValuationModel.deleteMany({ tenantId: TENANT_OID });
-  await PgvVersionModel.deleteMany({ tenantId: TENANT_OID });
-  await VistoriaModel.deleteMany({ tenantId: TENANT_OID });
-  await CemeteryPlotModel.deleteMany({ tenantId: TENANT_OID });
-  await EnvironmentCaseModel.deleteMany({ tenantId: TENANT_OID });
-  await PermitWorkRequestModel.deleteMany({ tenantId: TENANT_OID });
-  await PermitBusinessRequestModel.deleteMany({ tenantId: TENANT_OID });
   await PgvZoneModel.deleteMany({ tenantId: TENANT_OID });
   await PgvFaceModel.deleteMany({ tenantId: TENANT_OID });
-  await UrbanFurnitureModel.deleteMany({ tenantId: TENANT_OID });
-  await ComplianceProfileModel.deleteMany({ tenantId: TENANT_OID });
-  await PublicWorkModel.deleteMany({ tenantId: TENANT_OID });
-  await AssetModel.deleteMany({ tenantId: TENANT_OID });
-  await EnvironmentalAlertModel.deleteMany({ tenantId: TENANT_OID });
-  await LetterTemplateModel.deleteMany({ tenantId: TENANT_OID });
-  await LetterBatchModel.deleteMany({ tenantId: TENANT_OID });
+  await VistoriaModel.deleteMany({ tenantId: TENANT_OID });
   console.log('Cleared existing demo data.');
 
   // ---- 200 Parcelas ----
@@ -466,56 +231,6 @@ async function seed() {
   }
   const insertedParcels = await ParcelModel.insertMany(parcels);
   console.log(`Inserted ${insertedParcels.length} parcelas.`);
-
-  // ---- 30 Vistorias (Combate à Dengue & Fiscalização) ----
-  const vistorias: any[] = [];
-  const VISTORIA_TIPOS = ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'];
-  const VISTORIA_STATUSES = ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA', 'CANCELADA'];
-  const DENGUE_OBSERVATIONS = [
-    'Denúncia de água parada e entulho acumulado em terreno baldio. Foco de proliferação de dengue confirmado pelo agente de saúde.',
-    'Operação com drone realizada com sucesso. Identificado acúmulo de água limpa em laje exposta de canteiro de obras.',
-    'Vistoria pós-aplicação de larvicida e remoção de recipientes. Área considerada controlada.',
-    'Inspeção visual e coleta de larvas para análise laboratorial. Aguardando laudo epidemiológico.',
-    'Terreno abandonado com piscina sem tratamento. Risco extremo de proliferação de dengue.',
-    'Reinspeção para verificar cumprimento de notificação de limpeza de caixa d\'água.',
-    'Vistoria preventiva residencial. Morador instruído sobre cuidados básicos e eliminação de pratos de plantas.',
-    'Fiscalização de rotina em comércio. Encontrado pneus expostos à chuva. Proprietário autuado.',
-    'Vistoria especial em local de alta incidência de casos notificados. Bloqueio químico de criadouros realizado.',
-    'Denúncia 156 recebida. Caixa d\'água destampada em residência multifamiliar. Notificação emitida.',
-  ];
-
-  const FOTOS_MOCK = [
-    'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1595275313396-03e5c940b90a?auto=format&fit=crop&w=400&q=80'
-  ];
-
-  const OPERADOR_OID = new Types.ObjectId('69cd5dc642c8e2d7bd230acf');
-
-  for (let i = 1; i <= 30; i++) {
-    const parcel = randomFrom(insertedParcels);
-    const status = randomFrom(VISTORIA_STATUSES);
-    const tipo = randomFrom(VISTORIA_TIPOS);
-    const data = new Date();
-    data.setDate(data.getDate() - randomInt(1, 30));
-
-    vistorias.push({
-      tenantId: TENANT_OID.toString(),
-      parcelId: parcel._id.toString(),
-      tipo,
-      data,
-      observacoes: randomFrom(DENGUE_OBSERVATIONS),
-      status,
-      fotos: i % 2 === 0 ? [randomFrom(FOTOS_MOCK)] : [],
-      historico: [
-        { status: 'RASCUNHO', observacao: 'Vistoria criada no sistema', userId: OPERADOR_OID.toString(), timestamp: data },
-        ...(status !== 'RASCUNHO' ? [{ status, observacao: `Mudança de status para ${status}`, userId: OPERADOR_OID.toString(), timestamp: new Date() }] : [])
-      ],
-      operadorId: OPERADOR_OID.toString(),
-    });
-  }
-  await VistoriaModel.insertMany(vistorias);
-  console.log(`Inserted ${vistorias.length} vistorias.`);
 
   // ---- 50 Levantamentos (Surveys) ----
   const surveys: any[] = [];
@@ -570,44 +285,19 @@ async function seed() {
   await ReurbFamilyModel.insertMany(families);
   console.log(`Inserted ${families.length} famílias REURB.`);
 
-  // ---- PGV Version ----
-  const PGV_VERSION_ID = new Types.ObjectId();
-  await PgvVersionModel.create({
-    _id: PGV_VERSION_ID,
+  // ---- PGV Values for each parcel ----
+  const pgvValues: any[] = insertedParcels.map((p) => ({
     tenantId: TENANT_OID,
     projectId: DEMO_PROJECT_ID,
-    name: 'PGV 2024',
-    year: 2024,
-    isActive: true,
-  });
-  console.log('Created PGV version 2024.');
-
-  // ---- PGV Valuations for each parcel (matching official schema) ----
-  const pgvValues: any[] = insertedParcels.map((p) => {
-    const area = p.areaTerreno ?? p.area ?? 100;
-    const landValuePerSqm = randomInt(200, 800);
-    const constructionValuePerSqm = randomInt(100, 500);
-    const landFactor = 1.0;
-    const constructionFactor = 1.0;
-    const landValue = parseFloat((area * landValuePerSqm * landFactor).toFixed(2));
-    const constructionValue = parseFloat((area * constructionValuePerSqm * constructionFactor).toFixed(2));
-    return {
-      tenantId: TENANT_OID,
-      projectId: DEMO_PROJECT_ID,
-      parcelId: p._id,
-      versionId: PGV_VERSION_ID,
-      landValuePerSqm,
-      landFactor,
-      constructionValuePerSqm,
-      constructionFactor,
-      landValue,
-      constructionValue,
-      totalValue: parseFloat((landValue + constructionValue).toFixed(2)),
-      breakdown: {
-        parcelArea: area,
-        builtArea: 0,
-      },
-    };
+    sqlu: p.sqlu,
+    parcelId: p._id,
+    valorTerreno: parseFloat((p.area * randomInt(200, 800)).toFixed(2)),
+    valorConstrucao: parseFloat((p.area * randomInt(100, 500)).toFixed(2)),
+    valorTotal: 0,
+    anoBase: 2024,
+  }));
+  pgvValues.forEach((v) => {
+    v.valorTotal = parseFloat((v.valorTerreno + v.valorConstrucao).toFixed(2));
   });
   await PgvValuationModel.insertMany(pgvValues);
   console.log(`Inserted ${pgvValues.length} valores PGV (official schema).`);
@@ -1037,6 +727,86 @@ async function seed() {
   }
   await LetterBatchModel.insertMany(letterBatches);
   console.log(`Inserted ${letterBatches.length} lotes de envio de cartas.`);
+
+  // ---- 3 Zonas PGV (QA-010 fix) ----
+  const ZONAS = [
+    { code: 'ZR1', name: 'Zona Residencial 1', desc: 'Residencial de baixa densidade', baseLand: 400, baseConst: 800, aliquota: 0.004, lat: -23.43, lng: -45.08 },
+    { code: 'ZCC', name: 'Zona Central Comercial', desc: 'Comércio e serviços central', baseLand: 1200, baseConst: 2000, aliquota: 0.006, lat: -23.44, lng: -45.06 },
+    { code: 'ZR2', name: 'Zona Residencial 2', desc: 'Residencial de média densidade', baseLand: 600, baseConst: 1000, aliquota: 0.005, lat: -23.45, lng: -45.10 },
+  ];
+  const zones: any[] = ZONAS.map((z, i) => ({
+    tenantId: TENANT_OID,
+    projectId: DEMO_PROJECT_ID,
+    code: z.code,
+    name: z.name,
+    description: z.desc,
+    baseLandValue: z.baseLand,
+    baseConstructionValue: z.baseConst,
+    aliquotaIptu: z.aliquota,
+    geometry: makeBbox(z.lat, z.lng, 0.02),
+  }));
+  await PgvZoneModel.insertMany(zones);
+  console.log(`Inserted ${zones.length} zonas PGV.`);
+
+  // ---- Faces PGV (logradouro segments) ----
+  const faces: any[] = [];
+  for (let i = 0; i < 12; i++) {
+    const zone = ZONAS[i % ZONAS.length];
+    const lat = zone.lat + (i * 0.003);
+    const lng = zone.lng + (i * 0.002);
+    faces.push({
+      tenantId: TENANT_OID,
+      projectId: DEMO_PROJECT_ID,
+      code: `FACE-${pad(i + 1, 3)}`,
+      logradouro: randomFrom(LOGRADOUROS),
+      zoneCode: zone.code,
+      landValuePerSqm: zone.baseLand + randomInt(-50, 150),
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [lng, lat],
+          [lng + 0.005, lat + 0.003],
+        ],
+      },
+    });
+  }
+  await PgvFaceModel.insertMany(faces);
+  console.log(`Inserted ${faces.length} faces PGV.`);
+
+  // ---- 35 Vistorias (Inspections) ----
+  const TIPOS = ['INICIAL', 'REINSPECAO', 'VISTORIA_ESPECIAL', 'CONFERENCIA'];
+  const STATUSES = ['RASCUNHO', 'ENVIADA', 'EM_ANALISE', 'APROVADA', 'REJEITADA'];
+  const OBSERVACOES = [
+    'Imóvel em conformidade com o cadastro.',
+    'Pendência de documentação do proprietário.',
+    'Construção irregular identificada.',
+    'Vistoria realizada sem intercorrências.',
+    'Necessário agendamento de reinspenção.',
+    'Divergência na metragem do terreno.',
+  ];
+  const vistorias: any[] = [];
+  for (let i = 0; i < 35; i++) {
+    const parcel = insertedParcels[i % insertedParcels.length];
+    const tipo = randomFrom(TIPOS);
+    const status = randomFrom(STATUSES);
+    const data = new Date(2024, randomInt(0, 11), randomInt(1, 28));
+    vistorias.push({
+      tenantId: TENANT_OID,
+      parcelId: parcel._id,
+      tipo,
+      data,
+      observacoes: randomFrom(OBSERVACOES),
+      status,
+      fotos: i % 3 === 0 ? [`foto_${i}_1.jpg`, `foto_${i}_2.jpg`] : [],
+      historico: [
+        { status: 'RASCUNHO', observacao: 'Vistoria criada', userId: 'seed', timestamp: new Date(data.getTime() - 86400000) },
+        { status, observacao: `Vistoria ${status.toLowerCase()}`, userId: 'seed', timestamp: data },
+      ],
+      operadorId: 'seed',
+    });
+  }
+  await VistoriaModel.insertMany(vistorias);
+  console.log(`Inserted ${vistorias.length} vistorias.`);
 
   await mongoose.disconnect();
   console.log('Done. Demo seed complete.');

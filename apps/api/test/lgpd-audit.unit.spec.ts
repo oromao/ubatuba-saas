@@ -1,68 +1,77 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getModelToken } from '@nestjs/mongoose';
 import { LgpdAuditService } from '../src/common/services/lgpd-audit.service';
+import { LgpdAudit } from '../src/common/schemas/lgpd-audit.schema';
 
-describe('LgpdAuditService (T9-LGPD-DATA)', () => {
+const mockModel = () => ({
+  create: jest.fn().mockResolvedValue({}),
+  find: jest.fn().mockReturnValue({
+    sort: jest.fn().mockReturnValue({ limit: jest.fn().mockReturnValue({ exec: jest.fn().mockResolvedValue([]) }) }),
+  }),
+  countDocuments: jest.fn().mockReturnValue({ exec: jest.fn().mockResolvedValue(0) }),
+});
+
+describe('LgpdAuditService', () => {
   let service: LgpdAuditService;
+  let model: ReturnType<typeof mockModel>;
 
-  beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      providers: [LgpdAuditService],
+  beforeEach(async () => {
+    model = mockModel();
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        LgpdAuditService,
+        { provide: getModelToken(LgpdAudit.name), useValue: model },
+      ],
     }).compile();
-    service = moduleRef.get<LgpdAuditService>(LgpdAuditService);
+    service = module.get<LgpdAuditService>(LgpdAuditService);
   });
 
-  it('should log personal data access', () => {
-    service.logAccess({
-      tenantId: 't1',
-      action: 'READ_PERSONAL_DATA',
-      resourceType: 'CITIZEN',
-      resourceId: 'citizen-1',
-      fields: ['cpf', 'nome', 'endereco'],
-      actorId: 'user-1',
-      actorRole: 'OPERADOR',
+  it('should log access entry', async () => {
+    await service.logAccess({
+      tenantId: 'tenant-1',
+      action: 'CONSENT_RECORDED',
+      resourceType: 'CITIZEN_CALL',
+      resourceId: 'call-123',
+      fields: ['reporterName', 'reporterContact'],
+      reason: 'Consentimento explicito art. 7 LGPD',
     });
-
-    const entries = service.query({ tenantId: 't1' });
-    expect(entries).toHaveLength(1);
-    expect(entries[0].action).toBe('READ_PERSONAL_DATA');
-    expect(entries[0].fields).toContain('cpf');
+    expect(model.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tenantId: 'tenant-1',
+        action: 'CONSENT_RECORDED',
+        resourceType: 'CITIZEN_CALL',
+        resourceId: 'call-123',
+        anonymized: false,
+      }),
+    );
   });
 
-  it('should filter audit by resource type', () => {
-    service.logAccess({ tenantId: 't1', action: 'READ_PERSONAL_DATA', resourceType: 'PARCEL', resourceId: 'p1' });
-    service.logAccess({ tenantId: 't1', action: 'READ_PERSONAL_DATA', resourceType: 'CITIZEN', resourceId: 'c1' });
-
-    const parcelLogs = service.query({ resourceType: 'PARCEL' });
-    expect(parcelLogs).toHaveLength(1);
-    expect(parcelLogs[0].resourceId).toBe('p1');
-  });
-
-  it('should filter by action type', () => {
-    service.logAccess({ tenantId: 't1', action: 'EXPORT_PERSONAL_DATA', resourceType: 'CITIZEN', resourceId: 'c1' });
-
-    const exports = service.query({ action: 'EXPORT_PERSONAL_DATA' });
-    expect(exports.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('should anonymize resource and log it', () => {
-    const result = service.anonymize('CITIZEN', 'citizen-old');
-    expect(result.anonymized).toBe(true);
-
-    const logs = service.query({ action: 'ANONYMIZE' });
-    expect(logs[0].resourceId).toBe('citizen-old');
-  });
-
-  it('should log deletion of personal data', () => {
-    service.logAccess({
-      tenantId: 't1',
-      action: 'DELETE_PERSONAL_DATA',
-      resourceType: 'CITIZEN',
-      resourceId: 'citizen-gdpr',
-      reason: 'LGPD Article 18 - data deletion request',
+  it('should query by tenant', async () => {
+    model.find.mockReturnValue({
+      sort: jest.fn().mockReturnValue({
+        limit: jest.fn().mockReturnValue({ exec: jest.fn().mockResolvedValue([{ id: '1', tenantId: 'tenant-1' }]) }),
+      }),
     });
+    const result = await service.query({ tenantId: 'tenant-1' });
+    expect(result).toHaveLength(1);
+  });
 
-    const logs = service.query({ action: 'DELETE_PERSONAL_DATA' });
-    expect(logs).toHaveLength(1);
-    expect(logs[0].reason).toContain('LGPD');
+  it('should count by tenant', async () => {
+    model.countDocuments.mockReturnValue({ exec: jest.fn().mockResolvedValue(5) });
+    const count = await service.countByTenant('tenant-1');
+    expect(count).toBe(5);
+  });
+
+  it('should anonymize and log', async () => {
+    const result = await service.anonymize('tenant-1', 'CITIZEN', 'call-123');
+    expect(result).toBe(true);
+    expect(model.create).toHaveBeenCalledWith(
+      expect.objectContaining({ action: 'ANONYMIZE', reason: expect.stringContaining('LGPD') }),
+    );
+  });
+
+  it('should filter by action type', async () => {
+    await service.query({ action: 'DELETE_PERSONAL_DATA' });
+    expect(model.find).toHaveBeenCalledWith(expect.objectContaining({ action: 'DELETE_PERSONAL_DATA' }));
   });
 });

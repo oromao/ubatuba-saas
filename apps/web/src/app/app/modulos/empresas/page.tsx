@@ -264,7 +264,7 @@ export default function EmpresasPage() {
             <DialogTitle>Confirmar deferimento</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-on-surface-muted">
-            Esta ação aprovará o alvará de &quot;{selected?.companyName}&quot;. Esta decisão não pode ser desfeita facilmente.
+            Esta acao aprovara o alvara de &ldquo;{selected?.companyName}&rdquo;. Esta decisao nao pode ser desfeita facilmente.
           </p>
           <DialogFooter>
             <Button

@@ -1,0 +1,66 @@
+# FlyDea Inventory — Estado REAL do Projeto
+# Atualizado: 2026-05-13
+
+project:
+  name: flydea-monorepo
+  description: Geo-Intelligence Municipal Platform
+  domains:
+    - GIS (geoespacial)
+    - CTM (cadastro tecnico multifinalitario)
+    - PGV (planta generica de valores)
+    - IPTU (tributacao)
+    - REURB (regularizacao fundiaria)
+  stack:
+    frontend: Next.js 14 + TypeScript + MapLibre GL
+    backend: NestJS + TypeScript + Mongoose
+    database: MongoDB 7
+    gis_server: GeoServer 2.24.2 (WMS/WFS)
+    cache: Redis 7
+    storage: MinIO (S3)
+    infra: AWS ECS + ECR + CloudWatch
+
+backend_modules: 38
+mongoose_schemas: 50+
+api_test_files: 70 (unit) + 6 (e2e) + 31 (playwright)
+
+data_sources:
+  geosampa:
+    source: wfs.geosampa.prefeitura.sp.gov.br
+    sectors: 5 (001-005)
+    storage: storage/geosampa-setor-*.geojson
+    status: imported
+  osm:
+    source: Overpass API
+    area: Sao Paulo centro
+    storage: storage/sp-real-parcels.geojson
+    status: imported
+  sp_zoneamento:
+    layers: 50+
+    source: https://nucleo-digital.github.io/sp-mapas/
+    status: integrated
+
+multi_tenant:
+  isolation: collection-level (tenantId field)
+  guard: TenantGuard (x-tenant-id header)
+  rbac_levels: 4 (admin, gestor, operador, leitor)
+
+deployment:
+  type: VPS (Docker Compose)
+  stack: nginx + mongo + redis + minio + geoserver + api + web
+  ci_cd: not configured
+  homologation: not configured
+  production: not configured
+  secrets: .env local (no secrets manager)
+
+harness:
+  maturity_level: 5.0 (municipal-grade: 11 agentes, 7 queues, 6 pipelines, cobertura total de dominios)
+  last_inventory_update: 2026-05-13
+  components:
+    agents: 11 (orchestrator, business, risk, security, compliance, giss, finops, devops, executor, qa, memory)
+    queues: 7 (pipeline.default, alerts, tasks, planning.sync, gis.operations, infra.deploy, compliance.audit)
+    pipelines: 12 (includes GIS, infra, compliance domain pipelines)
+    bus: REAL (bus.sh com send/receive/queue/pipeline/ack/nack/DLQ)
+    cli: REAL (harness.sh start/agent/send/queue/pipeline/status/validate)
+    planning_bridge: REAL (planning-bridge.sh sync/status/report)
+    tests: REAL (test-bus.sh — 17/17 passing)
+    coverage: COMPLETE (governance + GIS + devops + compliance + negocio + execucao + QA)

@@ -61,6 +61,22 @@ export default function LoginPage() {
         window.localStorage.setItem("lastTenantSlug", values.tenantSlug);
       }
       login(payload.data.accessToken, payload.data.refreshToken, payload.data.tenantId);
+
+      // Fetch and store default projectId for this tenant
+      try {
+        const projRes = await fetch(`${API_URL}/projects`, {
+          headers: { Authorization: `Bearer ${payload.data.accessToken}`, "x-tenant-id": payload.data.tenantId },
+        });
+        const projData = await projRes.json();
+        const projects = projData.data ?? projData ?? [];
+        const firstProj = Array.isArray(projects) ? projects[0] : null;
+        if (firstProj?._id) {
+          window.localStorage.setItem("projectId", firstProj._id);
+        }
+      } catch {
+        // non-critical: projectId will be fetched later if needed
+      }
+
       return;
     }
 

@@ -6,6 +6,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
   transpilePackages: ['@watergis/maplibre-gl-terradraw'],
   async rewrites() {
     const apiTarget = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';

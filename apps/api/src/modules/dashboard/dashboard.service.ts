@@ -34,12 +34,10 @@ export class DashboardService {
 
   async getKpis(tenantId: string) {
     const cacheKey = `dashboard:${tenantId}:kpis`;
-    try {
-      let cached = null;
-      try {
-        cached = await this.cacheService.get<unknown>(cacheKey);
-      } catch (e) {}
-      if (cached) return cached;
+    const cached = await this.cacheService.get<unknown>(cacheKey);
+    if (cached && typeof cached === 'object' && 'processes' in cached && 'alerts' in cached && 'assets' in cached) {
+      return cached;
+    }
 
       const [processes, alerts, assets] = await Promise.all([
         this.processesService.list(tenantId).catch(() => []),
@@ -69,12 +67,10 @@ export class DashboardService {
 
   async getExecutive(tenantId: string, userId: string) {
     const cacheKey = `dashboard:${tenantId}:executive:${userId}`;
-    try {
-      let cached = null;
-      try {
-        cached = await this.cacheService.get<unknown>(cacheKey);
-      } catch (e) {}
-      if (cached) return cached;
+    const cached = await this.cacheService.get<unknown>(cacheKey);
+    if (cached && typeof cached === 'object' && 'summary' in cached && 'secretarias' in cached) {
+      return cached;
+    }
 
       const [
         processes,

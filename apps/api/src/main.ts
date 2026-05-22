@@ -10,6 +10,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggerService } from './common/logger/logger.service';
+import { ErrorLogService } from './common/services/error-log.service';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
@@ -62,7 +63,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.useGlobalFilters(new HttpExceptionFilter(logger));
+  const errorLogService = app.get(ErrorLogService);
+  app.useGlobalFilters(new HttpExceptionFilter(logger, errorLogService));
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   // Swagger/OpenAPI Configuration

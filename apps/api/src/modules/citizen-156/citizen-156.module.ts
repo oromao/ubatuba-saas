@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AlertsModule } from '../alerts/alerts.module';
 import { ProjectsModule } from '../projects/projects.module';
 import { TenantsModule } from '../tenants/tenants.module';
+import { LgpdModule } from '../lgpd/lgpd.module';
 import { CacheService } from '../shared/cache.service';
 import { RedisService } from '../shared/redis.service';
 import { Citizen156Controller } from './citizen-156.controller';
@@ -16,6 +17,7 @@ import { PublicCallsController } from './public-calls.controller';
     AlertsModule,
     ProjectsModule,
     TenantsModule,
+    LgpdModule,
     MongooseModule.forFeature([{ name: CitizenCall.name, schema: CitizenCallSchema }]),
   ],
   controllers: [Citizen156Controller, PublicCallsController],

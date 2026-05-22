@@ -7,22 +7,25 @@
 
 ## 1. Estado Atual Consolidado
 
-- **Backlog Status:** 37+ itens DONE. QA sprint finalizado: 14/14 bugs corrigidos. Próximo: T10-SHP-IMPORT e QA-011.
-- **Blockers:** Nenhum blocker crítico ativo. QA-011 (Observatory valuations) pendente.
-- **Infra:** Docker-dev estável; 158 unit tests; 330 parcels no banco (300 SP + 30 demo).
-- **Demo live:** http://labspaulo.site/ — login: admin@demo.local / Admin@12345
+- **Maturidade (Weighted):** 73% (reajustado — superestimativa anterior de segurança/infra)
+- **Harness Maturity:** REAL (5/5) — 11 agentes (gov+GIS+devops+compliance), 7 queues, 12 pipelines, 17 testes
+- **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
+- **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
+- **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
+- **Demo live:** http://172.233.188.166:3000 — login: admin@demo.local / Admin@12345
 
 ---
 
 ## 2. Próximos 5 Itens Obrigatórios (Top Priority)
 
 | ID | Tarefa | Objetivo | Impacto |
-|---|---|---|---|
-| **QA-004** | Corrigir 500 no detalhe de parcelas com ID inválido | Tratar CastError de forma elegante no backend NestJS. | `DONE` |
-| **QA-008** | GeoJSON bbox inválido → 500 | Tratar bounding box inválido/malformado no GIS com fallback. | `DONE` |
-| **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras diretamente via upload. | MEDIUM |
-| **QA-011** | Observatory: 2% coverage de valuations | Aumentar cobertura de valuações do observatório. | `DONE` |
-| **T8-CERT-SIGN** | Assinatura digital definitiva (prod) | Colocar assinatura digital RSA em cert PDF em ambiente real. | LOW |
+|---|---|---|---|---|
+| ~~**T11-F1-QA**~~ | ~~QA bugs pendentes (QA-005 seed data, QA-008, QA-010, QA-011, QA-014)~~ | ✅ `DONE` | CRÍTICO |
+| ~~**T11-F2-SHP**~~ | ~~T10-SHP-IMPORT (Shapefile .shp)~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F2-CLUSTER**~~ | ~~T8-GIS-CLUSTER (Supercluster)~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F3-LGPD**~~ | ~~LGPD consent + direito ao esquecimento~~ | ✅ `DONE` | HIGH |
+| ~~**T11-F3-TESTS**~~ | ~~Playwright coverage + testes módulos críticos~~ | ✅ `DONE` (29 novos testes, 7 suites) | MEDIUM |
+| ~~**T11-F3-SENTRY**~~ | ~~ErrorLog MongoDB (free)~~ | ✅ `DONE` | MEDIUM |
 
 ---
 

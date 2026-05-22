@@ -5,6 +5,8 @@ import { ParcelsController } from './parcels/parcels.controller';
 import { ProjectParcelsController } from './parcels/project-parcels.controller';
 import { ParcelsService } from './parcels/parcels.service';
 import { ParcelsRepository } from './parcels/parcels.repository';
+import { ShapefileController } from './parcels/shapefile.controller';
+import { ShapefileService } from './parcels/shapefile.service';
 import { Parcel, ParcelSchema } from './parcels/parcel.schema';
 import { ParcelAuditLog, ParcelAuditLogSchema } from './parcels/parcel-audit.schema';
 import { ImportBatch, ImportBatchSchema } from './parcels/import-batch.schema';
@@ -72,6 +74,7 @@ import { ShapefileImportService } from './parcels/shapefile-import.service';
   controllers: [
     ParcelsController,
     ProjectParcelsController,
+    ShapefileController,
     LogradourosController,
     UrbanFurnitureController,
     VistoriasController,
@@ -96,7 +99,7 @@ import { ShapefileImportService } from './parcels/shapefile-import.service';
     GeometryService,
     ParcelSubdivisionRepository,
     ParcelSubdivisionService,
-    ShapefileImportService,
+    ShapefileService,
   ],
   exports: [
     ParcelsRepository,

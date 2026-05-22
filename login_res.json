@@ -1,0 +1,14 @@
+{
+  data:
+  {
+    accessToken: string[243],
+    refreshToken: string[96],
+    role: string,
+    tenantId: string
+  }
+  meta:
+  {
+    correlationId: string,
+    timestamp: string
+  }
+}

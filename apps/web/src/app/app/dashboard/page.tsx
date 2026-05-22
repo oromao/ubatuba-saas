@@ -15,6 +15,8 @@ import HorizontalBarChart from "@/components/dashboard/HorizontalBarChart";
 
 const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false });
 
+import { IptuBarChart, CtmStatusPie, SecretariaChart, SatelliteHealthChart, ReadinessChart } from "@/components/dashboard/dashboard-charts";
+
 type WidgetConfig = { id: string; visible: boolean; order: number };
 
 const WIDGET_LABELS: Record<string, { title: string; description: string }> = {
@@ -304,6 +306,18 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
+              {executiveQuery.data.ctm.totalIptuLancado > 0 && (
+                <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1.5fr]">
+                  <IptuBarChart
+                    lancado={executiveQuery.data.ctm.totalIptuLancado}
+                    pago={executiveQuery.data.ctm.totalIptuPago}
+                    aberto={executiveQuery.data.ctm.totalIptuEmAberto}
+                  />
+                  {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
+                    <CtmStatusPie data={executiveQuery.data.ctm.porStatus} />
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
@@ -345,19 +359,7 @@ export default function DashboardPage() {
                 <CardContent>
                   {executiveQuery.isLoading
                     ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                    : executiveQuery.data?.secretarias && (
-                        <HorizontalBarChart
-                          data={executiveQuery.data.secretarias.map((item, index) => {
-                            const colors = ["blue", "violet", "emerald", "amber", "rose", "violet"];
-                            return {
-                              label: item.name,
-                              value: item.total,
-                              subtitle: item.status,
-                              color: colors[index % colors.length]
-                            };
-                          })}
-                        />
-                      )}
+                    : executiveQuery.data?.secretarias && <SecretariaChart data={executiveQuery.data.secretarias} />}
                 </CardContent>
               </Card>
             ) : null}
@@ -391,83 +393,10 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Saúde dos módulos satélite</CardTitle>
                   <CardDescription>Leitura rápida de 156, ambiental, obras públicas e cemitério.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-6">
-                  {executiveQuery.isLoading ? (
-                    Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                  ) : executiveQuery.data?.satelliteHealth ? (
-                    <>
-                      {/* Gráfico Consolidado da Saúde dos Satélites */}
-                      {(() => {
-                        const totalOpen = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.open, 0);
-                        const totalInProgress = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.inProgress, 0);
-                        const totalClosed = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.closed, 0);
-                        const grandTotal = totalOpen + totalInProgress + totalClosed;
-
-                        if (grandTotal === 0) return null;
-
-                        return (
-                          <div className="rounded-lg border p-4 bg-surface-elevated/10">
-                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-on-surface-muted mb-4">
-                              Consolidado Geral de Chamados
-                            </p>
-                            <DonutChart
-                              data={[
-                                { label: "Resolvidos", value: totalClosed, color: "emerald" },
-                                { label: "Em Andamento", value: totalInProgress, color: "blue" },
-                                { label: "Abertos", value: totalOpen, color: "amber" }
-                              ]}
-                              centerLabel="Total"
-                              centerValue={grandTotal.toString()}
-                            />
-                          </div>
-                        );
-                      })()}
-
-                      {/* Lista de Satélites Individuais com Progress Line */}
-                      <div className="grid gap-3">
-                        {executiveQuery.data.satelliteHealth.map((item) => (
-                          <div key={item.id} className="rounded-md border border-outline bg-surface-elevated p-3">
-                            <div className="flex items-center justify-between gap-3">
-                              <div>
-                                <p className="font-medium text-on-surface">{item.label}</p>
-                                <p className="text-xs text-on-surface-muted mt-0.5">
-                                  {item.open} abertos · {item.inProgress} em andamento · {item.closed} encerrados
-                                </p>
-                              </div>
-                              <Badge variant="outline" className="font-semibold">{item.total}</Badge>
-                            </div>
-                            
-                            {/* Barra de Progresso Empilhada SVG */}
-                            {item.total > 0 && (
-                              <div className="mt-2.5 flex h-2 w-full overflow-hidden rounded-full bg-outline/10">
-                                {item.closed > 0 && (
-                                  <div
-                                    className="h-full bg-emerald-500 transition-all"
-                                    style={{ width: `${(item.closed / item.total) * 100}%` }}
-                                    title={`${item.closed} encerrados`}
-                                  />
-                                )}
-                                {item.inProgress > 0 && (
-                                  <div
-                                    className="h-full bg-blue-500 transition-all"
-                                    style={{ width: `${(item.inProgress / item.total) * 100}%` }}
-                                    title={`${item.inProgress} em andamento`}
-                                  />
-                                )}
-                                {item.open > 0 && (
-                                  <div
-                                    className="h-full bg-amber-500 transition-all"
-                                    style={{ width: `${(item.open / item.total) * 100}%` }}
-                                    title={`${item.open} abertos`}
-                                  />
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  ) : null}
+                <CardContent>
+                  {executiveQuery.isLoading
+                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)
+                    : executiveQuery.data?.satelliteHealth && <SatelliteHealthChart data={executiveQuery.data.satelliteHealth} />}
                 </CardContent>
               </Card>
             ) : null}
@@ -478,18 +407,10 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Sinais de prontidão</CardTitle>
                   <CardDescription>Resume o estado institucional para auditoria e governança.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent>
                   {executiveQuery.isLoading
-                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-10 w-full" />)
-                    : executiveQuery.data?.readinessSignals.map((item) => (
-                        <div key={item.label} className="flex items-center justify-between rounded-md border border-outline bg-surface-elevated p-3">
-                          <div>
-                            <span className="text-sm text-on-surface">{item.label}</span>
-                            <p className="mt-1 text-xs text-on-surface-muted">{item.note}</p>
-                          </div>
-                          <Badge variant={item.value > 0 ? "info" : "outline"}>{item.value > 0 ? "OK" : "PENDENTE"}</Badge>
-                        </div>
-                      ))}
+                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-16 w-full" />)
+                    : executiveQuery.data?.readinessSignals && <ReadinessChart data={executiveQuery.data.readinessSignals} />}
                 </CardContent>
               </Card>
             ) : null}

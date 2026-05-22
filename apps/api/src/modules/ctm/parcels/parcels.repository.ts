@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Parcel, ParcelDocument } from './parcel.schema';
 import { asObjectId } from '../../../common/utils/object-id';
+import { parseBbox, buildGeoIntersectsPolygon } from '../../../common/utils/bbox';
 
 export type ParcelFilters = {
   projectId: string;
@@ -59,23 +60,8 @@ export class ParcelsRepository {
     }
 
     if (filters.bbox) {
-      const [minLng, minLat, maxLng, maxLat] = filters.bbox.split(',').map(Number);
-      query.geometry = {
-        $geoIntersects: {
-          $geometry: {
-            type: 'Polygon',
-            coordinates: [
-              [
-                [minLng, minLat],
-                [minLng, maxLat],
-                [maxLng, maxLat],
-                [maxLng, minLat],
-                [minLng, minLat],
-              ],
-            ],
-          },
-        },
-      };
+      const parsed = parseBbox(filters.bbox);
+      query.geometry = buildGeoIntersectsPolygon(parsed.minLng, parsed.minLat, parsed.maxLng, parsed.maxLat);
     }
 
     const limit = filters.bbox ? 2000 : 0;
@@ -85,6 +71,7 @@ export class ParcelsRepository {
   }
 
   findById(tenantId: string, projectId: string, id: string): Promise<ParcelDocument | null> {
+    if (!Types.ObjectId.isValid(id)) return Promise.resolve(null);
     return this.model
       .findOne({ _id: id, tenantId: asObjectId(tenantId), projectId: asObjectId(projectId) })
       .exec();

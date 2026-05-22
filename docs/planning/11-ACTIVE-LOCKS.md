@@ -31,27 +31,20 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|
-| T10-SHP-IMPORT | Antigravity | IN_PROGRESS | `shapefile-import.service.ts`, `parcels.controller.ts`, `parcels.module.ts`, `package.json` | 2026-05-22 | 2026-05-22 | main | Jest 6/6 | Importação de Shapefile ZIP para parcelas sem GDAL |
-
-
 
 ## Histórico de locks encerrados
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
-| 2026-05-22 | QA-004-BBOX-FIX | Antigravity | DONE | 5277e0b | Blindagem de 4 services contra CastError + 6 testes de borda. 16/16 parcelas passing. |
+| 2026-05-14 | T-MATURITY-BOOST-F0 | OpenCode | DONE | — | FASE 0: MongoDB port fix + backup script + SSL setup + CI/CD + nginx prod |
 
-| 2026-05-22 | QA-011 | opencode | DONE | `demo-seed.ts` | Corrigido schema PGV no seed para usar parcelId + versionId — cobertura de valuations no observatório vai de ~2% para 100% |
-| 2026-05-22 | QA-005 | Antigravity | DONE | [QA-005] 8+ modulos sem dados na demo populados com sucesso | Populados dados consistentes de demo em 18 colecoes, preenchendo todos os empty states do frontend de forma realista e geograficamente consistente. |
-| 2026-05-22 | QA-002 | Antigravity | DONE | [QA-002] CTM integration tests stabilized & seeds populated | Corrigidocertificates.service mock, JwtService sub hex hex valid, ProjectsService inject dynamic na parcel seed. Vistorias e parcelas 100% testadas e verdes. |
-| 2026-05-22 | QA-001 | Antigravity | DONE | [QA-001] Corrigido retorno resiliente de KPIs do Dashboard sob estresse e TS2532 | Tratamento de erros concorrentes e cache robusto implementados no backend NestJS com 3 novos testes unitários passando. |
-| 2026-05-22 | T10-DASHBOARD-GRAPHS | Antigravity | DONE | [T10-DASHBOARD-GRAPHS] Gráficos interativos animados e responsivos integrados | Componentes Donut e Barras Horizontais desenvolvidos e build frontend validado sem erros. |
-| 2026-05-22 | T10-DENGUE-PDF | Antigravity | DONE | [T10-DENGUE-PDF] Módulo Combate à Dengue no PDF institucional v1 (Cópia) | docs/flydea-govtech-overview-dengue.pdf gerado com sucesso contendo 16 páginas |
-| 2026-05-21 | T10-PDF-V2-REWRITE | Antigravity | DONE | [T10-PDF-V2-REWRITE] Reescrita completa do PDF comercial v2.0 com 14 melhorias estruturais | docs/flydea-govtech-overview-v2.pdf (4.6MB, 18 págs, novo script generate-pdf-v2.mjs) |
-| 2026-05-21 | T10-PDF-REFORMAT-FINE-TUNING | Antigravity | DONE | [T10-PDF-REFORMAT-FINE-TUNING] Fine-tuning do PDF: espaçamento, WebGIS prints, Base64, asteriscos | docs/flydea-govtech-overview.pdf compilado com capturas perfeitas de produção |
-| 2026-05-21 | T10-PDF-REFORMAT | Antigravity | DONE | [T10-PDF-REFORMAT] Reorganização do PDF comercial, correção da capa e renderização de imagens Base64 | docs/flydea-govtech-overview.pdf compilado com sucesso e imagens Base64 |
-| 2026-05-21 | T10-OVERVIEW-PDF-PROD | Antigravity | DONE | [T10-OVERVIEW-PDF-PROD] Screenshots of production (São Paulo) compiled into official PDF | docs/flydea-govtech-overview.pdf compiled from active production labspaulo.site |
-| 2026-05-21 | T9-OVERVIEW-PDF | Antigravity | DONE | [T9-OVERVIEW-PDF] Overview PDF digital compiled | docs/flydea-govtech-overview.pdf compiled with success |
+| Data | Task ID | Agente | Resultado | Commit | Observação |
+|---|---|---|---|---|---|
+| 2026-05-13 | T10-DASHBOARD-GRAPHS | OpenCode | DONE | — | recharts + 5 chart components. TSC clean |
+| 2026-05-13 | T-HARNESS-BUS-QUEUES | OpenCode | DONE | — | Bus+queues+planning bridge+17 tests. Harness REAL 5/5 |
+
+| Data | Task ID | Agente | Resultado | Commit | Observação |
+|---|---|---|---|---|---|
 | 2026-04-30 | T8-CERT-SIGN | OpenCode | DONE | [T8-CERT-SIGN] RSA digital signature + 9 tests | DigitalSignatureService + schema updates |
 | 2026-04-30 | T8-MUNICIPAL-CFG | OpenCode | DONE | [T8-MUNICIPAL-CFG] Tenant municipalConfig + 11 tests | Schema + service + controller + IPTU fallback |
 | 2026-04-30 | T8-PROCESS-ALVARA | OpenCode | PARTIAL | [T8-PROCESS-ALVARA] parcelId + certidão auto + 13 tests | Alvara linkage + tests done; pending: sign, full PDF |

@@ -24,6 +24,7 @@ type FormState = {
   assunto: string;
   descricao: string;
   endereco: string;
+  lgpdConsent: boolean;
 };
 
 const initialForm: FormState = {
@@ -33,6 +34,7 @@ const initialForm: FormState = {
   assunto: "",
   descricao: "",
   endereco: "",
+  lgpdConsent: false,
 };
 
 export default function CidadaoPage() {
@@ -44,8 +46,12 @@ export default function CidadaoPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const target = e.target;
+    const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
+    setForm((prev) => ({ ...prev, [target.name]: value }));
   };
+
+  const hasPersonalData = form.nome.trim() || form.contato.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +63,10 @@ export default function CidadaoPage() {
     }
     if (!form.categoria) {
       setError("Selecione uma categoria.");
+      return;
+    }
+    if (hasPersonalData && !form.lgpdConsent) {
+      setError("Você precisa concordar com a política de privacidade para fornecer dados pessoais.");
       return;
     }
 
@@ -73,6 +83,8 @@ export default function CidadaoPage() {
           reporterName: form.nome || undefined,
           reporterContact: form.contato || undefined,
           address: form.endereco || undefined,
+          lgpdConsent: hasPersonalData ? form.lgpdConsent : undefined,
+          lgpdConsentVersion: "v1.0-2026-05",
         }),
       });
 
@@ -215,6 +227,41 @@ export default function CidadaoPage() {
               value={form.endereco}
               onChange={handleChange}
             />
+          </div>
+
+          {/* LGPD Consent */}
+          {hasPersonalData && (
+            <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4">
+              <input
+                type="checkbox"
+                id="lgpdConsent"
+                name="lgpdConsent"
+                checked={form.lgpdConsent}
+                onChange={handleChange}
+                className="mt-1 h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+              />
+              <label htmlFor="lgpdConsent" className="text-xs leading-5 text-blue-900">
+                Autorizo o tratamento dos meus dados pessoais (nome e contato) para fins de
+                registro e acompanhamento da solicitação, conforme a{" "}
+                <a
+                  href="/privacidade"
+                  target="_blank"
+                  className="font-medium underline hover:text-blue-700"
+                >
+                  Política de Privacidade
+                </a>{" "}
+                (art. 7 LGPD). Estou ciente que posso solicitar a exclusão dos meus dados a
+                qualquer momento.
+              </label>
+            </div>
+          )}
+
+          <div className="text-xs text-slate-400 text-center">
+            Ao enviar, você concorda com os{" "}
+            <a href="/privacidade" target="_blank" className="underline hover:text-slate-600">
+              Termos de Uso e Política de Privacidade
+            </a>
+            .
           </div>
 
           <Button type="submit" disabled={loading} className="w-full">

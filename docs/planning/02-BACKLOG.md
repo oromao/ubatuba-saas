@@ -27,7 +27,8 @@
 ## 🛠️ T0 — Planning Hygiene / Execution Control
 
 | ID | Título | Status | Parallel | Owner | Lock |
-|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
+| **T-HARNESS-BUS-QUEUES** | Bus + Queues + Harness REAL (message bus, CLI, planning bridge) | `DONE` | não | OpenCode | — |
 | **T0-BACKLOG-DEDUP** | Deduplicação e normalização do backlog | `DONE` | não | - | - |
 | **T0-STATUS-RECONCILE** | Reconciliar status Matrix vs Backlog vs Filesystem | `DONE` | não | OpenCode | — |
 | **T0-MULTIAGENT-LOCKS** | Implementar protocolo de locks multiagente | `DONE` | não | Gemini CLI | — |
@@ -94,7 +95,6 @@
 | **T10-GEOSAMPA-IMPORT** | Importar lotes reais via WFS GeoSampa | `DONE` | M | Dados |
 | **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | `DONE` | S | Testes |
 | **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `DONE` | M | Documentos |
-| **T10-DENGUE-PDF** | Módulo Combate à Dengue no PDF institucional v1 (Cópia) | `DONE` | S | Documentos |
 | **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `DONE` | M | Frontend |
 | **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
 
@@ -153,4 +153,35 @@
 | **QA-013** | Health memory threshold restritivo | BAIXA | `DONE` | 10min |
 | **QA-014** | Inverted bbox retorna 0 sem feedback | BAIXA | `DONE` | 15min |
 
-**Resumo QA: 14 bugs encontrados, 14 corrigidos, 0 pendentes**
+**Resumo QA: 14 bugs encontrados, 12 corrigidos, 2 pendentes**
+
+---
+
+## 🔴 SEC — Security & Infra Findings (Brainstorm 2026-05-14)
+
+| ID | Título | Severidade | Status | Esforço |
+|---|---|---|---|---|
+| **SEC-001** | MongoDB porta 27017 exposta sem restrição | CRÍTICO | `DONE` | 5min |
+| **SEC-002** | Sem renovação automática de SSL | ALTO | `DONE` | 30min |
+| **INFRA-001** | Zero backup do MongoDB | CRÍTICO | `DONE` | 1h |
+| **INFRA-002** | Sem CI/CD — deploy manual | ALTO | `DONE` | 4h |
+| **INFRA-003** | Sem monitoramento de erros → ErrorLog MongoDB + /health/errors | MÉDIO | `DONE` | 1h |
+| **INFRA-004** | Sem domínio próprio (URL IP-nua) | MÉDIO | `TODO` | 1h |
+| **LGPD-001** | Sem coleta de consentimento LGPD | ALTO | `DONE` | 3h |
+| **LGPD-002** | Sem fluxo de direito ao esquecimento | ALTO | `DONE` | 2h |
+| **LGPD-003** | Seed data — confirmar 100% sintética | MÉDIO | `DONE` | 1h |
+| **QA-100** | 24/38 módulos backend sem testes unitários | ALTO | `PARTIAL` | 10h |
+
+---
+
+## 🟩 T11 — Maturity Boost Sprint (Brainstorm 2026-05-14)
+
+| ID | Título | Status | Esforço | Responsável |
+|---|---|---|---|---|
+| **T11-F0-SEC** | Segurança crítica (MongoDB auth, SSL, backup, CI/CD) | `DONE` | 4h | DevOps + Security |
+| **T11-F1-QA** | QA bugs pendentes (QA-005, QA-008, QA-010, QA-011, QA-014) | `DONE` | 6h | Executor |
+| **T11-F2-SHP** | T10-SHP-IMPORT (Shapefile) | `DONE` | 12h | GIS + Executor |
+| **T11-F2-CLUSTER** | T8-GIS-CLUSTER (Supercluster) | `DONE` | 8h | GIS |
+| **T11-F3-LGPD** | LGPD consent + direito ao esquecimento | `DONE` | 5h | Compliance |
+| **T11-F3-TESTS** | Testes: LGPD + consent + shapefile + cluster + Playwright cidadao | `DONE` | 5h | QA |
+| **T11-F3-SENTRY** | ErrorLog MongoDB (substituto gratuito do Sentry) | `DONE` | 1h | DevOps |
