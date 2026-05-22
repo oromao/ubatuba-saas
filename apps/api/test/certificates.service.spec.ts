@@ -3,6 +3,7 @@ import { CertificatesRepository } from '../src/modules/certificates/certificates
 import { ProcessesRepository } from '../src/modules/processes/processes.repository';
 import { CacheService } from '../src/modules/shared/cache.service';
 import { ObjectStorageService } from '../src/modules/shared/object-storage.service';
+import { DigitalSignatureService } from '../src/common/services/digital-signature.service';
 
 const repository = {
   create: jest.fn().mockResolvedValue({
@@ -32,9 +33,26 @@ const cacheService = {
   invalidateByPrefix: jest.fn(),
 } as unknown as CacheService;
 
+const signatureService = {
+  signPayload: jest.fn().mockImplementation((payload) => ({
+    payload,
+    signature: 'mock-signature',
+    algorithm: 'RSA-SHA256',
+    signedAt: new Date().toISOString(),
+    publicKeyPem: 'mock-public-key',
+  })),
+  hashPayload: jest.fn().mockReturnValue('mock-hash-sha256'),
+} as unknown as DigitalSignatureService;
+
 describe('CertificatesService', () => {
   it('issues certificate with hash and validation code', async () => {
-    const service = new CertificatesService(repository, processesRepository, objectStorageService, cacheService);
+    const service = new CertificatesService(
+      repository,
+      processesRepository,
+      objectStorageService,
+      cacheService,
+      signatureService,
+    );
 
     const result = await service.issue('66f1f77a67e30f9f62000004', {
       type: 'Uso e Ocupacao',
@@ -56,7 +74,13 @@ describe('CertificatesService', () => {
   });
 
   it('validates public certificate lookup', async () => {
-    const service = new CertificatesService(repository, processesRepository, objectStorageService, cacheService);
+    const service = new CertificatesService(
+      repository,
+      processesRepository,
+      objectStorageService,
+      cacheService,
+      signatureService,
+    );
     const result = await service.validatePublic('66f1f77a67e30f9f62000004', 'ABC123');
     expect(result.valid).toBe(true);
   });

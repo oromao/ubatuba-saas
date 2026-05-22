@@ -49,6 +49,7 @@ import { ParcelSubdivision, ParcelSubdivisionSchema } from './parcels/parcel-sub
 import { ParcelSubdivisionRepository } from './parcels/parcel-subdivision.repository';
 import { ParcelSubdivisionService } from './parcels/parcel-subdivision.service';
 import { ParcelSubdivisionController } from './parcels/parcel-subdivision.controller';
+import { ShapefileImportService } from './parcels/shapefile-import.service';
 
 @Module({
   imports: [
@@ -95,6 +96,7 @@ import { ParcelSubdivisionController } from './parcels/parcel-subdivision.contro
     GeometryService,
     ParcelSubdivisionRepository,
     ParcelSubdivisionService,
+    ShapefileImportService,
   ],
   exports: [
     ParcelsRepository,

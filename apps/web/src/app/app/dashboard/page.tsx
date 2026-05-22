@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { apiFetch } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import dynamic from "next/dynamic";
+import DonutChart from "@/components/dashboard/DonutChart";
+import HorizontalBarChart from "@/components/dashboard/HorizontalBarChart";
 
 const MiniMap = dynamic(() => import("@/components/maps/MiniMap"), { ssr: false });
 
@@ -226,63 +228,82 @@ export default function DashboardPage() {
               <CardDescription>Dados reais de parcelas e tributação</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-                <div className="rounded-md border p-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Total Parcelas</p>
-                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.totalParcelas}</p>
-                  <p className="text-xs text-on-surface-muted">{executiveQuery.data.ctm.oficiais} oficiais</p>
+              <div className="grid gap-6 md:grid-cols-[1fr_280px]">
+                {/* Lado Esquerdo: Cards de Dados */}
+                <div className="space-y-4">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-md border p-3 bg-surface-elevated/40">
+                      <p className="text-xs uppercase tracking-wide text-on-surface-muted">Total Parcelas</p>
+                      <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.totalParcelas}</p>
+                      <p className="text-xs text-on-surface-muted">{executiveQuery.data.ctm.oficiais} oficiais</p>
+                    </div>
+                    <div className="rounded-md border p-3 bg-surface-elevated/40">
+                      <p className="text-xs uppercase tracking-wide text-on-surface-muted">Com SQLU</p>
+                      <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.comSqlu}</p>
+                      <p className="text-xs text-on-surface-muted">Código fiscal único</p>
+                    </div>
+                    <div className="rounded-md border p-3 bg-surface-elevated/40">
+                      <p className="text-xs uppercase tracking-wide text-on-surface-muted">Adimplência IPTU</p>
+                      <p className="mt-1 text-2xl font-semibold text-green-600">{executiveQuery.data.ctm.taxaAdimplencia.toFixed(1)}%</p>
+                      <p className="text-xs text-on-surface-muted">Adimplência corrente</p>
+                    </div>
+                    <div className="rounded-md border p-3 bg-surface-elevated/40">
+                      <p className="text-xs uppercase tracking-wide text-on-surface-muted">Valor Venal Total</p>
+                      <p className="mt-1 text-lg font-bold">
+                        {executiveQuery.data.ctm.totalValorVenal > 0
+                          ? executiveQuery.data.ctm.totalValorVenal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                          : '—'}
+                      </p>
+                      <p className="text-xs text-on-surface-muted">Planta de valores reais</p>
+                    </div>
+                  </div>
+
+                  {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
+                    <div className="rounded-md border p-3 bg-surface-elevated/40">
+                      <p className="text-xs uppercase tracking-wide text-on-surface-muted mb-2">Divisão por Status Cadastral</p>
+                      <div className="flex flex-wrap gap-2">
+                        {Object.entries(executiveQuery.data.ctm.porStatus).map(([status, count]) => (
+                          <span key={status} className="rounded-full border bg-surface px-3 py-1 text-xs text-on-surface-muted">
+                            {status}: <strong className="text-on-surface">{count as number}</strong>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="rounded-md border p-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Com SQLU</p>
-                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.comSqlu}</p>
-                </div>
-                <div className="rounded-md border p-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Adimplência IPTU</p>
-                  <p className="mt-1 text-2xl font-semibold">{executiveQuery.data.ctm.taxaAdimplencia.toFixed(1)}%</p>
-                </div>
-                <div className="rounded-md border p-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted">Valor Venal Total</p>
-                  <p className="mt-1 text-xl font-semibold">
-                    {executiveQuery.data.ctm.totalValorVenal > 0
-                      ? executiveQuery.data.ctm.totalValorVenal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                      : '—'}
-                  </p>
-                </div>
+
+                {/* Lado Direito: Gráfico de Arrecadação de IPTU */}
+                {executiveQuery.data.ctm.totalIptuLancado > 0 ? (
+                  <div className="flex flex-col items-center justify-center rounded-lg border p-4 bg-surface-elevated/20">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-on-surface-muted mb-4 self-start">
+                      Arrecadação IPTU
+                    </p>
+                    <DonutChart
+                      data={[
+                        {
+                          label: "IPTU Pago",
+                          value: executiveQuery.data.ctm.totalIptuPago,
+                          color: "emerald",
+                          displayValue: executiveQuery.data.ctm.totalIptuPago.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
+                        },
+                        {
+                          label: "Em Aberto",
+                          value: executiveQuery.data.ctm.totalIptuEmAberto,
+                          color: "rose",
+                          displayValue: executiveQuery.data.ctm.totalIptuEmAberto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
+                        }
+                      ]}
+                      centerLabel="Lançado"
+                      centerValue={executiveQuery.data.ctm.totalIptuLancado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })}
+                      className="w-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-6 text-center text-on-surface-muted">
+                    <p className="text-xs">Gráfico de arrecadação disponível mediante lançamento de IPTU</p>
+                  </div>
+                )}
               </div>
-              {executiveQuery.data.ctm.totalIptuLancado > 0 && (
-                <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Lançado</p>
-                    <p className="mt-1 text-lg font-semibold">
-                      {executiveQuery.data.ctm.totalIptuLancado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">IPTU Pago</p>
-                    <p className="mt-1 text-lg font-semibold text-green-600">
-                      {executiveQuery.data.ctm.totalIptuPago.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs uppercase tracking-wide text-on-surface-muted">Em Aberto</p>
-                    <p className="mt-1 text-lg font-semibold text-amber-600">
-                      {executiveQuery.data.ctm.totalIptuEmAberto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {executiveQuery.data.ctm.porStatus && Object.keys(executiveQuery.data.ctm.porStatus).length > 0 && (
-                <div className="mt-3">
-                  <p className="text-xs uppercase tracking-wide text-on-surface-muted mb-2">Status IPTU</p>
-                  <div className="flex flex-wrap gap-2">
-                    {Object.entries(executiveQuery.data.ctm.porStatus).map(([status, count]) => (
-                      <span key={status} className="rounded-full border px-3 py-1 text-xs">
-                        {status}: <strong>{count as number}</strong>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
         )}
@@ -321,18 +342,22 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Visão por secretaria</CardTitle>
                   <CardDescription>Consolida operação urbana, atendimento e fiscalização.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-3">
+                <CardContent>
                   {executiveQuery.isLoading
                     ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                    : executiveQuery.data?.secretarias.map((item) => (
-                        <div key={item.name} className="flex items-center justify-between rounded-md border border-outline bg-surface-elevated p-3">
-                          <div>
-                            <p className="font-medium text-on-surface">{item.name}</p>
-                            <p className="text-xs text-on-surface-muted">{item.status}</p>
-                          </div>
-                          <Badge variant="outline">{item.total}</Badge>
-                        </div>
-                      ))}
+                    : executiveQuery.data?.secretarias && (
+                        <HorizontalBarChart
+                          data={executiveQuery.data.secretarias.map((item, index) => {
+                            const colors = ["blue", "violet", "emerald", "amber", "rose", "violet"];
+                            return {
+                              label: item.name,
+                              value: item.total,
+                              subtitle: item.status,
+                              color: colors[index % colors.length]
+                            };
+                          })}
+                        />
+                      )}
                 </CardContent>
               </Card>
             ) : null}
@@ -366,22 +391,83 @@ export default function DashboardPage() {
                   <CardTitle className="font-display text-xl">Saúde dos módulos satélite</CardTitle>
                   <CardDescription>Leitura rápida de 156, ambiental, obras públicas e cemitério.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-3">
-                  {executiveQuery.isLoading
-                    ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
-                    : executiveQuery.data?.satelliteHealth.map((item) => (
-                        <div key={item.id} className="rounded-md border border-outline bg-surface-elevated p-3">
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="font-medium text-on-surface">{item.label}</p>
-                              <p className="text-xs text-on-surface-muted">
-                                {item.open} abertos · {item.inProgress} em andamento · {item.closed} encerrados
-                              </p>
-                            </div>
-                            <Badge variant="outline">{item.total}</Badge>
+                <CardContent className="grid gap-6">
+                  {executiveQuery.isLoading ? (
+                    Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)
+                  ) : executiveQuery.data?.satelliteHealth ? (
+                    <>
+                      {/* Gráfico Consolidado da Saúde dos Satélites */}
+                      {(() => {
+                        const totalOpen = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.open, 0);
+                        const totalInProgress = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.inProgress, 0);
+                        const totalClosed = executiveQuery.data.satelliteHealth.reduce((acc, curr) => acc + curr.closed, 0);
+                        const grandTotal = totalOpen + totalInProgress + totalClosed;
+
+                        if (grandTotal === 0) return null;
+
+                        return (
+                          <div className="rounded-lg border p-4 bg-surface-elevated/10">
+                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-on-surface-muted mb-4">
+                              Consolidado Geral de Chamados
+                            </p>
+                            <DonutChart
+                              data={[
+                                { label: "Resolvidos", value: totalClosed, color: "emerald" },
+                                { label: "Em Andamento", value: totalInProgress, color: "blue" },
+                                { label: "Abertos", value: totalOpen, color: "amber" }
+                              ]}
+                              centerLabel="Total"
+                              centerValue={grandTotal.toString()}
+                            />
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })()}
+
+                      {/* Lista de Satélites Individuais com Progress Line */}
+                      <div className="grid gap-3">
+                        {executiveQuery.data.satelliteHealth.map((item) => (
+                          <div key={item.id} className="rounded-md border border-outline bg-surface-elevated p-3">
+                            <div className="flex items-center justify-between gap-3">
+                              <div>
+                                <p className="font-medium text-on-surface">{item.label}</p>
+                                <p className="text-xs text-on-surface-muted mt-0.5">
+                                  {item.open} abertos · {item.inProgress} em andamento · {item.closed} encerrados
+                                </p>
+                              </div>
+                              <Badge variant="outline" className="font-semibold">{item.total}</Badge>
+                            </div>
+                            
+                            {/* Barra de Progresso Empilhada SVG */}
+                            {item.total > 0 && (
+                              <div className="mt-2.5 flex h-2 w-full overflow-hidden rounded-full bg-outline/10">
+                                {item.closed > 0 && (
+                                  <div
+                                    className="h-full bg-emerald-500 transition-all"
+                                    style={{ width: `${(item.closed / item.total) * 100}%` }}
+                                    title={`${item.closed} encerrados`}
+                                  />
+                                )}
+                                {item.inProgress > 0 && (
+                                  <div
+                                    className="h-full bg-blue-500 transition-all"
+                                    style={{ width: `${(item.inProgress / item.total) * 100}%` }}
+                                    title={`${item.inProgress} em andamento`}
+                                  />
+                                )}
+                                {item.open > 0 && (
+                                  <div
+                                    className="h-full bg-amber-500 transition-all"
+                                    style={{ width: `${(item.open / item.total) * 100}%` }}
+                                    title={`${item.open} abertos`}
+                                  />
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
                 </CardContent>
               </Card>
             ) : null}

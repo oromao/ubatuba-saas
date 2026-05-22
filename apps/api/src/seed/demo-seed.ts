@@ -80,14 +80,31 @@ const pgvValuationSchema = new mongoose.Schema(
   {
     tenantId: { type: Types.ObjectId, required: true },
     projectId: { type: Types.ObjectId, required: true },
-    parcelId: Types.ObjectId,
-    sqlu: String,
-    valorTerreno: Number,
-    valorConstrucao: Number,
-    valorTotal: Number,
-    anoBase: Number,
+    parcelId: { type: Types.ObjectId, required: true },
+    versionId: { type: Types.ObjectId, required: true },
+    landValuePerSqm: { type: Number, required: true },
+    landFactor: { type: Number, required: true },
+    constructionValuePerSqm: { type: Number, required: true },
+    constructionFactor: { type: Number, required: true },
+    landValue: { type: Number, required: true },
+    constructionValue: { type: Number, required: true },
+    totalValue: { type: Number, required: true },
+    breakdown: { type: Object },
+    createdBy: Types.ObjectId,
   },
   { timestamps: true, collection: 'pgv_valuations' },
+);
+
+const pgvVersionSchema = new mongoose.Schema(
+  {
+    tenantId: { type: Types.ObjectId, required: true },
+    projectId: { type: Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    year: { type: Number, required: true },
+    isActive: { type: Boolean, default: false },
+    createdBy: Types.ObjectId,
+  },
+  { timestamps: true, collection: 'pgv_versions' },
 );
 
 const vistoriaSchema = new mongoose.Schema(
@@ -367,6 +384,7 @@ async function seed() {
   const SurveyModel = mongoose.model('DemoSurvey', surveySchema);
   const ReurbFamilyModel = mongoose.model('DemoReurbFamily', reurbFamilySchema);
   const PgvValuationModel = mongoose.model('DemoPgvValuation', pgvValuationSchema);
+  const PgvVersionModel = mongoose.model('DemoPgvVersion', pgvVersionSchema);
   const VistoriaModel = mongoose.model('DemoVistoria', vistoriaSchema);
   const CemeteryPlotModel = mongoose.model('CemeteryPlot', cemeteryPlotSchema);
   const EnvironmentCaseModel = mongoose.model('EnvironmentCase', environmentCaseSchema);
@@ -387,6 +405,7 @@ async function seed() {
   await SurveyModel.deleteMany({ tenantId: TENANT_OID });
   await ReurbFamilyModel.deleteMany({ tenantId: TENANT_OID });
   await PgvValuationModel.deleteMany({ tenantId: TENANT_OID });
+  await PgvVersionModel.deleteMany({ tenantId: TENANT_OID });
   await VistoriaModel.deleteMany({ tenantId: TENANT_OID });
   await CemeteryPlotModel.deleteMany({ tenantId: TENANT_OID });
   await EnvironmentCaseModel.deleteMany({ tenantId: TENANT_OID });
@@ -551,21 +570,47 @@ async function seed() {
   await ReurbFamilyModel.insertMany(families);
   console.log(`Inserted ${families.length} famílias REURB.`);
 
-  // ---- PGV Values for each parcel ----
-  const pgvValues: any[] = parcels.map((p) => ({
+  // ---- PGV Version ----
+  const PGV_VERSION_ID = new Types.ObjectId();
+  await PgvVersionModel.create({
+    _id: PGV_VERSION_ID,
     tenantId: TENANT_OID,
     projectId: DEMO_PROJECT_ID,
-    sqlu: p.sqlu,
-    valorTerreno: parseFloat((p.area * randomInt(200, 800)).toFixed(2)),
-    valorConstrucao: parseFloat((p.area * randomInt(100, 500)).toFixed(2)),
-    valorTotal: 0,
-    anoBase: 2024,
-  }));
-  pgvValues.forEach((v) => {
-    v.valorTotal = parseFloat((v.valorTerreno + v.valorConstrucao).toFixed(2));
+    name: 'PGV 2024',
+    year: 2024,
+    isActive: true,
+  });
+  console.log('Created PGV version 2024.');
+
+  // ---- PGV Valuations for each parcel (matching official schema) ----
+  const pgvValues: any[] = insertedParcels.map((p) => {
+    const area = p.areaTerreno ?? p.area ?? 100;
+    const landValuePerSqm = randomInt(200, 800);
+    const constructionValuePerSqm = randomInt(100, 500);
+    const landFactor = 1.0;
+    const constructionFactor = 1.0;
+    const landValue = parseFloat((area * landValuePerSqm * landFactor).toFixed(2));
+    const constructionValue = parseFloat((area * constructionValuePerSqm * constructionFactor).toFixed(2));
+    return {
+      tenantId: TENANT_OID,
+      projectId: DEMO_PROJECT_ID,
+      parcelId: p._id,
+      versionId: PGV_VERSION_ID,
+      landValuePerSqm,
+      landFactor,
+      constructionValuePerSqm,
+      constructionFactor,
+      landValue,
+      constructionValue,
+      totalValue: parseFloat((landValue + constructionValue).toFixed(2)),
+      breakdown: {
+        parcelArea: area,
+        builtArea: 0,
+      },
+    };
   });
   await PgvValuationModel.insertMany(pgvValues);
-  console.log(`Inserted ${pgvValues.length} valores PGV.`);
+  console.log(`Inserted ${pgvValues.length} valores PGV (official schema).`);
 
   // ---- 15 Lotes de Cemitério (Cemetery Plots) ----
   const cemeteryPlots: any[] = [];

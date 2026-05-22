@@ -31,6 +31,8 @@
 
 | Task ID | Agente | Status | Arquivos bloqueados | Início | Última atualização | Branch | Prova esperada | Observação |
 |---|---|---|---|---|---|---|---|---|
+| T10-SHP-IMPORT | Antigravity | IN_PROGRESS | `shapefile-import.service.ts`, `parcels.controller.ts`, `parcels.module.ts`, `package.json` | 2026-05-22 | 2026-05-22 | main | Jest 6/6 | Importação de Shapefile ZIP para parcelas sem GDAL |
+
 
 
 ## Histórico de locks encerrados
@@ -39,6 +41,7 @@
 |---|---|---|---|---|---|
 | 2026-05-22 | QA-004-BBOX-FIX | Antigravity | DONE | 5277e0b | Blindagem de 4 services contra CastError + 6 testes de borda. 16/16 parcelas passing. |
 
+| 2026-05-22 | QA-011 | opencode | DONE | `demo-seed.ts` | Corrigido schema PGV no seed para usar parcelId + versionId — cobertura de valuations no observatório vai de ~2% para 100% |
 | 2026-05-22 | QA-005 | Antigravity | DONE | [QA-005] 8+ modulos sem dados na demo populados com sucesso | Populados dados consistentes de demo em 18 colecoes, preenchendo todos os empty states do frontend de forma realista e geograficamente consistente. |
 | 2026-05-22 | QA-002 | Antigravity | DONE | [QA-002] CTM integration tests stabilized & seeds populated | Corrigidocertificates.service mock, JwtService sub hex hex valid, ProjectsService inject dynamic na parcel seed. Vistorias e parcelas 100% testadas e verdes. |
 | 2026-05-22 | QA-001 | Antigravity | DONE | [QA-001] Corrigido retorno resiliente de KPIs do Dashboard sob estresse e TS2532 | Tratamento de erros concorrentes e cache robusto implementados no backend NestJS com 3 novos testes unitários passando. |

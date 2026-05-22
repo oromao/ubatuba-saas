@@ -264,7 +264,7 @@ export default function ObrasPage() {
             <DialogTitle>Confirmar deferimento</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-on-surface-muted">
-            Esta ação aprovará o alvará de obra para "{selected?.applicantName}". Esta decisão não pode ser desfeita facilmente.
+            Esta ação aprovará o alvará de obra para &quot;{selected?.applicantName}&quot;. Esta decisão não pode ser desfeita facilmente.
           </p>
           <DialogFooter>
             <Button

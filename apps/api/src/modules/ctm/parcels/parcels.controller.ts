@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Roles } from '../../../common/guards/roles.decorator';
 import { RolesGuard } from '../../../common/guards/roles.guard';
@@ -13,6 +13,7 @@ import { GeometryService } from '../geometry.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelSocioeconomicService } from '../parcel-socioeconomic/parcel-socioeconomic.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
+import { ShapefileImportService } from './shapefile-import.service';
 
 @Controller('ctm/parcels')
 export class ParcelsController {
@@ -22,6 +23,7 @@ export class ParcelsController {
     private readonly parcelSocioeconomicService: ParcelSocioeconomicService,
     private readonly parcelInfrastructureService: ParcelInfrastructureService,
     private readonly geometryService: GeometryService,
+    private readonly shapefileImportService: ShapefileImportService,
   ) {}
 
   @Post('validate-geometry')
@@ -346,5 +348,57 @@ export class ParcelsController {
       req.user?.sub,
       req.user?.role,
     );
+  }
+
+  /**
+   * POST /ctm/parcels/import-shapefile
+   * Aceita um ZIP (base64) contendo .shp, .dbf e .prj,
+   * converte para GeoJSON (WGS84) e importa as parcelas via importGeojson().
+   */
+  @Post('import-shapefile')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR')
+  async importShapefile(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Query('projectId') projectId: string | undefined,
+    @Body() body: {
+      fileBase64: string;
+      filename: string;
+      upsert?: boolean;
+      municipalityName?: string;
+      municipalityCode?: string;
+    },
+  ) {
+    if (!body.fileBase64 || !body.filename) {
+      throw new BadRequestException('fileBase64 e filename são obrigatórios');
+    }
+
+    const buffer = Buffer.from(body.fileBase64, 'base64');
+    const { featureCollection, warnings, detectedCrs, totalFeatures } =
+      await this.shapefileImportService.parseShpZip(buffer);
+
+    const importResult = await this.parcelsService.importGeojson(
+      req.tenantId,
+      projectId,
+      featureCollection as {
+        type: 'FeatureCollection';
+        features: Array<{ type: 'Feature'; id?: string; geometry: unknown; properties: Record<string, unknown> }>;
+      },
+      'SHAPEFILE',
+      body.filename,
+      body.upsert || false,
+      req.user?.sub,
+      body.municipalityName,
+      body.municipalityCode,
+    );
+
+    return {
+      ...importResult,
+      shapefile: {
+        detectedCrs,
+        totalFeaturesRead: totalFeatures,
+        shapefileWarnings: warnings,
+      },
+    };
   }
 }

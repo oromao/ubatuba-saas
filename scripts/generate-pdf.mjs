@@ -104,18 +104,22 @@ async function generatePdf() {
       width: 794px;
       height: 1122px;
       box-sizing: border-box;
-      padding: 48px;
+      padding: 40px;
       position: relative;
       overflow: hidden;
       background: white;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       page-break-inside: avoid;
       page-break-after: always;
     }
+    .pdf-footer {
+      margin-top: auto;
+      width: 100%;
+    }
     .img-container {
-      max-height: 300px;
+      max-height: 380px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -123,7 +127,7 @@ async function generatePdf() {
       border-radius: 12px;
     }
     .img-container img {
-      max-height: 300px;
+      max-height: 380px;
       width: auto;
       object-fit: contain;
     }
@@ -185,7 +189,7 @@ async function generatePdf() {
 
   <!-- ================= PÁGINA 2: SUMÁRIO E INTRODUÇÃO ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Sumário Executivo</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 2</span>
     </div>
@@ -260,14 +264,14 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 3: SOLUÇÃO & PROBLEMAS ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Visão Geral da Solução</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 3</span>
     </div>
@@ -326,14 +330,14 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 4: ARQUITETURA E GRAFO ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Arquitetura Funcional</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 4</span>
     </div>
@@ -376,14 +380,14 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 5: MÓDULOS 1 (CTM & GIS) ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Módulos Operacionais</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 5</span>
     </div>
@@ -426,14 +430,14 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 6: MÓDULOS 2 (VISTORIAS & REURB) ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Módulos Operacionais</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 6</span>
     </div>
@@ -465,14 +469,14 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 7: MÓDULOS 3 (ALVARÁS, TRIB & RELATÓRIOS) ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Módulos Operacionais</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 7</span>
     </div>
@@ -515,7 +519,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
@@ -552,7 +556,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo
     </div>
   </div>
@@ -589,7 +593,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo
     </div>
   </div>
@@ -626,7 +630,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo
     </div>
   </div>
@@ -663,7 +667,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo
     </div>
   </div>
@@ -700,7 +704,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo
     </div>
   </div>
@@ -719,21 +723,21 @@ async function generatePdf() {
         <p class="text-[10px] text-slate-500 mb-2 leading-relaxed">
           Motor gerador de relatórios e exportações consolidadas de lotes, proprietários e dados financeiros municipais para auditorias e termos.
         </p>
-        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 shadow img-container" style="max-height: 500px;">
-          <img src="${imgs['11_relatorios.png']}" alt="Relatórios Oficiais" class="w-full" style="max-height: 500px; object-fit: contain;">
+        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 shadow img-container" style="max-height: 620px;">
+          <img src="${imgs['11_relatorios.png']}" alt="Relatórios Oficiais" class="w-full" style="max-height: 620px; object-fit: contain;">
         </div>
       </div>
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-2 text-center text-[10px] text-slate-400 font-outfit">
       Demonstração em Produção: http://labspaulo.site/ • Tenant: São Paulo • Pág 13
     </div>
   </div>
 
   <!-- ================= PÁGINA 14: BENEFÍCIOS E CASOS DE USO ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-6">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Benefícios & Casos de Uso</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 14</span>
     </div>
@@ -794,19 +798,19 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé -->
-    <div class="border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
+    <div class="pdf-footer border-t border-slate-100 pt-3 text-center text-[10px] text-slate-400 font-outfit">
       FlyDea GovTech • Gestão Territorial e Tributação Municipal
     </div>
   </div>
 
   <!-- ================= PÁGINA 15: CONCLUSÃO ================= -->
   <div class="pdf-page">
-    <div class="flex justify-between items-center border-b pb-4 mb-8">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
       <h2 class="text-2xl font-bold text-gov-600 font-outfit">Conclusão</h2>
       <span class="text-xs text-slate-400 font-medium">FlyDea GovTech Overview • Pág 15</span>
     </div>
 
-    <div class="my-auto max-w-3xl space-y-6 text-sm">
+    <div class="mt-12 mb-auto max-w-3xl space-y-6 text-sm">
       <h3 class="text-2xl font-extrabold text-gov-750 font-outfit border-l-4 border-blue-500 pl-3">A Fundação do Município Inteligente</h3>
       <p class="text-slate-600 leading-relaxed">
         O <strong>FlyDea GovTech</strong> estabelece uma base sólida e inegociável para a consolidação de municípios plenamente conectados, sustentáveis e tecnologicamente eficientes ('Municipal-Grade').
@@ -817,7 +821,7 @@ async function generatePdf() {
     </div>
 
     <!-- Rodapé Final -->
-    <div class="border-t border-slate-200 pt-8 text-center text-xs font-outfit">
+    <div class="pdf-footer border-t border-slate-200 pt-8 text-center text-xs font-outfit">
       <p class="font-bold text-slate-600">FlyDea GovTech • Todos os direitos reservados • Catanduva - SP</p>
       <p class="mt-1 text-slate-400">Documento gerado automaticamente pelo motor de conformidade técnica em 21 de Maio de 2026</p>
     </div>

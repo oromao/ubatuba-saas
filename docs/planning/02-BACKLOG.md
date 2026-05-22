@@ -148,7 +148,7 @@
 | **QA-008** | GeoJSON bbox inválido → 500 | MÉDIA | `DONE` | 30min |
 | **QA-009** | Citizen call sem campos → 500 | MÉDIA | `DONE` | 30min |
 | **QA-010** | PGV Zones lista vazia (3 no banco) | MÉDIA | `DONE` | 30min |
-| **QA-011** | Observatory: 2% coverage de valuations | MÉDIA | `TODO` | 2h |
+| **QA-011** | Observatory: 2% coverage de valuations | MÉDIA | `DONE` | 2h |
 | **QA-012** | Playwright 3 testes smoke quebrados | BAIXA | `DONE` | 1h |
 | **QA-013** | Health memory threshold restritivo | BAIXA | `DONE` | 10min |
 | **QA-014** | Inverted bbox retorna 0 sem feedback | BAIXA | `DONE` | 15min |

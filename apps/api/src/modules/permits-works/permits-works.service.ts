@@ -71,7 +71,7 @@ export class PermitsWorksService {
     private readonly projectsService: ProjectsService,
     private readonly storage: ObjectStorageService,
     private readonly cacheService: CacheService,
-    private readonly certificatesService: CertificatesService,
+    private readonly certificatesService?: CertificatesService,
   ) {}
 
   list(tenantId: string) {
@@ -226,12 +226,14 @@ export class PermitsWorksService {
 
       // Auto-generate linked certificate
       try {
-        await this.certificatesService.issue(tenantId, {
-          type: 'ALVARA_OBRAS',
-          subjectName: request.applicantName,
-          subjectDocument: request.protocolNumber,
-          processId: undefined,
-        }, actorId);
+        if (this.certificatesService) {
+          await this.certificatesService.issue(tenantId, {
+            type: 'ALVARA_OBRAS',
+            subjectName: request.applicantName,
+            subjectDocument: request.protocolNumber,
+            processId: undefined,
+          }, actorId);
+        }
       } catch {
         // Certificate generation is best-effort; don't block approval
       }

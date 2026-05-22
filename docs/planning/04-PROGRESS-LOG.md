@@ -4,6 +4,28 @@
 
 ---
 
+## 2026-05-22 — QA-011-OBSERVATORY-VALUATIONS (opencode)
+
+**Task:** Observatory: 2% coverage de valuations — corrigir demo seed para schema oficial PGV
+**Status:** DONE
+**Feito:**
+- **Root cause:** O `demo-seed.ts` criava documentos PGV na collection `pgv_valuations` com o campo `sqlu` em vez de `parcelId` + `versionId`, usando schema incompatível (`valorTerreno`/`valorConstrucao`/`valorTotal`/`anoBase` em vez de `landValue`/`constructionValue`/`totalValue`/`landValuePerSqm`/`landFactor`/etc.).
+- **Impacto:** O Observatory chama `ValuationsService.list()` que retorna os documentos, mas o filtro `filteredParcelIds.has(String(item.parcelId))` nunca matcheava pois `parcelId` era `undefined` — resultando em ~0% de cobertura de valuations.
+- **Correção:**
+  - Atualizado `pgvValuationSchema` para espelhar o schema oficial `PgvValuation` (campos: `parcelId`, `versionId`, `landValuePerSqm`, `landFactor`, `constructionValuePerSqm`, `constructionFactor`, `landValue`, `constructionValue`, `totalValue`, `breakdown`).
+  - Adicionado schema `pgvVersionSchema` e modelo `PgvVersionModel` para criar versão PGV 2024.
+  - Adicionado `PgvVersionModel` no cleanup e criação.
+  - Migrado de `parcels.map()` (pré-insert) para `insertedParcels.map()` para obter `_id` real como `parcelId`.
+  - Cada valuation agora usa `parcelId: p._id`, `versionId: PGV_VERSION_ID`, e os campos numéricos oficiais do schema NestJS.
+- **Resultado:** 200 valuations linkadas corretamente às parcelas → cobertura de 100% na demo. 28/28 testes passando (11 observatory + 17 PGV valuation).
+
+**Arquivos:**
+- `apps/api/src/seed/demo-seed.ts` (UPDATED — schema + version + data)
+
+**Prova:** 28/28 tests (observatory.unit.spec.ts + observatory.service.spec.ts + pgv-valuation.spec.ts)
+
+---
+
 ## 2026-05-22 — QA-004-BBOX-FIX (Antigravity)
 
 **Task:** Blindagem do Backend NestJS contra CastError (ID inválido) e bbox malformado/invertido

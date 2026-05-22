@@ -14,8 +14,15 @@ async function run() {
   await fs.mkdir(outputDir, { recursive: true });
   await fs.mkdir(storageDir, { recursive: true });
   
-  // Lançar navegador
-  const browser = await chromium.launch({ headless: true });
+  // Lançar navegador com suporte a WebGL e GPU SwiftShader no modo headless
+  const browser = await chromium.launch({
+    headless: true,
+    args: [
+      '--use-angle=swiftshader',
+      '--ignore-gpu-blocklist',
+      '--enable-webgl'
+    ]
+  });
   
   // Criar um único contexto para toda a operação
   const context = await browser.newContext({
@@ -74,7 +81,22 @@ async function run() {
   // 5. Mapa WebGIS interativo
   console.log('Capturando: Mapa WebGIS...');
   await page.goto(`${BASE_URL}/app/maps`, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(8000); // Tempo extra para carregar Mapbox/OpenStreetMap tiles e camadas
+  
+  // Aguardar deterministicamente que as geometrias das parcelas de SP sejam carregadas e renderizadas pelo MapLibre
+  try {
+    console.log('Aguardando até que o WebGIS termine de carregar as parcelas de São Paulo...');
+    await page.waitForFunction(() => {
+      const probe = window.__gisScaleProbe;
+      return probe && probe.builtInParcelSourceReady === true;
+    }, { timeout: 35000 });
+    console.log('WebGIS detectou parcelas de São Paulo carregadas com sucesso!');
+  } catch (probeErr) {
+    console.warn('Timeout aguardando __gisScaleProbe.builtInParcelSourceReady. Tentando esperar mais 10s...');
+    await page.waitForTimeout(10000);
+  }
+  
+  // Dar um tempo extra (8 segundos) para renderizar visualmente todos os polígonos e tiles na tela
+  await page.waitForTimeout(8000);
   await page.screenshot({ path: path.join(outputDir, '04_webgis.png') });
 
   // 6. Listagem de Parcelas (CTM)
@@ -103,7 +125,20 @@ async function run() {
         console.log('Primeira linha de parcela encontrada. Clicando...');
         await row.click();
         await page.waitForNavigation({ waitUntil: 'networkidle', timeout: 20000 }).catch(() => {});
-        await page.waitForTimeout(6000); // Tempo para o mini mapa e os gráficos da parcela carregarem
+        
+        // Aguardar o mini mapa da ficha cadastral carregar suas parcelas também
+        try {
+          console.log('Aguardando até que o mini mapa termine de carregar as parcelas locais...');
+          await page.waitForFunction(() => {
+            const probe = window.__gisScaleProbe;
+            return probe && probe.builtInParcelSourceReady === true;
+          }, { timeout: 15000 });
+          console.log('Mini mapa detectou parcelas de São Paulo carregadas!');
+        } catch (mErr) {
+          console.warn('Timeout no mini mapa. Prosseguindo com tempo fixo...');
+        }
+        
+        await page.waitForTimeout(10000); // Tempo para o mini mapa renderizar e os gráficos de IPTU/PGV estabilizarem
         await page.screenshot({ path: path.join(outputDir, '06_detalhe_parcela.png') });
         console.log(`Detalhe da parcela capturado com sucesso! URL atual: ${page.url()}`);
       } else {

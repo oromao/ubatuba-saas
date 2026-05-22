@@ -18,6 +18,7 @@
 
 ## 2. Itens DONE (Confiáveis / Municipal-Grade)
 
+- **QA-011-OBSERVATORY-VALUATIONS:** Corrigido schema PGV no demo seed — valuations agora usam `parcelId` + `versionId` no lugar de `sqlu`, elevando cobertura do observatório de ~2% para 100% na demo. 28 testes verdes.
 - **QA-005-DEMO-SEED-INGESTION:** Ingestao de dados reais consistentes e geograficamente coerentes para 18 colecoes sob o tenant demo no MongoDB, eliminando "empty states" e alimentando as telas de 8+ modulos adicionais na demonstracao.
 - **QA-001-DASHBOARD-RESILIENCE:** Blindagem total a falhas concorrentes e timeouts nos stubs/queries das APIs de KPIs do Dashboard no NestJS, e correção cirúrgica de tipos TypeScript no `permits-works`. 5 testes unitários Jest verdes comprovando resiliência.
 - **T10-DASHBOARD-GRAPHS:** Componentes dinâmicos e responsivos `<DonutChart />` e `<HorizontalBarChart />` desenvolvidos usando SVG puro e Tailwind (zero libs externas pesadas) e integrados com sucesso ao painel executivo (CTM, secretarias e saúde de satélites).
@@ -61,8 +62,8 @@ Os seguintes domínios foram rebaixados de 4 para 2/1 por não atenderem ao crit
 
 ## 6. Próximos 5 Itens (Short-term focus)
 
-1. `T8-PROCESS-ALVARA` (Módulo de Alvarás e Licenciamento)
-2. `T8-MUNICIPAL-CFG` (Configurações de tenant/prefeitura)
+1. `T10-SHP-IMPORT` (Importação Shapefile) — EM EXECUÇÃO
+2. `T8-PROCESS-ALVARA` (Assinatura digital + PDF completo)
 3. `T9-API-CONTRACT` (Documentação OpenAPI/Swagger)
 4. `T9-OBSERVABILITY` (Logs centralizados e Alertas)
 5. `T8-GIS-CLUSTER` (Agrupamento visual de parcelas)

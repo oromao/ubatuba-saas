@@ -21,7 +21,7 @@
 | **QA-004** | Corrigir 500 no detalhe de parcelas com ID inválido | Tratar CastError de forma elegante no backend NestJS. | `DONE` |
 | **QA-008** | GeoJSON bbox inválido → 500 | Tratar bounding box inválido/malformado no GIS com fallback. | `DONE` |
 | **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras diretamente via upload. | MEDIUM |
-| **QA-011** | Observatory: 2% coverage de valuations | Aumentar cobertura de valuações do observatório. | MEDIUM |
+| **QA-011** | Observatory: 2% coverage de valuations | Aumentar cobertura de valuações do observatório. | `DONE` |
 | **T8-CERT-SIGN** | Assinatura digital definitiva (prod) | Colocar assinatura digital RSA em cert PDF em ambiente real. | LOW |
 
 ---

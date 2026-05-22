@@ -58,4 +58,86 @@ describe('DashboardService', () => {
       'integrations',
     ]);
   });
+
+  describe('Resilience and Fault Tolerance', () => {
+    it('returns structured zeroed data in getKpis when dependent services fail', async () => {
+      const failingService = new DashboardService(
+        { list: jest.fn().mockRejectedValue(new Error('Process Service Timeout')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Alert Service Timeout')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Asset Service Timeout')) } as any,
+        permitsWorksService,
+        permitsBusinessService,
+        citizen156Service,
+        environmentService,
+        publicWorksService,
+        cemeteryService,
+        parcelsService,
+        cacheService,
+        layoutModel,
+      );
+
+      const kpis = await failingService.getKpis('66f1f77a67e30f9f62000001');
+      expect(kpis).toEqual({
+        processes: 0,
+        alerts: 0,
+        assets: 0,
+      });
+    });
+
+    it('returns robust structured defaults in getExecutive when all backend modules reject', async () => {
+      const failingService = new DashboardService(
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        { getStatistics: jest.fn().mockRejectedValue(new Error('Error')) } as any,
+        cacheService,
+        layoutModel,
+      );
+
+      const executive = (await failingService.getExecutive('66f1f77a67e30f9f62000001', '66f1f77a67e30f9f62000002')) as any;
+      expect(executive.summary).toEqual({
+        processos: 0,
+        alertas: 0,
+        ativos: 0,
+        obras: 0,
+        empresas: 0,
+        chamados156: 0,
+        ambientais: 0,
+        obrasPublicas: 0,
+        cemiterio: 0,
+      });
+      expect(executive.ctm.totalParcelas).toBe(0);
+      expect(executive.ctm.porStatus).toEqual({});
+      expect(executive.widgets.viewMode).toBe('executive');
+      expect(executive.secretarias).toHaveLength(6);
+    });
+
+    it('handles mixed failure states smoothly in getExecutive', async () => {
+      const mixedService = new DashboardService(
+        { list: jest.fn().mockResolvedValue([1, 2, 3]) } as any, // list works
+        { list: jest.fn().mockRejectedValue(new Error('Error')) } as any, // list fails
+        assetsService,
+        permitsWorksService,
+        permitsBusinessService,
+        citizen156Service,
+        environmentService,
+        publicWorksService,
+        cemeteryService,
+        { getStatistics: jest.fn().mockRejectedValue(new Error('Error')) } as any, // CTM fails
+        cacheService,
+        layoutModel,
+      );
+
+      const executive = (await mixedService.getExecutive('66f1f77a67e30f9f62000001', '66f1f77a67e30f9f62000002')) as any;
+      expect(executive.summary.processos).toBe(3); // from working service
+      expect(executive.summary.alertas).toBe(0); // fallback from failing service
+      expect(executive.ctm.totalParcelas).toBe(0); // fallback from failing service
+    });
+  });
 });

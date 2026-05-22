@@ -52,4 +52,10 @@ function DialogFooter({ children, className }: { children: React.ReactNode; clas
   );
 }
 
-export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter };
+function DialogDescription({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <p className={cn("text-sm text-on-surface-muted", className)}>{children}</p>
+  );
+}
+
+export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription };
