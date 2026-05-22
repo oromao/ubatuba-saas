@@ -20,25 +20,35 @@ export interface CoordinateConversionResult {
   error?: string;
 }
 
-import proj4 from 'proj4';
-
+// Note: proj4 is an optional dependency for high-precision CRS conversion.
+// If not available, falls back to pure JS implementation with lower precision.
 let proj4InitializationDone = false;
 
-function ensureProj4Initialized(): typeof proj4 | null {
-  if (!proj4InitializationDone) {
+function ensureProj4Initialized(): typeof import('proj4') | null {
+  if (proj4InitializationDone) {
     try {
-      proj4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-      proj4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-      proj4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
-      proj4.defs("EPSG:29194", "+proj=utm +zone=24 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
-      proj4InitializationDone = true;
-      return proj4;
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const p4 = require('proj4');
+      return p4;
     } catch {
-      proj4InitializationDone = true;
       return null;
     }
   }
-  return proj4;
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const p4 = require('proj4');
+    // Register SIRGAS2000 UTM zones for Brazil
+    p4.defs("EPSG:31983", "+proj=utm +zone=23 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:31984", "+proj=utm +zone=24 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:29193", "+proj=utm +zone=23 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+    p4.defs("EPSG:29194", "+proj=utm +zone=24 +south +ellps=aust_SA +towgs84=-57,1,-41,0,0,0,0 +units=m +no_defs");
+    proj4InitializationDone = true;
+    return p4;
+  } catch {
+    proj4InitializationDone = true;
+    return null;
+  }
 }
 
 function degreesToRadians(degrees: number): number {
@@ -198,7 +208,7 @@ export function convertCoordinate(
     try {
       // proj4 expects [lng, lat] for WGS84
       const inputCoord = [x, y];
-      
+
       // Map our CRS constants to proj4-compatible strings
       const crsMap: Record<string, string> = {
         [CRS_WGS84]: 'EPSG:4326',
