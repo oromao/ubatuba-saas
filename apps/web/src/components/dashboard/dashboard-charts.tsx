@@ -39,7 +39,7 @@ export function IptuBarChart({
         <BarChart data={data}>
           <XAxis dataKey="name" tick={{ fontSize: 11 }} />
           <YAxis tick={{ fontSize: 10 }} tickFormatter={(v: number) => (v / 1000).toFixed(0) + "k"} />
-          <Tooltip formatter={(v: number) => currency(v)} />
+          <Tooltip formatter={(v) => currency(Number(v))} />
           <Bar dataKey="valor" radius={[4, 4, 0, 0]}>
             {data.map((entry, i) => (
               <Cell key={i} fill={entry.fill} />

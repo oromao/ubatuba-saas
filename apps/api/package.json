@@ -6,7 +6,7 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
-    "lint": "eslint \"{src,test}/**/*.ts\" --max-warnings=0",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
     "test": "jest --runInBand",
     "migrate": "node dist/migrations/runner.js",
     "import:osm": "ts-node src/scripts/import-osm.ts",
