@@ -165,6 +165,28 @@ function makeBbox(lat: number, lng: number, delta = 0.001) {
   };
 }
 
+const letterTemplateSchema = new mongoose.Schema({
+  tenantId: { type: Types.ObjectId, required: true },
+  projectId: { type: Types.ObjectId, required: true },
+  name: String,
+  description: String,
+  template: String,
+  variables: [String],
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true, collection: 'letter_templates' });
+
+const letterBatchSchema = new mongoose.Schema({
+  tenantId: { type: Types.ObjectId, required: true },
+  projectId: { type: Types.ObjectId, required: true },
+  templateId: Types.ObjectId,
+  templateName: String,
+  templateVersion: String,
+  protocol: String,
+  status: String,
+  filter: Object,
+  letters: [{ recipient: String, address: String, variables: Object }],
+}, { timestamps: true, collection: 'letter_batches' });
+
 async function seed() {
   await mongoose.connect(MONGO_URL);
   console.log('Connected to MongoDB:', MONGO_URL);
@@ -176,6 +198,17 @@ async function seed() {
   const PgvZoneModel = mongoose.model('DemoPgvZone', pgvZoneSchema);
   const PgvFaceModel = mongoose.model('DemoPgvFace', pgvFaceSchema);
   const VistoriaModel = mongoose.model('DemoVistoria', vistoriaSchema);
+  const LetterTemplateModel = mongoose.model('DemoLetterTemplate', letterTemplateSchema);
+  const LetterBatchModel = mongoose.model('DemoLetterBatch', letterBatchSchema);
+  const CemeteryPlotModel = mongoose.model('DemoCemeteryPlot', new mongoose.Schema({}, { strict: false, collection: 'cemetery_plots' }));
+  const EnvironmentCaseModel = mongoose.model('DemoEnvironmentCase', new mongoose.Schema({}, { strict: false, collection: 'environment_cases' }));
+  const PermitWorkRequestModel = mongoose.model('DemoPermitWork', new mongoose.Schema({}, { strict: false, collection: 'permit_work_requests' }));
+  const PermitBusinessRequestModel = mongoose.model('DemoPermitBusiness', new mongoose.Schema({}, { strict: false, collection: 'permit_business_requests' }));
+  const UrbanFurnitureModel = mongoose.model('DemoUrbanFurniture', new mongoose.Schema({}, { strict: false, collection: 'urban_furniture' }));
+  const ComplianceProfileModel = mongoose.model('DemoComplianceProfile', new mongoose.Schema({}, { strict: false, collection: 'compliance_profiles' }));
+  const PublicWorkModel = mongoose.model('DemoPublicWork', new mongoose.Schema({}, { strict: false, collection: 'public_works' }));
+  const AssetModel = mongoose.model('DemoAsset', new mongoose.Schema({}, { strict: false, collection: 'assets' }));
+  const EnvironmentalAlertModel = mongoose.model('DemoEnvironmentalAlert', new mongoose.Schema({}, { strict: false, collection: 'environmentalalerts' }));
 
   // Clear existing demo data
   await ParcelModel.deleteMany({ tenantId: TENANT_OID });
@@ -185,6 +218,17 @@ async function seed() {
   await PgvZoneModel.deleteMany({ tenantId: TENANT_OID });
   await PgvFaceModel.deleteMany({ tenantId: TENANT_OID });
   await VistoriaModel.deleteMany({ tenantId: TENANT_OID });
+  await CemeteryPlotModel.deleteMany({ tenantId: TENANT_OID });
+  await EnvironmentCaseModel.deleteMany({ tenantId: TENANT_OID });
+  await PermitWorkRequestModel.deleteMany({ tenantId: TENANT_OID });
+  await PermitBusinessRequestModel.deleteMany({ tenantId: TENANT_OID });
+  await UrbanFurnitureModel.deleteMany({ tenantId: TENANT_OID });
+  await ComplianceProfileModel.deleteMany({ tenantId: TENANT_OID });
+  await PublicWorkModel.deleteMany({ tenantId: TENANT_OID });
+  await AssetModel.deleteMany({ tenantId: TENANT_OID });
+  await EnvironmentalAlertModel.deleteMany({ tenantId: TENANT_OID });
+  await LetterTemplateModel.deleteMany({ tenantId: TENANT_OID });
+  await LetterBatchModel.deleteMany({ tenantId: TENANT_OID });
   console.log('Cleared existing demo data.');
 
   // ---- 200 Parcelas ----

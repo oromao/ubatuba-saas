@@ -34,10 +34,12 @@ export class DashboardService {
 
   async getKpis(tenantId: string) {
     const cacheKey = `dashboard:${tenantId}:kpis`;
-    const cached = await this.cacheService.get<unknown>(cacheKey);
-    if (cached && typeof cached === 'object' && 'processes' in cached && 'alerts' in cached && 'assets' in cached) {
-      return cached;
-    }
+    try {
+      let cached = null;
+      try {
+        cached = await this.cacheService.get<unknown>(cacheKey);
+      } catch (e) {}
+      if (cached) return cached;
 
       const [processes, alerts, assets] = await Promise.all([
         this.processesService.list(tenantId).catch(() => []),
@@ -56,7 +58,6 @@ export class DashboardService {
       } catch (e) {}
       return result;
     } catch (error) {
-      // Fallback robusto em caso de falhas concorrentes no startup/banco
       return {
         processes: 0,
         alerts: 0,
@@ -67,10 +68,10 @@ export class DashboardService {
 
   async getExecutive(tenantId: string, userId: string) {
     const cacheKey = `dashboard:${tenantId}:executive:${userId}`;
-    const cached = await this.cacheService.get<unknown>(cacheKey);
-    if (cached && typeof cached === 'object' && 'summary' in cached && 'secretarias' in cached) {
-      return cached;
-    }
+    try {
+      let cached = null;
+      try { cached = await this.cacheService.get<unknown>(cacheKey); } catch (e) {}
+      if (cached) return cached;
 
       const [
         processes,
@@ -213,7 +214,6 @@ export class DashboardService {
       } catch (e) {}
       return result;
     } catch (error) {
-      // Fallback estruturado total para resiliência de produção municipal
       return {
         ctm: {
           totalParcelas: 0,
