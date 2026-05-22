@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { ParcelInfrastructureRepository } from './parcel-infrastructure.repository';
 import { UpsertParcelInfrastructureDto } from './dto/upsert-parcel-infrastructure.dto';
 import { asObjectId } from '../../../common/utils/object-id';
@@ -12,6 +13,9 @@ export class ParcelInfrastructureService {
   ) {}
 
   async findByParcel(tenantId: string, projectId: string | undefined, parcelId: string) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.repository.findByParcel(tenantId, String(resolvedProjectId), parcelId);
   }
@@ -23,6 +27,9 @@ export class ParcelInfrastructureService {
     dto: UpsertParcelInfrastructureDto,
     userId?: string,
   ) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const water = dto.water ?? dto.agua;
     const sewage = dto.sewage ?? dto.esgoto;

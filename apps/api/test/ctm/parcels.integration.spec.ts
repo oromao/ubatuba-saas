@@ -2,6 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { JwtService } from '@nestjs/jwt';
+import { getModelToken } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
+import { ParcelDocument } from '../../src/modules/ctm/parcels/parcel.schema';
+import { ProjectsService } from '../../src/modules/projects/projects.service';
 
 describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
   let app: INestApplication;
@@ -10,19 +15,56 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
   let parcelId: string;
 
   beforeAll(async () => {
+    tenantId = new Types.ObjectId().toHexString();
+    accessToken = 'test-token-placeholder';
+
+    const jwtServiceMock = {
+      verify: () => {
+        return { sub: new Types.ObjectId().toHexString(), role: 'ADMIN', tenantId };
+      },
+    };
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(JwtService)
+      .useValue(jwtServiceMock)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    tenantId = 'test-tenant-' + Date.now();
-    accessToken = 'test-token-placeholder';
+    // Resolver o projectId real do tenant usando o ProjectsService
+    const projectsService = moduleFixture.get<ProjectsService>(ProjectsService);
+    const resolvedProjectId = await projectsService.resolveProjectId(tenantId, undefined);
+
+    // Criar uma parcela de teste inicial real para que os endpoints de listagem e detalhes funcionem de forma robusta
+    const parcelModel = moduleFixture.get<Model<ParcelDocument>>(getModelToken('Parcel'));
+    const testParcel = await parcelModel.create({
+      tenantId: new Types.ObjectId(tenantId),
+      projectId: resolvedProjectId,
+      sqlu: 'SQLU-PARCEL-TEST-XYZ',
+      inscricaoImobiliaria: '123456',
+      mainAddress: 'Rua Test Parcel 123',
+      sourceType: 'DEMO',
+      isOfficial: true,
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]
+      },
+      status: 'ATIVO'
+    });
+    parcelId = testParcel._id.toString();
   });
 
   afterAll(async () => {
-    await app.close();
+    if (app) {
+      // Limpar os dados criados no teste
+      const parcelModel = app.get<Model<ParcelDocument>>(getModelToken('Parcel'));
+      await parcelModel.deleteMany({ tenantId: new Types.ObjectId(tenantId) });
+
+      await app.close();
+    }
   });
 
   describe('Parcel CRUD Flow (T2 requirement)', () => {
@@ -164,6 +206,54 @@ describe('CTM Parcels Integration (T2-PARCEL-E2E backend)', () => {
 
       expect(response.body).toHaveProperty('type');
       expect(response.body.type).toBe('FeatureCollection');
+    });
+  });
+
+  describe('Validation and Edge Cases (QA-004, QA-008, QA-014)', () => {
+    it('Should return 400 when fetching parcel with invalid ObjectId (QA-004)', async () => {
+      await request(app.getHttpServer())
+        .get('/ctm/parcels/invalid-object-id')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(400);
+    });
+
+    it('Should return 400 when patching parcel with invalid ObjectId (QA-004)', async () => {
+      await request(app.getHttpServer())
+        .patch('/ctm/parcels/invalid-object-id')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ status: 'ATIVO' })
+        .expect(400);
+    });
+
+    it('Should return 400 when fetching history with invalid ObjectId (QA-004)', async () => {
+      await request(app.getHttpServer())
+        .get('/ctm/parcels/invalid-object-id/history')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(400);
+    });
+
+    it('Should return 400 when bbox has invalid format (QA-008)', async () => {
+      await request(app.getHttpServer())
+        .get('/ctm/parcels')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ bbox: '1,2,3' })
+        .expect(400);
+    });
+
+    it('Should return 400 when bbox has non-numeric coordinates (QA-008)', async () => {
+      await request(app.getHttpServer())
+        .get('/ctm/parcels')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ bbox: 'abc,def,ghi,jkl' })
+        .expect(400);
+    });
+
+    it('Should return 400 when bbox coordinates are inverted (QA-014)', async () => {
+      await request(app.getHttpServer())
+        .get('/ctm/parcels')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ bbox: '10,20,5,15' })
+        .expect(400);
     });
   });
 });

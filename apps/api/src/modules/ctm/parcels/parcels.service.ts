@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { calculateGeometryArea, isPolygonGeometry } from '../../../common/utils/geo';
 import * as GeoJSON from 'geojson';
 import { asObjectId } from '../../../common/utils/object-id';
@@ -232,6 +233,19 @@ export class ParcelsService {
       statusIPTU?: string;
     },
   ) {
+    if (filters?.bbox) {
+      const parts = filters.bbox.split(',');
+      if (parts.length !== 4) {
+        throw new BadRequestException('Bbox deve conter exatamente 4 coordenadas (minLng,minLat,maxLng,maxLat)');
+      }
+      const [minLng, minLat, maxLng, maxLat] = parts.map(Number);
+      if ([minLng, minLat, maxLng, maxLat].some(isNaN)) {
+        throw new BadRequestException('Coordenadas do bbox devem ser numeros validos');
+      }
+      if (minLng > maxLng || minLat > maxLat) {
+        throw new BadRequestException('Coordenadas do bbox estao invertidas: minLng nao pode ser maior que maxLng, e minLat nao pode ser maior que maxLat');
+      }
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.parcelsRepository.list(tenantId, {
       projectId: String(resolvedProjectId),
@@ -313,11 +327,17 @@ export class ParcelsService {
   }
 
   async findById(tenantId: string, projectId: string | undefined, id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
   }
 
   async getHistory(tenantId: string, projectId: string | undefined, id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.parcelAuditRepository.listByParcel(tenantId, String(resolvedProjectId), id);
   }
@@ -408,6 +428,9 @@ export class ParcelsService {
     dto: UpdateParcelDto,
     userId?: string,
   ) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const existing = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
     if (!existing) {
@@ -519,6 +542,9 @@ export class ParcelsService {
   }
 
   async remove(tenantId: string, projectId: string | undefined, id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     await this.parcelsRepository.delete(tenantId, String(resolvedProjectId), id);
     return { success: true };
@@ -584,6 +610,9 @@ export class ParcelsService {
   }
 
   async getSummary(tenantId: string, projectId: string | undefined, id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const parcel = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
     if (!parcel) {
@@ -926,6 +955,9 @@ export class ParcelsService {
     userId?: string,
     userRole?: string,
   ) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const parcel = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
     if (!parcel) throw new BadRequestException('Parcela nao encontrada');

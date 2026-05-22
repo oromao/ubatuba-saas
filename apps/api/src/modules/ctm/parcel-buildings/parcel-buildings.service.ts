@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { ParcelBuildingsRepository } from './parcel-buildings.repository';
 import { UpsertParcelBuildingDto } from './dto/upsert-parcel-building.dto';
 import { asObjectId } from '../../../common/utils/object-id';
@@ -12,6 +13,9 @@ export class ParcelBuildingsService {
   ) {}
 
   async findByParcel(tenantId: string, projectId: string | undefined, parcelId: string) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.repository.findByParcel(tenantId, String(resolvedProjectId), parcelId);
   }
@@ -23,6 +27,9 @@ export class ParcelBuildingsService {
     dto: UpsertParcelBuildingDto,
     userId?: string,
   ) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const useType = dto.useType ?? dto.uso;
     const constructionStandard = dto.constructionStandard ?? dto.padraoConstrutivo;

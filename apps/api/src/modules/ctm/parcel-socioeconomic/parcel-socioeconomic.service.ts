@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { ParcelSocioeconomicRepository } from './parcel-socioeconomic.repository';
 import { UpsertParcelSocioeconomicDto } from './dto/upsert-parcel-socioeconomic.dto';
 import { asObjectId } from '../../../common/utils/object-id';
@@ -12,6 +13,9 @@ export class ParcelSocioeconomicService {
   ) {}
 
   async findByParcel(tenantId: string, projectId: string | undefined, parcelId: string) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     return this.repository.findByParcel(tenantId, String(resolvedProjectId), parcelId);
   }
@@ -23,6 +27,9 @@ export class ParcelSocioeconomicService {
     dto: UpsertParcelSocioeconomicDto,
     userId?: string,
   ) {
+    if (!Types.ObjectId.isValid(parcelId)) {
+      throw new BadRequestException('ID de parcela invalido');
+    }
     const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
     const incomeBracket = dto.incomeBracket ?? dto.faixaRenda;
     const residents = dto.residents ?? dto.moradores;
