@@ -4,6 +4,32 @@
 
 ---
 
+## 2026-05-22 — QA-004-BBOX-FIX (Antigravity)
+
+**Task:** Blindagem do Backend NestJS contra CastError (ID inválido) e bbox malformado/invertido
+**Status:** DONE
+**Commit:** `5277e0b`
+**Feito:**
+- **ParcelsService.update/findById/getHistory/remove:** Adicionada validação `Types.ObjectId.isValid(id)` no topo de cada método público, lançando `BadRequestException` (400) antes de qualquer acesso ao banco — eliminando BSONError/CastError que causavam HTTP 500.
+- **ParcelsService.list (bbox):** Validação completa do parâmetro `bbox`: exige 4 coordenadas, parsing numérico estrito, e rejeita inversão de coordenadas (minLng > maxLng ou minLat > maxLat) com 400.
+- **parcel-buildings.service.ts:** `findByParcel` e `upsert` blindados com validação de `parcelId` inválido → 400.
+- **parcel-infrastructure.service.ts:** Mesmo padrão — `findByParcel` e `upsert` → 400.
+- **parcel-socioeconomic.service.ts:** Mesmo padrão — `findByParcel` e `upsert` → 400.
+- **parcels.integration.spec.ts:** 6 novos cenários de borda automatizados (QA-004 × 3, QA-008 × 2, QA-014 × 1) adicionados ao describe `Validation and Edge Cases`.
+- **Resultado:** `16/16 tests passing` (10 CRUD/GeoJSON + 6 edge cases). Vistorias: `9/9 passing`.
+
+**Arquivos:**
+- `apps/api/src/modules/ctm/parcels/parcels.service.ts` (UPDATED)
+- `apps/api/src/modules/ctm/parcel-buildings/parcel-buildings.service.ts` (UPDATED)
+- `apps/api/src/modules/ctm/parcel-infrastructure/parcel-infrastructure.service.ts` (UPDATED)
+- `apps/api/src/modules/ctm/parcel-socioeconomic/parcel-socioeconomic.service.ts` (UPDATED)
+- `apps/api/test/ctm/parcels.integration.spec.ts` (UPDATED)
+- `docs/planning/02-BACKLOG.md` (UPDATED)
+- `docs/planning/03-EXECUTION-PLAN.md` (UPDATED)
+- `docs/planning/11-ACTIVE-LOCKS.md` (UPDATED)
+
+---
+
 ## 2026-05-22 — QA-005 (Antigravity)
 
 **Task:** Ingestao de Dados Reais de Demonstracao para 8+ Modulos (Eliminacao de Empty States)

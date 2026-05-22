@@ -1,15 +1,14 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (CTM tests stabilization QA-002)`
+> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (QA-004-BBOX-FIX)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 86.5% (Tier: Municipal-Grade Competitivo)
-- **Backlog Status:** 34+ itens DONE. Nova fase: GeoSampa + Demo Real. Recente: QA-002 (CTM tests stabilization).
-- **Blockers:** Bugs críticos de QA na demo, SHP import.
+- **Backlog Status:** 37+ itens DONE. QA sprint finalizado: 14/14 bugs corrigidos. Próximo: T10-SHP-IMPORT e QA-011.
+- **Blockers:** Nenhum blocker crítico ativo. QA-011 (Observatory valuations) pendente.
 - **Infra:** Docker-dev estável; 158 unit tests; 330 parcels no banco (300 SP + 30 demo).
 - **Demo live:** http://labspaulo.site/ — login: admin@demo.local / Admin@12345
 
@@ -19,11 +18,11 @@
 
 | ID | Tarefa | Objetivo | Impacto |
 |---|---|---|---|
-| **QA-002** | Vistorias: Corrigir listagem vazia na demo | Popular/resolver a ausência de vistorias persistidas na demo. | `DONE` |
-| **QA-005** | Implementar empty states nos 8+ módulos sem dados | Evitar telas operacionais confusas sem feedback de dados na demo. | `DONE` |
+| **QA-004** | Corrigir 500 no detalhe de parcelas com ID inválido | Tratar CastError de forma elegante no backend NestJS. | `DONE` |
+| **QA-008** | GeoJSON bbox inválido → 500 | Tratar bounding box inválido/malformado no GIS com fallback. | `DONE` |
 | **T10-SHP-IMPORT** | Suporte a Shapefile (.shp) | Importar dados de outras prefeituras diretamente via upload. | MEDIUM |
-| **QA-004** | Corrigir 500 no detalhe de parcelas com ID inválido | Tratar CastError de forma elegante no backend NestJS. | MEDIUM |
-| **QA-008** | GeoJSON bbox inválido → 500 | Tratar bounding box inválido/malformado no GIS com fallback. | MÉDIA |
+| **QA-011** | Observatory: 2% coverage de valuations | Aumentar cobertura de valuações do observatório. | MEDIUM |
+| **T8-CERT-SIGN** | Assinatura digital definitiva (prod) | Colocar assinatura digital RSA em cert PDF em ambiente real. | LOW |
 
 ---
 

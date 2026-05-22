@@ -141,16 +141,16 @@
 | **QA-001** | Dashboard KPIs retorna {} vazio | CRÍTICA | `DONE` | 1h |
 | **QA-002** | Vistorias: 0 registros — sem dados na demo | CRÍTICA | `DONE` | 1h |
 | **QA-003** | IPTU 500 com parcelId inválido (CastError) | CRÍTICA | `DONE` | 30min |
-| **QA-004** | Parcels detail 500 com ID inválido (CastError) | CRÍTICA | `TODO` | 30min |
+| **QA-004** | Parcels detail 500 com ID inválido (CastError) | CRÍTICA | `DONE` | 30min |
 | **QA-005** | 8+ módulos sem dados (empty state na demo) | ALTA | `DONE` | 3h |
 | **QA-006** | Health constantemente "degraded" | ALTA | `DONE` | 10min |
 | **QA-007** | Erro 500 genérico para inputs inválidos | ALTA | `DONE` | 30min |
-| **QA-008** | GeoJSON bbox inválido → 500 | MÉDIA | `TODO` | 30min |
+| **QA-008** | GeoJSON bbox inválido → 500 | MÉDIA | `DONE` | 30min |
 | **QA-009** | Citizen call sem campos → 500 | MÉDIA | `DONE` | 30min |
 | **QA-010** | PGV Zones lista vazia (3 no banco) | MÉDIA | `DONE` | 30min |
 | **QA-011** | Observatory: 2% coverage de valuations | MÉDIA | `TODO` | 2h |
 | **QA-012** | Playwright 3 testes smoke quebrados | BAIXA | `DONE` | 1h |
 | **QA-013** | Health memory threshold restritivo | BAIXA | `DONE` | 10min |
-| **QA-014** | Inverted bbox retorna 0 sem feedback | BAIXA | `TODO` | 15min |
+| **QA-014** | Inverted bbox retorna 0 sem feedback | BAIXA | `DONE` | 15min |
 
-**Resumo QA: 14 bugs encontrados, 11 corrigidos, 3 pendentes**
+**Resumo QA: 14 bugs encontrados, 14 corrigidos, 0 pendentes**
