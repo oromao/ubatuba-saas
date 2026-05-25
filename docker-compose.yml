@@ -60,7 +60,7 @@ services:
       - geoserver_data:/opt/geoserver/data_dir
 
   migrate:
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     build:
       context: .
       dockerfile: apps/api/Dockerfile
