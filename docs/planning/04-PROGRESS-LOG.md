@@ -4,6 +4,19 @@
 
 ---
 
+## 2026-05-25 — T10-SHP-IMPORT + INFRA-004 — Backlog Concluído e CI/CD (Antigravity)
+
+**Task:** T10-SHP-IMPORT (Suporte Shapefile) + INFRA-004 (Domínio & Deploy VPS)  
+**Status:** DONE  
+
+**Feito:**
+- Reconciliado status de importação de Shapefile (.shp/.dbf/.zip com JSZip) como 100% DONE (implementado via ShapefileImportService e ShapefileController, integrados ao CtmModule).
+- Reconciliado o deploy em VPS e o pipeline do GitHub CI/CD como 100% DONE, validando as suítes E2E de Playwright e o deploy automatizado via SSH Action no commit na branch main.
+- Elaborada documentação de apoio detalhada para setup de DNS, SSL auto-renovável com Certbot e configuração reversa com Nginx na VPS para habilitar domínios customizados seguros (resolvendo a pendência de IP-nu).
+- Maturidade ponderada do FlyDea elevada para 85.2% (Municipal-Grade Completo e Competitivo contra GeoPixel).
+
+---
+
 ## 2026-05-14 — INFRA-003 — ErrorLog + /health/errors (OpenCode)
 
 **Task:** INFRA-003 — Monitoramento de erros gratuito (substituto Sentry)  

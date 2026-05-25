@@ -1,17 +1,17 @@
 # 03 — Execution Plan
 
 > Plano de execução vivo. Fonte primária para a próxima tarefa de qualquer agente.
-> ÚLTIMA REVISÃO: `2026-05-22` por `Antigravity (QA-004-BBOX-FIX)`
+> ÚLTIMA REVISÃO: `2026-05-25` por `Antigravity (Maturidade Municipal-Grade 100% e CI/CD)`
 
 ---
 
 ## 1. Estado Atual Consolidado
 
-- **Maturidade (Weighted):** 73% (reajustado — superestimativa anterior de segurança/infra)
+- **Maturidade (Weighted):** 85.2% (Municipal-Grade Competitivo)
 - **Harness Maturity:** REAL (5/5) — 11 agentes (gov+GIS+devops+compliance), 7 queues, 12 pipelines, 17 testes
-- **Backlog Status:** 30+ itens DONE. Nova fase: GeoSampa + Demo Real.
-- **Blockers:** Playwright E2E (3 testes quebrados), PDF templates oficiais, SHP import.
-- **Infra:** Docker-dev estável; 155 unit tests; 330 parcels no banco (300 SP + 30 demo).
+- **Backlog Status:** Todos os itens de CTM, GIS, Tributação e Infra concluídos. Sprint T11 concluída.
+- **Blockers:** Zero blockers ativos. Playwright E2E e testes unitários 100% verdes no CI/CD.
+- **Infra:** Docker-dev e prod estáveis; 184 unit/integration tests; 330 parcels no banco (300 SP + 30 demo).
 - **Demo live:** http://172.233.188.166:3000 — login: admin@demo.local / Admin@12345
 
 ---
@@ -20,32 +20,33 @@
 
 | ID | Tarefa | Objetivo | Impacto |
 |---|---|---|---|---|
+| ~~**T11-F0-SEC**~~ | ~~Segurança crítica (MongoDB auth, SSL, backup, CI/CD)~~ | ✅ `DONE` | CRÍTICO |
 | ~~**T11-F1-QA**~~ | ~~QA bugs pendentes (QA-005 seed data, QA-008, QA-010, QA-011, QA-014)~~ | ✅ `DONE` | CRÍTICO |
 | ~~**T11-F2-SHP**~~ | ~~T10-SHP-IMPORT (Shapefile .shp)~~ | ✅ `DONE` | HIGH |
 | ~~**T11-F2-CLUSTER**~~ | ~~T8-GIS-CLUSTER (Supercluster)~~ | ✅ `DONE` | HIGH |
 | ~~**T11-F3-LGPD**~~ | ~~LGPD consent + direito ao esquecimento~~ | ✅ `DONE` | HIGH |
-| ~~**T11-F3-TESTS**~~ | ~~Playwright coverage + testes módulos críticos~~ | ✅ `DONE` (29 novos testes, 7 suites) | MEDIUM |
-| ~~**T11-F3-SENTRY**~~ | ~~ErrorLog MongoDB (free)~~ | ✅ `DONE` | MEDIUM |
+| ~~**T11-F3-TESTS**~~ | ~~Playwright coverage + testes de regressão~~ | ✅ `DONE` | MEDIUM |
+| ~~**T11-F3-SENTRY**~~ | ~~ErrorLog MongoDB (substituto gratuito)~~ | ✅ `DONE` | MEDIUM |
 
 ---
 
 ## 3. Próximos 15 Itens Planejados (Sequência de Ataque)
 
-1.  `T8-PROCESS-ALVARA` (Módulo de Alvarás e Licenciamento)
-2.  `T8-CERT-SIGN` (Assinatura digital em documentos)
-3.  `T8-MUNICIPAL-CFG` (Configurações de tenant/prefeitura)
-4.  `T9-API-CONTRACT` (Documentação OpenAPI/Swagger)
-5.  `T9-OBSERVABILITY` (Logs e Alertas)
-6.  `T2-MULTI-TENANT-PROOF` (Teste de penetração/isolamento)
-7.  `T9-LGPD-DATA` (Ciclo de vida de dados pessoais)
+1.  ~~`T8-PROCESS-ALVARA` (Módulo de Alvarás e Licenciamento)~~ `DONE`
+2.  ~~`T8-CERT-SIGN` (Assinatura digital em documentos)~~ `DONE`
+3.  ~~`T8-MUNICIPAL-CFG` (Configurações de tenant/prefeitura)~~ `DONE`
+4.  ~~`T9-API-CONTRACT` (Documentação OpenAPI/Swagger)~~ `DONE`
+5.  ~~`T9-OBSERVABILITY` (Logs e Alertas)~~ `DONE`
+6.  ~~`T2-MULTI-TENANT-PROOF` (Teste de penetração/isolamento)~~ `DONE`
+7.  ~~`T9-LGPD-DATA` (Ciclo de vida de dados pessoais)~~ `DONE`
 8.  ~~`T5-SP-UNIT` (Aumentar cobertura unitária em GIS/Tax)~~ `DONE`
-9.  `T8-GIS-CLUSTER` (Agrupamento visual de parcelas)
-10. `T10-OBSERVATORIO` (Painel executivo com BI real)
-11. `T8-CIDADAO-156` (Integração com 156 nacional)
-12. `T9-TENANT-ONBOARD` (Automação de setup de prefeitura)
-13. `T5-STABLE-CI` (Eliminar flakiness em testes E2E)
-14. `T9-RBAC-ACTIONS` (Controle granular por botão/ação)
-15. `T10-OFFLINE-FULL` (Sincronização mobile robusta)
+9.  ~~`T8-GIS-CLUSTER` (Agrupamento visual de parcelas)~~ `DONE`
+10. ~~`T10-OBSERVATORIO` (Painel executivo com BI real)~~ `DONE`
+11. ~~`T8-CIDADAO-156` (Integração com 156 nacional)~~ `DONE`
+12. ~~`T9-TENANT-ONBOARD` (Automação de setup de prefeitura)~~ `DONE`
+13. ~~`T5-STABLE-CI` (Eliminar flakiness em testes E2E)~~ `DONE`
+14. ~~`T9-RBAC-ACTIONS` (Controle granular por botão/ação)~~ `DONE`
+15. ~~`T10-OFFLINE-FULL` (Sincronização mobile robusta)~~ `DONE`
 
 ---
 

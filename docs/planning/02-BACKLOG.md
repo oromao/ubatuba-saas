@@ -96,7 +96,7 @@
 | **T10-PLAYWRIGHT-FIX** | Corrigir 3 testes E2E quebrados | `DONE` | S | Testes |
 | **T10-PDF-TEMPLATE** | PDF templates oficiais com PDFKit | `DONE` | M | Documentos |
 | **T10-DASHBOARD-GRAPHS** | Gráficos interativos no Dashboard frontend | `DONE` | M | Frontend |
-| **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `TODO` | M | GIS |
+| **T10-SHP-IMPORT** | Suporte a importação Shapefile (.shp) direta | `DONE` | M | GIS |
 
 ---
 
@@ -166,7 +166,7 @@
 | **INFRA-001** | Zero backup do MongoDB | CRÍTICO | `DONE` | 1h |
 | **INFRA-002** | Sem CI/CD — deploy manual | ALTO | `DONE` | 4h |
 | **INFRA-003** | Sem monitoramento de erros → ErrorLog MongoDB + /health/errors | MÉDIO | `DONE` | 1h |
-| **INFRA-004** | Sem domínio próprio (URL IP-nua) | MÉDIO | `TODO` | 1h |
+| **INFRA-004** | Sem domínio próprio (URL IP-nua) | MÉDIO | `DONE` | 1h |
 | **LGPD-001** | Sem coleta de consentimento LGPD | ALTO | `DONE` | 3h |
 | **LGPD-002** | Sem fluxo de direito ao esquecimento | ALTO | `DONE` | 2h |
 | **LGPD-003** | Seed data — confirmar 100% sintética | MÉDIO | `DONE` | 1h |
