@@ -80,6 +80,7 @@ jobs:
             set -e
             cd /root/ubatuba-saas
             git pull origin main
+            docker compose -f docker-compose.yml --profile prod down --remove-orphans || true
             docker compose -f docker-compose.yml --profile prod up -d --build
             echo "Waiting for API health..."
             for i in $(seq 1 30); do
