@@ -81,6 +81,11 @@ jobs:
             cd /root/ubatuba-saas
             git pull origin main
             docker compose -f docker-compose.yml --profile prod down --remove-orphans || true
+            # Liberação agressiva das portas 4000 e 3000 caso mantidas por containers externos ou processos órfãos
+            docker ps -q --filter "publish=4000" | xargs -r docker stop || true
+            docker ps -q --filter "publish=3000" | xargs -r docker stop || true
+            sudo fuser -k 4000/tcp || true
+            sudo fuser -k 3000/tcp || true
             docker compose -f docker-compose.yml --profile prod up -d --build
             echo "Waiting for API health..."
             for i in $(seq 1 30); do
