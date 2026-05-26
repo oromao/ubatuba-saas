@@ -170,7 +170,7 @@
 | **LGPD-001** | Sem coleta de consentimento LGPD | ALTO | `DONE` | 3h |
 | **LGPD-002** | Sem fluxo de direito ao esquecimento | ALTO | `DONE` | 2h |
 | **LGPD-003** | Seed data — confirmar 100% sintética | MÉDIO | `DONE` | 1h |
-| **QA-100** | 24/38 módulos backend sem testes unitários | ALTO | `PARTIAL` | 10h |
+| **QA-100** | 24/38 módulos backend sem testes unitários | ALTO | `DONE` | 10h |
 
 ---
 

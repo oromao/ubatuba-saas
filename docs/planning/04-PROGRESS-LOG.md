@@ -4,6 +4,25 @@
 
 ---
 
+## 2026-05-26 — QA-100 — Testes unitários para 5 módulos backend críticos (Antigravity)
+
+**Task:** QA-100 — Cobertura de testes unitários nos módulos backend  
+**Status:** DONE  
+
+**Feito:**
+- Desenvolvidas suites completas de testes unitários para 5 módulos backend críticos que careciam de cobertura:
+  - `AssetsService` (`apps/api/test/assets.service.spec.ts` — 5 testes)
+  - `AreasService` (`apps/api/test/areas.service.spec.ts` — 2 testes)
+  - `ProjectsService` (`apps/api/test/projects.service.spec.ts` — 7 testes)
+  - `ComplianceService` (`apps/api/test/compliance.service.spec.ts` — 8 testes)
+  - `SurveysService` (`apps/api/test/surveys.service.spec.ts` — 7 testes)
+- Corrigidos pequenos problemas de compilação TypeScript nos mocks e DTOs nos testes.
+- Elevada a cobertura geral de testes do backend, garantindo que mais domínios core estejam robustos e prontos para produção.
+
+**Prova:** `npm test test/assets.service.spec.ts test/areas.service.spec.ts test/projects.service.spec.ts test/compliance.service.spec.ts test/surveys.service.spec.ts` → 5/5 suítes de teste verdes (29 testes no total).
+
+---
+
 ## 2026-05-25 — T10-SHP-IMPORT + INFRA-004 — Backlog Concluído e CI/CD (Antigravity)
 
 **Task:** T10-SHP-IMPORT (Suporte Shapefile) + INFRA-004 (Domínio & Deploy VPS)  
