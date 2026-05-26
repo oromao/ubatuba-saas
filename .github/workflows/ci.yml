@@ -86,7 +86,7 @@ jobs:
             docker ps -q --filter "publish=3000" | xargs -r docker stop || true
             sudo fuser -k 4000/tcp || true
             sudo fuser -k 3000/tcp || true
-            docker compose -f docker-compose.yml --profile prod up -d --build
+            docker compose -f docker-compose.yml --profile prod up -d --build api web
             echo "Waiting for API health..."
             for i in $(seq 1 30); do
               if curl -sf http://localhost:4000/health > /dev/null 2>&1; then
