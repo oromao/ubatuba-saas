@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-05-26 — T11-F3-JOURNEYS — E2E Integration Journeys (Antigravity)
+
+**Task:** T11-F3-JOURNEYS — Homologação E2E Integrada de 5 Perfis Municipais  
+**Status:** DONE  
+
+**Feito:**
+- Criada e validada com sucesso a suite de testes integrados `apps/api/test/municipal-user-journeys.int.spec.ts` cobrindo o fluxo completo e real de 5 perfis de usuários do ecossistema municipal:
+  1. **Servidor de Cadastro & GIS**: Criação de Lote, Submissão de Desmembramento (Subdivisão) com validação de CRS e Geometria, Aprovação e arquivamento do pai com ativação das parcelas filhas.
+  2. **Secretário de Finanças e Tributação**: Cálculo real do IPTU integrado às Zonas PGV e Valuation com alíquotas oficiais.
+  3. **Fiscal de Obras e Campo (Vistorias)**: Abertura de chamados de vistoria com geolocalização e laudo técnico QA homologado por fiscal.
+  4. **Diretor de Obras**: Protocolo de Alvará de Obras vinculado a lote, emissão de Certidão RSA-SHA256 e validação de integridade criptográfica.
+  5. **Cidadão & LGPD**: Registro de consentimento explícito e fluxo do Direito ao Esquecimento (Art. 18 LGPD) com anonimização completa.
+- Sanados cirurgicamente erros de importação e de IoC dependências do NestJS (`ValuationsService`, `GeometryService`, `CacheService`).
+
+**Prova:** `npm test test/municipal-user-journeys.int.spec.ts` → 10/10 testes passando em 3.75s!
+
+---
+
 ## 2026-05-26 — QA-100 — Testes unitários para 5 módulos backend críticos (Antigravity)
 
 **Task:** QA-100 — Cobertura de testes unitários nos módulos backend  

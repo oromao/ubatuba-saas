@@ -185,3 +185,4 @@
 | **T11-F3-LGPD** | LGPD consent + direito ao esquecimento | `DONE` | 5h | Compliance |
 | **T11-F3-TESTS** | Testes: LGPD + consent + shapefile + cluster + Playwright cidadao | `DONE` | 5h | QA |
 | **T11-F3-SENTRY** | ErrorLog MongoDB (substituto gratuito do Sentry) | `DONE` | 1h | DevOps |
+| **T11-F3-JOURNEYS** | Homologação E2E Integrada (5 Perfis Municipais - municipal-user-journeys) | `DONE` | 2h | QA |
