@@ -10,6 +10,7 @@ const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 const http_exception_filter_1 = require("./common/filters/http-exception.filter");
 const logger_service_1 = require("./common/logger/logger.service");
+const error_log_service_1 = require("./common/services/error-log.service");
 const response_interceptor_1 = require("./common/interceptors/response.interceptor");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
@@ -52,7 +53,8 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
         transform: true,
     }));
-    app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter(logger));
+    const errorLogService = app.get(error_log_service_1.ErrorLogService);
+    app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter(logger, errorLogService));
     app.useGlobalInterceptors(new response_interceptor_1.ResponseInterceptor());
     const swaggerConfig = new swagger_1.DocumentBuilder()
         .setTitle('FlyDea SaaS API')

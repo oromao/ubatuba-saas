@@ -6,4 +6,7 @@ export declare class CreateCitizenCallDto {
     processId?: string;
     alertId?: string;
     attachmentKeys?: string[];
+    lgpdConsentAt?: Date;
+    lgpdConsentVersion?: string;
+    lgpdConsentId?: string;
 }

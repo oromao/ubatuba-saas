@@ -1,17 +1,21 @@
+import { Model } from 'mongoose';
+import { LgpdAuditDocument } from '../schemas/lgpd-audit.schema';
 export interface AuditEntry {
     tenantId: string;
-    action: 'READ_PERSONAL_DATA' | 'EXPORT_PERSONAL_DATA' | 'DELETE_PERSONAL_DATA' | 'ANONYMIZE';
-    resourceType: 'PARCEL' | 'CITIZEN' | 'VISTORIA' | 'CERTIFICATE';
+    action: 'READ_PERSONAL_DATA' | 'EXPORT_PERSONAL_DATA' | 'DELETE_PERSONAL_DATA' | 'ANONYMIZE' | 'CONSENT_RECORDED';
+    resourceType: 'PARCEL' | 'CITIZEN' | 'VISTORIA' | 'CERTIFICATE' | 'CITIZEN_CALL';
     resourceId: string;
     fields?: string[];
     actorId?: string;
     actorRole?: string;
     ipAddress?: string;
     reason?: string;
+    consentId?: string;
 }
 export declare class LgpdAuditService {
-    private auditLog;
-    logAccess(entry: AuditEntry): void;
+    private readonly model;
+    constructor(model: Model<LgpdAuditDocument>);
+    logAccess(entry: AuditEntry): Promise<void>;
     query(filters: {
         tenantId?: string;
         resourceType?: string;
@@ -19,8 +23,8 @@ export declare class LgpdAuditService {
         action?: string;
         startDate?: string;
         endDate?: string;
-    }): AuditEntry[];
-    anonymize(resourceType: string, resourceId: string): {
-        anonymized: boolean;
-    };
+        limit?: number;
+    }): Promise<LgpdAuditDocument[]>;
+    anonymize(tenantId: string, resourceType: string, resourceId: string): Promise<boolean>;
+    countByTenant(tenantId: string): Promise<number>;
 }

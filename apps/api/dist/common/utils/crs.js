@@ -43,9 +43,6 @@ function ensureProj4Initialized() {
 function degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
 }
-function radiansToDegrees(radians) {
-    return radians * (180 / Math.PI);
-}
 const A = 6378137.0;
 const F = 1 / 298.257223563;
 const K0 = 0.9996;
@@ -66,7 +63,7 @@ function utmToLatLong(easting, northing, zoneNumber, southernHemisphere) {
     const C1 = E_PRIME_SQ * Math.cos(phi1) * Math.cos(phi1);
     const R1 = A * (1 - E * E) / Math.pow(1 - E * E * Math.sin(phi1) * Math.sin(phi1), 1.5);
     const D = easting / (N1 * K0);
-    let lat = phi1 - (N1 * Math.tan(phi1) / R1) * (D * D / 2 - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * E_PRIME_SQ) * D * D * D * D / 24 +
+    const lat = phi1 - (N1 * Math.tan(phi1) / R1) * (D * D / 2 - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * E_PRIME_SQ) * D * D * D * D / 24 +
         (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * E_PRIME_SQ - 3 * C1 * C1) * D * D * D * D * D * D / 720);
     let lng = (D - (1 + 2 * T1 + C1) * D * D * D / 6 +
         (5 - 2 * C1 + 28 * T1 - 3 * C1 * C1 + 8 * E_PRIME_SQ + 24 * T1 * T1) * D * D * D * D * D / 120) / Math.cos(phi1);
@@ -88,7 +85,7 @@ function latLongToUtm(lat, lng) {
         (3 * E * E / 8 + 3 * E * E * E * E / 32 + 45 * E * E * E * E * E * E / 1024) * Math.sin(2 * latRad) +
         (15 * E * E * E * E / 256 + 45 * E * E * E * E * E * E / 1024) * Math.sin(4 * latRad) -
         (35 * E * E * E * E * E * E / 3072) * Math.sin(6 * latRad));
-    let easting = K0 * N * (A_coord + (1 - T + C) * A_coord * A_coord * A_coord / 6 +
+    const easting = K0 * N * (A_coord + (1 - T + C) * A_coord * A_coord * A_coord / 6 +
         (5 - 18 * T + T * T + 72 * C - 58 * E_PRIME_SQ) * A_coord * A_coord * A_coord * A_coord * A_coord / 120) + 500000;
     let northing = K0 * (M + N * Math.tan(latRad) * (A_coord * A_coord / 2 +
         (5 - T + 9 * C + 4 * C * C) * A_coord * A_coord * A_coord * A_coord / 24 +
@@ -161,9 +158,7 @@ function convertCoordinate(coordinate, fromCrs, toCrs = exports.CRS_WGS84) {
     const p4 = ensureProj4Initialized();
     if (p4) {
         try {
-            let inputCoord = [x, y];
-            let fromProj = fromCrs;
-            let toProj = toCrs;
+            const inputCoord = [x, y];
             const crsMap = {
                 [exports.CRS_WGS84]: 'EPSG:4326',
                 [exports.CRS_SIRGAS2000_UTM_23S]: 'EPSG:31983',

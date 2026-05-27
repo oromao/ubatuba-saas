@@ -80,7 +80,7 @@ let RateLimiterService = class RateLimiterService {
             this.logger.log(tier.description);
         }
     }
-    async consume(userId, role = 'ANONYMOUS', points = 1) {
+    async consume(userId, role = 'ANONYMOUS', _points = 1) {
         const limiter = this.limiters.get(role.toUpperCase());
         if (!limiter) {
             this.logger.warn(`Unknown role: ${role}, using ANONYMOUS limits`);

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { apiFetch } from "@/lib/api";
-import { Loader2, Plus, RefreshCw, FlaskConical, List, ChevronUp, ChevronDown } from "lucide-react";
+import { Loader2, Plus, RefreshCw, FlaskConical, List, ChevronUp, ChevronDown, CloudLightning, FolderOpen, History, Terminal, Sparkles } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -584,6 +584,249 @@ function ConnectorCard({ connector }: { connector: TaxConnector }) {
   );
 }
 
+// ─── SFTP Panel Component ─────────────────────────────────────────────────────
+
+function SftpConnectorPanel() {
+  const qc = useQueryClient();
+  const [showSimulator, setShowSimulator] = useState(false);
+  const [simFileName, setSimFileName] = useState("carga_tributaria_ubatuba.csv");
+  const [simContent, setSimContent] = useState(
+    `sqlu,valorVenalTotal,statusIPTU,iptuLancado,iptuPago\n` +
+    `001.002.0003.01,250000,QUITADO,1250,1250\n` +
+    `001.002.0004.01,480000,INADIMPLENTE,2400,0\n` +
+    `001.002.0005.01,310000,PARCELADO,1550,775`
+  );
+
+  const { data: sftpStatus, isLoading: sftpLoading } = useQuery({
+    queryKey: ["ctm-sftp-status"],
+    queryFn: () => apiFetch<{
+      inboxPath: string;
+      processedPath: string;
+      pendingCount: number;
+      pendingFiles: Array<{ fileName: string; sizeBytes: number; createdAt: string }>;
+      processedCount: number;
+      processedFiles: Array<{ fileName: string; sizeBytes: number; processedAt: string }>;
+    }>("/ctm/parcels/sftp-status"),
+  });
+
+  const syncMutation = useMutation({
+    mutationFn: () => apiFetch<{
+      message: string;
+      processedFiles: number;
+      results: Array<{ fileName: string; status: string; message?: string }>;
+    }>("/ctm/parcels/sftp-sync", { method: "POST" }),
+    onSuccess: (data) => {
+      alert(data.message || "Sincronização concluída com sucesso!");
+      void qc.invalidateQueries({ queryKey: ["ctm-sftp-status"] });
+    },
+  });
+
+  const depositMutation = useMutation({
+    mutationFn: (body: { fileName: string; csv: string }) =>
+      apiFetch<{ success: boolean; fileName: string }>("/ctm/parcels/sftp-deposit", {
+        method: "POST",
+        body: JSON.stringify(body),
+      }),
+    onSuccess: (data) => {
+      alert(`Arquivo "${data.fileName}" depositado com sucesso no SFTP inbox!`);
+      setShowSimulator(false);
+      void qc.invalidateQueries({ queryKey: ["ctm-sftp-status"] });
+    },
+  });
+
+  function formatBytes(bytes: number) {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  }
+
+  return (
+    <Card className="border-l-4 border-l-sky-500 bg-surface/50 backdrop-blur-sm shadow-sm transition-all hover:shadow-md">
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="rounded-lg bg-sky-100 p-2 text-sky-600 dark:bg-sky-950 dark:text-sky-400">
+              <CloudLightning className="h-5 w-5 animate-pulse" />
+            </div>
+            <div>
+              <CardTitle className="text-base font-semibold text-on-surface">
+                Conector Tributário SFTP Integrado (CTM)
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Atualização cadastral e tributária via depósito automatizado de arquivos municipais.
+              </CardDescription>
+            </div>
+          </div>
+          <Badge variant="success" className="px-2.5 py-0.5 font-display text-[10px] uppercase">
+            AUTOMÁTICO
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        {/* SFTP Status & Stats */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="rounded-xl border border-outline bg-surface-elevated/40 p-4 transition-all hover:bg-surface-elevated/60">
+            <span className="text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
+              Inbox SFTP
+            </span>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="font-display text-3xl font-bold text-sky-600 dark:text-sky-400">
+                {sftpLoading ? "..." : sftpStatus?.pendingCount ?? 0}
+              </span>
+              <span className="text-xs text-on-surface-muted">arquivos pendentes</span>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-outline bg-surface-elevated/40 p-4 transition-all hover:bg-surface-elevated/60">
+            <span className="text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
+              Processados (Lote)
+            </span>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="font-display text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                {sftpLoading ? "..." : sftpStatus?.processedCount ?? 0}
+              </span>
+              <span className="text-xs text-on-surface-muted">arquivos processados</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center gap-2 rounded-xl border border-outline bg-surface-elevated/40 p-4">
+            <Button
+              className="w-full bg-sky-600 font-semibold text-white shadow-sm transition-all hover:bg-sky-700 h-9"
+              onClick={() => syncMutation.mutate()}
+              disabled={syncMutation.isPending || sftpStatus?.pendingCount === 0}
+            >
+              {syncMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="mr-2 h-4 w-4" />
+              )}
+              Sincronizar SFTP
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full border-sky-200/50 hover:bg-sky-50 dark:hover:bg-sky-950/20 h-9"
+              onClick={() => setShowSimulator((v) => !v)}
+            >
+              <Terminal className="mr-2 h-4 w-4" />
+              Simular Depósito SFTP
+            </Button>
+          </div>
+        </div>
+
+        {/* SFTP Simulator form */}
+        {showSimulator && (
+          <div className="grid gap-3.5 rounded-xl border-2 border-dashed border-sky-200 bg-sky-50/20 p-4 dark:border-sky-900/50 dark:bg-sky-950/10">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-sky-500" />
+              <span className="text-sm font-semibold text-on-surface">Simulador de Depósito de Arquivo (SFTP)</span>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="sim-filename" className="text-xs">Nome do Arquivo CSV</Label>
+              <Input
+                id="sim-filename"
+                value={simFileName}
+                onChange={(e) => setSimFileName(e.target.value)}
+                placeholder="Ex: iptu_sincronizacao.csv"
+                className="h-9 text-xs"
+              />
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="sim-content" className="text-xs">Conteúdo do Arquivo Tributário (CSV)</Label>
+              <Textarea
+                id="sim-content"
+                value={simContent}
+                onChange={(e) => setSimContent(e.target.value)}
+                rows={4}
+                className="font-mono text-[11px] leading-relaxed"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                className="bg-sky-600 text-white hover:bg-sky-700 h-9"
+                onClick={() => depositMutation.mutate({ fileName: simFileName, csv: simContent })}
+                disabled={depositMutation.isPending}
+              >
+                {depositMutation.isPending && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
+                Depositar no SFTP
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowSimulator(false)}
+                className="h-9"
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* SFTP File Queues */}
+        {!sftpLoading && sftpStatus && (sftpStatus.pendingCount > 0 || sftpStatus.processedCount > 0) && (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* Pending files */}
+            {sftpStatus.pendingCount > 0 && (
+              <div className="rounded-lg border border-outline bg-surface-elevated/20 p-3.5">
+                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-on-surface-muted pb-2 border-b border-outline">
+                  <FolderOpen className="h-4 w-4 text-sky-500" />
+                  Arquivos na Caixa de Entrada SFTP
+                </div>
+                <div className="mt-2 divide-y divide-outline">
+                  {sftpStatus.pendingFiles.map((file) => (
+                    <div key={file.fileName} className="flex items-center justify-between py-2 text-xs">
+                      <span className="font-mono text-on-surface font-medium truncate max-w-[200px]" title={file.fileName}>
+                        {file.fileName}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-[10px]">
+                          {formatBytes(file.sizeBytes)}
+                        </Badge>
+                        <span className="text-[10px] text-on-surface-muted">
+                          {new Date(file.createdAt).toLocaleTimeString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Processed files */}
+            {sftpStatus.processedCount > 0 && (
+              <div className="rounded-lg border border-outline bg-surface-elevated/20 p-3.5">
+                <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-on-surface-muted pb-2 border-b border-outline">
+                  <History className="h-4 w-4 text-emerald-500" />
+                  Últimos Processados via SFTP
+                </div>
+                <div className="mt-2 divide-y divide-outline">
+                  {sftpStatus.processedFiles.map((file) => (
+                    <div key={file.fileName} className="flex items-center justify-between py-2 text-xs">
+                      <span className="font-mono text-on-surface-muted truncate max-w-[180px]" title={file.fileName}>
+                        {file.fileName}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 text-[10px]">
+                          {formatBytes(file.sizeBytes)}
+                        </Badge>
+                        <span className="text-[10px] text-on-surface-muted">
+                          {new Date(file.processedAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function IntegracoesPage() {
@@ -610,6 +853,11 @@ export default function IntegracoesPage() {
           <Plus className="mr-2 h-4 w-4" />
           Novo Conector
         </Button>
+      </div>
+
+      {/* SFTP Integrated Panel */}
+      <div className="mt-6">
+        <SftpConnectorPanel />
       </div>
 
       {/* Create form */}

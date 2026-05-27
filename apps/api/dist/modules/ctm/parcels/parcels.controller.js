@@ -27,13 +27,15 @@ const geometry_service_1 = require("../geometry.service");
 const parcel_buildings_service_1 = require("../parcel-buildings/parcel-buildings.service");
 const parcel_socioeconomic_service_1 = require("../parcel-socioeconomic/parcel-socioeconomic.service");
 const parcel_infrastructure_service_1 = require("../parcel-infrastructure/parcel-infrastructure.service");
+const shapefile_import_service_1 = require("./shapefile-import.service");
 let ParcelsController = class ParcelsController {
-    constructor(parcelsService, parcelBuildingsService, parcelSocioeconomicService, parcelInfrastructureService, geometryService) {
+    constructor(parcelsService, parcelBuildingsService, parcelSocioeconomicService, parcelInfrastructureService, geometryService, shapefileImportService) {
         this.parcelsService = parcelsService;
         this.parcelBuildingsService = parcelBuildingsService;
         this.parcelSocioeconomicService = parcelSocioeconomicService;
         this.parcelInfrastructureService = parcelInfrastructureService;
         this.geometryService = geometryService;
+        this.shapefileImportService = shapefileImportService;
     }
     validateGeometry(body) {
         return this.geometryService.validateGeometry(body.geometry);
@@ -134,12 +136,40 @@ let ParcelsController = class ParcelsController {
     importCsv(req, projectId, body) {
         return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, 'CSV_ENRICHMENT', undefined, undefined, req.user?.sub);
     }
+    syncSftp(req, projectId) {
+        return this.parcelsService.syncFromSftpInbox(req.tenantId, projectId, req.user?.sub);
+    }
+    sftpStatus() {
+        return this.parcelsService.getSftpInboxStatus();
+    }
+    depositSftp(body) {
+        if (!body.fileName || !body.csv) {
+            throw new common_1.BadRequestException('fileName e csv são obrigatórios');
+        }
+        return this.parcelsService.depositSftpFile(body.fileName, body.csv);
+    }
     transicao(req, id, projectId, body) {
         const validStatuses = ['PENDENTE', 'EM_VALIDACAO', 'APROVADA', 'REPROVADA'];
         if (!validStatuses.includes(body.status)) {
             throw new Error('Status invalido');
         }
         return this.parcelsService.transicao(req.tenantId, projectId, id, body.status, body.observacao, req.user?.sub, req.user?.role);
+    }
+    async importShapefile(req, projectId, body) {
+        if (!body.fileBase64 || !body.filename) {
+            throw new common_1.BadRequestException('fileBase64 e filename são obrigatórios');
+        }
+        const buffer = Buffer.from(body.fileBase64, 'base64');
+        const { featureCollection, warnings, detectedCrs, totalFeatures } = await this.shapefileImportService.parseShpZip(buffer);
+        const importResult = await this.parcelsService.importGeojson(req.tenantId, projectId, featureCollection, 'SHAPEFILE', body.filename, body.upsert || false, req.user?.sub, body.municipalityName, body.municipalityCode);
+        return {
+            ...importResult,
+            shapefile: {
+                detectedCrs,
+                totalFeaturesRead: totalFeatures,
+                shapefileWarnings: warnings,
+            },
+        };
     }
 };
 exports.ParcelsController = ParcelsController;
@@ -374,6 +404,33 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "importCsv", null);
 __decorate([
+    (0, common_1.Post)('sftp-sync'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "syncSftp", null);
+__decorate([
+    (0, common_1.Get)('sftp-status'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "sftpStatus", null);
+__decorate([
+    (0, common_1.Post)('sftp-deposit'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ParcelsController.prototype, "depositSftp", null);
+__decorate([
     (0, common_1.Post)(':id/transicao'),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
@@ -385,12 +442,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, Object, Object]),
     __metadata("design:returntype", void 0)
 ], ParcelsController.prototype, "transicao", null);
+__decorate([
+    (0, common_1.Post)('import-shapefile'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('projectId')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ParcelsController.prototype, "importShapefile", null);
 exports.ParcelsController = ParcelsController = __decorate([
     (0, common_1.Controller)('ctm/parcels'),
     __metadata("design:paramtypes", [parcels_service_1.ParcelsService,
         parcel_buildings_service_1.ParcelBuildingsService,
         parcel_socioeconomic_service_1.ParcelSocioeconomicService,
         parcel_infrastructure_service_1.ParcelInfrastructureService,
-        geometry_service_1.GeometryService])
+        geometry_service_1.GeometryService,
+        shapefile_import_service_1.ShapefileImportService])
 ], ParcelsController);
 //# sourceMappingURL=parcels.controller.js.map

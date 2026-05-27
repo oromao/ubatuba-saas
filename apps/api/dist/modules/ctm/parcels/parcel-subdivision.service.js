@@ -51,7 +51,6 @@ let ParcelSubdivisionService = class ParcelSubdivisionService {
             areaPercent: 0,
         }));
         const totalChildArea = childrenWithArea.reduce((sum, c) => sum + c.area, 0);
-        const parentArea = parent.areaTerreno || parent.area || 1;
         childrenWithArea.forEach((c) => {
             c.areaPercent = Math.round((c.area / totalChildArea) * 10000) / 100;
         });

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParcelInfrastructureService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("mongoose");
 const parcel_infrastructure_repository_1 = require("./parcel-infrastructure.repository");
 const object_id_1 = require("../../../common/utils/object-id");
 const projects_service_1 = require("../../projects/projects.service");
@@ -20,10 +21,16 @@ let ParcelInfrastructureService = class ParcelInfrastructureService {
         this.projectsService = projectsService;
     }
     async findByParcel(tenantId, projectId, parcelId) {
+        if (!mongoose_1.Types.ObjectId.isValid(parcelId)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         return this.repository.findByParcel(tenantId, String(resolvedProjectId), parcelId);
     }
     async upsert(tenantId, projectId, parcelId, dto, userId) {
+        if (!mongoose_1.Types.ObjectId.isValid(parcelId)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         const water = dto.water ?? dto.agua;
         const sewage = dto.sewage ?? dto.esgoto;

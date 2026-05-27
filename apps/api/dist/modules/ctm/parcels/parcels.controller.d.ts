@@ -10,13 +10,15 @@ import { GeometryService } from '../geometry.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelSocioeconomicService } from '../parcel-socioeconomic/parcel-socioeconomic.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
+import { ShapefileImportService } from './shapefile-import.service';
 export declare class ParcelsController {
     private readonly parcelsService;
     private readonly parcelBuildingsService;
     private readonly parcelSocioeconomicService;
     private readonly parcelInfrastructureService;
     private readonly geometryService;
-    constructor(parcelsService: ParcelsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService, geometryService: GeometryService);
+    private readonly shapefileImportService;
+    constructor(parcelsService: ParcelsService, parcelBuildingsService: ParcelBuildingsService, parcelSocioeconomicService: ParcelSocioeconomicService, parcelInfrastructureService: ParcelInfrastructureService, geometryService: GeometryService, shapefileImportService: ShapefileImportService);
     validateGeometry(body: {
         geometry: any;
     }): import("../geometry.service").GeometryValidationResult;
@@ -231,6 +233,60 @@ export declare class ParcelsController {
             message: string;
         }>;
     }>;
+    syncSftp(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+        };
+    }, projectId: string | undefined): Promise<{
+        message: string;
+        processedFiles: number;
+        results: ({
+            fileName: string;
+            status: string;
+            details: {
+                batchId: string | null;
+                processed: number;
+                updated: number;
+                notFound: number;
+                errors: number;
+                errorDetails: Array<{
+                    row: number;
+                    message: string;
+                }>;
+            };
+            message?: undefined;
+        } | {
+            fileName: string;
+            status: string;
+            message: any;
+            details?: undefined;
+        })[];
+    }>;
+    sftpStatus(): Promise<{
+        inboxPath: string;
+        processedPath: string;
+        pendingCount: number;
+        pendingFiles: {
+            fileName: string;
+            sizeBytes: number;
+            createdAt: Date;
+        }[];
+        processedCount: number;
+        processedFiles: {
+            fileName: string;
+            sizeBytes: number;
+            processedAt: Date;
+        }[];
+    }>;
+    depositSftp(body: {
+        fileName: string;
+        csv: string;
+    }): Promise<{
+        success: boolean;
+        fileName: string;
+        filePath: string;
+    }>;
     transicao(req: {
         tenantId: string;
         user?: {
@@ -241,4 +297,33 @@ export declare class ParcelsController {
         status: string;
         observacao: string;
     }): Promise<import("./parcel.schema").ParcelDocument>;
+    importShapefile(req: {
+        tenantId: string;
+        user?: {
+            sub?: string;
+        };
+    }, projectId: string | undefined, body: {
+        fileBase64: string;
+        filename: string;
+        upsert?: boolean;
+        municipalityName?: string;
+        municipalityCode?: string;
+    }): Promise<{
+        shapefile: {
+            detectedCrs: string | null;
+            totalFeaturesRead: number;
+            shapefileWarnings: string[];
+        };
+        batchId: any;
+        inserted: number;
+        updated: number;
+        skipped: number;
+        errors: number;
+        errorDetails: {
+            row: number;
+            featureId?: string;
+            message: string;
+            field?: string;
+        }[];
+    }>;
 }

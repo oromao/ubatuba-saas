@@ -326,6 +326,35 @@ export class ParcelsController {
     return this.parcelsService.importFromCsvEnrichment(req.tenantId, projectId, body.csv, 'CSV_ENRICHMENT', undefined, undefined, req.user?.sub);
   }
 
+  @Post('sftp-sync')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  syncSftp(
+    @Req() req: { tenantId: string; user?: { sub?: string } },
+    @Query('projectId') projectId: string | undefined,
+  ) {
+    return this.parcelsService.syncFromSftpInbox(req.tenantId, projectId, req.user?.sub);
+  }
+
+  @Get('sftp-status')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  sftpStatus() {
+    return this.parcelsService.getSftpInboxStatus();
+  }
+
+  @Post('sftp-deposit')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'GESTOR', 'OPERADOR')
+  depositSftp(
+    @Body() body: { fileName: string; csv: string },
+  ) {
+    if (!body.fileName || !body.csv) {
+      throw new BadRequestException('fileName e csv são obrigatórios');
+    }
+    return this.parcelsService.depositSftpFile(body.fileName, body.csv);
+  }
+
   @Post(':id/transicao')
   @UseGuards(RolesGuard)
   @Roles('ADMIN', 'GESTOR', 'OPERADOR')

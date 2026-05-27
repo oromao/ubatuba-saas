@@ -50,4 +50,18 @@ __decorate([
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)
 ], CreateCitizenCallDto.prototype, "attachmentKeys", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Date)
+], CreateCitizenCallDto.prototype, "lgpdConsentAt", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCitizenCallDto.prototype, "lgpdConsentVersion", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateCitizenCallDto.prototype, "lgpdConsentId", void 0);
 //# sourceMappingURL=create-citizen-call.dto.js.map

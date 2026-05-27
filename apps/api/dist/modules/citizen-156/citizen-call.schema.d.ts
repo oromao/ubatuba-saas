@@ -23,6 +23,12 @@ export declare class CitizenCall {
         createdAt: string;
         actorId?: string;
     }>;
+    lgpdConsentAt?: Date;
+    lgpdConsentVersion?: string;
+    lgpdAnonymized: boolean;
+    lgpdAnonymizedAt?: Date;
+    lgpdAnonymizedBy?: string;
+    lgpdConsentId?: string;
 }
 export type CitizenCallDocument = CitizenCall & Document;
 export declare const CitizenCallSchema: import("mongoose").Schema<CitizenCall, import("mongoose").Model<CitizenCall, any, any, any, Document<unknown, any, CitizenCall, any, {}> & CitizenCall & {

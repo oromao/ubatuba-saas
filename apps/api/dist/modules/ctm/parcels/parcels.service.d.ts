@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { ProjectsService } from '../../projects/projects.service';
 import { ParcelBuildingsService } from '../parcel-buildings/parcel-buildings.service';
 import { ParcelInfrastructureService } from '../parcel-infrastructure/parcel-infrastructure.service';
@@ -66,8 +67,8 @@ export declare class ParcelsService {
         pendingIssues: string[];
     }[]>;
     findById(tenantId: string, projectId: string | undefined, id: string): Promise<import("./parcel.schema").ParcelDocument | null>;
-    getHistory(tenantId: string, projectId: string | undefined, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel-audit.schema").ParcelAuditLogDocument, {}, {}> & import("./parcel-audit.schema").ParcelAuditLog & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-        _id: import("mongoose").Types.ObjectId;
+    getHistory(tenantId: string, projectId: string | undefined, id: string): Promise<(import("mongoose").Document<unknown, {}, import("./parcel-audit.schema").ParcelAuditLogDocument, {}, {}> & import("./parcel-audit.schema").ParcelAuditLog & import("mongoose").Document<Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: Types.ObjectId;
     }> & {
         __v: number;
     })[]>;
@@ -90,18 +91,18 @@ export declare class ParcelsService {
     vectorTiles(tenantId: string, projectId: string | undefined, z: number, x: number, y: number): Promise<Buffer>;
     getSummary(tenantId: string, projectId: string | undefined, id: string): Promise<{
         parcel: import("./parcel.schema").ParcelDocument;
-        building: (import("mongoose").Document<unknown, {}, import("../parcel-buildings/parcel-building.schema").ParcelBuildingDocument, {}, {}> & import("../parcel-buildings/parcel-building.schema").ParcelBuilding & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
+        building: (import("mongoose").Document<unknown, {}, import("../parcel-buildings/parcel-building.schema").ParcelBuildingDocument, {}, {}> & import("../parcel-buildings/parcel-building.schema").ParcelBuilding & import("mongoose").Document<Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+            _id: Types.ObjectId;
         }> & {
             __v: number;
         }) | null;
-        socioeconomic: (import("mongoose").Document<unknown, {}, import("../parcel-socioeconomic/parcel-socioeconomic.schema").ParcelSocioeconomicDocument, {}, {}> & import("../parcel-socioeconomic/parcel-socioeconomic.schema").ParcelSocioeconomic & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
+        socioeconomic: (import("mongoose").Document<unknown, {}, import("../parcel-socioeconomic/parcel-socioeconomic.schema").ParcelSocioeconomicDocument, {}, {}> & import("../parcel-socioeconomic/parcel-socioeconomic.schema").ParcelSocioeconomic & import("mongoose").Document<Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+            _id: Types.ObjectId;
         }> & {
             __v: number;
         }) | null;
-        infrastructure: (import("mongoose").Document<unknown, {}, import("../parcel-infrastructure/parcel-infrastructure.schema").ParcelInfrastructureDocument, {}, {}> & import("../parcel-infrastructure/parcel-infrastructure.schema").ParcelInfrastructure & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
-            _id: import("mongoose").Types.ObjectId;
+        infrastructure: (import("mongoose").Document<unknown, {}, import("../parcel-infrastructure/parcel-infrastructure.schema").ParcelInfrastructureDocument, {}, {}> & import("../parcel-infrastructure/parcel-infrastructure.schema").ParcelInfrastructure & import("mongoose").Document<Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+            _id: Types.ObjectId;
         }> & {
             __v: number;
         }) | null;
@@ -122,7 +123,7 @@ export declare class ParcelsService {
         }[];
     }>;
     transicao(tenantId: string, projectId: string | undefined, id: string, newStatus: 'PENDENTE' | 'EM_VALIDACAO' | 'APROVADA' | 'REPROVADA', observacao: string, userId?: string, userRole?: string): Promise<import("./parcel.schema").ParcelDocument>;
-    importFromCsvEnrichment(tenantId: string, projectId: string | undefined, csvContent: string, sourceType?: string, fileName?: string, columnMapping?: Record<string, string>, userId?: string): Promise<{
+    importFromCsvEnrichment(tenantId: string, projectId: string | undefined, csvContent: string, sourceType?: string, fileName?: string, columnMapping?: Record<string, string>, _userId?: string): Promise<{
         batchId: string | null;
         processed: number;
         updated: number;
@@ -142,7 +143,7 @@ export declare class ParcelsService {
         offset?: number;
     }): Promise<{
         entries: (import("mongoose").FlattenMaps<import("./parcel-audit.schema").ParcelAuditLogDocument> & Required<{
-            _id: import("mongoose").Types.ObjectId;
+            _id: Types.ObjectId;
         }> & {
             __v: number;
         })[];
@@ -159,6 +160,52 @@ export declare class ParcelsService {
             status: string;
             message: string | undefined;
         }[];
+    }>;
+    syncFromSftpInbox(tenantId: string, projectId?: string, userId?: string): Promise<{
+        message: string;
+        processedFiles: number;
+        results: ({
+            fileName: string;
+            status: string;
+            details: {
+                batchId: string | null;
+                processed: number;
+                updated: number;
+                notFound: number;
+                errors: number;
+                errorDetails: Array<{
+                    row: number;
+                    message: string;
+                }>;
+            };
+            message?: undefined;
+        } | {
+            fileName: string;
+            status: string;
+            message: any;
+            details?: undefined;
+        })[];
+    }>;
+    getSftpInboxStatus(): Promise<{
+        inboxPath: string;
+        processedPath: string;
+        pendingCount: number;
+        pendingFiles: {
+            fileName: string;
+            sizeBytes: number;
+            createdAt: Date;
+        }[];
+        processedCount: number;
+        processedFiles: {
+            fileName: string;
+            sizeBytes: number;
+            processedAt: Date;
+        }[];
+    }>;
+    depositSftpFile(fileName: string, content: string): Promise<{
+        success: boolean;
+        fileName: string;
+        filePath: string;
     }>;
 }
 export {};

@@ -219,12 +219,14 @@ let PermitsWorksService = class PermitsWorksService {
             request.status = 'CONCLUIDO';
             request.validUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
             try {
-                await this.certificatesService.issue(tenantId, {
-                    type: 'ALVARA_OBRAS',
-                    subjectName: request.applicantName,
-                    subjectDocument: request.protocolNumber,
-                    processId: undefined,
-                }, actorId);
+                if (this.certificatesService) {
+                    await this.certificatesService.issue(tenantId, {
+                        type: 'ALVARA_OBRAS',
+                        subjectName: request.applicantName,
+                        subjectDocument: request.protocolNumber,
+                        processId: undefined,
+                    }, actorId);
+                }
             }
             catch {
             }

@@ -4,6 +4,25 @@
 
 ---
 
+## 2026-05-27 — T12-SPRINT1-INIT — Conector Tributário SFTP/CSV e Painel Premium (Antigravity)
+
+**Task:** T12-SPRINT1-INIT — Integração Tributária (SFTP/CSV) e Painel Administrativo  
+**Status:** DONE  
+
+**Feito:**
+- **Simulador de SFTP Local**: Criadas pastas `sftp_inbox/` e `sftp_inbox/processed/` no backend NestJS para simulação.
+- **Sincronizador Tributário**:
+  - Implementados os métodos `syncFromSftpInbox`, `getSftpInboxStatus` e `depositSftpFile` no `ParcelsService`.
+  - Expostas as rotas `POST /ctm/parcels/sftp-sync`, `GET /ctm/parcels/sftp-status` e `POST /ctm/parcels/sftp-deposit` no `ParcelsController`.
+- **Painel de Controle de Conectores (Frontend)**:
+  - Injetado o painel dinâmico **Conector Tributário SFTP Integrado (CTM)** na rota `/app/integracoes` do Next.js.
+  - Criado o **Simulador de SFTP E2E** interativo para demonstrações, permitindo digitar/depositar arquivos CSV tributários e sincronizar na hora com animações premium.
+- **Testes Unitários**:
+  - Criada a suíte `apps/api/test/ctm-parcels-sftp.spec.ts` cobrando 100% dos fluxos de sincronização, status e depósito de SFTP.
+
+**Prova:** `npx jest test/ctm-parcels-sftp.spec.ts` → 4/4 testes verdes passando em 3.6s!
+
+
 ## 2026-05-26 — T11-F3-JOURNEYS — E2E Integration Journeys (Antigravity)
 
 **Task:** T11-F3-JOURNEYS — Homologação E2E Integrada de 5 Perfis Municipais  

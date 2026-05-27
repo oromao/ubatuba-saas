@@ -53,6 +53,8 @@ const cemetery_module_1 = require("./modules/cemetery/cemetery.module");
 const observatory_module_1 = require("./modules/observatory/observatory.module");
 const integration_hub_module_1 = require("./modules/integration-hub/integration-hub.module");
 const reports_module_1 = require("./modules/reports/reports.module");
+const lgpd_module_1 = require("./modules/lgpd/lgpd.module");
+const error_log_module_1 = require("./modules/error-log/error-log.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -107,6 +109,8 @@ exports.AppModule = AppModule = __decorate([
             citizen_156_module_1.Citizen156Module,
             reports_module_1.ReportsModule,
             public_works_module_1.PublicWorksModule,
+            lgpd_module_1.LgpdModule,
+            error_log_module_1.ErrorLogModule,
             cemetery_module_1.CemeteryModule,
             observatory_module_1.ObservatoryModule,
             integration_hub_module_1.IntegrationHubModule,

@@ -12,7 +12,11 @@ var ParcelsService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParcelsService = void 0;
 const common_1 = require("@nestjs/common");
+const fs = require("fs");
+const path = require("path");
+const mongoose_1 = require("mongoose");
 const geo_1 = require("../../../common/utils/geo");
+const pdfkit_1 = require("pdfkit");
 const object_id_1 = require("../../../common/utils/object-id");
 const mvt_util_1 = require("../../../common/utils/mvt.util");
 const crs_1 = require("../../../common/utils/crs");
@@ -183,6 +187,19 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         return diff;
     }
     async list(tenantId, projectId, filters) {
+        if (filters?.bbox) {
+            const parts = filters.bbox.split(',');
+            if (parts.length !== 4) {
+                throw new common_1.BadRequestException('Bbox deve conter exatamente 4 coordenadas (minLng,minLat,maxLng,maxLat)');
+            }
+            const [minLng, minLat, maxLng, maxLat] = parts.map(Number);
+            if ([minLng, minLat, maxLng, maxLat].some(isNaN)) {
+                throw new common_1.BadRequestException('Coordenadas do bbox devem ser numeros validos');
+            }
+            if (minLng > maxLng || minLat > maxLat) {
+                throw new common_1.BadRequestException('Coordenadas do bbox estao invertidas: minLng nao pode ser maior que maxLng, e minLat nao pode ser maior que maxLat');
+            }
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         return this.parcelsRepository.list(tenantId, {
             projectId: String(resolvedProjectId),
@@ -257,10 +274,16 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
             .filter((item) => item.pendingIssues.length > 0 || item.workflowStatus === 'PENDENTE');
     }
     async findById(tenantId, projectId, id) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         return this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
     }
     async getHistory(tenantId, projectId, id) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         return this.parcelAuditRepository.listByParcel(tenantId, String(resolvedProjectId), id);
     }
@@ -339,6 +362,9 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         return created;
     }
     async update(tenantId, projectId, id, dto, userId) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         const existing = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
         if (!existing) {
@@ -434,6 +460,9 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         return updated;
     }
     async remove(tenantId, projectId, id) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         await this.parcelsRepository.delete(tenantId, String(resolvedProjectId), id);
         return { success: true };
@@ -476,6 +505,9 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         return (0, mvt_util_1.createVectorTile)(geojsonData, z, x, y);
     }
     async getSummary(tenantId, projectId, id) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         const parcel = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
         if (!parcel) {
@@ -730,6 +762,9 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         return { batchId, inserted, updated: upsert ? inserted : 0, skipped, errors, errorDetails };
     }
     async transicao(tenantId, projectId, id, newStatus, observacao, userId, userRole) {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new common_1.BadRequestException('ID de parcela invalido');
+        }
         const resolvedProjectId = await this.projectsService.resolveProjectId(tenantId, projectId);
         const parcel = await this.parcelsRepository.findById(tenantId, String(resolvedProjectId), id);
         if (!parcel)
@@ -767,7 +802,7 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         });
         return updated;
     }
-    async importFromCsvEnrichment(tenantId, projectId, csvContent, sourceType = 'CSV_ENRICHMENT', fileName, columnMapping, userId) {
+    async importFromCsvEnrichment(tenantId, projectId, csvContent, sourceType = 'CSV_ENRICHMENT', fileName, columnMapping, _userId) {
         const lines = csvContent.split('\n').map((l) => l.trim()).filter(Boolean);
         if (lines.length < 2) {
             return { batchId: null, processed: 0, updated: 0, notFound: 0, errors: 0, errorDetails: [{ row: 0, message: 'CSV sem dados' }] };
@@ -937,8 +972,7 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
         if (!parcel)
             throw new common_1.NotFoundException('Lote não encontrado');
         return new Promise((resolve, reject) => {
-            const PDFDocument = require('pdfkit');
-            const doc = new PDFDocument({ margin: 50, size: 'A4' });
+            const doc = new pdfkit_1.default({ margin: 50, size: 'A4' });
             const chunks = [];
             doc.on('data', (c) => chunks.push(c));
             doc.on('end', () => resolve(Buffer.concat(chunks)));
@@ -1023,6 +1057,108 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
                 message: r.status === 'rejected' ? r.reason.message : undefined,
             })),
         };
+    }
+    async syncFromSftpInbox(tenantId, projectId, userId) {
+        const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+        const processedPath = path.join(inboxPath, 'processed');
+        if (!fs.existsSync(inboxPath)) {
+            fs.mkdirSync(inboxPath, { recursive: true });
+        }
+        if (!fs.existsSync(processedPath)) {
+            fs.mkdirSync(processedPath, { recursive: true });
+        }
+        const files = fs.readdirSync(inboxPath)
+            .filter((file) => file.endsWith('.csv'))
+            .map((file) => path.join(inboxPath, file));
+        if (files.length === 0) {
+            return {
+                message: 'Nenhum arquivo de enriquecimento tributário (.csv) encontrado no SFTP',
+                processedFiles: 0,
+                results: [],
+            };
+        }
+        const results = [];
+        for (const filePath of files) {
+            const fileName = path.basename(filePath);
+            try {
+                const csvContent = fs.readFileSync(filePath, 'utf8');
+                const importResult = await this.importFromCsvEnrichment(tenantId, projectId, csvContent, 'SFTP_IMPORT', fileName, undefined, userId);
+                const ext = path.extname(fileName);
+                const nameWithoutExt = path.basename(fileName, ext);
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const destination = path.join(processedPath, `${nameWithoutExt}_${timestamp}${ext}`);
+                fs.renameSync(filePath, destination);
+                results.push({
+                    fileName,
+                    status: 'success',
+                    details: importResult,
+                });
+            }
+            catch (err) {
+                results.push({
+                    fileName,
+                    status: 'error',
+                    message: err?.message || 'Erro desconhecido',
+                });
+            }
+        }
+        return {
+            message: `${results.filter(r => r.status === 'success').length} de ${files.length} arquivos processados com sucesso via SFTP`,
+            processedFiles: files.length,
+            results,
+        };
+    }
+    async getSftpInboxStatus() {
+        const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+        const processedPath = path.join(inboxPath, 'processed');
+        if (!fs.existsSync(inboxPath)) {
+            fs.mkdirSync(inboxPath, { recursive: true });
+        }
+        if (!fs.existsSync(processedPath)) {
+            fs.mkdirSync(processedPath, { recursive: true });
+        }
+        const pendingFiles = fs.readdirSync(inboxPath)
+            .filter((file) => file.endsWith('.csv'))
+            .map((file) => {
+            const filePath = path.join(inboxPath, file);
+            const stats = fs.statSync(filePath);
+            return {
+                fileName: file,
+                sizeBytes: stats.size,
+                createdAt: stats.birthtime,
+            };
+        });
+        const processedFiles = fs.readdirSync(processedPath)
+            .filter((file) => file.endsWith('.csv'))
+            .map((file) => {
+            const filePath = path.join(processedPath, file);
+            const stats = fs.statSync(filePath);
+            return {
+                fileName: file,
+                sizeBytes: stats.size,
+                processedAt: stats.mtime,
+            };
+        })
+            .sort((a, b) => b.processedAt.getTime() - a.processedAt.getTime())
+            .slice(0, 10);
+        return {
+            inboxPath,
+            processedPath,
+            pendingCount: pendingFiles.length,
+            pendingFiles,
+            processedCount: processedFiles.length,
+            processedFiles,
+        };
+    }
+    async depositSftpFile(fileName, content) {
+        const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+        if (!fs.existsSync(inboxPath)) {
+            fs.mkdirSync(inboxPath, { recursive: true });
+        }
+        const safeName = fileName.endsWith('.csv') ? fileName : `${fileName}.csv`;
+        const filePath = path.join(inboxPath, safeName);
+        fs.writeFileSync(filePath, content, 'utf8');
+        return { success: true, fileName: safeName, filePath };
     }
 };
 exports.ParcelsService = ParcelsService;

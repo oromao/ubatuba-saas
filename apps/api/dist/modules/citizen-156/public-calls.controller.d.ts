@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { Citizen156Service } from './citizen-156.service';
 import { TenantsService } from '../tenants/tenants.service';
 import { CacheService } from '../shared/cache.service';
+import { LgpdAuditService } from '../../common/services/lgpd-audit.service';
 type PublicCreateCallDto = {
     tenantId?: string;
     tenantSlug?: string;
@@ -12,12 +13,15 @@ type PublicCreateCallDto = {
     reporterContact?: string;
     address?: string;
     attachmentKeys?: string[];
+    lgpdConsent?: boolean;
+    lgpdConsentVersion?: string;
 };
 export declare class PublicCallsController {
     private readonly service;
     private readonly tenantsService;
     private readonly cacheService;
-    constructor(service: Citizen156Service, tenantsService: TenantsService, cacheService: CacheService);
+    private readonly lgpdAudit;
+    constructor(service: Citizen156Service, tenantsService: TenantsService, cacheService: CacheService, lgpdAudit: LgpdAuditService);
     private checkRateLimit;
     private resolveTenantId;
     createPublicCall(body: PublicCreateCallDto, req: Request): Promise<{

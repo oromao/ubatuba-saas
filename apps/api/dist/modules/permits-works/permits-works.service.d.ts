@@ -11,8 +11,8 @@ export declare class PermitsWorksService {
     private readonly projectsService;
     private readonly storage;
     private readonly cacheService;
-    private readonly certificatesService;
-    constructor(repository: PermitsWorksRepository, projectsService: ProjectsService, storage: ObjectStorageService, cacheService: CacheService, certificatesService: CertificatesService);
+    private readonly certificatesService?;
+    constructor(repository: PermitsWorksRepository, projectsService: ProjectsService, storage: ObjectStorageService, cacheService: CacheService, certificatesService?: CertificatesService | undefined);
     list(tenantId: string): Promise<(import("mongoose").Document<unknown, {}, PermitWorkRequestDocument, {}, {}> & import("./permit-work.schema").PermitWorkRequest & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

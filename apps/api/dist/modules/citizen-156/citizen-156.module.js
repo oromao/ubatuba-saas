@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const alerts_module_1 = require("../alerts/alerts.module");
 const projects_module_1 = require("../projects/projects.module");
 const tenants_module_1 = require("../tenants/tenants.module");
+const lgpd_module_1 = require("../lgpd/lgpd.module");
 const cache_service_1 = require("../shared/cache.service");
 const redis_service_1 = require("../shared/redis.service");
 const citizen_156_controller_1 = require("./citizen-156.controller");
@@ -28,6 +29,7 @@ exports.Citizen156Module = Citizen156Module = __decorate([
             alerts_module_1.AlertsModule,
             projects_module_1.ProjectsModule,
             tenants_module_1.TenantsModule,
+            lgpd_module_1.LgpdModule,
             mongoose_1.MongooseModule.forFeature([{ name: citizen_call_schema_1.CitizenCall.name, schema: citizen_call_schema_1.CitizenCallSchema }]),
         ],
         controllers: [citizen_156_controller_1.Citizen156Controller, public_calls_controller_1.PublicCallsController],

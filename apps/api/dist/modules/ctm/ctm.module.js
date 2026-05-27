@@ -14,6 +14,8 @@ const parcels_controller_1 = require("./parcels/parcels.controller");
 const project_parcels_controller_1 = require("./parcels/project-parcels.controller");
 const parcels_service_1 = require("./parcels/parcels.service");
 const parcels_repository_1 = require("./parcels/parcels.repository");
+const shapefile_controller_1 = require("./parcels/shapefile.controller");
+const shapefile_service_1 = require("./parcels/shapefile.service");
 const parcel_schema_1 = require("./parcels/parcel.schema");
 const parcel_audit_schema_1 = require("./parcels/parcel-audit.schema");
 const import_batch_schema_1 = require("./parcels/import-batch.schema");
@@ -46,6 +48,7 @@ const parcel_subdivision_schema_1 = require("./parcels/parcel-subdivision.schema
 const parcel_subdivision_repository_1 = require("./parcels/parcel-subdivision.repository");
 const parcel_subdivision_service_1 = require("./parcels/parcel-subdivision.service");
 const parcel_subdivision_controller_1 = require("./parcels/parcel-subdivision.controller");
+const shapefile_import_service_1 = require("./parcels/shapefile-import.service");
 let CtmModule = class CtmModule {
 };
 exports.CtmModule = CtmModule;
@@ -71,6 +74,7 @@ exports.CtmModule = CtmModule = __decorate([
         controllers: [
             parcels_controller_1.ParcelsController,
             project_parcels_controller_1.ProjectParcelsController,
+            shapefile_controller_1.ShapefileController,
             logradouros_controller_1.LogradourosController,
             urban_furniture_controller_1.UrbanFurnitureController,
             vistorias_controller_1.VistoriasController,
@@ -95,6 +99,8 @@ exports.CtmModule = CtmModule = __decorate([
             geometry_service_1.GeometryService,
             parcel_subdivision_repository_1.ParcelSubdivisionRepository,
             parcel_subdivision_service_1.ParcelSubdivisionService,
+            shapefile_service_1.ShapefileService,
+            shapefile_import_service_1.ShapefileImportService,
         ],
         exports: [
             parcels_repository_1.ParcelsRepository,

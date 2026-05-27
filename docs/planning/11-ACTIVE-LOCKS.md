@@ -36,6 +36,7 @@
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-27 | T12-SPRINT1-INIT | Antigravity | DONE | — | SFTP/CSV Conector Tributário e Painel de Conectores Premium |
 | 2026-05-26 | QA-100 | Antigravity | DONE | — | Adicionados testes unitários para 5 módulos backend críticos (assets, areas, projects, compliance, surveys) |
 | 2026-05-14 | T-MATURITY-BOOST-F0 | OpenCode | DONE | — | FASE 0: MongoDB port fix + backup script + SSL setup + CI/CD + nginx prod |
 

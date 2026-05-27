@@ -12,7 +12,7 @@ export declare class RateLimiterService {
     private redisAvailable;
     constructor(redisService: RedisService);
     private setup;
-    consume(userId: string, role?: string, points?: number): Promise<void>;
+    consume(userId: string, role?: string, _points?: number): Promise<void>;
     private checkLimit;
     getTierInfo(role: string): RateLimitTier | undefined;
     getAllTiers(): RateLimitTier[];

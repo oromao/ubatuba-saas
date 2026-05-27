@@ -1,4 +1,6 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
 import { Types } from 'mongoose';
 import { calculateGeometryArea, isPolygonGeometry } from '../../../common/utils/geo';
 import * as GeoJSON from 'geojson';
@@ -1294,5 +1296,134 @@ export class ParcelsService {
         message: r.status === 'rejected' ? (r.reason as Error).message : undefined,
       })),
     };
+  }
+
+  async syncFromSftpInbox(
+    tenantId: string,
+    projectId?: string,
+    userId?: string,
+  ) {
+    const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+    const processedPath = path.join(inboxPath, 'processed');
+
+    if (!fs.existsSync(inboxPath)) {
+      fs.mkdirSync(inboxPath, { recursive: true });
+    }
+    if (!fs.existsSync(processedPath)) {
+      fs.mkdirSync(processedPath, { recursive: true });
+    }
+
+    const files = fs.readdirSync(inboxPath)
+      .filter((file) => file.endsWith('.csv'))
+      .map((file) => path.join(inboxPath, file));
+
+    if (files.length === 0) {
+      return {
+        message: 'Nenhum arquivo de enriquecimento tributário (.csv) encontrado no SFTP',
+        processedFiles: 0,
+        results: [],
+      };
+    }
+
+    const results = [];
+    for (const filePath of files) {
+      const fileName = path.basename(filePath);
+      try {
+        const csvContent = fs.readFileSync(filePath, 'utf8');
+        const importResult = await this.importFromCsvEnrichment(
+          tenantId,
+          projectId,
+          csvContent,
+          'SFTP_IMPORT',
+          fileName,
+          undefined,
+          userId,
+        );
+
+        // Mover para processados com timestamp
+        const ext = path.extname(fileName);
+        const nameWithoutExt = path.basename(fileName, ext);
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const destination = path.join(processedPath, `${nameWithoutExt}_${timestamp}${ext}`);
+        
+        fs.renameSync(filePath, destination);
+
+        results.push({
+          fileName,
+          status: 'success',
+          details: importResult,
+        });
+      } catch (err: any) {
+        results.push({
+          fileName,
+          status: 'error',
+          message: err?.message || 'Erro desconhecido',
+        });
+      }
+    }
+
+    return {
+      message: `${results.filter(r => r.status === 'success').length} de ${files.length} arquivos processados com sucesso via SFTP`,
+      processedFiles: files.length,
+      results,
+    };
+  }
+
+  async getSftpInboxStatus() {
+    const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+    const processedPath = path.join(inboxPath, 'processed');
+
+    if (!fs.existsSync(inboxPath)) {
+      fs.mkdirSync(inboxPath, { recursive: true });
+    }
+    if (!fs.existsSync(processedPath)) {
+      fs.mkdirSync(processedPath, { recursive: true });
+    }
+
+    const pendingFiles = fs.readdirSync(inboxPath)
+      .filter((file) => file.endsWith('.csv'))
+      .map((file) => {
+        const filePath = path.join(inboxPath, file);
+        const stats = fs.statSync(filePath);
+        return {
+          fileName: file,
+          sizeBytes: stats.size,
+          createdAt: stats.birthtime,
+        };
+      });
+
+    const processedFiles = fs.readdirSync(processedPath)
+      .filter((file) => file.endsWith('.csv'))
+      .map((file) => {
+        const filePath = path.join(processedPath, file);
+        const stats = fs.statSync(filePath);
+        return {
+          fileName: file,
+          sizeBytes: stats.size,
+          processedAt: stats.mtime,
+        };
+      })
+      .sort((a, b) => b.processedAt.getTime() - a.processedAt.getTime())
+      .slice(0, 10); // Últimos 10 arquivos
+
+    return {
+      inboxPath,
+      processedPath,
+      pendingCount: pendingFiles.length,
+      pendingFiles,
+      processedCount: processedFiles.length,
+      processedFiles,
+    };
+  }
+
+  async depositSftpFile(fileName: string, content: string) {
+    const inboxPath = path.join(process.cwd(), 'sftp_inbox');
+    if (!fs.existsSync(inboxPath)) {
+      fs.mkdirSync(inboxPath, { recursive: true });
+    }
+    const safeName = fileName.endsWith('.csv') ? fileName : `${fileName}.csv`;
+    const filePath = path.join(inboxPath, safeName);
+    fs.writeFileSync(filePath, content, 'utf8');
+    return { success: true, fileName: safeName, filePath };
   }
 }

@@ -165,7 +165,7 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, swagger_1.ApiOperation)({
         summary: 'Get parcel clusters for a viewport',
-        description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Groups parcels into cells based on zoom level.',
+        description: 'Returns grid-based clustered parcels for efficient low-zoom map rendering. Below zoom 14, returns clusters. At zoom 14+, returns individual parcels. Expansion zoom is included for cluster drill-down.',
     }),
     (0, swagger_1.ApiQuery)({ name: 'tenantId', required: true }),
     (0, swagger_1.ApiQuery)({ name: 'projectId', required: true }),

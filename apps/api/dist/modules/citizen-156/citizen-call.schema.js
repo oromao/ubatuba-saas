@@ -67,6 +67,30 @@ __decorate([
     (0, mongoose_1.Prop)({ type: [Object], default: [] }),
     __metadata("design:type", Array)
 ], CitizenCall.prototype, "history", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", Date)
+], CitizenCall.prototype, "lgpdConsentAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", String)
+], CitizenCall.prototype, "lgpdConsentVersion", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], CitizenCall.prototype, "lgpdAnonymized", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", Date)
+], CitizenCall.prototype, "lgpdAnonymizedAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], CitizenCall.prototype, "lgpdAnonymizedBy", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], CitizenCall.prototype, "lgpdConsentId", void 0);
 exports.CitizenCall = CitizenCall = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true, collection: 'citizen_calls' })
 ], CitizenCall);

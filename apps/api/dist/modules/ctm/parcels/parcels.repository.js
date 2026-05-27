@@ -18,6 +18,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const parcel_schema_1 = require("./parcel.schema");
 const object_id_1 = require("../../../common/utils/object-id");
+const bbox_1 = require("../../../common/utils/bbox");
 let ParcelsRepository = class ParcelsRepository {
     constructor(model) {
         this.model = model;
@@ -64,23 +65,8 @@ let ParcelsRepository = class ParcelsRepository {
             ];
         }
         if (filters.bbox) {
-            const [minLng, minLat, maxLng, maxLat] = filters.bbox.split(',').map(Number);
-            query.geometry = {
-                $geoIntersects: {
-                    $geometry: {
-                        type: 'Polygon',
-                        coordinates: [
-                            [
-                                [minLng, minLat],
-                                [minLng, maxLat],
-                                [maxLng, maxLat],
-                                [maxLng, minLat],
-                                [minLng, minLat],
-                            ],
-                        ],
-                    },
-                },
-            };
+            const parsed = (0, bbox_1.parseBbox)(filters.bbox);
+            query.geometry = (0, bbox_1.buildGeoIntersectsPolygon)(parsed.minLng, parsed.minLat, parsed.maxLng, parsed.maxLat);
         }
         const limit = filters.bbox ? 2000 : 0;
         const q = this.model.find(query).sort({ sqlu: 1 });
@@ -89,6 +75,8 @@ let ParcelsRepository = class ParcelsRepository {
         return q.exec();
     }
     findById(tenantId, projectId, id) {
+        if (!mongoose_2.Types.ObjectId.isValid(id))
+            return Promise.resolve(null);
         return this.model
             .findOne({ _id: id, tenantId: (0, object_id_1.asObjectId)(tenantId), projectId: (0, object_id_1.asObjectId)(projectId) })
             .exec();

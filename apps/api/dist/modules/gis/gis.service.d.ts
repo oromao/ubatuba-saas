@@ -11,6 +11,8 @@ export interface ClusterFeature {
         cluster: boolean;
         count: number;
         sqlu_list?: string[];
+        cluster_id?: string;
+        expansion_zoom?: number;
     };
 }
 export interface ClusterResult {
@@ -69,5 +71,6 @@ export declare class GisService {
         y: number;
     }>;
     queryClusters(bbox: Bbox, zoom: number, tenantId: string, projectId: string, limit?: number): Promise<ClusterResult>;
-    private getCenter;
+    private getParcelCenter;
+    private getGeometryCenter;
 }

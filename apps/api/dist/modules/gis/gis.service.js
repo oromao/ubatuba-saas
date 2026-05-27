@@ -19,18 +19,18 @@ const mongoose_2 = require("mongoose");
 const parcel_schema_1 = require("../ctm/parcels/parcel.schema");
 const object_id_1 = require("../../common/utils/object-id");
 const mvt_util_1 = require("../../common/utils/mvt.util");
+const bbox_1 = require("../../common/utils/bbox");
 const EPSG_WGS84 = 4326;
 const EPSG_UTM_23S = 31983;
 const MVT_EXTENT = 4096;
-const MVT_LAYER_NAME = 'parcels';
-const MVT_LAYER_VERSION = 2;
 let GisService = class GisService {
     constructor(model) {
         this.model = model;
     }
     async queryBboxViewport(params) {
         const { tenantId, projectId, bbox, limit = 1000 } = params;
-        const [minLng, minLat, maxLng, maxLat] = bbox;
+        const parsed = (0, bbox_1.parseBbox)(bbox);
+        const { minLng, minLat, maxLng, maxLat } = parsed;
         const query = {
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
@@ -127,7 +127,6 @@ let GisService = class GisService {
         const A = (lonRad - lon0Rad) * Math.cos(latRad);
         const T = Math.tan(latRad) * Math.tan(latRad);
         const C = ((f / (1 - f)) * (2 * T)) / (1 + T);
-        const V = (N / (1 + T)) * (1 + C);
         const M = this.meridionalArc(latRad, a, f);
         const easting = k0 * N * A + 500000.0;
         let northing = k0 * (M + N * Math.tan(latRad) * ((A * A) / 2 + ((5 - T + 9 * C + 4 * C * C) * (A * A * A * A) / 24)));
@@ -140,7 +139,6 @@ let GisService = class GisService {
         const n = f / (2 - f);
         const A = a * (1 + n) * (1 + (n * n) / 4) * (1 + (n * n) / 64);
         const alpha = ['', '1/2', '-1/24', '-1/720', '-1/4480'];
-        const beta = ['', '-1/2', '-1/24', '-1/720', '-1/4480'];
         let sum = 0;
         for (let i = 1; i <= 4; i++) {
             const term1 = (Math.sin(2 * i * lat)) * (n ** i);
@@ -154,7 +152,6 @@ let GisService = class GisService {
         const f = 1 / 298.257223563;
         const k0 = 0.9996;
         const centralMeridian = (zone - 1) * 6 - 180 + 3;
-        const centralMeridianRad = centralMeridian * (Math.PI / 180);
         let northingAdj = northing;
         if (southernHemisphere) {
             northingAdj -= 10000000.0;
@@ -166,7 +163,7 @@ let GisService = class GisService {
         const longitude = (x / (k0 * N * Math.cos(latitude * (Math.PI / 180)))) + centralMeridian;
         return { x: Math.round(longitude * 1e6) / 1e6, y: Math.round(latitude * 1e6) / 1e6 };
     }
-    approxLatCorrection(y, x, N, f, k0) {
+    approxLatCorrection(y, x, N, _f, _k0) {
         const term1 = (3 * y * x) / (2 * N * N);
         const term2 = (3 * y * y * y) / (2 * N * N * N);
         return (term1 + term2) * (180 / Math.PI);
@@ -271,7 +268,8 @@ let GisService = class GisService {
         return tiles;
     }
     async queryClusters(bbox, zoom, tenantId, projectId, limit = 5000) {
-        const [minLng, minLat, maxLng, maxLat] = bbox;
+        const parsed = (0, bbox_1.parseBbox)(bbox);
+        const { minLng, minLat, maxLng, maxLat } = parsed;
         const parcels = await this.model.find({
             tenantId: (0, object_id_1.asObjectId)(tenantId),
             projectId: (0, object_id_1.asObjectId)(projectId),
@@ -279,45 +277,81 @@ let GisService = class GisService {
         }).select('centroid sqlu geometry').limit(limit).lean().exec();
         if (parcels.length === 0)
             return { type: 'FeatureCollection', features: [], zoom, bbox };
-        const cellSize = Math.pow(2, 18 - Math.min(zoom, 18)) / 100000;
+        const safeZoom = Math.max(0, Math.min(zoom, 22));
+        const clusterRadius = Math.max(1, 80 - safeZoom * 3);
+        const cellSize = clusterRadius * 0.00001 * Math.pow(2, Math.max(0, 18 - safeZoom));
         const grid = new Map();
         for (const p of parcels) {
-            const c = p.centroid?.coordinates || this.getCenter(p.geometry);
+            const c = this.getParcelCenter(p);
             if (!c)
                 continue;
-            const k = `${Math.floor(c[0] / cellSize)}:${Math.floor(c[1] / cellSize)}`;
+            const cellX = Math.floor(c[0] / Math.max(cellSize, 0.000001));
+            const cellY = Math.floor(c[1] / Math.max(cellSize, 0.000001));
+            const k = `${cellX}:${cellY}`;
             const e = grid.get(k);
             if (e) {
                 e.coords.push(c);
                 e.sqlus.push(p.sqlu || '');
             }
             else
-                grid.set(k, { coords: [c], sqlus: [p.sqlu || ''] });
+                grid.set(k, { coords: [c], sqlus: [p.sqlu || ''], cellX, cellY });
         }
         const features = [];
         for (const [, cell] of grid) {
             if (cell.coords.length === 1) {
-                features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: cell.coords[0] }, properties: { cluster: false, count: 1, sqlu_list: cell.sqlus } });
+                features.push({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: cell.coords[0] },
+                    properties: { cluster: false, count: 1, sqlu_list: cell.sqlus },
+                });
             }
             else {
                 const ax = cell.coords.reduce((s, c) => s + c[0], 0) / cell.coords.length;
                 const ay = cell.coords.reduce((s, c) => s + c[1], 0) / cell.coords.length;
-                features.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [ax, ay] }, properties: { cluster: true, count: cell.coords.length, sqlu_list: cell.sqlus.slice(0, 10) } });
+                features.push({
+                    type: 'Feature',
+                    geometry: { type: 'Point', coordinates: [ax, ay] },
+                    properties: {
+                        cluster: true,
+                        cluster_id: `c_${cell.cellX}_${cell.cellY}`,
+                        count: cell.coords.length,
+                        expansion_zoom: Math.min(safeZoom + 2, 22),
+                        sqlu_list: cell.sqlus.slice(0, 10),
+                    },
+                });
             }
         }
         return { type: 'FeatureCollection', features, zoom, bbox };
     }
-    getCenter(geom) {
+    getParcelCenter(p) {
+        if (!p)
+            return null;
+        if (p.centroid?.coordinates)
+            return p.centroid.coordinates;
+        if (p.geometry)
+            return this.getGeometryCenter(p.geometry);
+        return null;
+    }
+    getGeometryCenter(geom) {
         if (!geom)
             return null;
         try {
             if (geom.type === 'Point')
                 return geom.coordinates;
-            const ring = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
-            if (!ring)
+            const coords = geom.type === 'Polygon' ? geom.coordinates?.[0] : geom.coordinates?.[0]?.[0];
+            if (!coords || coords.length < 3)
                 return null;
-            const sx = ring.reduce((s, c) => s + c[0], 0), sy = ring.reduce((s, c) => s + c[1], 0);
-            return [sx / ring.length, sy / ring.length];
+            let sx = 0, sy = 0, count = 0;
+            for (const c of coords) {
+                if (Array.isArray(c) && c.length >= 2) {
+                    sx += c[0];
+                    sy += c[1];
+                    count++;
+                }
+            }
+            if (count === 0)
+                return null;
+            return [sx / count, sy / count];
         }
         catch {
             return null;

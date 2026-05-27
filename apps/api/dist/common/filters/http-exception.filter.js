@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpExceptionFilter = void 0;
 const common_1 = require("@nestjs/common");
 const logger_service_1 = require("../logger/logger.service");
+const error_log_service_1 = require("../services/error-log.service");
 let HttpExceptionFilter = class HttpExceptionFilter {
-    constructor(logger) {
+    constructor(logger, errorLogService) {
         this.logger = logger;
+        this.errorLogService = errorLogService;
     }
     catch(exception, host) {
         const ctx = host.switchToHttp();
@@ -58,6 +60,19 @@ let HttpExceptionFilter = class HttpExceptionFilter {
             userId: request.user?.sub ?? null,
             detail,
         };
+        if (this.errorLogService && status >= 400) {
+            this.errorLogService.log({
+                status,
+                method: request.method,
+                url: request.url,
+                detail,
+                trace: status >= 500 && exception instanceof Error ? exception.stack : undefined,
+                errorCode,
+                tenantId: request.tenantId ?? undefined,
+                userId: request.user?.sub ?? undefined,
+                correlationId: request.correlationId ?? undefined,
+            }).catch(() => { });
+        }
         if (status >= 500) {
             this.logger.errorWithContext('http_exception', {
                 ...payload,
@@ -85,6 +100,7 @@ let HttpExceptionFilter = class HttpExceptionFilter {
 exports.HttpExceptionFilter = HttpExceptionFilter;
 exports.HttpExceptionFilter = HttpExceptionFilter = __decorate([
     (0, common_1.Catch)(),
-    __metadata("design:paramtypes", [logger_service_1.LoggerService])
+    __metadata("design:paramtypes", [logger_service_1.LoggerService,
+        error_log_service_1.ErrorLogService])
 ], HttpExceptionFilter);
 //# sourceMappingURL=http-exception.filter.js.map
