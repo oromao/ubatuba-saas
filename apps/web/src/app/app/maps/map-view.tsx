@@ -200,17 +200,26 @@ export default function DynamicMapViewer() {
     if (!mapReady || !mapConfig.current || drawControl.current) return;
 
     let active = true;
-    import("@watergis/maplibre-gl-terradraw").then(({ MaplibreTerradrawControl }) => {
+    Promise.all([
+      import("@mapbox/mapbox-gl-draw"),
+      import("@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css" as any)
+    ]).then(([{ default: MapboxDraw }]) => {
       if (!active || !mapConfig.current || drawControl.current) return;
-      const control = new MaplibreTerradrawControl({
-        modes: ["polygon"],
-        open: false,
-      }) as unknown as DrawControlHandle;
-      mapConfig.current.addControl(control, "top-left");
-      drawControl.current = control;
+
+      const draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+          polygon: true,
+          trash: true
+        },
+        defaultMode: 'simple_select'
+      });
+
+      mapConfig.current.addControl(draw as any, "top-left");
+      drawControl.current = draw as any;
 
       const syncFeatures = () => {
-        const drawn = control.getFeatures().features ?? [];
+        const drawn = draw.getAll().features ?? [];
         clearFeatures();
         drawn.forEach((feature) => addFeature({
           type: "Feature",
@@ -220,8 +229,9 @@ export default function DynamicMapViewer() {
         }));
       };
 
-      control.on("mode-changed", syncFeatures);
-      control.on("feature-deleted", syncFeatures);
+      mapConfig.current.on("draw.create", syncFeatures);
+      mapConfig.current.on("draw.update", syncFeatures);
+      mapConfig.current.on("draw.delete", syncFeatures);
     });
 
     return () => {
@@ -232,10 +242,10 @@ export default function DynamicMapViewer() {
   useEffect(() => {
     if (!drawControl.current || !mapConfig.current) return;
     if (drawMode === "polygon") {
-      drawControl.current.activate();
+      (drawControl.current as any).changeMode('draw_polygon');
       return;
     }
-    drawControl.current.deactivate();
+    (drawControl.current as any).changeMode('simple_select');
   }, [drawMode]);
 
   useEffect(() => {
@@ -668,6 +678,138 @@ export default function DynamicMapViewer() {
           {features.length} geometria(s) desenhada(s)
         </div>
       )}
+      <VectorizedParcelForm
+        features={features}
+        drawControl={drawControl.current}
+        projectId={projectId}
+        clearFeatures={clearFeatures}
+        setDrawMode={setDrawMode}
+      />
+    </div>
+  );
+}
+
+type VectorizedFormProps = {
+  features: Array<any>;
+  drawControl: any;
+  projectId?: string;
+  clearFeatures: () => void;
+  setDrawMode: (mode: string | null) => void;
+};
+
+function VectorizedParcelForm({ features, drawControl, projectId, clearFeatures, setDrawMode }: VectorizedFormProps) {
+  const [sqlu, setSqlu] = useState("");
+  const [address, setAddress] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  if (features.length === 0) return null;
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!sqlu.trim()) {
+      setMsg({ type: "error", text: "O código SQLU é obrigatório." });
+      return;
+    }
+    const geom = features[0]?.geometry;
+    if (!geom) {
+      setMsg({ type: "error", text: "Nenhuma geometria válida encontrada." });
+      return;
+    }
+
+    setSaving(true);
+    setMsg(null);
+
+    try {
+      const response = await apiFetch<any>("/ctm/parcels", {
+        method: "POST",
+        body: JSON.stringify({
+          sqlu: sqlu.trim(),
+          inscricaoImobiliaria: sqlu.trim().replace(/([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})/, "$1.$2.$3.$4"),
+          mainAddress: address.trim() || "Nova Área Vetorizada",
+          geometry: geom,
+          projectId,
+          status: "ATIVO",
+          statusCadastral: "ATIVO",
+          workflowStatus: "APROVADA"
+        })
+      });
+
+      setMsg({ type: "success", text: `Lote ${response.sqlu} vetorizado com sucesso!` });
+      setTimeout(() => {
+        clearFeatures();
+        if (drawControl) {
+          drawControl.deleteAll();
+        }
+        setDrawMode(null);
+        setSqlu("");
+        setAddress("");
+        setMsg(null);
+        window.location.reload();
+      }, 2000);
+    } catch (err: any) {
+      setMsg({ type: "error", text: err.message || "Erro ao salvar a parcela vetorizada." });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="absolute bottom-6 left-6 z-[12] max-w-sm w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl backdrop-blur-md">
+      <div className="text-xs font-semibold uppercase tracking-[0.15em] text-orange-600">CTM - Nova Vetorização</div>
+      <div className="mt-1 text-sm font-semibold text-slate-900">Salvar Área Desenhada</div>
+      <form onSubmit={handleSave} className="mt-4 flex flex-col gap-3">
+        <div>
+          <label className="block text-[11px] font-semibold text-slate-500 uppercase">Código SQLU (Lote/Quadra)*</label>
+          <input
+            type="text"
+            required
+            placeholder="Ex: 001002000304"
+            value={sqlu}
+            onChange={(e) => setSqlu(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-800 focus:border-orange-500 focus:bg-white focus:outline-none"
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] font-semibold text-slate-500 uppercase">Endereço Principal</label>
+          <input
+            type="text"
+            placeholder="Ex: Av. Iperoig, 150"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-800 focus:border-orange-500 focus:bg-white focus:outline-none"
+          />
+        </div>
+
+        {msg && (
+          <div className={`rounded-lg px-3 py-2 text-xs font-medium ${
+            msg.type === "success" ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-rose-50 text-rose-800 border border-rose-200"
+          }`}>
+            {msg.text}
+          </div>
+        )}
+
+        <div className="mt-2 flex gap-2">
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex-1 inline-flex h-9 items-center justify-center rounded-lg bg-orange-600 px-3 text-xs font-semibold text-white transition-all hover:bg-orange-700 disabled:opacity-50"
+          >
+            {saving ? "Salvando..." : "Salvar no CTM"}
+          </button>
+          <button
+            type="button"
+            disabled={saving}
+            onClick={() => {
+              clearFeatures();
+              if (drawControl) drawControl.deleteAll();
+            }}
+            className="inline-flex h-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 px-3 text-xs font-semibold text-slate-600 transition-all hover:bg-slate-100"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
