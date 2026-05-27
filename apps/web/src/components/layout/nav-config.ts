@@ -54,6 +54,12 @@ export const navGroups: NavGroup[] = [
         icon: MapPinned,
         keywords: ["mapa", "camadas", "geo", "drone"],
       }),
+      withDefaultRoles({
+        label: "Monitoramento Satélite",
+        href: "/app/monitoramento",
+        icon: ShieldCheck,
+        keywords: ["alerta", "satelite", "ocupacao", "inpe", "deter", "desmatamento"],
+      }),
     ],
   },
   {

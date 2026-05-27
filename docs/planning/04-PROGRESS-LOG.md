@@ -4,6 +4,26 @@
 
 ---
 
+## 2026-05-27 — T14-SPRINT3-INIT — Monitoramento Satélite e Menu Lateral Premium (Antigravity)
+
+**Task:** T14-SPRINT3-INIT — Monitoramento Ambiental por Satélite e Menu Lateral Premium  
+**Status:** DONE  
+
+**Feito:**
+- **Menu Lateral Habilitado**:
+  - Inserida a aba "Monitoramento Satélite" no menu de navegação lateral (`nav-config.ts`), devidamente mapeada e usando o ícone premium `ShieldCheck`.
+- **Painel de Controle Aeroespacial Premium**:
+  - Redesenho completo de `/app/monitoramento/page.tsx` no padrão moderno da FlyDea com HSL Tailored Colors, efeitos Glassmorphism, cards estatísticos de criticidade de eventos e micro-animações.
+- **Simulador E2E DETER/INPE**:
+  - Implementação de um simulador de detecção de focos de desmatamento/invasão por satélite em tempo real, permitindo aos gestores injetar ocorrências georreferenciadas na malha territorial de Ubatuba, enviando para o endpoint backend `POST /monitoring/events` e atualizando os gráficos e painéis dinamicamente.
+- **Compilação e Validação**:
+  - Builds do Next.js frontend e NestJS backend validados em produção com 100% de sucesso.
+  - Execução bem-sucedida de toda a suíte de testes de regressão do backend (498/498 testes verdes).
+
+**Prova:** Sucesso de compilação estática (`pnpm --prefix apps/web run build`) e backend (`pnpm --prefix apps/api run build`).
+
+---
+
 ## 2026-05-27 — T13-SPRINT2-INIT — Assinatura Gov.br e Validação por QR Code (Antigravity)
 
 **Task:** T13-SPRINT2-INIT — Assinatura Gov.br (Prata/Ouro) e Validação por QR Code  
