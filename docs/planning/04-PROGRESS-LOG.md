@@ -4,6 +4,26 @@
 
 ---
 
+## 2026-05-27 — T13-SPRINT2-INIT — Assinatura Gov.br e Validação por QR Code (Antigravity)
+
+**Task:** T13-SPRINT2-INIT — Assinatura Gov.br (Prata/Ouro) e Validação por QR Code  
+**Status:** DONE  
+
+**Feito:**
+- **Serviço GovBrSignatureService**:
+  - Novo serviço criado no backend NestJS para validação de token OAuth2 de nível Prata/Ouro e assinatura digital com chaves privadas RSA.
+- **Selo de Auditoria no PDF**:
+  - Modificado o gerador da Ficha de Imóvel CTM em PDF para renderizar uma caixa de segurança com metadados de auditoria e URL encurtada de validação.
+- **Endpoints de Auditoria**:
+  - Expostos endpoints `/certificates/govbr-sign` e `/certificates/validate-signature` (público) no backend.
+- **Portal de Validação Pública (Frontend)**:
+  - Desenvolvida a rota pública `/portal/validar` no Next.js (com Suspense boundary) para leitura de QR Code e atestado de integridade documental sem autenticação.
+- **Testes Unitários**:
+  - Nova suíte `apps/api/test/govbr-signature.unit.spec.ts` com **5/5 testes verdes** cobrindo assinatura, elevação de nível, validação e repúdio a fraudes.
+
+**Prova:** `npx jest test/govbr-signature.unit.spec.ts` → 5/5 testes verdes passando em 2.6s!
+
+
 ## 2026-05-27 — T12-SPRINT1-INIT — Conector Tributário SFTP/CSV e Painel Premium (Antigravity)
 
 **Task:** T12-SPRINT1-INIT — Integração Tributária (SFTP/CSV) e Painel Administrativo  

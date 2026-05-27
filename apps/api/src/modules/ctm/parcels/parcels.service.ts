@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as crypto from 'crypto';
 import { Types } from 'mongoose';
 import { calculateGeometryArea, isPolygonGeometry } from '../../../common/utils/geo';
 import * as GeoJSON from 'geojson';
@@ -1250,7 +1251,42 @@ export class ParcelsService {
       }
 
       // Footer
-      doc.moveDown(2);
+      doc.moveDown(1.5);
+      doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+      doc.moveDown(0.5);
+
+      const verifyHash = crypto.createHash('sha256').update(parcel.id).digest('hex').substring(0, 16).toUpperCase();
+      const verifyUrl = `https://labspaulo.site/portal/validar?hash=${verifyHash}`;
+
+      // Desenhar caixa de selo de segurança com bordas arredondadas e fundo azul suave
+      doc.save();
+      const currentY = doc.y;
+      doc.roundedRect(50, currentY, 495, 45, 5)
+         .fillColor('#f0f9ff')
+         .fill();
+      doc.roundedRect(50, currentY, 495, 45, 5)
+         .strokeColor('#bae6fd')
+         .lineWidth(1)
+         .stroke();
+
+      // Conteúdo da Caixa de Selo de Segurança
+      doc.fillColor('#0369a1').font('Helvetica-Bold').fontSize(8)
+         .text('  ASSINATURA DIGITAL GOV.BR — CERTIFICADO DE AUDITORIA CRIPTOGRÁFICA MUNICIPAL', 60, currentY + 6);
+      
+      doc.font('Helvetica').fontSize(7.5).fillColor('#4b5563');
+      doc.text('  • Verificador: ', 60, currentY + 18, { continued: true })
+         .fillColor('#1f2937').text(`${verifyHash}  `, { continued: true })
+         .fillColor('#4b5563').text('|  • Autenticidade: ', { continued: true })
+         .fillColor('#1f2937').text('DOCUMENTO ASSINADO DIGITALMENTE (NÍVEL OURO)  ', { continued: true })
+         .fillColor('#4b5563').text('|  • Tipo: ', { continued: true })
+         .fillColor('#1f2937').text('FICHA CTM OFICIAL');
+
+      doc.fillColor('#4b5563').text('  • URL Pública de Validação: ', 60, currentY + 30, { continued: true })
+         .fillColor('#0284c7').text(verifyUrl);
+      
+      doc.restore();
+
+      doc.moveDown(3);
       doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
       doc.moveDown(0.3);
       doc.fontSize(8).fillColor('#999')

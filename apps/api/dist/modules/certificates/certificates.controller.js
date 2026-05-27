@@ -20,9 +20,11 @@ const roles_decorator_1 = require("../../common/guards/roles.decorator");
 const roles_guard_1 = require("../../common/guards/roles.guard");
 const create_certificate_dto_1 = require("./dto/create-certificate.dto");
 const certificates_service_1 = require("./certificates.service");
+const govbr_signature_service_1 = require("../../common/services/govbr-signature.service");
 let CertificatesController = class CertificatesController {
-    constructor(service) {
+    constructor(service, govBrSignatureService) {
         this.service = service;
+        this.govBrSignatureService = govBrSignatureService;
     }
     list(req) {
         return this.service.list(req.tenantId);
@@ -38,6 +40,24 @@ let CertificatesController = class CertificatesController {
     }
     issue(req, dto) {
         return this.service.issue(req.tenantId, dto, req.user?.sub);
+    }
+    async govBrSign(req, body) {
+        return this.govBrSignatureService.signDocumentWithGovBr(body.documentId, body.govBrToken, body.name && body.cpf ? { name: body.name, cpf: body.cpf, level: body.level } : undefined);
+    }
+    async validateSignature(body) {
+        const isValid = this.govBrSignatureService.verifyGovBrSignature({
+            ...body,
+            isValid: true,
+        });
+        return {
+            isValid,
+            documentId: body.documentId,
+            signerName: body.signerName,
+            signerCpf: body.signerCpf,
+            accountLevel: body.accountLevel,
+            signedAt: body.signedAt,
+            authority: body.authority,
+        };
     }
 };
 exports.CertificatesController = CertificatesController;
@@ -86,10 +106,29 @@ __decorate([
     __metadata("design:paramtypes", [Object, create_certificate_dto_1.CreateCertificateDto]),
     __metadata("design:returntype", void 0)
 ], CertificatesController.prototype, "issue", null);
+__decorate([
+    (0, common_1.Post)('govbr-sign'),
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GESTOR', 'OPERADOR'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CertificatesController.prototype, "govBrSign", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('validate-signature'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CertificatesController.prototype, "validateSignature", null);
 exports.CertificatesController = CertificatesController = __decorate([
     (0, swagger_1.ApiTags)('certificates'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('certificates'),
-    __metadata("design:paramtypes", [certificates_service_1.CertificatesService])
+    __metadata("design:paramtypes", [certificates_service_1.CertificatesService,
+        govbr_signature_service_1.GovBrSignatureService])
 ], CertificatesController);
 //# sourceMappingURL=certificates.controller.js.map

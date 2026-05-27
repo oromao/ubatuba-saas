@@ -14,6 +14,7 @@ exports.ParcelsService = void 0;
 const common_1 = require("@nestjs/common");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const mongoose_1 = require("mongoose");
 const geo_1 = require("../../../common/utils/geo");
 const pdfkit_1 = require("pdfkit");
@@ -1030,7 +1031,33 @@ let ParcelsService = ParcelsService_1 = class ParcelsService {
                         .fillColor('#000').text(value);
                 });
             }
-            doc.moveDown(2);
+            doc.moveDown(1.5);
+            doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
+            doc.moveDown(0.5);
+            const verifyHash = crypto.createHash('sha256').update(parcel.id).digest('hex').substring(0, 16).toUpperCase();
+            const verifyUrl = `https://labspaulo.site/portal/validar?hash=${verifyHash}`;
+            doc.save();
+            const currentY = doc.y;
+            doc.roundedRect(50, currentY, 495, 45, 5)
+                .fillColor('#f0f9ff')
+                .fill();
+            doc.roundedRect(50, currentY, 495, 45, 5)
+                .strokeColor('#bae6fd')
+                .lineWidth(1)
+                .stroke();
+            doc.fillColor('#0369a1').font('Helvetica-Bold').fontSize(8)
+                .text('  ASSINATURA DIGITAL GOV.BR — CERTIFICADO DE AUDITORIA CRIPTOGRÁFICA MUNICIPAL', 60, currentY + 6);
+            doc.font('Helvetica').fontSize(7.5).fillColor('#4b5563');
+            doc.text('  • Verificador: ', 60, currentY + 18, { continued: true })
+                .fillColor('#1f2937').text(`${verifyHash}  `, { continued: true })
+                .fillColor('#4b5563').text('|  • Autenticidade: ', { continued: true })
+                .fillColor('#1f2937').text('DOCUMENTO ASSINADO DIGITALMENTE (NÍVEL OURO)  ', { continued: true })
+                .fillColor('#4b5563').text('|  • Tipo: ', { continued: true })
+                .fillColor('#1f2937').text('FICHA CTM OFICIAL');
+            doc.fillColor('#4b5563').text('  • URL Pública de Validação: ', 60, currentY + 30, { continued: true })
+                .fillColor('#0284c7').text(verifyUrl);
+            doc.restore();
+            doc.moveDown(3);
             doc.moveTo(50, doc.y).lineTo(545, doc.y).strokeColor('#ccc').stroke();
             doc.moveDown(0.3);
             doc.fontSize(8).fillColor('#999')

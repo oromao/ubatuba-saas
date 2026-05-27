@@ -1,8 +1,10 @@
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { CertificatesService } from './certificates.service';
+import { GovBrSignatureService } from '../../common/services/govbr-signature.service';
 export declare class CertificatesController {
     private readonly service;
-    constructor(service: CertificatesService);
+    private readonly govBrSignatureService;
+    constructor(service: CertificatesService, govBrSignatureService: GovBrSignatureService);
     list(req: {
         tenantId: string;
     }): Promise<(import("mongoose").Document<unknown, {}, import("./certificate.schema").CertificateDocument, {}, {}> & import("./certificate.schema").Certificate & import("mongoose").Document<import("mongoose").Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
@@ -76,5 +78,34 @@ export declare class CertificatesController {
         isNew: boolean;
         schema: import("mongoose").Schema;
         __v: number;
+    }>;
+    govBrSign(req: {
+        user?: {
+            sub?: string;
+        };
+    }, body: {
+        documentId: string;
+        govBrToken: string;
+        name?: string;
+        cpf?: string;
+        level?: 'PRATA' | 'OURO';
+    }): Promise<import("../../common/services/govbr-signature.service").GovBrSignedDocument>;
+    validateSignature(body: {
+        documentId: string;
+        documentHash: string;
+        signerName: string;
+        signerCpf: string;
+        accountLevel: 'PRATA' | 'OURO';
+        signedAt: string;
+        authority: string;
+        signatureCriptografica: string;
+    }): Promise<{
+        isValid: boolean;
+        documentId: string;
+        signerName: string;
+        signerCpf: string;
+        accountLevel: "PRATA" | "OURO";
+        signedAt: string;
+        authority: string;
     }>;
 }
