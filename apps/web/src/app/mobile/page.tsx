@@ -139,6 +139,14 @@ export default function MobilePage() {
     void refreshQueue();
     void refreshSyncedRecords();
     void refreshSummary();
+
+    // Registro dinâmico do Service Worker PWA para Mobile
+    if (typeof window !== "undefined" && "serviceWorker" in navigator && process.env.NODE_ENV === "production") {
+      navigator.serviceWorker.register("/mobile-sw.js", { scope: "/mobile" })
+        .then(() => console.log("FlyDea PWA Service Worker registrado com sucesso."))
+        .catch((err) => console.warn("Falha ao registrar PWA Service Worker:", err));
+    }
+
     return () => {
       window.removeEventListener("online", online);
       window.removeEventListener("offline", offline);
