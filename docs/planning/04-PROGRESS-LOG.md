@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-05-27 — T15-SPRINT4-INIT — Portal do Cidadão e Vistorias Mobile Premium (Antigravity)
+
+**Task:** T15-SPRINT4-INIT — Portal do Cidadão & Gestão de Vistorias Mobile Premium  
+**Status:** DONE  
+
+**Feito:**
+- **Portal do Cidadão Premium (`/cidadao`)**:
+  - Redesenho completo do Portal Cidadão 156 utilizando gradientes refinados HSL aeroespaciais, caixas de status animadas de envio bem-sucedido de protocolo de chamado e feedbacks dinâmicos de erros.
+  - Eliminação de tons cinzas opacos em favor do padrão visual premium da FlyDea.
+- **FlyDea Mobile Campo Premium (`/mobile`)**:
+  - Aprimoramento completo do visual do painel PWA mobile-first para fiscais municipais com HSL tailored.
+  - Transição ativa e fluída de cores e estados nos checklists operacionais do dispositivo (com troca para verde-esmeralda suave em checkboxes ativados).
+  - Animação sutil e fluída de rotação e carregamento no botão "Sincronizar agora" para sincronização rápida de registros offline IndexedDB com o backend.
+- **Compilação e Suíte de Testes**:
+  - Compilação estática do Next.js frontend e NestJS backend validada e concluída com 100% de sucesso.
+  - Execução bem-sucedida de todos os 498 testes de integridade e segurança de ponta a ponta.
+
+**Prova:** Sucesso de compilação estática (`pnpm --prefix apps/web run build`) e backend (`pnpm --prefix apps/api run build`).
+
+---
+
 ## 2026-05-27 — T14-SPRINT3-INIT — Monitoramento Satélite e Menu Lateral Premium (Antigravity)
 
 **Task:** T14-SPRINT3-INIT — Monitoramento Ambiental por Satélite e Menu Lateral Premium  

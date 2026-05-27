@@ -109,80 +109,86 @@ export default function CidadaoPage() {
   };
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-10">
+    <main className="mx-auto max-w-xl px-4 py-12 animate-fade-up">
       {/* Header */}
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-slate-800">
+      <div className="mb-8 text-center space-y-2">
+        <h1 className="text-3xl font-display font-extrabold bg-gradient-to-r from-primary to-primary-variant bg-clip-text text-transparent">
           Ubatuba — Portal Cidadão 156
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Registre sua solicitação ou reclamação
+        <p className="text-sm text-on-surface-muted/90 font-medium">
+          Registre sua solicitação, ocorrência ou reclamação de forma rápida
         </p>
       </div>
 
       {/* Success state */}
       {protocolNumber && (
-        <div className="mb-6 rounded-lg border border-green-300 bg-green-50 p-4 text-center">
-          <p className="font-semibold text-green-800">Solicitação enviada com sucesso!</p>
-          <p className="mt-1 text-sm text-green-700">
-            Guarde este protocolo:{" "}
-            <span className="font-mono font-bold">{protocolNumber}</span>
+        <div className="mb-6 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-6 text-center shadow-lg shadow-emerald-500/5 animate-fade-in">
+          <p className="font-semibold text-emerald-700 text-lg">Solicitação enviada com sucesso!</p>
+          <p className="mt-2 text-sm text-emerald-600/90 font-medium">
+            Guarde o seu número de protocolo para acompanhar:
           </p>
-          <button
-            onClick={() => setProtocolNumber(null)}
-            className="mt-3 text-xs text-green-600 underline hover:text-green-800"
-          >
-            Enviar nova solicitação
-          </button>
+          <div className="mt-3 inline-block rounded-md bg-emerald-500/10 px-4 py-2 border border-emerald-500/20 shadow-inner">
+            <span className="font-mono font-bold text-xl tracking-wider text-emerald-800">{protocolNumber}</span>
+          </div>
+          <div className="mt-4 pt-4 border-t border-emerald-500/10">
+            <button
+              onClick={() => setProtocolNumber(null)}
+              className="text-xs text-primary font-semibold underline underline-offset-4 hover:text-primary-variant transition-colors"
+            >
+              Enviar nova solicitação
+            </button>
+          </div>
         </div>
       )}
 
       {/* Error state */}
       {error && (
-        <div className="mb-6 rounded-lg border border-red-300 bg-red-50 p-4">
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="mb-6 rounded-lg border border-rose-500/20 bg-rose-500/5 p-4 animate-shake">
+          <p className="text-sm text-rose-700 font-medium">{error}</p>
         </div>
       )}
 
       {/* Form */}
       {!protocolNumber && (
-        <form onSubmit={handleSubmit} className="space-y-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 rounded-2xl border border-primary/10 bg-surface/90 p-8 shadow-xl shadow-primary/5 backdrop-blur-sm">
           {/* Nome */}
-          <div className="space-y-1">
-            <Label htmlFor="nome">Nome (opcional)</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="nome" className="font-semibold text-on-surface/90">Nome (opcional)</Label>
             <Input
               id="nome"
               name="nome"
-              placeholder="Seu nome"
+              placeholder="Seu nome completo"
               value={form.nome}
               onChange={handleChange}
+              className="focus-visible:ring-primary border-primary/5"
             />
           </div>
 
           {/* Contato */}
-          <div className="space-y-1">
-            <Label htmlFor="contato">Contato — telefone ou e-mail (opcional)</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="contato" className="font-semibold text-on-surface/90">Contato — telefone ou e-mail (opcional)</Label>
             <Input
               id="contato"
               name="contato"
               placeholder="(12) 99999-0000 ou email@exemplo.com"
               value={form.contato}
               onChange={handleChange}
+              className="focus-visible:ring-primary border-primary/5"
             />
           </div>
 
           {/* Categoria */}
-          <div className="space-y-1">
-            <Label htmlFor="categoria">Categoria *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="categoria" className="font-semibold text-on-surface/90">Categoria *</Label>
             <select
               id="categoria"
               name="categoria"
               value={form.categoria}
               onChange={handleChange}
               required
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-11 w-full rounded-md border border-primary/5 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all text-on-surface"
             >
-              <option value="">Selecione uma categoria</option>
+              <option value="" className="text-on-surface-muted">Selecione uma categoria...</option>
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -192,8 +198,8 @@ export default function CidadaoPage() {
           </div>
 
           {/* Assunto */}
-          <div className="space-y-1">
-            <Label htmlFor="assunto">Assunto *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="assunto" className="font-semibold text-on-surface/90">Assunto *</Label>
             <Input
               id="assunto"
               name="assunto"
@@ -201,52 +207,55 @@ export default function CidadaoPage() {
               value={form.assunto}
               onChange={handleChange}
               required
+              className="focus-visible:ring-primary border-primary/5"
             />
           </div>
 
           {/* Descrição */}
-          <div className="space-y-1">
-            <Label htmlFor="descricao">Descrição (opcional)</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="descricao" className="font-semibold text-on-surface/90">Descrição (opcional)</Label>
             <Textarea
               id="descricao"
               name="descricao"
-              placeholder="Detalhes adicionais sobre a solicitação"
+              placeholder="Detalhes adicionais sobre a solicitação ou ponto de referência..."
               rows={4}
               value={form.descricao}
               onChange={handleChange}
+              className="focus-visible:ring-primary border-primary/5"
             />
           </div>
 
           {/* Endereço */}
-          <div className="space-y-1">
-            <Label htmlFor="endereco">Endereço / Local (opcional)</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="endereco" className="font-semibold text-on-surface/90">Endereço / Local (opcional)</Label>
             <Input
               id="endereco"
               name="endereco"
-              placeholder="Rua, número, bairro"
+              placeholder="Rua, número, bairro em Ubatuba"
               value={form.endereco}
               onChange={handleChange}
+              className="focus-visible:ring-primary border-primary/5"
             />
           </div>
 
           {/* LGPD Consent */}
           {hasPersonalData && (
-            <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4">
+            <div className="flex items-start gap-3 rounded-lg border border-primary/10 bg-primary/5 p-4 animate-fade-in">
               <input
                 type="checkbox"
                 id="lgpdConsent"
                 name="lgpdConsent"
                 checked={form.lgpdConsent}
                 onChange={handleChange}
-                className="mt-1 h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                className="mt-1 h-4 w-4 rounded border-primary/20 text-primary focus:ring-primary"
               />
-              <label htmlFor="lgpdConsent" className="text-xs leading-5 text-blue-900">
+              <label htmlFor="lgpdConsent" className="text-xs leading-5 text-primary-variant font-medium">
                 Autorizo o tratamento dos meus dados pessoais (nome e contato) para fins de
                 registro e acompanhamento da solicitação, conforme a{" "}
                 <a
                   href="/privacidade"
                   target="_blank"
-                  className="font-medium underline hover:text-blue-700"
+                  className="font-bold underline underline-offset-2 hover:text-primary-variant transition-colors"
                 >
                   Política de Privacidade
                 </a>{" "}
@@ -256,15 +265,15 @@ export default function CidadaoPage() {
             </div>
           )}
 
-          <div className="text-xs text-slate-400 text-center">
+          <div className="text-xs text-on-surface-muted/70 text-center font-medium">
             Ao enviar, você concorda com os{" "}
-            <a href="/privacidade" target="_blank" className="underline hover:text-slate-600">
+            <a href="/privacidade" target="_blank" className="underline underline-offset-2 hover:text-on-surface-muted transition-colors">
               Termos de Uso e Política de Privacidade
             </a>
             .
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary-variant font-bold transition-all shadow-md shadow-primary/10 h-11">
             {loading ? "Enviando..." : "Enviar Solicitação"}
           </Button>
         </form>

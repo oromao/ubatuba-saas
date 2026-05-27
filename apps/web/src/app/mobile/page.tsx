@@ -382,51 +382,55 @@ export default function MobilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface px-4 py-5 text-on-surface sm:px-6">
-      <div className="mx-auto w-full max-w-3xl space-y-4">
-        <Card>
-          <CardHeader className="space-y-2 pb-3">
+    <div className="min-h-screen bg-gradient-to-br from-surface via-surface to-primary/5 px-4 py-8 text-on-surface sm:px-6">
+      <div className="mx-auto w-full max-w-3xl space-y-6">
+        <Card className="border-primary/10 shadow-lg shadow-primary/5 backdrop-blur-sm bg-surface/90">
+          <CardHeader className="space-y-2 pb-4 border-b border-primary/5">
             <div className="flex items-center justify-between gap-3">
-              <CardTitle className="font-display text-2xl">FlyDea Mobile Campo</CardTitle>
+              <CardTitle className="font-display text-2xl font-bold bg-gradient-to-r from-primary to-primary-variant bg-clip-text text-transparent">
+                FlyDea Mobile Campo
+              </CardTitle>
               <span
-                className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${
-                  isOnline ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold shadow-sm transition-all duration-300 ${
+                  isOnline 
+                    ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" 
+                    : "bg-rose-500/10 text-rose-600 border border-rose-500/20"
                 }`}
               >
-                {isOnline ? <Wifi className="h-3.5 w-3.5" /> : <WifiOff className="h-3.5 w-3.5" />}
+                {isOnline ? <Wifi className="h-3.5 w-3.5 animate-pulse" /> : <WifiOff className="h-3.5 w-3.5" />}
                 {isOnline ? "Online" : "Offline"}
               </span>
             </div>
-            <CardDescription>
+            <CardDescription className="text-on-surface-muted/90">
               Coleta CTM offline-first com fila local (IndexedDB) e sincronização automática.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-2 sm:grid-cols-3">
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Registros</p>
-                <p className="mt-1 text-2xl font-semibold">{summary?.total ?? 0}</p>
+          <CardContent className="space-y-5 pt-5">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-lg border border-primary/5 bg-primary/5 p-3.5 transition-all hover:border-primary/10">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-primary">Registros</p>
+                <p className="mt-1 text-2xl font-semibold text-on-surface">{summary?.total ?? 0}</p>
               </div>
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Processados</p>
+              <div className="rounded-lg border border-emerald-500/5 bg-emerald-500/5 p-3.5 transition-all hover:border-emerald-500/10">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Processados</p>
                 <p className="mt-1 text-2xl font-semibold text-emerald-600">{summary?.processado ?? 0}</p>
               </div>
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Conflitos</p>
+              <div className="rounded-lg border border-rose-500/5 bg-rose-500/5 p-3.5 transition-all hover:border-rose-500/10">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-rose-600">Conflitos</p>
                 <p className="mt-1 text-2xl font-semibold text-rose-600">{summary?.conflito ?? 0}</p>
               </div>
             </div>
-            <div className="grid gap-2 sm:grid-cols-3">
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Com evidências</p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-lg border border-primary/5 bg-surface-elevated/40 p-3.5">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-muted">Com evidências</p>
                 <p className="mt-1 text-2xl font-semibold">{summary?.comEvidências ?? 0}</p>
               </div>
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Evidências</p>
+              <div className="rounded-lg border border-primary/5 bg-surface-elevated/40 p-3.5">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-muted">Evidências</p>
                 <p className="mt-1 text-2xl font-semibold">{summary?.evidênciasTotal ?? 0}</p>
               </div>
-              <div className="rounded-sm border border-outline bg-surface-elevated p-3">
-                <p className="text-xs uppercase tracking-wide text-on-surface-muted">Erros</p>
+              <div className="rounded-lg border border-rose-500/5 bg-rose-500/5 p-3.5">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-rose-600">Erros</p>
                 <p className="mt-1 text-2xl font-semibold text-rose-600">{summary?.erros ?? 0}</p>
               </div>
             </div>
@@ -437,15 +441,21 @@ export default function MobilePage() {
                 placeholder="Buscar parcela por SQLU, inscrição ou endereço"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
+                className="focus-visible:ring-primary"
               />
-              <Button data-testid="mobile-search-button" loading={searchParcels.isPending} onClick={() => searchParcels.mutate()}>
+              <Button 
+                data-testid="mobile-search-button" 
+                loading={searchParcels.isPending} 
+                onClick={() => searchParcels.mutate()}
+                className="bg-primary hover:bg-primary-variant transition-colors"
+              >
                 Buscar
               </Button>
             </div>
 
-            <div className="max-h-40 space-y-2 overflow-y-auto rounded-sm border border-outline bg-surface p-2">
+            <div className="max-h-40 space-y-2 overflow-y-auto rounded-lg border border-primary/5 bg-surface/50 p-2.5">
               {results.length === 0 ? (
-                <p className="px-2 py-3 text-sm text-on-surface-muted">Nenhuma parcela carregada.</p>
+                <p className="px-2 py-4 text-center text-sm text-on-surface-muted">Nenhuma parcela carregada.</p>
               ) : (
                 results.map((parcel) => {
                   const parcelId = resolveParcelId(parcel);
@@ -460,22 +470,31 @@ export default function MobilePage() {
                     <button
                       key={parcelId}
                       data-testid={`mobile-parcel-${parcelId}`}
-                      className={`flex w-full items-center justify-between rounded-sm px-3 py-2 text-left text-sm ${
-                        isSelected ? "bg-primary text-white" : "bg-surface-elevated text-on-surface"
+                      className={`flex w-full items-center justify-between rounded-md px-3.5 py-2.5 text-left text-sm transition-all duration-200 ${
+                        isSelected 
+                          ? "bg-gradient-to-r from-primary to-primary-variant text-white shadow-md shadow-primary/10" 
+                          : "bg-surface-elevated/60 text-on-surface hover:bg-surface-elevated"
                       }`}
                       onClick={() => setSelectedParcel(parcel)}
                     >
                       <span className="font-medium">{label}</span>
-                      <span className="text-xs opacity-80">{parcel.workflowStatus ?? "-"}</span>
+                      <Badge className={isSelected ? "bg-white/20 text-white" : "bg-primary/5 text-primary"}>
+                        {parcel.workflowStatus ?? "-"}
+                      </Badge>
                     </button>
                   );
                 })
               )}
             </div>
 
-            <div className="space-y-2 rounded-sm border border-outline bg-surface p-3">
-              <p className="text-sm font-semibold">Checklist de campo</p>
-              <label className="flex items-center gap-2 text-sm">
+            <div className="space-y-3 rounded-lg border border-primary/5 bg-surface/40 p-4">
+              <p className="text-sm font-bold text-on-surface">Checklist de campo</p>
+              
+              <label className={`flex items-center gap-2.5 rounded-md p-2.5 border text-sm cursor-pointer transition-all duration-200 ${
+                checklist.occupancyChecked 
+                  ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-700" 
+                  : "bg-surface-elevated/40 border-transparent text-on-surface-muted"
+              }`}>
                 <input
                   data-testid="mobile-check-occupancy"
                   type="checkbox"
@@ -483,10 +502,16 @@ export default function MobilePage() {
                   onChange={(event) =>
                     setChecklist((prev) => ({ ...prev, occupancyChecked: event.target.checked }))
                   }
+                  className="rounded border-outline text-emerald-600 focus:ring-emerald-500"
                 />
                 Ocupação confirmada
               </label>
-              <label className="flex items-center gap-2 text-sm">
+
+              <label className={`flex items-center gap-2.5 rounded-md p-2.5 border text-sm cursor-pointer transition-all duration-200 ${
+                checklist.addressChecked 
+                  ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-700" 
+                  : "bg-surface-elevated/40 border-transparent text-on-surface-muted"
+              }`}>
                 <input
                   data-testid="mobile-check-address"
                   type="checkbox"
@@ -494,10 +519,16 @@ export default function MobilePage() {
                   onChange={(event) =>
                     setChecklist((prev) => ({ ...prev, addressChecked: event.target.checked }))
                   }
+                  className="rounded border-outline text-emerald-600 focus:ring-emerald-500"
                 />
                 Endereço validado
               </label>
-              <label className="flex items-center gap-2 text-sm">
+
+              <label className={`flex items-center gap-2.5 rounded-md p-2.5 border text-sm cursor-pointer transition-all duration-200 ${
+                checklist.infrastructureChecked 
+                  ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-700" 
+                  : "bg-surface-elevated/40 border-transparent text-on-surface-muted"
+              }`}>
                 <input
                   data-testid="mobile-check-infra"
                   type="checkbox"
@@ -505,24 +536,26 @@ export default function MobilePage() {
                   onChange={(event) =>
                     setChecklist((prev) => ({ ...prev, infrastructureChecked: event.target.checked }))
                   }
+                  className="rounded border-outline text-emerald-600 focus:ring-emerald-500"
                 />
                 Infraestrutura conferida
               </label>
+
               <textarea
                 data-testid="mobile-notes"
-                className="min-h-20 w-full rounded-sm border border-outline bg-surface-elevated px-3 py-2 text-sm"
-                placeholder="Observações de campo"
+                className="min-h-24 w-full rounded-md border border-primary/5 bg-surface-elevated px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                placeholder="Observações adicionais de campo..."
                 value={checklist.notes ?? ""}
                 onChange={(event) => setChecklist((prev) => ({ ...prev, notes: event.target.value }))}
               />
 
               <div className="grid gap-2 sm:grid-cols-2">
-                <Button data-testid="mobile-capture-gps" type="button" variant="outline" onClick={handleCaptureLocation}>
-                  <LocateFixed className="h-4 w-4" />
+                <Button data-testid="mobile-capture-gps" type="button" variant="outline" onClick={handleCaptureLocation} className="hover:bg-primary/5 hover:text-primary">
+                  <LocateFixed className="h-4 w-4 mr-1 text-primary animate-pulse" />
                   Capturar GPS
                 </Button>
-                <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-sm border border-outline bg-surface-elevated px-4 text-sm font-semibold">
-                  <UploadCloud className="h-4 w-4" />
+                <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-md border border-outline bg-surface-elevated px-4 text-sm font-semibold hover:bg-primary/5 hover:text-primary transition-all">
+                  <UploadCloud className="h-4 w-4 text-primary" />
                   Anexar evidência
                   <input
                     data-testid="mobile-photo-input"
@@ -561,27 +594,28 @@ export default function MobilePage() {
               </div>
 
               {location && (
-                <p className="text-xs text-on-surface-muted">
-                  GPS: {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
-                </p>
+                <div className="rounded bg-primary/5 border border-primary/10 p-2 text-center text-xs text-primary font-mono font-medium">
+                  Coordenadas GPS: {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
+                </div>
               )}
               {evidenceFiles.length > 0 ? (
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-on-surface-muted">Evidências locais</p>
+                <div className="space-y-2 mt-3">
+                  <p className="text-xs font-bold uppercase tracking-wider text-on-surface-muted">Evidências locais</p>
                   {evidenceFiles.map((evidence) => (
-                    <div key={evidence.clientId} className="rounded-sm border border-outline bg-cloud px-3 py-2 text-xs">
+                    <div key={evidence.clientId} className="rounded-lg border border-primary/10 bg-primary/5 px-3.5 py-2.5 text-xs">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-medium">{evidence.fileName}</span>
+                        <span className="font-semibold text-on-surface">{evidence.fileName}</span>
                         <Badge variant={evidence.status === "ERRO" ? "destructive" : evidence.status === "SINCRONIZADO" ? "info" : "outline"}>
                           {evidence.status}
                         </Badge>
                       </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
+                      <div className="mt-2.5 flex flex-wrap gap-2">
                         <Badge variant="outline">Tentativas {evidence.retries}</Badge>
                         {evidence.size ? <Badge variant="outline">{Math.round(evidence.size / 1024)} KB</Badge> : null}
                         <Button
                           variant="ghost"
                           size="sm"
+                          className="h-7 text-rose-600 hover:text-rose-700 hover:bg-rose-500/10 px-2"
                           onClick={() => setEvidenceFiles((prev) => prev.filter((current) => current.clientId !== evidence.clientId))}
                         >
                           Remover
@@ -589,6 +623,7 @@ export default function MobilePage() {
                         <Button
                           variant="ghost"
                           size="sm"
+                          className="h-7 text-primary hover:text-primary-variant hover:bg-primary/10 px-2"
                           onClick={() =>
                             setEvidenceFiles((prev) =>
                               prev.map((current) =>
@@ -608,38 +643,50 @@ export default function MobilePage() {
                           Reenviar
                         </Button>
                       </div>
-                      {evidence.checksum ? <p className="mt-1 text-[11px] text-on-surface-muted">SHA-256 {evidence.checksum.slice(0, 12)}...</p> : null}
-                      {evidence.capturedAt ? <p className="mt-1 text-[11px] text-on-surface-muted">Capturada em {new Date(evidence.capturedAt).toLocaleString("pt-BR")}</p> : null}
-                      {evidence.lastError ? <p className="mt-1 text-rose-700">{evidence.lastError}</p> : null}
+                      {evidence.checksum ? <p className="mt-1.5 text-[10px] text-on-surface-muted font-mono">SHA-256 {evidence.checksum.slice(0, 12)}...</p> : null}
+                      {evidence.capturedAt ? <p className="mt-0.5 text-[10px] text-on-surface-muted">Capturada em {new Date(evidence.capturedAt).toLocaleString("pt-BR")}</p> : null}
+                      {evidence.lastError ? <p className="mt-1.5 text-rose-600 font-semibold">{evidence.lastError}</p> : null}
                     </div>
                   ))}
                 </div>
               ) : null}
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2">
-              <Button data-testid="mobile-save-offline" onClick={handleStoreOffline}>Salvar offline</Button>
-              <Button data-testid="mobile-sync-now" variant="outline" loading={syncQueue.isPending} onClick={() => syncQueue.mutate()}>
-                <RefreshCcw className="h-4 w-4" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Button 
+                data-testid="mobile-save-offline" 
+                onClick={handleStoreOffline}
+                className="bg-primary hover:bg-primary-variant font-bold transition-all shadow-md shadow-primary/10"
+              >
+                Salvar offline
+              </Button>
+              <Button 
+                data-testid="mobile-sync-now" 
+                variant="outline" 
+                loading={syncQueue.isPending} 
+                onClick={() => syncQueue.mutate()}
+                className="border-primary/20 text-primary hover:bg-primary/5 hover:border-primary/30"
+              >
+                <RefreshCcw className={`h-4 w-4 mr-1 ${syncQueue.isPending ? "animate-spin" : "animate-spin-slow"}`} />
                 Sincronizar agora
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle>Fila offline</CardTitle>
-            <CardDescription>{queue.length} registro(s) aguardando sincronização.</CardDescription>
+        <Card className="border-primary/5 shadow-md bg-surface/80">
+          <CardHeader className="pb-3 border-b border-primary/5">
+            <CardTitle className="text-lg font-semibold">Fila offline</CardTitle>
+            <CardDescription className="text-on-surface-muted/90">{queue.length} registro(s) aguardando sincronização.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3 pt-4">
             {queue.length === 0 ? (
-              <p className="text-sm text-on-surface-muted">Fila vazia.</p>
+              <p className="text-sm text-center py-4 text-on-surface-muted">Fila vazia.</p>
             ) : (
               queue.map((item) => (
-                <div key={item.id} className="rounded-sm border border-outline bg-surface p-3 text-sm">
+                <div key={item.id} className="rounded-lg border border-primary/5 bg-surface-elevated/40 p-4 text-sm transition-all hover:border-primary/10">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="font-medium">{item.parcelLabel}</p>
+                    <p className="font-semibold text-on-surface">{item.parcelLabel}</p>
                     <Badge variant={item.status === "ERRO" ? "destructive" : item.status === "SINCRONIZADO" ? "info" : "outline"}>
                       {item.status}
                     </Badge>

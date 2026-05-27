@@ -36,6 +36,7 @@
 
 | Data | Task ID | Agente | Resultado | Commit | Observação |
 |---|---|---|---|---|---|
+| 2026-05-27 | T15-SPRINT4-INIT | Antigravity | DONE | — | Sprint 4: Portal do Cidadão & Gestão de Vistorias Mobile Premium |
 | 2026-05-27 | T14-SPRINT3-INIT | Antigravity | DONE | — | Habilitação do menu e interface operacional premium de Alertas de Satélite |
 | 2026-05-27 | T13-SPRINT2-INIT | Antigravity | DONE | — | Assinatura Gov.br e Auditoria Pública por QR Code / Selo de Segurança |
 | 2026-05-27 | T12-SPRINT1-INIT | Antigravity | DONE | — | SFTP/CSV Conector Tributário e Painel de Conectores Premium |
